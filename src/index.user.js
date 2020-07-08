@@ -225,7 +225,7 @@
               document.head.appendChild(tag_script);
             }
             Object.assign(data, askForResult);
-            convert2srt();
+            updateLicenseString();
             checkCurrentVersion();
             saveStuffDataToStorage();
           });
@@ -558,7 +558,7 @@
         /**
          * @return {undefined}
          */
-        function convert2srt() {
+        function updateLicenseString() {
           var install = hasLicense();
           /** @type {string} */
           var method = install ? install + 'd left' : 'Expired';
@@ -1025,7 +1025,7 @@
                   }
                 });
               });
-              convert2srt();
+              updateLicenseString();
             }()) {
               if (params.currentExperiencePoints && window.reset_health_to_recover && (data.energyRecovery || function() {
                 /**
