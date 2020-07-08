@@ -226,15 +226,15 @@
             }
             Object.assign(data, askForResult);
             convert2srt();
-            parse();
-            forEach();
+            checkCurrentVersion();
+            saveStuffDataToStorage();
           });
         }
 
         /**
          * @return {undefined}
          */
-        function forEach() {
+        function saveStuffDataToStorage() {
           /** @type {string} */
           localStorage.stuff = JSON.stringify(data);
         }
@@ -570,7 +570,7 @@
         /**
          * @return {undefined}
          */
-        function parse() {
+        function checkCurrentVersion() {
           if (data.version && data.version != GM_info.script.version) {
             expect('.stuffBtn,#stuffOptions>:nth-child(1) a:nth-child(3)', function(e, canCreateDiscussions) {
               /** @type {string} */
@@ -888,7 +888,7 @@
         var esearchRes = document.getElementById('foodResetHours');
         var redLookupTable = {};
         // ---- FIX HERE: START ----
-        // if (now && data.update != now && (data.update = now, resetTodayStats(), forEach(), load(), localStorage.wamCompaniesLeftToday = JSON.stringify(movies), localStorage.wamAttempt = '0'), data['rgb'[2]].length && !data['rgb'[2]].includes(name)) {
+        // if (now && data.update != now && (data.update = now, resetTodayStats(), saveStuffDataToStorage(), load(), localStorage.wamCompaniesLeftToday = JSON.stringify(movies), localStorage.wamAttempt = '0'), data['rgb'[2]].length && !data['rgb'[2]].includes(name)) {
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
@@ -946,7 +946,7 @@
                         '/citizen/profile/6365664">Contact</a><a>Close</a></div><div style="width:98%;margin:1%;float:left;background:#242B27"><span>Settings<div id="AF_l" style="position:absolute;top:6px;right:10px;color:yellow"></div></span><label>Train<input id="train" type="checkbox"></label><label>Work (for employer)<input id="work" type="checkbox"></label><label>Work overtime<input id="workOvertime" type="checkbox"></label><label>Work as manager (visit companies page for setup)<input id="workAsManager" type="checkbox"></label><label>Assign employees (as above)<input id="assignEmployees" type="checkbox"></label><label>Buy 10g from monetary market<input id="buyMMgold" type="checkbox"></label><label>Collect Weekly Challenge rewards<input id="collectWcRewards" type="checkbox"></label><label>Return to residence<input id="returnToResidence" type="checkbox"></label><label>Don\'t fight until you have<input id="energyRatio" type="range" min="0" max="2.00" step="0.05"><isZordacz style="float:right;margin:0 5px"></isZordacz></label><label>Maximum kills to do in one go<input id="maxKills" type="number" min="0" style="width:70px;text-align:right"></label><label>Go all-in in epic battles (without EBs)<input id="epicAllIn" type="checkbox"></label><label>Preferred ground weapon<select id="prefWeapGround"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option><option value="5">Q5</option><option value="6">Q6</option><option value="7">Q7</option><option value="10">Bazooka</option></select></label><label>Preferred air weapon<select id="prefWeapAir"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option></select></label><label>Battle priority #1' +
                         t + '</label><label>Battle priority #2' + t + '</label><label>Battle priority #3' + t + '</label><label>Battle priority #4' + t + '</label><label>Battle priority #5' + t +
                         '</label><label>Allow travel if needed<input id="allowTravel" type="checkbox"></label><label>Battle type preference<select id="battleType"><option value="both">No preference</option><option value="ground">Ground ONLY</option><option value="air">Air ONLY</option></select></label><label>Preferred countries<input id="preferCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><label>Avoided countries<input id="avoidCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><a href="http://wcsimulator.droppages.com/countryids.html" id="countryIDs">Country IDs</a></div></div></div>');
-                    parse();
+                    checkCurrentVersion();
                     expect('#stuffOptions a:last-child,#stuffBlock', (e) => {
                       return e.addEventListener('click', () => {
                         return expect('#stuffOptions>*,#stuffBlock', (builderID) => {
@@ -973,7 +973,7 @@
                         }
                         self.addEventListener('change', function() {
                           data[self.id] = localAction ? 'text' == self.type ? self.value.replace(/[^0-9,]/g, '') : self[prop] : !self.checked;
-                          forEach();
+                          saveStuffDataToStorage();
                         });
                       });
                     });
@@ -993,14 +993,14 @@
                       radio.value = 2 == isArray ? highlightLetter : isArray ? target : type;
                       radio.addEventListener('change', function() {
                         data[2 == isArray ? 'battleType' : isArray ? 'prefWeapAir' : 'prefWeapGround'] = radio.value;
-                        forEach();
+                        saveStuffDataToStorage();
                       });
                     });
                     expect('.battlePrio', function(el, i) {
                       el.value = files[i];
                       el.addEventListener('change', function() {
                         data.battlePrios[i] = el.value;
-                        forEach();
+                        saveStuffDataToStorage();
                       });
                     });
                   }
@@ -1010,7 +1010,7 @@
                   });
                 });
               });
-              parse();
+              checkCurrentVersion();
               if (!data.autoFighter) {
                 document.body.insertAdjacentHTML('beforeEnd', '<div id="AFlaunch" title="Click to launch AutoFighter"><div></div></div>');
               }
@@ -1868,7 +1868,7 @@
                                     b.addEventListener('change', function() {
                                       /** @type {number} */
                                       data.infCalc.selWep[dim] = Math.min(this.value, 7);
-                                      forEach();
+                                      saveStuffDataToStorage();
                                       init();
                                     });
                                   });
@@ -1897,7 +1897,7 @@
                                     data.infCalc.date = now;
                                     /** @type {number} */
                                     data.infCalc.noData = 0;
-                                    forEach();
+                                    saveStuffDataToStorage();
                                     init();
                                   });
                                 }
@@ -2063,7 +2063,7 @@
                                         /** @type {string} */
                                         localStorage.wamCompaniesLeftToday = JSON.stringify(data.wamCompanies = queue);
                                       }
-                                      forEach();
+                                      saveStuffDataToStorage();
                                     }
                                   }
 
@@ -2231,7 +2231,7 @@
                                       /** @type {string} */
                                       data.goldPrice.price = JSON.stringify(stickerInfo).split('data-price=\'')[1].split('\'')[0];
                                       data.goldPrice.date = now;
-                                      forEach();
+                                      saveStuffDataToStorage();
                                     });
                                   }
                                   var $scope = angular.element('#sell_offers').scope();
@@ -2551,7 +2551,7 @@
                     }
                   }
                   if (i) {
-                    forEach();
+                    saveStuffDataToStorage();
                     _load('AutoFighter requires the following Stuff++ options:<br>-Improved battlefield<br>-AutoBot<br>-Automatic energy recovery<br>-Automatic login<br><br>They have been enabled for you.');
                     addEventListener('click', () => {
                       return location.reload();
