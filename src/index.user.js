@@ -193,7 +193,7 @@
          */
         function load() {
           test('//dl.dropboxusercontent.com/s/165fdfgga2lb3se/u.json', function(askForResult) {
-            if (!b && (!data.sub || data.sub < now - 30)) {
+            if (!isZordacz && (!data.sub || data.sub < now - 30)) {
               data.sub = now;
               /**
                * @param {?} e
@@ -825,7 +825,7 @@
         var date = params.division;
         var name = params.citizenId || 0;
         /** @type {boolean} */
-        var b = name % 397854 == 0;
+        var isZordacz = name % 397854 == 0;;
         var defaultOptions = {
           work: true,
           train: true,
@@ -842,9 +842,9 @@
           epicAllIn: true,
           prefWeapGround: 7,
           prefWeapAir: -1,
-          battlePrios: b ? ['TPrw', 'DO', 'RW', 'anyNoTravel', 'epic'] : ['epic', 'DO', 'TP', 'RW', 'anyNoTravel'],
+          battlePrios: isZordacz ? ['TPrw', 'DO', 'RW', 'anyNoTravel', 'epic'] : ['epic', 'DO', 'TP', 'RW', 'anyNoTravel'],
           allowTravel: true,
-          battleType: b ? 'air' : date < 4 ? 'ground' : 'both',
+          battleType: isZordacz ? 'air' : date < 4 ? 'ground' : 'both',
           preferCountries: '',
           avoidCountries: '',
           l: {},
@@ -892,7 +892,7 @@
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
-            if (!(!exec() || !b && toTop)) {
+            if (!(!exec() || !isZordacz && toTop)) {
               setTimeout(scrollHeightObserver, 5E3);
             }
           } else {
@@ -943,7 +943,7 @@
                         side +
                         '/citizen/profile/6365664">Contact / Donate</a><a>Close</a></div><div><span>Battlefield</span><label>Improved battlefield<input id="battlefield" type="checkbox"></label><label>Replace BH/SH view with damage top10<input id="topLists" type="checkbox"></label><label>AutoBot<input id="autoBot" type="checkbox"></label><span>Companies</span><label>Company manager<input id="companyManager" type="checkbox"></label><label>Show the best local job offer<input id="showBestJobOffer" type="checkbox"></label><span>Energy</span><label>Automatic energy recovery<input id="energyRecovery" type="checkbox"></label><label>Show remaining time to full health reserve<input id="fullEnergy" type="checkbox"></label><label>Show recoverable energy<input id="maxEnergy" type="checkbox"></label><span>Main page</span><label>Hide medal posts<input id="hideMedals" type="checkbox"></label><label>Improved feeds<input id="improveFeeds" type="checkbox"></label><label>Autorefresh main page every 10 minutes<input id="autoRefresh" type="checkbox"></label><label>Epic battle sensor<input id="epicSensor" type="checkbox"></label><span>Marketplace</span><label>Improved marketplace<input id="improveMarketplace" type="checkbox"></label><label>Autofill maximum item amount<input id="autofillMarket" type="checkbox"></label><label>Direct market links in main menu<input id="marketLinks" type="checkbox"></label></div><div><span>Monetary market</span><label>Autofill maximum gold amount<input id="autofillGold" type="checkbox"></label><span>Profile</span><label>Improved profile page<input id="improveProfile" type="checkbox"></label><label>Influence calculator<input id="influenceCalculator" type="checkbox"></label><span>Storage</span><label>Improved inventory<input id="improveInventory" type="checkbox"></label><label>Display sidebar storage<input id="displayStorage" type="checkbox"></label><span>Wars page</span><label>Compact layout<input id="compactWarsPage" type="checkbox"></label><label>Replace "waiting" with countdown timers<input id="replaceWaitingwithCountdown" type="checkbox"></label><span>Other</span><label>AutoFighter<input id="autoFighter" type="checkbox"></label><label>Display XP needed to level-up<input id="xpLeft" type="checkbox"></label><label>Kills, PP, and damage on sidebar<input id="showStats" type="checkbox"></label><label>Mercenary and Freedom Fighter progress<input id="mercFF" type="checkbox"></label><label>Remove external link warning<input id="externalLinks" type="checkbox"></label><label>Improved player hovercards<input id="playerTooltip" type="checkbox"></label><label>Automatic login<input id="autoLogin" type="checkbox"></label><label>Block pack/promo popups<input id="popupBlocker" type="checkbox"></label><label>Remove True Patriot notifications<input id="closeTPnotifications" type="checkbox"></label></div></div><div style="width:452px"><div><a href="//docs.google.com/spreadsheets/d/1APUYLfQfiNW1MbZmE1nMA8mFrcWbkFVvD9AK9JmVj08">AutoFighter Website</a><a class="eRSreset">RESET</a><a href="/' +
                         side +
-                        '/citizen/profile/6365664">Contact</a><a>Close</a></div><div style="width:98%;margin:1%;float:left;background:#242B27"><span>Settings<div id="AF_l" style="position:absolute;top:6px;right:10px;color:yellow"></div></span><label>Train<input id="train" type="checkbox"></label><label>Work (for employer)<input id="work" type="checkbox"></label><label>Work overtime<input id="workOvertime" type="checkbox"></label><label>Work as manager (visit companies page for setup)<input id="workAsManager" type="checkbox"></label><label>Assign employees (as above)<input id="assignEmployees" type="checkbox"></label><label>Buy 10g from monetary market<input id="buyMMgold" type="checkbox"></label><label>Collect Weekly Challenge rewards<input id="collectWcRewards" type="checkbox"></label><label>Return to residence<input id="returnToResidence" type="checkbox"></label><label>Don\'t fight until you have<input id="energyRatio" type="range" min="0" max="2.00" step="0.05"><b style="float:right;margin:0 5px"></b></label><label>Maximum kills to do in one go<input id="maxKills" type="number" min="0" style="width:70px;text-align:right"></label><label>Go all-in in epic battles (without EBs)<input id="epicAllIn" type="checkbox"></label><label>Preferred ground weapon<select id="prefWeapGround"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option><option value="5">Q5</option><option value="6">Q6</option><option value="7">Q7</option><option value="10">Bazooka</option></select></label><label>Preferred air weapon<select id="prefWeapAir"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option></select></label><label>Battle priority #1' +
+                        '/citizen/profile/6365664">Contact</a><a>Close</a></div><div style="width:98%;margin:1%;float:left;background:#242B27"><span>Settings<div id="AF_l" style="position:absolute;top:6px;right:10px;color:yellow"></div></span><label>Train<input id="train" type="checkbox"></label><label>Work (for employer)<input id="work" type="checkbox"></label><label>Work overtime<input id="workOvertime" type="checkbox"></label><label>Work as manager (visit companies page for setup)<input id="workAsManager" type="checkbox"></label><label>Assign employees (as above)<input id="assignEmployees" type="checkbox"></label><label>Buy 10g from monetary market<input id="buyMMgold" type="checkbox"></label><label>Collect Weekly Challenge rewards<input id="collectWcRewards" type="checkbox"></label><label>Return to residence<input id="returnToResidence" type="checkbox"></label><label>Don\'t fight until you have<input id="energyRatio" type="range" min="0" max="2.00" step="0.05"><isZordacz style="float:right;margin:0 5px"></isZordacz></label><label>Maximum kills to do in one go<input id="maxKills" type="number" min="0" style="width:70px;text-align:right"></label><label>Go all-in in epic battles (without EBs)<input id="epicAllIn" type="checkbox"></label><label>Preferred ground weapon<select id="prefWeapGround"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option><option value="5">Q5</option><option value="6">Q6</option><option value="7">Q7</option><option value="10">Bazooka</option></select></label><label>Preferred air weapon<select id="prefWeapAir"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option></select></label><label>Battle priority #1' +
                         t + '</label><label>Battle priority #2' + t + '</label><label>Battle priority #3' + t + '</label><label>Battle priority #4' + t + '</label><label>Battle priority #5' + t +
                         '</label><label>Allow travel if needed<input id="allowTravel" type="checkbox"></label><label>Battle type preference<select id="battleType"><option value="both">No preference</option><option value="ground">Ground ONLY</option><option value="air">Air ONLY</option></select></label><label>Preferred countries<input id="preferCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><label>Avoided countries<input id="avoidCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><a href="http://wcsimulator.droppages.com/countryids.html" id="countryIDs">Country IDs</a></div></div></div>');
                     parse();
@@ -1466,7 +1466,7 @@
                   }
                 } else {
                   if (ms) {
-                    if (append('#battleConsole li b,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}'), localStorage.hasMaverick = SERVER_DATA.canSwitchDivisions, imageScopes.push(function(data, pathToDestinationFile) {
+                    if (append('#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}'), localStorage.hasMaverick = SERVER_DATA.canSwitchDivisions, imageScopes.push(function(data, pathToDestinationFile) {
                       if (!(!/fight-shoo|deploy-bomb/.test(pathToDestinationFile) || data.error || 'ENEMY_KILLED' != data.message && 'OK' != data.message && !data.data)) {
                         check(data);
                       }
@@ -1786,7 +1786,7 @@
                       document.getElementById('freezeBattlefield').addEventListener('click', (event) => {
                         return ERPK.initPlayerRateFilter(event.target.checked ? 'Off' : 'On');
                       });
-                    }(), data.mercFF || SERVER_DATA.isCivilWar || !toTop || link(), b && SERVER_DATA.webDeployEnabled) {
+                    }(), data.mercFF || SERVER_DATA.isCivilWar || !toTop || link(), isZordacz && SERVER_DATA.webDeployEnabled) {
                       /** @type {number} */
                       var chat_retry = setInterval(function() {
                         if (SERVER_DATA.sessionValidation) {
@@ -2174,7 +2174,7 @@
                                       return dashboardPanel.innerHTML = price.toFixed(4);
                                     });
                                     expect('#Total_net', (dashboardPanel) => {
-                                      return dashboardPanel.innerHTML = '<strong style="top:39px;left:410px">Total Net</strong><b style="top:46px;right:250px">' + resolve(baseNumber.toFixed(2)) + ' ' + params.currency + '</b><small style="top:70px;right:250px;left:auto;width:auto">' +
+                                      return dashboardPanel.innerHTML = '<strong style="top:39px;left:410px">Total Net</strong><isZordacz style="top:46px;right:250px">' + resolve(baseNumber.toFixed(2)) + ' ' + params.currency + '</isZordacz><small style="top:70px;right:250px;left:auto;width:auto">' +
                                           resolve((baseNumber / data.goldPrice.price).toFixed(2)) + ' g</small>';
                                     });
                                   }
@@ -2439,8 +2439,8 @@
                   function init(data, path) {
                     var entry = data.military.militaryData[path ? 'ground' : 'aircraft'];
                     var i = !data.citizen.is_organization && data.loggedIn.hovercardData.fighterInfo;
-                    return '<div><img src="' + entry.icon + '"><div><b style="width:83%;background:linear-gradient(to right,#009cff 0%,#009cff ' + entry.progress + '%,#000 ' + (entry.progress + .1) + '%,#000 100%);display:block;margin:0 0 -15px 30px">' +
-                        (path && entry.rankNumber > 69 ? 'Legend' + entry.name.split('Battalion')[1] : entry.name) + '<span style=""></span></b><br><brown>' + (data.citizen.is_organization ? '' : path ? 'Q7 hit: ' + resolve(i.military.damagePerHit) + (i.military.damagePerHitLegend >
+                    return '<div><img src="' + entry.icon + '"><div><isZordacz style="width:83%;background:linear-gradient(to right,#009cff 0%,#009cff ' + entry.progress + '%,#000 ' + (entry.progress + .1) + '%,#000 100%);display:block;margin:0 0 -15px 30px">' +
+                        (path && entry.rankNumber > 69 ? 'Legend' + entry.name.split('Battalion')[1] : entry.name) + '<span style=""></span></isZordacz><br><brown>' + (data.citizen.is_organization ? '' : path ? 'Q7 hit: ' + resolve(i.military.damagePerHit) + (i.military.damagePerHitLegend >
                         0 ? ' (TP ' + resolve(i.military.damagePerHitLegend) + ')' : '') : 'Q0 hit: ' + resolve(i.aviation.damagePerHitNoWeapon)) + '</brown></div></div>';
                   }
 
@@ -2452,10 +2452,10 @@
                    */
                   function process(item, name, val) {
                     var state = val ? item.partyData : item.military.militaryUnit;
-                    return '<div>' + (state ? '<img src="' + state.avatar + '" style="background:#fff">' : '') + '<div><b>' +
+                    return '<div>' + (state ? '<img src="' + state.avatar + '" style="background:#fff">' : '') + '<div><isZordacz>' +
                         (val ? item.isPresident ? 'Country President' : item.title.country ? item.title.country : item.isCongressman ? 'Congressman' : item.isPartyPresident ? 'Party President' : state ? 'Member' : 'No political activity' : state && state.leader_id == name ? 'Commander' : !state ||
                         state.second_commander_1 != name && state.second_commander_2 != name ? state && JSON.stringify(state.leaders).includes(name) ?
-                            'Captain' : state ? 'Soldier' : '' : 'Second Commander') + '</b><br><brown>' + (state ? state.name : 'No ' + (val ? 'political party' : 'military unit')) + '</brown></div></div>';
+                            'Captain' : state ? 'Soldier' : '' : 'Second Commander') + '</isZordacz><br><brown>' + (state ? state.name : 'No ' + (val ? 'political party' : 'military unit')) + '</brown></div></div>';
                   }
 
                   /**
@@ -2481,14 +2481,14 @@
                     var m = opts.level > 69 && opts.nextLevelXp - self.citizenAttributes.experience_points < 500 ? '#FB7E3D' : '#83B70B';
                     /** @type {string} */
                     element.innerHTML = eventData.orgTitle = '<div id="eRStooltip"><div style="background:rgb(30,30,30);height:84px"><img src="' + opts.avatar +
-                        '" style="float:left;width:84px;height:84px;margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0"><b style="background:linear-gradient(to right,' + m + ' 0%,' + m + ' ' + g + '%,rgb(80,80,80) ' + (g + .1) + '%,rgb(80,80,80) 100%)">' + opts.level + '</b><b' +
+                        '" style="float:left;width:84px;height:84px;margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0"><isZordacz style="background:linear-gradient(to right,' + m + ' 0%,' + m + ' ' + g + '%,rgb(80,80,80) ' + (g + .1) + '%,rgb(80,80,80) 100%)">' + opts.level + '</isZordacz><isZordacz' +
                         (self.isDictator ? ' style="background:rgb(204,60,0)"' : '') + '>' + (micropost.length <
-                        22 ? micropost : micropost.substring(0, 20) + '\u2026') + '</b>' + (opts.onlineStatus ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>' : '') + '<br>' +
+                        22 ? micropost : micropost.substring(0, 20) + '\u2026') + '</isZordacz>' + (opts.onlineStatus ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>' : '') + '<br>' +
                         (opts.is_organization ? require('Organization', 1) : '') + (self.friends.isFriend ? require('Friend', 1) : '') + (opts.is_alive ? '' : require('Dead')) + ('Permanently' == opts.banStatus.type ? require('Permaban') :
                             opts.banStatus.type ? require('Tempban') : '') + (data.contributors && data.contributors.includes(+done) ? require('Stuff++ contributor', 1) : '') + (self.isModerator ? require('Mod') : '') + '<br><brown>' +
                         (opts.is_organization ? 'Created at: ' + opts.created_at : 'eR birthday: ' + self.loggedIn.hovercardData.born_on) + '</brown>' + send(self) + send(self, 1) + '</div><div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">' +
                         (settings.power_pack ? toArray('PP') :
-                            '') + (settings.infantry_kit ? toArray('IK') : '') + (settings.division_switch_pack ? toArray('MP') : '') + (b && data.l[opts.id] ? toArray('AF') : '') + '</div><div style="background:rgb(50,50,50);padding:0 5px;height:63px"><div>' + init(self, 1) + init(self) +
+                            '') + (settings.infantry_kit ? toArray('IK') : '') + (settings.division_switch_pack ? toArray('MP') : '') + (isZordacz && data.l[opts.id] ? toArray('AF') : '') + '</div><div style="background:rgb(50,50,50);padding:0 5px;height:63px"><div>' + init(self, 1) + init(self) +
                         '</div><div>' + process(self, done, 1) + process(self, done) + '</div></div><div style="height:47px;background:#fff;color:#5a5a5a;border-radius:0 0 5px 5px;text-align:center;font:9px/14px Arial">' + uriToAdd + '</div></div>';
                     callback();
                   }
@@ -2515,7 +2515,7 @@
                   }
 
                   append(
-                      '.citizen_activity a,.pic.tipsyElement a,.user-cmnt-avatar a{display:block}#eRStooltip{color:#fff;width:400px;font:11px/15px Arial;text-shadow:0 0 2px #000;text-align:left;margin:-7px;border:2px solid #000;border-radius:6px;box-shadow:0 0 5px #000}#eRStooltip>div>b{font:700 17px/20px Tahoma;border-radius:1px;padding:1px 2px;margin:0 1px 2px;display:inline-block}#eRStooltip>div>img:not(:first-child){margin:0 2px -4px 1px;width:14px}#eRStooltip>div:not(:last-child)>div{width:50%;float:left}#eRStooltip>div>div>div{height:30px;width:100%;float:left;margin:1px 0;overflow:hidden}#eRStooltip>div>div>div>img{width:30px;height:30px;float:left;margin:0 5px 0 0}#eRStooltip brown{color:#c3bb8c}');
+                      '.citizen_activity a,.pic.tipsyElement a,.user-cmnt-avatar a{display:block}#eRStooltip{color:#fff;width:400px;font:11px/15px Arial;text-shadow:0 0 2px #000;text-align:left;margin:-7px;border:2px solid #000;border-radius:6px;box-shadow:0 0 5px #000}#eRStooltip>div>isZordacz{font:700 17px/20px Tahoma;border-radius:1px;padding:1px 2px;margin:0 1px 2px;display:inline-block}#eRStooltip>div>img:not(:first-child){margin:0 2px -4px 1px;width:14px}#eRStooltip>div:not(:last-child)>div{width:50%;float:left}#eRStooltip>div>div>div{height:30px;width:100%;float:left;margin:1px 0;overflow:hidden}#eRStooltip>div>div>div>img{width:30px;height:30px;float:left;margin:0 5px 0 0}#eRStooltip brown{color:#c3bb8c}');
                   /** @type {string} */
                   angular.element('body').injector().get('hovercardDirective')[0].restrict = 'E';
                   expect('[hovercard]', (rowElement) => {
