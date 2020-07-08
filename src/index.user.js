@@ -549,7 +549,7 @@
         /**
          * @return {?}
          */
-        function exec() {
+        function hasLicense() {
           var args = data['battleType'[4]];
           var t = args[name];
           return Object.keys(args).length > 5 && t && t >= now ? t - now : 0;
@@ -559,7 +559,7 @@
          * @return {undefined}
          */
         function convert2srt() {
-          var install = exec();
+          var install = hasLicense();
           /** @type {string} */
           var method = install ? install + 'd left' : 'Expired';
           expect('.stuffBtn+.stuffBtn span,#AF_l', (btn_follow, is_following) => {
@@ -892,7 +892,7 @@
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
-            if (!(!exec() || !isZordacz && toTop)) {
+            if (!(!hasLicense() || !isZordacz && toTop)) {
               setTimeout(scrollHeightObserver, 5E3);
             }
           } else {
@@ -1017,7 +1017,7 @@
               expect('#AFlaunch', function(local) {
                 update(local, 'e');
                 local.addEventListener('click', function() {
-                  if (exec()) {
+                  if (hasLicense()) {
                     /** @type {string} */
                     location.href = '/A/u/t/o/F/i/g/h/t/e/r';
                   } else {
@@ -2013,7 +2013,7 @@
                                   }
                                 });
                               }
-                              if (exec() && (handlebars || Handlebars)) {
+                              if (hasLicense() && (handlebars || Handlebars)) {
                                 (function() {
                                   /**
                                    * @param {string} name
@@ -2678,7 +2678,7 @@
                           return 0;
                         },
                       };
-                      if (exec()) {
+                      if (hasLicense()) {
                         if (setTimeout(() => {
                           return location.href = '/' + side + '/military/campaigns';
                         }, 60 * (ms ? 15 : 5) * 1E3), top.lastCheck = Date.now(), chans) {
@@ -2871,7 +2871,7 @@
                                 if (globalNS.userInfo.wellness < reset_health_to_recover) {
                                   location.reload();
                                 }
-                              }, 2E3)), document.getElementById('kills').value = value < 0 ? require('maxKills') : value, exec()) {
+                              }, 2E3)), document.getElementById('kills').value = value < 0 ? require('maxKills') : value, hasLicense()) {
                                 /** @type {(Element|null)} */
                                 var t = document.getElementById('AutoBotSwitch');
                                 t.click();
