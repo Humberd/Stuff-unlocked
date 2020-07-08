@@ -242,7 +242,7 @@
         /**
          * @return {undefined}
          */
-        function destroy() {
+        function resetTodayStats() {
           /** @type {!Array} */
           result = [0, 0, 0, 0];
           /** @type {string} */
@@ -888,7 +888,7 @@
         var esearchRes = document.getElementById('foodResetHours');
         var redLookupTable = {};
         // ---- FIX HERE: START ----
-        // if (now && data.update != now && (data.update = now, destroy(), forEach(), load(), localStorage.wamCompaniesLeftToday = JSON.stringify(movies), localStorage.wamAttempt = '0'), data['rgb'[2]].length && !data['rgb'[2]].includes(name)) {
+        // if (now && data.update != now && (data.update = now, resetTodayStats(), forEach(), load(), localStorage.wamCompaniesLeftToday = JSON.stringify(movies), localStorage.wamAttempt = '0'), data['rgb'[2]].length && !data['rgb'[2]].includes(name)) {
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
@@ -1228,7 +1228,7 @@
                     '<div id="NoKills">' + (result[0] || result[1] ? '<strong>Kills | PP:</strong><span>' + resolve(result[0]) + ' | ' + resolve(result[1]) + '</span>' : '') + (result[2] ? '<br><strong>Ground:</strong><span>' + resolve(result[2]) + '</span>' : '') +
                     (result[3] ? '<br><strong>Air:</strong><span>' + resolve(result[3]) + '</span>' : '') + '</div>');
               }), expect('#NoKills', (connect) => {
-                return connect.addEventListener('click', destroy);
+                return connect.addEventListener('click', resetTodayStats);
               })), toTop && (destinationUnitName || /military\/campaigns|\/citizen\/profile|donate-items|\/economy\/marketplace|economy\/myCompanies/.test(location.href)) && !data.displayStorage && test('/' + side + '/economy/inventory-items/', function(selectedHostFolder) {
                 if (!data.displayStorage && (!le || le && location.href.includes('citizen/profile/' + name))) {
                   (function(item) {
