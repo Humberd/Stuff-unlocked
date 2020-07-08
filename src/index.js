@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name		eRepublik Stuff++ Unlocked
+// @name		  eRepublik Stuff++ Unlocked
 // @author		Zordacz, Humberd
 // @version		5.39
-// @include		https://www.erepublik.com/*
+// @match		  https://www.erepublik.com/*
+// @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.js
 // @run-at		document-start
-// @grant		none
+// @grant		  none
 // ==/UserScript==
 !function() {
   if (location.href.includes('A/u/t/o/F/i/g/h/t/e/r')) {
