@@ -550,9 +550,7 @@
          * @return {?}
          */
         function hasLicense() {
-          var args = data['battleType'[4]];
-          var t = args[name];
-          return Object.keys(args).length > 5 && t && t >= now ? t - now : 0;
+          return 999;
         }
 
         /**
