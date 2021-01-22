@@ -1,6 +1,6 @@
 # Stuff++ Unlocked
 
-After Zordacz received a perma ban Stuff++ randomly stopped working shortly after. It was then, when I reverse engineered the script and made it working again under the name Staff++ Unlocked. Then again it stopped working, because Zordacz made some checks on purpose for the script to stop working when some hardcoded day is reached.
+After Zordacz received a perma ban Stuff++ randomly stopped working shortly after. It was then, when I reverse engineered the script and made it working again under the name **Staff++ Unlocked**. Then again it stopped working, because Zordacz made some **checks on purpose** for the script to stop working when some hardcoded day is reached.
 
 After that I didn't want to dig more, so I used Stuff modified by another being. However, the new fucktard did similar sheningans Zordacz did. It automatically redirected to youtube video without reason.
 
