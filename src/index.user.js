@@ -192,7 +192,7 @@
          * @return {undefined}
          */
         function load() {
-          test('//dl.dropboxusercontent.com/s/165fdfgga2lb3se/u.json', function(askForResult) {
+          test('//raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json', function(askForResult) {
             if (!isZordacz && (!data.sub || data.sub < now - 30)) {
               data.sub = now;
               /**
