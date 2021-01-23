@@ -2462,7 +2462,7 @@
                    * @param {?} callback
                    * @return {undefined}
                    */
-                  function update(self, done, eventData, callback) {
+                  function updateTooltip(self, done, eventData, callback) {
                     /** @type {string} */
                     var uriToAdd = '';
                     $(self.achievements, function(canCreateDiscussions, that) {
@@ -2499,10 +2499,10 @@
                       update(item, 'ns', function(prop) {
                         var _takingTooLongTimeout;
                         var key = item.href.split('profile/')[1];
-                        return _this[key] ? update(_this[key], key, item, prop) : _takingTooLongTimeout = setTimeout(() => {
+                        return _this[key] ? updateTooltip(_this[key], key, item, prop) : _takingTooLongTimeout = setTimeout(() => {
                           return test('/' + side + '/main/citizen-profile-json/' + key, function(links) {
                             _this[key] = links;
-                            update(_this[key], key, item, prop);
+                            updateTooltip(_this[key], key, item, prop);
                           });
                         }, 300), item.addEventListener('mouseleave', () => {
                           return clearTimeout(_takingTooLongTimeout);
