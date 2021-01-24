@@ -607,7 +607,7 @@
          * @param {boolean} isNew
          * @return {undefined}
          */
-        function check(data, isNew) {
+        function checkKillProgress(data, isNew) {
           var n = isNew ? +data.damage.replace(/,/g, '') : data.bomb ? data.bomb.damage : data.oldEnemy.isNatural ? Math.floor(1.1 * data.user.givenDamage) : data.user.givenDamage;
           var B = isNew ? +data.rewards.prestigePoints.replace(/,/g, '') : data.hits || 1;
           /** @type {number} */
@@ -1465,11 +1465,11 @@
                   if (ms) {
                     if (append('#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}'), localStorage.hasMaverick = SERVER_DATA.canSwitchDivisions, imageScopes.push(function(data, pathToDestinationFile) {
                       if (!(!/fight-shoo|deploy-bomb/.test(pathToDestinationFile) || data.error || 'ENEMY_KILLED' != data.message && 'OK' != data.message && !data.data)) {
-                        check(data);
+                        checkKillProgress(data);
                       }
                     }), setTimeout(function() {
                       pomelo.on('onDeployFinished', (data) => {
-                        return check(data, true);
+                        return checkKillProgress(data, true);
                       });
                     }, 2E3), data.battlefield || function() {
                       /**
@@ -1672,7 +1672,7 @@
                                       if (!state.checked && !food_remaining && globalNS.userInfo.wellness < tblr.value || !reverbSlider.disabled && reverbSlider.value <= 0 || upsampleHeight && h <= 0 || focusNewTabNotification.checked && !userData.epicBattle) {
                                         t();
                                       }
-                                      check(data);
+                                      checkKillProgress(data);
                                     }
                                   }
                                 }
