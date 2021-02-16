@@ -1260,7 +1260,7 @@
                             (options.icon ? options.icon : 'damageBoosters' == options.type ? '/images/modules/pvp/damage_boosters/damage_booster.png' : 'speedBoosters' == options.type ? '/images/modules/pvp/speed_boosters/speed_booster.png' : 'prestigePointsBoosters' == options.type
                                 ? '/images/modules/pvp/prestige_points_boosters/prestige_booster.png'
                                 : 'eventDamageBoosters' == options.type ? '/images/modules/pvp/allBoosters/eventDamageBoosters.png' :
-                                    'aircraftDamageBoosters' == options.type ? '/images/modules/pvp/damage_boosters/air_damage_booster.png' : '/images/icons/industry/100/' + options.type + '.png') + '"><span>' +
+                                    'aircraftDamageBoosters' == options.type ? '/images/modules/pvp/damage_boosters/air_damage_booster.png' : '/images/icons/boosters/52px/' + options.type + '.png') + '"><span>' +
                             (options.active ? options.active.time_left > 864E3 ? Math.trunc(options.active.time_left / 86400) + 'd' : options.active.time_left > 86400 ? Math.trunc(options.active.time_left / 86400) + 'd' + Math.trunc(options.active.time_left % 86400 / 3600) + 'h' : '<q>' +
                                 Math.trunc(options.active.time_left / 3600) +
                                 'h' + Math.trunc(options.active.time_left % 3600 / 60) + 'm</q>' : options.isRaw ? Math.trunc(10 * (options.amount + (purl ? purl.amount.split('%')[0] / 100 : 0))) / 10 : b && /[0-9],[0-9]{3}/g.exec(u)[0].replace(',', '') - now < 8 || 1 == options.industryId &&
