@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.45
+// @version		5.46
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -395,16 +395,6 @@
           return c < 10 && !i ? '0' + c : c;
         }
 
-        /**
-         * @param {boolean} start
-         * @param {boolean} m
-         * @return {?}
-         */
-        function handler(start, m) {
-          /** @type {number} */
-          var sMeters = Math.max(360 * Math.ceil(((start ? Math.max(reset_health_to_recover - globalNS.userInfo.wellness, 0) : 0) + reset_health_to_recover - food_remaining) / globalNS.userInfo.energyPerInterval) - 360 + 60 * parseInt(esearchRes.textContent), 0);
-          return fn(parseInt(sMeters / 3600), m) + (m ? 'h ' : ':') + fn(parseInt(sMeters % 3600 / 60), m) + (m ? 'm' : '');
-        }
 
         /**
          * @param {string} value
@@ -1045,14 +1035,6 @@
                   });
                 }
 
-                /**
-                 * @return {?}
-                 */
-                function value() {
-                  return 'Total hits: ' + _resolve(parseInt((globalNS.userInfo.wellness + food_remaining) / 10) + ' / ' + 2 * reset_health_to_recover / 10) + 'Full hits in: ' + _resolve(handler(true, true)) + 'Full reserve in: ' + _resolve(handler(false, true)) +
-                      'Click the health bar to force eat food';
-                }
-
                 append('.col{line-height:19px}');
                 init();
                 /** @type {number} */
@@ -1064,7 +1046,6 @@
                         elem.querySelectorAll('.bullets').forEach((inventoryService) => {
                           return inventoryService.remove();
                         });
-                        elem.insertAdjacentHTML('beforeEnd', '<span class="bullets">' + value() + '<div>');
                       });
                     });
                     o.addEventListener('click', add);
@@ -1096,21 +1077,11 @@
                 expect('#current_health', (table) => {
                   return table.insertAdjacentHTML('afterEnd', '<strong id="maxRecover"></strong>');
                 });
-                /** @type {(Element|null)} */
-                var td1b2 = document.getElementById('maxRecover');
-                setInterval(() => {
-                  return td1b2.textContent = food_remaining;
-                }, 200);
               }(), data.fullEnergy || setTimeout(function() {
                 append('.health_bar strong#full_energy{line-height:14px;text-align:left;left:' + (path ? '10px;position:absolute;z-index:4;font-size:9px;text-shadow:0 0 5px rgba(0,0,0,.85);font-weight:unset' : '15px') + ';background:none;float:left}');
                 expect('#current_health', (where) => {
                   return where.insertAdjacentHTML('beforeBegin', '<strong id="full_energy"></strong>');
                 });
-                /** @type {(Element|null)} */
-                var m = document.getElementById('full_energy');
-                setInterval(() => {
-                  return m.textContent = handler();
-                }, 200);
               })), toTop && (data.externalLinks || function() {
                 /**
                  * @return {undefined}
