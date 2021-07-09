@@ -871,7 +871,7 @@
         }
         var now = _this.settings.eDay || data.update || 0;
         /** @type {!Element} */
-        var path = document.getElementsByClassName('lvl')[0];
+        var path = false;
         /** @type {(Element|null)} */
         var esearchRes = document.getElementById('foodResetHours');
         var redLookupTable = {};
