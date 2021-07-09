@@ -704,7 +704,7 @@
         /**
          * @return {undefined}
          */
-        function render() {
+        function renderProfilePageSidepanelImprovements() {
           /**
            * @param {number} i
            * @return {undefined}
@@ -797,12 +797,6 @@
           }
         }
 
-        /**
-         * @return {undefined}
-         */
-        function scrollHeightObserver() {
-        }
-
         if (localStorage.scriptData || localStorage.ChoosenInfo) {
           localStorage.clear();
         }
@@ -880,9 +874,6 @@
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
-            if (!(!hasLicense() || !isZordacz && toTop)) {
-              setTimeout(scrollHeightObserver, 5E3);
-            }
           } else {
             document.body.insertAdjacentHTML('beforeEnd', '<div id="stuffTipsy"></div>');
             /** @type {(Element|null)} */
@@ -1764,7 +1755,7 @@
                     }
                   } else {
                     if (/donate-|accounts|citizen-friends/.test(location.href) && !data.improveProfile) {
-                      render();
+                      renderProfilePageSidepanelImprovements();
                     } else {
                       if (le) {
                         done('/citizen-profile-json/', function() {
@@ -1772,7 +1763,7 @@
                             /** @type {number} */
                             window.hasRunProfileStuff = 1;
                             if (!data.improveProfile) {
-                              render();
+                              renderProfilePageSidepanelImprovements();
                             }
                             if (!data.influenceCalculator) {
                               (function() {
