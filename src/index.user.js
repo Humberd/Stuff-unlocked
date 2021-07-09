@@ -342,7 +342,7 @@
         /**
          * @return {undefined}
          */
-        function start() {
+        function updateExpCounter() {
           expect('#xpleft span', function(cell) {
             /** @type {number} */
             var winprob = 5E3 - params.currentExperiencePoints % 5E3;
@@ -613,7 +613,7 @@
           });
           /** @type {string} */
           document.cookie = SERVER_DATA.battleZoneId + '-' + SERVER_DATA.leftBattleId + '=' + savedStats.join('|') + ';max-age=7200;Secure;SameSite=Strict';
-          start();
+          updateExpCounter();
           if (window.mercenaryEl) {
             /** @type {number} */
             mercenaryEl.textContent = Math.min(+mercenaryEl.textContent + num, 25);
@@ -1063,7 +1063,7 @@
                 return pTool.style.visibility = 'hidden';
               }), expect('.energyTooltip', (smallActionBox) => {
                 return smallActionBox.style.top = '42px';
-              }), path.style.top = '30px'), start()), data.maxEnergy || function() {
+              }), path.style.top = '30px'), updateExpCounter()), data.maxEnergy || function() {
                 append('.health_bar strong#maxRecover{line-height:14px;text-align:right;background:none;float:right;right:2px;' + (path ? 'position:absolute;z-index:4;font-size:9px;text-shadow:0 0 5px rgba(0,0,0,.85);font-weight:unset' : '') + '}');
                 expect('#current_health', (table) => {
                   return table.insertAdjacentHTML('afterEnd', '<strong id="maxRecover"></strong>');
@@ -1268,7 +1268,7 @@
                                 energy.modifyHealth(globalNS.userInfo.wellness - 10);
                                 if (!data.xpLeft) {
                                   params.currentExperiencePoints += 2;
-                                  start();
+                                  updateExpCounter();
                                 }
                               }
                             });
