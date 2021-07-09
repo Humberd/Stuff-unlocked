@@ -1006,6 +1006,20 @@
               updateLicenseString();
             }()) {
               window.reset_health_to_recover = 2000;
+
+              expect('.user_section', elem => {
+                const tooltipElem = document.querySelector('#eatFoodTooltip');
+                if (!tooltipElem) {
+                  return;
+                }
+                const clonedTooltipElem = tooltipElem.cloneNode(true);
+                clonedTooltipElem.style.padding = '10px';
+                clonedTooltipElem.style.paddingBottom = '5px';
+                clonedTooltipElem.style.marginBottom = '10px';
+                clonedTooltipElem.style.backgroundColor = 'rgb(208, 237, 242)';
+                return elem.insertAdjacentElement('afterEnd', clonedTooltipElem);
+              })
+
               if (params.currentExperiencePoints && window.reset_health_to_recover && (function() {
                 /**
                  * @return {undefined}
