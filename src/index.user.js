@@ -888,8 +888,8 @@
               if (stream[0] && stream[0].value.length > 2 && stream[1] && stream[1].value.length > 2) {
                 e.click();
               }
-            })), path ? path.style.left = 0 : item.hasResidence && params.regionLocationId != item.regionId && (expect('.user_location', (types) => {
-              return types.insertAdjacentHTML('beforeEnd', '<a class="std_global_btn smallSize blueColor" id="travelBackHome" style="left:-5px"><span>Travel back home</span></a>');
+            })), path ? path.style.left = 0 : item.hasResidence && params.regionLocationId != item.regionId && (expect('.user_section', (types) => {
+              return types.insertAdjacentHTML('afterEnd', '<a class="std_global_btn smallSize blueColor" id="travelBackHome" style="padding: 0 15px; width: 100%; margin-bottom: 10px"><span>Travel back home</span></a>');
             }), expect('#travelBackHome', (e) => {
               return e.addEventListener('click', () => {
                 return compare(item.countryId, item.regionId);
