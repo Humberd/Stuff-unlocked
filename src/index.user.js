@@ -1005,7 +1005,8 @@
               });
               updateLicenseString();
             }()) {
-              if (params.currentExperiencePoints && window.reset_health_to_recover && (data.energyRecovery || function() {
+              window.reset_health_to_recover = 2000;
+              if (params.currentExperiencePoints && window.reset_health_to_recover && (function() {
                 /**
                  * @return {undefined}
                  */
@@ -1057,8 +1058,8 @@
                     progress = setInterval(init, 3E3);
                   });
                 });
-              }(), data.xpLeft || (append('#xpleft{font-size:10px;top:' + (path ? '32px;right:769px;position:absolute' : '14px;color:#777;float:right;position:relative') + '}#xpleft span{padding:1px;color:#fff;border-radius:2px}'), expect(path ? '.profileDetails' : '.user_level', (types) => {
-                return types.insertAdjacentHTML('beforeEnd', '<div id="xpleft">XP left: <span></span></div>');
+              }(), data.xpLeft || (append('#xpleft{margin-bottom:10px; margin-left: 10px;font-size:10px' + (path ? 'right:769px;position:absolute' : 'color:#777;position:relative') + '}#xpleft span{padding:1px;color:#fff;border-radius:2px}'), expect('.user_section', (types) => {
+                return types.insertAdjacentHTML('afterEnd', '<div id="xpleft">XP left: <span></span></div>');
               }), path && (expect('#DailyConsumtionTrigger', (pTool) => {
                 return pTool.style.visibility = 'hidden';
               }), expect('.energyTooltip', (smallActionBox) => {
