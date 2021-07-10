@@ -801,6 +801,7 @@
           localStorage.clear();
         }
 
+        document.querySelector('.user_section').style.float = 'none';
         globalNS.userInfo.wellness = Number(document.querySelector('#currentEnergy').textContent || 2000);
         var _this = window.erepublik || {};
         var params = _this.citizen || {};
