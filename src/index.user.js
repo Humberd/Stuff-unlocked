@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.46
+// @version		5.5
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -342,7 +342,7 @@
         /**
          * @return {undefined}
          */
-        function start() {
+        function updateExpCounter() {
           expect('#xpleft span', function(cell) {
             /** @type {number} */
             var winprob = 5E3 - params.currentExperiencePoints % 5E3;
@@ -613,7 +613,7 @@
           });
           /** @type {string} */
           document.cookie = SERVER_DATA.battleZoneId + '-' + SERVER_DATA.leftBattleId + '=' + savedStats.join('|') + ';max-age=7200;Secure;SameSite=Strict';
-          start();
+          updateExpCounter();
           if (window.mercenaryEl) {
             /** @type {number} */
             mercenaryEl.textContent = Math.min(+mercenaryEl.textContent + num, 25);
@@ -704,7 +704,7 @@
         /**
          * @return {undefined}
          */
-        function render() {
+        function renderProfilePageSidepanelImprovements() {
           /**
            * @param {number} i
            * @return {undefined}
@@ -797,15 +797,12 @@
           }
         }
 
-        /**
-         * @return {undefined}
-         */
-        function scrollHeightObserver() {
-        }
-
         if (localStorage.scriptData || localStorage.ChoosenInfo) {
           localStorage.clear();
         }
+
+        document.querySelector('.user_section').style.float = 'none';
+        globalNS.userInfo.wellness = Number(document.querySelector('#currentEnergy').textContent || 2000);
         var _this = window.erepublik || {};
         var params = _this.citizen || {};
         var side = (_this.settings || {}).culture || 'en';
@@ -871,7 +868,7 @@
         }
         var now = _this.settings.eDay || data.update || 0;
         /** @type {!Element} */
-        var path = document.getElementsByClassName('lvl')[0];
+        var path = false;
         /** @type {(Element|null)} */
         var esearchRes = document.getElementById('foodResetHours');
         var redLookupTable = {};
@@ -880,9 +877,6 @@
         if (true) {
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
-            if (!(!hasLicense() || !isZordacz && toTop)) {
-              setTimeout(scrollHeightObserver, 5E3);
-            }
           } else {
             document.body.insertAdjacentHTML('beforeEnd', '<div id="stuffTipsy"></div>');
             /** @type {(Element|null)} */
@@ -897,8 +891,8 @@
               if (stream[0] && stream[0].value.length > 2 && stream[1] && stream[1].value.length > 2) {
                 e.click();
               }
-            })), path ? path.style.left = 0 : item.hasResidence && params.regionLocationId != item.regionId && (expect('.user_location', (types) => {
-              return types.insertAdjacentHTML('beforeEnd', '<a class="std_global_btn smallSize blueColor" id="travelBackHome" style="left:-5px"><span>Travel back home</span></a>');
+            })), path ? path.style.left = 0 : item.hasResidence && params.regionLocationId != item.regionId && (expect('.user_section', (types) => {
+              return types.insertAdjacentHTML('afterEnd', '<a class="std_global_btn smallSize blueColor" id="travelBackHome" style="padding: 0 15px; width: 100%; margin-bottom: 10px"><span>Travel back home</span></a>');
             }), expect('#travelBackHome', (e) => {
               return e.addEventListener('click', () => {
                 return compare(item.countryId, item.regionId);
@@ -1014,7 +1008,22 @@
               });
               updateLicenseString();
             }()) {
-              if (params.currentExperiencePoints && window.reset_health_to_recover && (data.energyRecovery || function() {
+              window.reset_health_to_recover = 2000;
+
+              expect('.user_section', elem => {
+                const tooltipElem = document.querySelector('#eatFoodTooltip');
+                if (!tooltipElem) {
+                  return;
+                }
+                const clonedTooltipElem = tooltipElem.cloneNode(true);
+                clonedTooltipElem.style.padding = '10px';
+                clonedTooltipElem.style.paddingBottom = '5px';
+                clonedTooltipElem.style.marginBottom = '10px';
+                clonedTooltipElem.style.backgroundColor = 'rgb(208, 237, 242)';
+                return elem.insertAdjacentElement('afterEnd', clonedTooltipElem);
+              })
+
+              if (params.currentExperiencePoints && window.reset_health_to_recover && (function() {
                 /**
                  * @return {undefined}
                  */
@@ -1066,13 +1075,13 @@
                     progress = setInterval(init, 3E3);
                   });
                 });
-              }(), data.xpLeft || (append('#xpleft{font-size:10px;top:' + (path ? '32px;right:769px;position:absolute' : '14px;color:#777;float:right;position:relative') + '}#xpleft span{padding:1px;color:#fff;border-radius:2px}'), expect(path ? '.profileDetails' : '.user_level', (types) => {
-                return types.insertAdjacentHTML('beforeEnd', '<div id="xpleft">XP left: <span></span></div>');
+              }(), data.xpLeft || (append('#xpleft{margin-bottom:10px; margin-left: 10px;font-size:10px' + (path ? 'right:769px;position:absolute' : 'color:#777;position:relative') + '}#xpleft span{padding:1px;color:#fff;border-radius:2px}'), expect('.user_section', (types) => {
+                return types.insertAdjacentHTML('afterEnd', '<div id="xpleft">XP left: <span></span></div>');
               }), path && (expect('#DailyConsumtionTrigger', (pTool) => {
                 return pTool.style.visibility = 'hidden';
               }), expect('.energyTooltip', (smallActionBox) => {
                 return smallActionBox.style.top = '42px';
-              }), path.style.top = '30px'), start()), data.maxEnergy || function() {
+              }), path.style.top = '30px'), updateExpCounter()), data.maxEnergy || function() {
                 append('.health_bar strong#maxRecover{line-height:14px;text-align:right;background:none;float:right;right:2px;' + (path ? 'position:absolute;z-index:4;font-size:9px;text-shadow:0 0 5px rgba(0,0,0,.85);font-weight:unset' : '') + '}');
                 expect('#current_health', (table) => {
                   return table.insertAdjacentHTML('afterEnd', '<strong id="maxRecover"></strong>');
@@ -1277,7 +1286,7 @@
                                 energy.modifyHealth(globalNS.userInfo.wellness - 10);
                                 if (!data.xpLeft) {
                                   params.currentExperiencePoints += 2;
-                                  start();
+                                  updateExpCounter();
                                 }
                               }
                             });
@@ -1764,7 +1773,7 @@
                     }
                   } else {
                     if (/donate-|accounts|citizen-friends/.test(location.href) && !data.improveProfile) {
-                      render();
+                      renderProfilePageSidepanelImprovements();
                     } else {
                       if (le) {
                         done('/citizen-profile-json/', function() {
@@ -1772,7 +1781,7 @@
                             /** @type {number} */
                             window.hasRunProfileStuff = 1;
                             if (!data.improveProfile) {
-                              render();
+                              renderProfilePageSidepanelImprovements();
                             }
                             if (!data.influenceCalculator) {
                               (function() {
@@ -1945,7 +1954,7 @@
                                       window.pageDetails.recoverable_health.value = food_remaining;
                                       var i = expect('.owner_work.active').length;
                                       expectation.forEach(function(pxPhysicalNode) {
-                                        if (pxPhysicalNode.querySelector('.area_pic > img[src="' + mutation.target.getAttribute('src') + '"]') && i < Math.floor((globalNS.userInfo.wellness + Math.min(pageDetails.recoverable_health.value, pageDetails.recoverable_health_in_food)) / 10)) {
+                                        if (pxPhysicalNode.querySelector('.area_pic > img[src="' + mutation.target.getAttribute('src') + '"]') && i < Math.floor((globalNS.userInfo.wellness) / 10)) {
                                           pxPhysicalNode.querySelectorAll('.owner_work').forEach(function(divChatButton) {
                                             if (!divChatButton.classList.contains('active')) {
                                               i++;
