@@ -800,6 +800,8 @@
         if (localStorage.scriptData || localStorage.ChoosenInfo) {
           localStorage.clear();
         }
+
+        globalNS.userInfo.wellness = Number(document.querySelector('#currentEnergy').textContent || 2000);
         var _this = window.erepublik || {};
         var params = _this.citizen || {};
         var side = (_this.settings || {}).culture || 'en';
@@ -1951,7 +1953,7 @@
                                       window.pageDetails.recoverable_health.value = food_remaining;
                                       var i = expect('.owner_work.active').length;
                                       expectation.forEach(function(pxPhysicalNode) {
-                                        if (pxPhysicalNode.querySelector('.area_pic > img[src="' + mutation.target.getAttribute('src') + '"]') && i < Math.floor((globalNS.userInfo.wellness + Math.min(pageDetails.recoverable_health.value, pageDetails.recoverable_health_in_food)) / 10)) {
+                                        if (pxPhysicalNode.querySelector('.area_pic > img[src="' + mutation.target.getAttribute('src') + '"]') && i < Math.floor((globalNS.userInfo.wellness) / 10)) {
                                           pxPhysicalNode.querySelectorAll('.owner_work').forEach(function(divChatButton) {
                                             if (!divChatButton.classList.contains('active')) {
                                               i++;
