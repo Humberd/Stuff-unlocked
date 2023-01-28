@@ -1,4 +1,10 @@
-# 5.52 (28.0.2022)
+# 5.53 (29.01.2022)
+
+* Feat: Division number in a hover card
+* Feat: Strength in a hover card
+* Fix: is friend on a hovercard
+
+# 5.52 (28.01.2022)
 
 * Misc: Prettify the codebase
 * Fix: Broken hovercards
