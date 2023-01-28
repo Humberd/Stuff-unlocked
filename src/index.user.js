@@ -44,7 +44,7 @@
   } else {
     if (top == self || parent.location.href.includes("A/u/t/o/F/i/g/h/t/e/r")) {
       /** @type {!Array} */
-      var imageScopes = [];
+      var afterRequestCallbacks = [];
       /** @type {function(this:XMLHttpRequest, (ArrayBuffer|ArrayBufferView|Blob|Document|FormData|null|string)=): undefined} */
       var oldSend = XMLHttpRequest.prototype.send;
       /**
@@ -58,9 +58,11 @@
             "{" == this.responseText.trim()[0]
               ? JSON.parse(this.responseText)
               : this.responseText;
-          for (let $ of imageScopes) {
-            $(text, this.responseURL);
-          }
+          setTimeout(() => {
+            for (let requestCallback of afterRequestCallbacks) {
+              requestCallback(text, this.responseURL);
+            }
+          }, 200);
         });
         oldSend.apply(this, arguments);
       };
@@ -361,8 +363,8 @@
          * @return {undefined}
          */
         function done(url, callback) {
-          imageScopes.push(function (canCreateDiscussions, css) {
-            if (css.includes(url)) {
+          afterRequestCallbacks.push(function (canCreateDiscussions, url) {
+            if (url.includes(url)) {
               setTimeout(callback);
             }
           });
@@ -1124,7 +1126,9 @@
             /** @type {(Element|null)} */
             var s = document.querySelector(".friends_title a");
             /** @type {number} */
-            var NUM_BOXES = Math.ceil(s.textContent.match(/\d+/)[0] / 20);
+            var NUM_BOXES = Math.ceil(
+              s?.textContent?.match(/\d+/)[0] / 20 || 0
+            );
             expect(".view_friends", (inventoryService) => {
               return inventoryService.remove();
             });
@@ -1628,11 +1632,14 @@
                         });
                       }
 
-                      imageScopes.push(function (canCreateDiscussions, n) {
-                        if (!/\/eat|\/inventory|\/campaigns/.test(n)) {
+                      afterRequestCallbacks.push(function (
+                        canCreateDiscussions,
+                        url
+                      ) {
+                        if (!/\/eat|\/inventory|\/campaigns/.test(url)) {
                           initialize();
                         }
-                        if (n.includes("main/messages")) {
+                        if (url.includes("main/messages")) {
                           setTimeout(initialize, 300);
                         }
                       });
@@ -2376,12 +2383,10 @@
                       ),
                       (localStorage.hasMaverick =
                         SERVER_DATA.canSwitchDivisions),
-                      imageScopes.push(function (data, pathToDestinationFile) {
+                      afterRequestCallbacks.push(function (data, url) {
                         if (
                           !(
-                            !/fight-shoo|deploy-bomb/.test(
-                              pathToDestinationFile
-                            ) ||
+                            !/fight-shoo|deploy-bomb/.test(url) ||
                             data.error ||
                             ("ENEMY_KILLED" != data.message &&
                               "OK" != data.message &&
@@ -2634,13 +2639,11 @@
                                 }
                               }, 3e4);
                             }
-                            imageScopes.push(function (
+                            afterRequestCallbacks.push(function (
                               canCreateDiscussions,
-                              fileListAccumulator
+                              url
                             ) {
-                              if (
-                                fileListAccumulator.includes("battle-stats")
-                              ) {
+                              if (url.includes("battle-stats")) {
                                 var n =
                                   canCreateDiscussions.battle_zone_situation[
                                     SERVER_DATA.battleZoneId
@@ -2951,7 +2954,7 @@
                       renderProfilePageSidepanelImprovements();
                     } else {
                       if (le) {
-                        done("/citizen-profile-json/", function () {
+                        done("/citizen-profile-json-personal/", function () {
                           if (!window.hasRunProfileStuff) {
                             /** @type {number} */
                             window.hasRunProfileStuff = 1;
@@ -3843,15 +3846,11 @@
                                       );
                                     }
                                   );
-                                  imageScopes.push(function (
+                                  afterRequestCallbacks.push(function (
                                     value,
-                                    pathToDestinationFile
+                                    url
                                   ) {
-                                    if (
-                                      pathToDestinationFile.includes(
-                                        "inventory-items"
-                                      )
-                                    ) {
+                                    if (url.includes("inventory-items")) {
                                       var row = angular
                                         .element("#inventoryItems")
                                         .scope().inventory;
@@ -3873,9 +3872,7 @@
                                       render();
                                     }
                                     if (
-                                      (pathToDestinationFile.includes(
-                                        "myMarketOffers"
-                                      ) &&
+                                      (url.includes("myMarketOffers") &&
                                         (expect(
                                           "#sell_offers th",
                                           function (e, topLeft) {
@@ -3948,7 +3945,7 @@
                                         }),
                                         render()),
                                       /marketplaceActions|myMarketOffers/.test(
-                                        pathToDestinationFile
+                                        url
                                       ))
                                     ) {
                                       expect(
@@ -4044,14 +4041,12 @@
                                 ) {
                                   /** @type {boolean} */
                                   be = false;
-                                  imageScopes.push(function (
+                                  afterRequestCallbacks.push(function (
                                     canCreateDiscussions,
-                                    fileListAccumulator
+                                    url
                                   ) {
                                     if (
-                                      fileListAccumulator.includes(
-                                        "articleComments"
-                                      ) &&
+                                      url.includes("articleComments") &&
                                       !be
                                     ) {
                                       if (
@@ -4246,10 +4241,16 @@
                    * @param {number} path
                    * @return {?}
                    */
-                  function hovercardMilitaryInfo(citizenProfile, citizenHovercard, path) {
+                  function hovercardMilitaryInfo(
+                    citizenProfile,
+                    citizenHovercard,
+                    path
+                  ) {
                     var entry =
-                        citizenProfile.military.militaryData[path ? "ground" : "aircraft"];
-                    var fighterInfo = citizenHovercard.fighterInfo
+                      citizenProfile.military.militaryData[
+                        path ? "ground" : "aircraft"
+                      ];
+                    var fighterInfo = citizenHovercard.fighterInfo;
                     return (
                       '<div><img src="' +
                       entry.icon +
@@ -4334,14 +4335,14 @@
                    * @param {?} callback
                    * @return {undefined}
                    */
-                  function updateTooltip(citizenData, done, eventData, callback) {
-                    console.log({
-                      citizenData,
-                      done,
-                      eventData,
-                      callback,
-                    });
-                    const {citizenProfile: self, citizenHovercard} = citizenData
+                  function updateTooltip(
+                    citizenData,
+                    done,
+                    eventData,
+                    callback
+                  ) {
+                    const { citizenProfile: self, citizenHovercard } =
+                      citizenData;
                     /** @type {string} */
                     var uriToAdd = "";
                     $(self.achievements, function (canCreateDiscussions, that) {
@@ -4415,8 +4416,7 @@
                       "<br><brown>" +
                       (opts.is_organization
                         ? "Created at: " + opts.created_at
-                        : "eR birthday: " +
-                          citizenHovercard.bornOn) +
+                        : "eR birthday: " + citizenHovercard.bornOn) +
                       "</brown>" +
                       send(self) +
                       send(self, 1) +
@@ -4458,16 +4458,16 @@
                                       "/main/citizen-profile-json/" +
                                       key,
                                     function (citizenProfile) {
-                                      test(`/${side}/main/citizen-hovercard/${key}`, citizenHovercard => {
+                                      test(`/${side}/main/citizen-hovercard/${key}`, (citizenHovercard) => {
                                         _this[key] = {
                                           citizenProfile,
-                                          citizenHovercard
+                                          citizenHovercard,
                                         };
                                         updateTooltip(
-                                            _this[key],
-                                            key,
-                                            item,
-                                            prop
+                                          _this[key],
+                                          key,
+                                          item,
+                                          prop
                                         );
                                       });
                                     }
@@ -4507,7 +4507,7 @@
                   ) {
                     setInterval(cb, 1e3);
                   } else {
-                    imageScopes.push(() => {
+                    afterRequestCallbacks.push(() => {
                       return setTimeout(cb, 500);
                     });
                   }
