@@ -4241,16 +4241,15 @@
                   }
 
                   /**
-                   * @param {!Object} data
+                   * @param {!Object} citizenProfile
+                   * @param {!Object} citizenHovercard
                    * @param {number} path
                    * @return {?}
                    */
-                  function init(data, path) {
+                  function hovercardMilitaryInfo(citizenProfile, citizenHovercard, path) {
                     var entry =
-                      data.military.militaryData[path ? "ground" : "aircraft"];
-                    var i =
-                      !data.citizen.is_organization &&
-                      data.loggedIn.hovercardData.fighterInfo;
+                        citizenProfile.military.militaryData[path ? "ground" : "aircraft"];
+                    var fighterInfo = citizenHovercard.fighterInfo
                     return (
                       '<div><img src="' +
                       entry.icon +
@@ -4263,18 +4262,18 @@
                         ? "Legend" + entry.name.split("Battalion")[1]
                         : entry.name) +
                       '<span style=""></span></isZordacz><br><brown>' +
-                      (data.citizen.is_organization
+                      (citizenProfile.citizen.is_organization
                         ? ""
                         : path
                         ? "Q7 hit: " +
-                          resolve(i.military.damagePerHit) +
-                          (i.military.damagePerHitLegend > 0
+                          resolve(fighterInfo.military.damagePerHit) +
+                          (fighterInfo.military.damagePerHitLegend > 0
                             ? " (TP " +
-                              resolve(i.military.damagePerHitLegend) +
+                              resolve(fighterInfo.military.damagePerHitLegend) +
                               ")"
                             : "")
                         : "Q0 hit: " +
-                          resolve(i.aviation.damagePerHitNoWeapon)) +
+                          resolve(fighterInfo.aviation.damagePerHitNoWeapon)) +
                       "</brown></div></div>"
                     );
                   }
@@ -4335,7 +4334,14 @@
                    * @param {?} callback
                    * @return {undefined}
                    */
-                  function updateTooltip(self, done, eventData, callback) {
+                  function updateTooltip(citizenData, done, eventData, callback) {
+                    console.log({
+                      citizenData,
+                      done,
+                      eventData,
+                      callback,
+                    });
+                    const {citizenProfile: self, citizenHovercard} = citizenData
                     /** @type {string} */
                     var uriToAdd = "";
                     $(self.achievements, function (canCreateDiscussions, that) {
@@ -4410,7 +4416,7 @@
                       (opts.is_organization
                         ? "Created at: " + opts.created_at
                         : "eR birthday: " +
-                          self.loggedIn.hovercardData.born_on) +
+                          citizenHovercard.bornOn) +
                       "</brown>" +
                       send(self) +
                       send(self, 1) +
@@ -4420,8 +4426,8 @@
                       (settings.division_switch_pack ? toArray("MP") : "") +
                       (isZordacz && data.l[opts.id] ? toArray("AF") : "") +
                       '</div><div style="background:rgb(50,50,50);padding:0 5px;height:63px"><div>' +
-                      init(self, 1) +
-                      init(self) +
+                      hovercardMilitaryInfo(self, citizenHovercard, 1) +
+                      hovercardMilitaryInfo(self, citizenHovercard) +
                       "</div><div>" +
                       process(self, done, 1) +
                       process(self, done) +
@@ -4451,14 +4457,19 @@
                                       side +
                                       "/main/citizen-profile-json/" +
                                       key,
-                                    function (links) {
-                                      _this[key] = links;
-                                      updateTooltip(
-                                        _this[key],
-                                        key,
-                                        item,
-                                        prop
-                                      );
+                                    function (citizenProfile) {
+                                      test(`/${side}/main/citizen-hovercard/${key}`, citizenHovercard => {
+                                        _this[key] = {
+                                          citizenProfile,
+                                          citizenHovercard
+                                        };
+                                        updateTooltip(
+                                            _this[key],
+                                            key,
+                                            item,
+                                            prop
+                                        );
+                                      });
                                     }
                                   );
                                 }, 300)),
