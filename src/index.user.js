@@ -4426,6 +4426,7 @@
                       locationInfo(self) +
                       locationInfo(self, 1) +
                       hovercardStrength(self, citizenHovercard, resolve) +
+                      hovercardDivision(self, citizenHovercard) +
                       '</div><div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">' +
                       (settings.power_pack ? toArray("PP") : "") +
                       (settings.infantry_kit ? toArray("IK") : "") +
@@ -5250,5 +5251,13 @@ function hovercardStrength(self, citizenHovercard, numberFormatter) {
   return `<div id="strength-tooltip" style='margin-top: -15px; margin-left: 190px; display: flex;justify-content: flex-end;align-items: center;gap: 3px;'>
 ${img}
 ${numberFormatter(strength)}
+</div>`;
+}
+
+function hovercardDivision(self, citizenHovercard) {
+  const divisionNumber = citizenHovercard.fighterInfo.military.division;
+  return `<div id="strength-tooltip" style='margin-top: -30px; margin-left: 190px; display: flex;justify-content: flex-end;align-items: center;gap: 3px;'>
+Div: 
+${divisionNumber}
 </div>`;
 }
