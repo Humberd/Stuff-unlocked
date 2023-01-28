@@ -4195,7 +4195,7 @@
                    * @param {string} version
                    * @return {?}
                    */
-                  function send(scope, version) {
+                  function locationInfo(scope, version) {
                     var prev = scope.location;
                     var p =
                       prev[version ? "residenceCountry" : "citizenshipCountry"];
@@ -4238,17 +4238,17 @@
                   /**
                    * @param {!Object} citizenProfile
                    * @param {!Object} citizenHovercard
-                   * @param {number} path
+                   * @param {number} index
                    * @return {?}
                    */
                   function hovercardMilitaryInfo(
                     citizenProfile,
                     citizenHovercard,
-                    path
+                    index
                   ) {
                     var entry =
                       citizenProfile.military.militaryData[
-                        path ? "ground" : "aircraft"
+                        index ? "ground" : "aircraft"
                       ];
                     var fighterInfo = citizenHovercard.fighterInfo;
                     return (
@@ -4259,13 +4259,13 @@
                       "%,#000 " +
                       (entry.progress + 0.1) +
                       '%,#000 100%);display:block;margin:0 0 -15px 30px">' +
-                      (path && entry.rankNumber > 69
+                      (index && entry.rankNumber > 69
                         ? "Legend" + entry.name.split("Battalion")[1]
                         : entry.name) +
                       '<span style=""></span></isZordacz><br><brown>' +
                       (citizenProfile.citizen.is_organization
                         ? ""
-                        : path
+                        : index
                         ? "Q7 hit: " +
                           resolve(fighterInfo.military.damagePerHit) +
                           (fighterInfo.military.damagePerHitLegend > 0
@@ -4329,7 +4329,7 @@
                   }
 
                   /**
-                   * @param {!Object} self
+                   * @param {!Object} citizenData
                    * @param {?} done
                    * @param {!Object} eventData
                    * @param {?} callback
@@ -4346,7 +4346,7 @@
 
                     console.log({
                       self,
-                      citizenHovercard
+                      citizenHovercard,
                     });
                     /** @type {string} */
                     var uriToAdd = "";
@@ -4423,8 +4423,9 @@
                         ? "Created at: " + opts.created_at
                         : "eR birthday: " + citizenHovercard.bornOn) +
                       "</brown>" +
-                      send(self) +
-                      send(self, 1) +
+                      locationInfo(self) +
+                      locationInfo(self, 1) +
+                      hovercardStrength(self, citizenHovercard, resolve) +
                       '</div><div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">' +
                       (settings.power_pack ? toArray("PP") : "") +
                       (settings.infantry_kit ? toArray("IK") : "") +
@@ -5241,4 +5242,13 @@ function isFriend(citizenHovercard) {
       return true;
     }
   }
+}
+
+function hovercardStrength(self, citizenHovercard, numberFormatter) {
+  const img = `<img style="height: 10px; width: 10px;" src="//www.erepublik.net/images/modules/citizenprofile/strength_ico.png"/>`;
+  const strength = citizenHovercard.fighterInfo.military.strength.toFixed(2);
+  return `<div id="strength-tooltip" style='margin-top: -15px; margin-left: 190px; display: flex;justify-content: flex-end;align-items: center;gap: 3px;'>
+${img}
+${numberFormatter(strength)}
+</div>`;
 }
