@@ -4343,6 +4343,11 @@
                   ) {
                     const { citizenProfile: self, citizenHovercard } =
                       citizenData;
+
+                    console.log({
+                      self,
+                      citizenHovercard
+                    });
                     /** @type {string} */
                     var uriToAdd = "";
                     $(self.achievements, function (canCreateDiscussions, that) {
@@ -4402,7 +4407,7 @@
                         : "") +
                       "<br>" +
                       (opts.is_organization ? require("Organization", 1) : "") +
-                      (self.friends.isFriend ? require("Friend", 1) : "") +
+                      (isFriend(citizenHovercard) ? require("Friend", 1) : "") +
                       (opts.is_alive ? "" : require("Dead")) +
                       ("Permanently" == opts.banStatus.type
                         ? require("Permaban")
@@ -5229,3 +5234,11 @@
     }
   }
 })();
+
+function isFriend(citizenHovercard) {
+  for (let entry of citizenHovercard.interactionButtons) {
+    if (entry.type === "removeFriend") {
+      return true;
+    }
+  }
+}
