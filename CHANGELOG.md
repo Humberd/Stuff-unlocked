@@ -1,4 +1,7 @@
-# 5.53 (29.01.2022)
+# 5.54 (30.03.2023)
+* Fix: Update link to a working wc calculator
+
+# 5.53 (29.01.2023)
 
 * Feat: Division number in a hover card
 * Feat: Strength in a hover card
