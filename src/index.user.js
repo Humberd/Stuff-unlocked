@@ -2289,7 +2289,7 @@
                   expect("#weeklyChallenge", (types) => {
                     return types.insertAdjacentHTML(
                       "beforeEnd",
-                      '<a href="http://wcsimulator.droppages.com/" target="_blank" id="WCSimulator">WC calculator</a>'
+                      '<a href="https://humberd.github.io/Weekly-Challenge-Calculator" target="_blank" id="WCSimulator">⭐ WC calculator</a>'
                     );
                   });
                   if (
