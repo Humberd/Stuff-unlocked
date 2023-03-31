@@ -1,3 +1,6 @@
+# 5.55 (1.04.2023)
+* Feat: Auto-Spinner for a power spin
+
 # 5.54 (30.03.2023)
 * Fix: Update link to a working wc calculator
 
