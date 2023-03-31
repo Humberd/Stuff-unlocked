@@ -5393,6 +5393,8 @@ function hookUpPowerSpin() {
       document.getElementById("as-stop-at-gold");
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
+    const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
+
     let intervalRef;
 
     if (
@@ -5400,7 +5402,8 @@ function hookUpPowerSpin() {
         maxMoneyInputElement ||
         stopAtGoldCheckboxElement ||
         spinButtonElement ||
-        cancelButtonElement
+        cancelButtonElement ||
+        mainTriggerWofButtonElement
       )
     ) {
       console.warn("One element is not here", {
@@ -5408,6 +5411,7 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement,
         spinButtonElement,
         cancelButtonElement,
+        mainTriggerWofButtonElement
       });
       throw Error("One element is not here");
     }
@@ -5441,21 +5445,22 @@ function hookUpPowerSpin() {
       stoppingTheWheel = true
     });
 
+    mainTriggerWofButtonElement.addEventListener('click', () => {
+      setTimeout(() => {
+        let {price, rewardName} = extractPrize();
+        logPrize(price, rewardName)
+      }, 7000)
+    })
+
     function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
       console.log('Starting the wheel');
 
       spinButtonElement.classList.add('as-hidden')
       cancelButtonElement.classList.remove('as-hidden')
 
-      const button = document.querySelector(".wof_btn");
       intervalRef = setInterval(() => {
-        const currentValue = button.querySelector("em").textContent;
-        const rewardName = document
-            .querySelector(".wof_prize_title.show")
-            .textContent?.replace("You won: ", "");
-
-        logPrize(currentValue, rewardName)
-        console.log(`${currentValue}: ${rewardName}`);
+        let {price, rewardName} = extractPrize();
+        console.log(`${price}: ${rewardName}`);
 
         if (stoppingTheWheel) {
           stoppingTheWheel = false
@@ -5463,20 +5468,32 @@ function hookUpPowerSpin() {
           return
         }
 
-        if (Number(currentValue) > maxCost) {
+        if (Number(price) > maxCost) {
           stopTheWheel()
           return;
         }
 
-        const wonGoldJackpot = document.querySelector('#wheelOfFortune .jackpot_stars.star_3') && '500 Gold'
+        const wonGoldJackpot = rewardName === '500 Gold'
         if (shouldStopAtGoldJackpot && wonGoldJackpot) {
           stopTheWheel()
           return;
         }
 
-        button.click();
+        mainTriggerWofButtonElement.click();
       }, 7000);
-      button.click();
+      mainTriggerWofButtonElement.click();
+    }
+
+    function extractPrize() {
+      const price = mainTriggerWofButtonElement.querySelector("em").textContent;
+      const rewardName = document
+          .querySelector(".wof_prize_title.show")
+          .textContent?.replace("You won: ", "");
+
+      return {
+        price,
+        rewardName
+      }
     }
 
     function stopTheWheel() {
