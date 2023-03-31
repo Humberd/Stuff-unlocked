@@ -5272,10 +5272,13 @@ function hookUpPowerSpin() {
     return;
   }
 
+  let stoppingTheWheel = false
+
   powerSpinButtonElement.addEventListener("click", function () {
     try {
       createForm();
       hookUpEvents();
+      createPrizeLog()
     } catch (e) {
       console.warn(e);
     }
@@ -5286,7 +5289,7 @@ function hookUpPowerSpin() {
     if (!wheelOfFortuneRoot) {
       throw Error("No wheel of fortune");
     }
-    const formElementId = "auto-spinner";
+    const formElementId = "as-form-container";
     if (document.getElementById(formElementId)) {
       throw Error("Form already exists");
     }
@@ -5362,7 +5365,7 @@ function hookUpPowerSpin() {
       </div>
     `;
     const containerElement = document.createElement("div");
-    containerElement.id = "as-form-container";
+    containerElement.id = formElementId;
     containerElement.innerHTML = form;
 
     wheelOfFortuneRoot.appendChild(containerElement);
@@ -5434,7 +5437,8 @@ function hookUpPowerSpin() {
     });
 
     cancelButtonElement.addEventListener("click", () => {
-      stopTheWheel()
+      console.log('Flagging to stop the wheel');
+      stoppingTheWheel = true
     });
 
     function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
@@ -5449,14 +5453,22 @@ function hookUpPowerSpin() {
         const rewardName = document
             .querySelector(".wof_prize_title.show")
             .textContent?.replace("You won: ", "");
+
+        logPrize(currentValue, rewardName)
         console.log(`${currentValue}: ${rewardName}`);
+
+        if (stoppingTheWheel) {
+          stoppingTheWheel = false
+          stopTheWheel();
+          return
+        }
 
         if (Number(currentValue) > maxCost) {
           stopTheWheel()
           return;
         }
 
-        const wonGoldJackpot = document.querySelector('#wheelOfFortune .jackpot_stars.star_3') && 'Jackpot'
+        const wonGoldJackpot = document.querySelector('#wheelOfFortune .jackpot_stars.star_3') && '500 Gold'
         if (shouldStopAtGoldJackpot && wonGoldJackpot) {
           stopTheWheel()
           return;
@@ -5476,4 +5488,79 @@ function hookUpPowerSpin() {
     }
   }
 
+  function createPrizeLog() {
+    const wheelOfFortuneRoot = document.getElementById("wheelOfFortune");
+    if (!wheelOfFortuneRoot) {
+      throw Error("No wheel of fortune");
+    }
+    const containerElementId = "as-power-log";
+    if (document.getElementById(containerElementId)) {
+      throw Error("Power log already exists");
+    }
+
+    // --------------------
+    const innerHTML = `
+      <style>
+        #as-power-log {
+          position: absolute;
+          top: 0;
+          right: -306px;
+          background-color: #fff;
+          padding: 8px;
+          width: 300px;
+          height: 260px;
+          z-index: -1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        
+        #as-power-log-header {
+            font-weight: 600;
+            border-bottom: 1px solid black;
+            padding-bottom: 5px;
+        }
+        
+        #as-power-log-container {
+            overflow: auto;
+        }
+      </style>
+      <div id="as-power-log-header">
+          Power Spin Log
+      </div>
+      <div id="as-power-log-container">
+          
+      </div>
+    `;
+    const containerElement = document.createElement("div");
+    containerElement.id = containerElementId;
+    containerElement.innerHTML = innerHTML;
+
+    wheelOfFortuneRoot.appendChild(containerElement);
+  }
+
+  function logPrize(price, name) {
+    console.log(`Logging prize: price = ${price}, name = ${name}`);
+    const powerLogContainer = document.getElementById("as-power-log-container");
+    if (!powerLogContainer) {
+      throw Error('Power log container not available')
+    }
+
+    const priceElement = document.createElement('div')
+    priceElement.innerHTML = `
+      ${price}: ${name}
+    `
+    const shouldScrollBottom = powerLogContainer.scrollTop >= scrollTopMax()
+
+    powerLogContainer.appendChild(priceElement)
+
+    if (shouldScrollBottom) {
+      powerLogContainer.scrollTop = powerLogContainer.scrollHeight
+    }
+
+    function scrollTopMax() {
+      const tolerance = 1; // you can adjust this value to account for small inaccuracies
+      return powerLogContainer.scrollHeight - powerLogContainer.clientHeight - tolerance
+    }
+  }
 }
