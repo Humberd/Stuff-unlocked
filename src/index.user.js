@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name		  eRepublik Stuff++ Unlocked
+// @name		  eRepublik Studff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
 // @version		5.54
@@ -1238,6 +1238,7 @@
           // ---- FIX HERE: END ----
           if (SERVER_DATA.sessionValidation) {
           } else {
+            hookUpPowerSpin();
             document.body.insertAdjacentHTML(
               "beforeEnd",
               '<div id="stuffTipsy"></div>'
@@ -5260,4 +5261,219 @@ function hovercardDivision(self, citizenHovercard) {
 Div: 
 ${divisionNumber}
 </div>`;
+}
+
+function hookUpPowerSpin() {
+  const MAX_MONEY_STORAGE_KEY = 'as-max-money-per-spin'
+  const STOP_AT_GOLD_JACKPOT_STORAGE_KEY = 'as-stop-at-gold'
+
+  const powerSpinButtonElement = document.getElementById("launch_wof");
+  if (!powerSpinButtonElement) {
+    return;
+  }
+
+  powerSpinButtonElement.addEventListener("click", function () {
+    try {
+      createForm();
+      hookUpEvents();
+    } catch (e) {
+      console.warn(e);
+    }
+  });
+
+  function createForm() {
+    const wheelOfFortuneRoot = document.getElementById("wheelOfFortune");
+    if (!wheelOfFortuneRoot) {
+      throw Error("No wheel of fortune");
+    }
+    const formElementId = "auto-spinner";
+    if (document.getElementById(formElementId)) {
+      throw Error("Form already exists");
+    }
+
+    // --------------------
+    const form = `
+      <style>
+        #as-form-container {
+          position: absolute;
+          top: 280px;
+          right: -130px;
+          background-color: #fff;
+          padding: 8px;
+        }
+        
+        label.as-label {
+           display: flex;
+           flex-direction: column;
+           align-items: flex-end;
+           margin-bottom: 8px;
+        }
+        
+        label.as-label.jackpot {
+          flex-direction: row;
+        }
+        
+        label.as-label.jackpot input {
+          margin-left: 10px;
+        }
+        
+        #as-max-money {
+          max-width: 80px;
+          text-align: right;
+        }
+        
+        .as-buttons {
+          display: flex;
+          justify-content: flex-end;
+        }
+        
+        button.as-hidden {
+          display: none;
+        }
+        
+        #as-spin {
+          background: #94aaff;
+          cursor: pointer;
+        }
+        
+        #as-spin:hover {
+          background: #768ef8;
+        }
+        
+      </style>
+      <div>
+          <label class="as-label">
+              Max Money Per Spin
+              <input id="as-max-money" type="text" placeholder="e.g. 2500">
+          </label>
+          <label class="as-label jackpot">
+              Stop at gold jackpot
+              <input id="as-stop-at-gold" type="checkbox" checked>
+          </label>
+          
+          <div class="as-buttons">
+            <button id="as-spin">
+                Spin
+            </button>
+            <button id="as-cancel" class="as-hidden">
+                Cancel
+            </button>
+          </div>
+      </div>
+    `;
+    const containerElement = document.createElement("div");
+    containerElement.id = "as-form-container";
+    containerElement.innerHTML = form;
+
+    wheelOfFortuneRoot.appendChild(containerElement);
+
+    const maxMoneyInputElement = document.getElementById("as-max-money");
+    const stopAtGoldCheckboxElement =
+        document.getElementById("as-stop-at-gold");
+
+    const storedMaxMoney = localStorage.getItem(MAX_MONEY_STORAGE_KEY)
+    if (storedMaxMoney) {
+      maxMoneyInputElement.value = storedMaxMoney
+    }
+
+    const storedStopAtGold = localStorage.getItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY)
+    if (!storedStopAtGold) {
+      stopAtGoldCheckboxElement.checked = true
+    } else {
+      stopAtGoldCheckboxElement.checked = storedStopAtGold === 'true'
+    }
+  }
+
+  function hookUpEvents() {
+    const maxMoneyInputElement = document.getElementById("as-max-money");
+    const stopAtGoldCheckboxElement =
+      document.getElementById("as-stop-at-gold");
+    const spinButtonElement = document.getElementById("as-spin");
+    const cancelButtonElement = document.getElementById("as-cancel");
+    let intervalRef;
+
+    if (
+      !(
+        maxMoneyInputElement ||
+        stopAtGoldCheckboxElement ||
+        spinButtonElement ||
+        cancelButtonElement
+      )
+    ) {
+      console.warn("One element is not here", {
+        maxMoneyInputElement,
+        stopAtGoldCheckboxElement,
+        spinButtonElement,
+        cancelButtonElement,
+      });
+      throw Error("One element is not here");
+    }
+
+    maxMoneyInputElement.addEventListener('change', event => {
+      localStorage.setItem(MAX_MONEY_STORAGE_KEY, event.target.value)
+    })
+
+    stopAtGoldCheckboxElement.addEventListener('change', event => {
+      localStorage.setItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY, event.target.checked)
+    })
+
+    spinButtonElement.addEventListener("click", () => {
+      const maxMoneyPerSpin = Math.floor(Number(maxMoneyInputElement.value));
+      if (Number.isNaN(maxMoneyPerSpin) || maxMoneyPerSpin <= 500) {
+        console.warn("maxMoneyPerSpin must be at least 500");
+        return;
+      }
+
+      const shouldStopAtGoldJackpot = stopAtGoldCheckboxElement.checked;
+
+      console.log(
+        `maxMoneyPerSpin = ${maxMoneyPerSpin}, shouldStopAtGoldJackpot = ${shouldStopAtGoldJackpot}`
+      );
+
+      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot);
+    });
+
+    cancelButtonElement.addEventListener("click", () => {
+      stopTheWheel()
+    });
+
+    function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
+      console.log('Starting the wheel');
+
+      spinButtonElement.classList.add('as-hidden')
+      cancelButtonElement.classList.remove('as-hidden')
+
+      const button = document.querySelector(".wof_btn");
+      intervalRef = setInterval(() => {
+        const currentValue = button.querySelector("em").textContent;
+        const rewardName = document
+            .querySelector(".wof_prize_title.show")
+            .textContent?.replace("You won: ", "");
+        console.log(`${currentValue}: ${rewardName}`);
+
+        if (Number(currentValue) > maxCost) {
+          stopTheWheel()
+          return;
+        }
+
+        const wonGoldJackpot = document.querySelector('#wheelOfFortune .jackpot_stars.star_3') && 'Jackpot'
+        if (shouldStopAtGoldJackpot && wonGoldJackpot) {
+          stopTheWheel()
+          return;
+        }
+
+        button.click();
+      }, 7000);
+      button.click();
+    }
+
+    function stopTheWheel() {
+      cancelButtonElement.classList.add('as-hidden')
+      spinButtonElement.classList.remove('as-hidden')
+      console.log('Stopping the wheel');
+
+      clearInterval(intervalRef)
+    }
+  }
+
 }
