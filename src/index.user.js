@@ -4582,10 +4582,32 @@ function hookUpPowerSpin() {
       hookUpEvents();
       createPrizeLog()
       overrideSpinFunction();
+      overrideMultiSpinFunction();
     } catch (e) {
       console.warn(e);
     }
   });
+
+  function overrideMultiSpinFunction() {
+    const old = erepublik.wheel_of_fortune.multispin
+    erepublik.wheel_of_fortune.multispin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
+      if (!spinHttpResponse.alreadyHandled) {
+        spinHttpResponse.alreadyHandled = true
+        spinHttpResponse.prizes.forEach((reward, index) => {
+          const {tooltip, icon} = findRewardById(reward.index)
+          const cost = spinHttpResponse.cost + 100*index
+          logPrize(cost, tooltip, icon)
+        })
+      }
+
+      old.apply(erepublik.wheel_of_fortune, arguments)
+    }
+
+    function findRewardById(id) {
+      return window.global_wof_build_data.prizes.prizes[id]
+    }
+
+  }
 
   function overrideSpinFunction() {
     const old = erepublik.wheel_of_fortune.spin
@@ -4904,7 +4926,7 @@ function hookUpPowerSpin() {
     rewardElement.classList.add("as-power-log-item")
 
     const priceElement = document.createElement('span')
-    priceElement.textContent = `${price}:`
+    priceElement.textContent = `${price}: `
     rewardElement.appendChild(priceElement)
 
     const iconElement = document.createElement('img')
@@ -4912,7 +4934,7 @@ function hookUpPowerSpin() {
     iconElement.src = iconUrl
     rewardElement.appendChild(iconElement)
 
-    const nameElement = document.createElement('name')
+    const nameElement = document.createElement('span')
     nameElement.textContent = name
     rewardElement.appendChild(nameElement)
 
