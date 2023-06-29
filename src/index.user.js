@@ -4596,6 +4596,7 @@ function hookUpPowerSpin() {
   function overrideShowMultiprize() {
     erepublik.wheel_of_fortune.showMultiPrize = function () {}
   }
+
   function overrideTimelineMax() {
     let originalFunction = TimelineMax.prototype.to;
     const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
@@ -4757,7 +4758,6 @@ function hookUpPowerSpin() {
 
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
-    // const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
     const triggerWof1xButtonElement = document.querySelector(".wof_btn.left_btn");
 
     if (
