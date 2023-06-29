@@ -4566,8 +4566,11 @@ ${divisionNumber}
 }
 
 function hookUpPowerSpin() {
-  const MAX_MONEY_STORAGE_KEY = 'as-max-money-per-spin'
-  const STOP_AT_GOLD_JACKPOT_STORAGE_KEY = 'as-stop-at-gold'
+  const STORAGE_KEYS = {
+    MAX_MONEY: 'as-max-money-per-spin',
+    STOP_AT_GOLD_JACKPOT: 'as-stop-at-gold',
+    SPIN_ANIMATION_IN_SECONDS: 'as-spin-animation-in-seconds'
+  }
 
   const powerSpinButtonElement = document.getElementById("launch_wof");
   if (!powerSpinButtonElement) {
@@ -4581,10 +4584,61 @@ function hookUpPowerSpin() {
       createForm();
       hookUpEvents();
       createPrizeLog()
+      overrideShowMultiprize();
+      overrideTimelineMax();
+      overrideSpinFunction();
+      overrideMultiSpinFunction();
     } catch (e) {
       console.warn(e);
     }
   });
+
+  function overrideShowMultiprize() {
+    erepublik.wheel_of_fortune.showMultiPrize = function () {}
+  }
+
+  function overrideTimelineMax() {
+    let originalFunction = TimelineMax.prototype.to;
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+
+    TimelineMax.prototype.to = function (context, delay, config) {
+      if (config.ease === Expo.easeOut) {
+        delay = (spinAnimationInSecondsElement.value || 1)
+      }
+      return originalFunction.apply(this, [context, delay, config]);
+    };
+  }
+
+  function overrideMultiSpinFunction() {
+    const old = erepublik.wheel_of_fortune.multispin
+    erepublik.wheel_of_fortune.multispin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
+      if (!spinHttpResponse.alreadyHandled) {
+        spinHttpResponse.alreadyHandled = true
+        spinHttpResponse.prizes.forEach((reward, index) => {
+          const {tooltip, icon} = findRewardById(reward.index)
+          const cost = spinHttpResponse.cost + 100*index
+          logPrize(cost, tooltip, icon)
+        })
+      }
+
+      old.apply(erepublik.wheel_of_fortune, arguments)
+    }
+
+    function findRewardById(id) {
+      return window.global_wof_build_data.prizes.prizes[id]
+    }
+  }
+
+  function overrideSpinFunction() {
+    const old = erepublik.wheel_of_fortune.spin
+    erepublik.wheel_of_fortune.spin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
+      const name = spinHttpResponse.prize.tooltip
+      const price = spinHttpResponse.cost
+      const iconUrl = spinHttpResponse.prize.icon
+      logPrize(price, name, iconUrl)
+      old.apply(erepublik.wheel_of_fortune, arguments)
+    }
+  }
 
   function createForm() {
     const wheelOfFortuneRoot = document.getElementById("wheelOfFortune");
@@ -4622,7 +4676,7 @@ function hookUpPowerSpin() {
           margin-left: 10px;
         }
         
-        #as-max-money {
+        .as-input {
           max-width: 80px;
           text-align: right;
         }
@@ -4649,11 +4703,15 @@ function hookUpPowerSpin() {
       <div>
           <label class="as-label">
               Max Money Per Spin
-              <input id="as-max-money" type="text" placeholder="e.g. 2500">
+              <input id="as-max-money" class="as-input" type="text" placeholder="e.g. 2500">
           </label>
           <label class="as-label jackpot">
               Stop at gold jackpot
               <input id="as-stop-at-gold" type="checkbox" checked>
+          </label>
+           <label class="as-label">
+              Spin animation
+              <input id="as-spin-animation-in-seconds" class="as-input" type="text" placeholder="in seconds">
           </label>
           
           <div class="as-buttons">
@@ -4675,29 +4733,32 @@ function hookUpPowerSpin() {
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
         document.getElementById("as-stop-at-gold");
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
 
-    const storedMaxMoney = localStorage.getItem(MAX_MONEY_STORAGE_KEY)
+    const storedMaxMoney = localStorage.getItem(STORAGE_KEYS.MAX_MONEY)
     if (storedMaxMoney) {
       maxMoneyInputElement.value = storedMaxMoney
     }
 
-    const storedStopAtGold = localStorage.getItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY)
+    const storedStopAtGold = localStorage.getItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT)
     if (!storedStopAtGold) {
       stopAtGoldCheckboxElement.checked = true
     } else {
       stopAtGoldCheckboxElement.checked = storedStopAtGold === 'true'
     }
+    const spinAnimationInSeconds = localStorage.getItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS)
+    spinAnimationInSecondsElement.value = spinAnimationInSeconds || 1
   }
 
   function hookUpEvents() {
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
       document.getElementById("as-stop-at-gold");
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
-    const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
-
-    let intervalRef;
+    const triggerWof1xButtonElement = document.querySelector(".wof_btn.left_btn");
 
     if (
       !(
@@ -4705,7 +4766,7 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement ||
         spinButtonElement ||
         cancelButtonElement ||
-        mainTriggerWofButtonElement
+        triggerWof1xButtonElement
       )
     ) {
       console.warn("One element is not here", {
@@ -4713,17 +4774,22 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement,
         spinButtonElement,
         cancelButtonElement,
-        mainTriggerWofButtonElement
+        triggerWof1xButtonElement
       });
       throw Error("One element is not here");
     }
 
     maxMoneyInputElement.addEventListener('change', event => {
-      localStorage.setItem(MAX_MONEY_STORAGE_KEY, event.target.value)
+      localStorage.setItem(STORAGE_KEYS.MAX_MONEY, event.target.value)
     })
 
     stopAtGoldCheckboxElement.addEventListener('change', event => {
-      localStorage.setItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY, event.target.checked)
+      localStorage.setItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT, event.target.checked)
+    })
+
+    spinAnimationInSecondsElement.addEventListener('change', event => {
+      console.log('change', event.target.value);
+      localStorage.setItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS, event.target.value)
     })
 
     spinButtonElement.addEventListener("click", () => {
@@ -4739,7 +4805,7 @@ function hookUpPowerSpin() {
         `maxMoneyPerSpin = ${maxMoneyPerSpin}, shouldStopAtGoldJackpot = ${shouldStopAtGoldJackpot}`
       );
 
-      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot);
+      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot, Number(spinAnimationInSecondsElement.value));
     });
 
     cancelButtonElement.addEventListener("click", () => {
@@ -4747,63 +4813,55 @@ function hookUpPowerSpin() {
       stoppingTheWheel = true
     });
 
-    mainTriggerWofButtonElement.addEventListener('click', () => {
-      setTimeout(() => {
-        let {price, rewardName} = extractPrize();
-        logPrize(price, rewardName)
-      }, 7000)
-    })
-
-    function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
+    function spinTheWheel(maxCost, shouldStopAtGoldJackpot, baseDelayInSeconds) {
       console.log('Starting the wheel');
 
       spinButtonElement.classList.add('as-hidden')
       cancelButtonElement.classList.remove('as-hidden')
 
-      intervalRef = setInterval(() => {
-        let {price, rewardName} = extractPrize();
-        console.log(`${price}: ${rewardName}`);
+      const currentCost = window.global_wof_build_data.cost;
+      if (maxCost <= currentCost) {
+        console.log("Not spinning, because we've already reached the limit.")
+        stopTheWheel();
+        return;
+      }
+
+      if (baseDelayInSeconds <= 0) {
+        console.log('Stopping the wheel, because spin animation must be more than 0s, but is: ', baseDelayInSeconds)
+        stopTheWheel();
+        return;
+      }
+
+      function timeHandler() {
+        const currentCost = window.global_wof_build_data.cost;
+        let spinsRequiredCount = (maxCost - currentCost) / 100;
+        console.log({spinsRequired: spinsRequiredCount})
 
         if (stoppingTheWheel) {
-          stoppingTheWheel = false
           stopTheWheel();
-          return
+          return;
         }
-
-        if (Number(price) > maxCost) {
-          stopTheWheel()
+        if (shouldStopAtGoldJackpot && window.global_wof_build_data.progress.jackpot === 3) {
+          stopTheWheel();
           return;
         }
 
-        const wonGoldJackpot = rewardName === '500 Gold'
-        if (shouldStopAtGoldJackpot && wonGoldJackpot) {
+        const safetyMarginInSeconds = 0.2
+        if (spinsRequiredCount) {
+          triggerWof1xButtonElement.click()
+          setTimeout(timeHandler, baseDelayInSeconds * 1000 + safetyMarginInSeconds * 1000)
+        } else {
           stopTheWheel()
-          return;
         }
-
-        mainTriggerWofButtonElement.click();
-      }, 7000);
-      mainTriggerWofButtonElement.click();
-    }
-
-    function extractPrize() {
-      const price = mainTriggerWofButtonElement.querySelector("em").textContent;
-      const rewardName = document
-          .querySelector(".wof_prize_title.show")
-          .textContent?.replace("You won: ", "");
-
-      return {
-        price,
-        rewardName
       }
+      timeHandler()
     }
 
     function stopTheWheel() {
       cancelButtonElement.classList.add('as-hidden')
       spinButtonElement.classList.remove('as-hidden')
       console.log('Stopping the wheel');
-
-      clearInterval(intervalRef)
+      stoppingTheWheel = false
     }
   }
 
@@ -4843,6 +4901,15 @@ function hookUpPowerSpin() {
         #as-power-log-container {
             overflow: auto;
         }
+        .as-power-log-item {
+          display: flex;
+          align-items: center;
+        }
+        
+        .as-power-log-icon {
+          height: 24px;
+          margin: 0 4px;
+        }
       </style>
       <div id="as-power-log-header">
           Power Spin Log
@@ -4858,20 +4925,32 @@ function hookUpPowerSpin() {
     wheelOfFortuneRoot.appendChild(containerElement);
   }
 
-  function logPrize(price, name) {
+  function logPrize(price, name, iconUrl) {
     console.log(`Logging prize: price = ${price}, name = ${name}`);
     const powerLogContainer = document.getElementById("as-power-log-container");
     if (!powerLogContainer) {
       throw Error('Power log container not available')
     }
 
-    const priceElement = document.createElement('div')
-    priceElement.innerHTML = `
-      ${price}: ${name}
-    `
+    const rewardElement = document.createElement('div')
+    rewardElement.classList.add("as-power-log-item")
+
+    const priceElement = document.createElement('span')
+    priceElement.textContent = `${price}: `
+    rewardElement.appendChild(priceElement)
+
+    const iconElement = document.createElement('img')
+    iconElement.classList.add("as-power-log-icon")
+    iconElement.src = iconUrl
+    rewardElement.appendChild(iconElement)
+
+    const nameElement = document.createElement('span')
+    nameElement.textContent = name
+    rewardElement.appendChild(nameElement)
+
     const shouldScrollBottom = powerLogContainer.scrollTop >= scrollTopMax()
 
-    powerLogContainer.appendChild(priceElement)
+    powerLogContainer.appendChild(rewardElement)
 
     if (shouldScrollBottom) {
       powerLogContainer.scrollTop = powerLogContainer.scrollHeight
