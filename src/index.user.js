@@ -4566,8 +4566,11 @@ ${divisionNumber}
 }
 
 function hookUpPowerSpin() {
-  const MAX_MONEY_STORAGE_KEY = 'as-max-money-per-spin'
-  const STOP_AT_GOLD_JACKPOT_STORAGE_KEY = 'as-stop-at-gold'
+  const STORAGE_KEYS = {
+    MAX_MONEY: 'as-max-money-per-spin',
+    STOP_AT_GOLD_JACKPOT: 'as-stop-at-gold',
+    SPIN_ANIMATION_IN_SECONDS: 'as-spin-animation-in-seconds'
+  }
 
   const powerSpinButtonElement = document.getElementById("launch_wof");
   if (!powerSpinButtonElement) {
@@ -4595,10 +4598,11 @@ function hookUpPowerSpin() {
   }
   function overrideTimelineMax() {
     let originalFunction = TimelineMax.prototype.to;
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
 
     TimelineMax.prototype.to = function (context, delay, config) {
       if (config.ease === Expo.easeOut) {
-        delay = 1
+        delay = (spinAnimationInSecondsElement.value || 1)
       }
       return originalFunction.apply(this, [context, delay, config]);
     };
@@ -4671,7 +4675,7 @@ function hookUpPowerSpin() {
           margin-left: 10px;
         }
         
-        #as-max-money {
+        .as-input {
           max-width: 80px;
           text-align: right;
         }
@@ -4698,11 +4702,15 @@ function hookUpPowerSpin() {
       <div>
           <label class="as-label">
               Max Money Per Spin
-              <input id="as-max-money" type="text" placeholder="e.g. 2500">
+              <input id="as-max-money" class="as-input" type="text" placeholder="e.g. 2500">
           </label>
           <label class="as-label jackpot">
               Stop at gold jackpot
               <input id="as-stop-at-gold" type="checkbox" checked>
+          </label>
+           <label class="as-label">
+              Spin animation
+              <input id="as-spin-animation-in-seconds" class="as-input" type="text" placeholder="in seconds">
           </label>
           
           <div class="as-buttons">
@@ -4724,24 +4732,29 @@ function hookUpPowerSpin() {
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
         document.getElementById("as-stop-at-gold");
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
 
-    const storedMaxMoney = localStorage.getItem(MAX_MONEY_STORAGE_KEY)
+    const storedMaxMoney = localStorage.getItem(STORAGE_KEYS.MAX_MONEY)
     if (storedMaxMoney) {
       maxMoneyInputElement.value = storedMaxMoney
     }
 
-    const storedStopAtGold = localStorage.getItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY)
+    const storedStopAtGold = localStorage.getItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT)
     if (!storedStopAtGold) {
       stopAtGoldCheckboxElement.checked = true
     } else {
       stopAtGoldCheckboxElement.checked = storedStopAtGold === 'true'
     }
+    const spinAnimationInSeconds = localStorage.getItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS)
+    spinAnimationInSecondsElement.value = spinAnimationInSeconds || 1
   }
 
   function hookUpEvents() {
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
       document.getElementById("as-stop-at-gold");
+    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
     // const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
@@ -4767,11 +4780,16 @@ function hookUpPowerSpin() {
     }
 
     maxMoneyInputElement.addEventListener('change', event => {
-      localStorage.setItem(MAX_MONEY_STORAGE_KEY, event.target.value)
+      localStorage.setItem(STORAGE_KEYS.MAX_MONEY, event.target.value)
     })
 
     stopAtGoldCheckboxElement.addEventListener('change', event => {
-      localStorage.setItem(STOP_AT_GOLD_JACKPOT_STORAGE_KEY, event.target.checked)
+      localStorage.setItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT, event.target.checked)
+    })
+
+    spinAnimationInSecondsElement.addEventListener('change', event => {
+      console.log('change', event.target.value);
+      localStorage.setItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS, event.target.value)
     })
 
     spinButtonElement.addEventListener("click", () => {
@@ -4787,7 +4805,7 @@ function hookUpPowerSpin() {
         `maxMoneyPerSpin = ${maxMoneyPerSpin}, shouldStopAtGoldJackpot = ${shouldStopAtGoldJackpot}`
       );
 
-      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot);
+      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot, Number(spinAnimationInSecondsElement.value));
     });
 
     cancelButtonElement.addEventListener("click", () => {
@@ -4795,7 +4813,7 @@ function hookUpPowerSpin() {
       stoppingTheWheel = true
     });
 
-    function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
+    function spinTheWheel(maxCost, shouldStopAtGoldJackpot, baseDelayInSeconds) {
       console.log('Starting the wheel');
 
       spinButtonElement.classList.add('as-hidden')
@@ -4804,6 +4822,13 @@ function hookUpPowerSpin() {
       const currentCost = window.global_wof_build_data.cost;
       if (maxCost <= currentCost) {
         console.log("Not spinning, because we've already reached the limit.")
+        stopTheWheel();
+        return;
+      }
+
+      if (baseDelayInSeconds <= 0) {
+        console.log('Stopping the wheel, because spin animation must be more than 0s, but is: ', baseDelayInSeconds)
+        stopTheWheel();
         return;
       }
 
@@ -4813,16 +4838,20 @@ function hookUpPowerSpin() {
         console.log({spinsRequired: spinsRequiredCount})
 
         if (stoppingTheWheel) {
-          stoppingTheWheel = false
           stopTheWheel();
           return;
         }
-        const baseDelayInSeconds = 1
+        if (shouldStopAtGoldJackpot && window.global_wof_build_data.progress.jackpot === 3) {
+          stopTheWheel();
+          return;
+        }
+
         const safetyMarginInSeconds = 0.2
         if (spinsRequiredCount) {
           triggerWof1xButtonElement.click()
           setTimeout(timeHandler, baseDelayInSeconds * 1000 + safetyMarginInSeconds * 1000)
-
+        } else {
+          stopTheWheel()
         }
       }
       timeHandler()
@@ -4832,6 +4861,7 @@ function hookUpPowerSpin() {
       cancelButtonElement.classList.add('as-hidden')
       spinButtonElement.classList.remove('as-hidden')
       console.log('Stopping the wheel');
+      stoppingTheWheel = false
     }
   }
 
