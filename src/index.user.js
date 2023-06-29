@@ -1205,6 +1205,7 @@
       if (SERVER_DATA.sessionValidation) {
       } else {
         hookUpPowerSpin();
+        hookUpDailyChallengeAutoCollect();
         document.body.insertAdjacentHTML(
           "beforeEnd",
           '<div id="stuffTipsy"></div>'
@@ -4959,6 +4960,58 @@ function hookUpPowerSpin() {
     function scrollTopMax() {
       const tolerance = 1; // you can adjust this value to account for small inaccuracies
       return powerLogContainer.scrollHeight - powerLogContainer.clientHeight - tolerance
+    }
+  }
+}
+
+function hookUpDailyChallengeAutoCollect() {
+  const dcButtonElement = document.getElementById('dailyMissionsPopupTrigger');
+  if (!dcButtonElement) {
+    return;
+  }
+  dcButtonElement.addEventListener('click', function() {
+    setTimeout(() => {
+      try {
+        createButton()
+      } catch (e) {
+        console.warn(e);
+      }
+    }, 300)
+  })
+
+  function createButton() {
+    const BUTTON_ID = 'claimAllButton'
+    const titleRootElement = document.querySelector('#dailyMissionsPopup > h2')
+    if (!titleRootElement) {
+      throw Error('No title root element')
+    }
+    if (document.getElementById(BUTTON_ID)) {
+      console.log('Button is already created');
+      return;
+    }
+
+    const claimAllButtonElement = document.createElement('a')
+    claimAllButtonElement.id = BUTTON_ID
+    claimAllButtonElement.classList.add('std_global_btn', 'greenColor', 'smallSize')
+    claimAllButtonElement.style.float = 'right'
+    claimAllButtonElement.style.marginRight = '16px'
+    claimAllButtonElement.textContent = 'Claim All'
+    claimAllButtonElement.addEventListener('click', clickHandler)
+    titleRootElement.appendChild(claimAllButtonElement)
+
+    function clickHandler() {
+      const claimButtonElements = document.querySelectorAll('.claimButton')
+      if (!claimButtonElements.length) {
+        console.log('No more challenges to claim.')
+        return;
+      }
+      console.log(`Challenges to claim: ${claimButtonElements.length}`);
+      for (let claimButtonElement of claimButtonElements) {
+        claimButtonElement.click()
+      }
+      setTimeout(() => {
+        clickHandler()
+      }, 2000)
     }
   }
 }
