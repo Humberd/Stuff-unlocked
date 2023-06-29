@@ -1,3 +1,6 @@
+# 5.57 (29.06.2023)
+* Fix: Daily Challenges Auto-Collect
+
 # 5.56 (29.06.2023)
 * Fix: Auto-Spinner not working due to erep changes
 * Feat: Customizable Auto-Spinner animation
