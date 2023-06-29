@@ -4581,10 +4581,22 @@ function hookUpPowerSpin() {
       createForm();
       hookUpEvents();
       createPrizeLog()
+      overrideSpinFunction();
     } catch (e) {
       console.warn(e);
     }
   });
+
+  function overrideSpinFunction() {
+    const old = erepublik.wheel_of_fortune.spin
+    erepublik.wheel_of_fortune.spin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
+      const name = spinHttpResponse.prize.tooltip
+      const price = spinHttpResponse.cost
+      const iconUrl = spinHttpResponse.prize.icon
+      logPrize(price, name, iconUrl)
+      old.apply(erepublik.wheel_of_fortune, arguments)
+    }
+  }
 
   function createForm() {
     const wheelOfFortuneRoot = document.getElementById("wheelOfFortune");
@@ -4695,7 +4707,9 @@ function hookUpPowerSpin() {
       document.getElementById("as-stop-at-gold");
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
-    const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
+    // const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
+    const triggerWof1xButtonElement = document.querySelector(".wof_btn.left_btn");
+    const triggerWof5xButtonElement = document.querySelector(".wof_btn.right_btn");
 
     let intervalRef;
 
@@ -4705,7 +4719,8 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement ||
         spinButtonElement ||
         cancelButtonElement ||
-        mainTriggerWofButtonElement
+        triggerWof1xButtonElement ||
+        triggerWof5xButtonElement
       )
     ) {
       console.warn("One element is not here", {
@@ -4713,7 +4728,8 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement,
         spinButtonElement,
         cancelButtonElement,
-        mainTriggerWofButtonElement
+        triggerWof1xButtonElement,
+        triggerWof2xButtonElement: triggerWof5xButtonElement
       });
       throw Error("One element is not here");
     }
@@ -4747,12 +4763,14 @@ function hookUpPowerSpin() {
       stoppingTheWheel = true
     });
 
-    mainTriggerWofButtonElement.addEventListener('click', () => {
-      setTimeout(() => {
-        let {price, rewardName} = extractPrize();
-        logPrize(price, rewardName)
-      }, 7000)
-    })
+    // for (let triggerElement of [triggerWof1xButtonElement, triggerWof5xButtonElement]) {
+    //   triggerElement.addEventListener('click', () => {
+    //     setTimeout(() => {
+    //       let {price, rewardName} = extractPrize();
+    //       logPrize(price, rewardName)
+    //     }, 7000)
+    //   })
+    // }
 
     function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
       console.log('Starting the wheel');
@@ -4786,8 +4804,16 @@ function hookUpPowerSpin() {
       mainTriggerWofButtonElement.click();
     }
 
+    function extractPrice() {
+      return triggerWof1xButtonElement.querySelector("em").textContent;
+    }
+
     function extractPrize() {
-      const price = mainTriggerWofButtonElement.querySelector("em").textContent;
+      const price = extractPrice()
+      const allRewards = document.querySelectorAll(".wof_multi_prizes_display .wof_prize_tooltip")
+      for (let rewardElement of allRewards) {
+
+      }
       const rewardName = document
           .querySelector(".wof_prize_title.show")
           .textContent?.replace("You won: ", "");
@@ -4843,6 +4869,15 @@ function hookUpPowerSpin() {
         #as-power-log-container {
             overflow: auto;
         }
+        .as-power-log-item {
+          display: flex;
+          align-items: center;
+        }
+        
+        .as-power-log-icon {
+          height: 24px;
+          margin: 0 4px;
+        }
       </style>
       <div id="as-power-log-header">
           Power Spin Log
@@ -4858,20 +4893,32 @@ function hookUpPowerSpin() {
     wheelOfFortuneRoot.appendChild(containerElement);
   }
 
-  function logPrize(price, name) {
+  function logPrize(price, name, iconUrl) {
     console.log(`Logging prize: price = ${price}, name = ${name}`);
     const powerLogContainer = document.getElementById("as-power-log-container");
     if (!powerLogContainer) {
       throw Error('Power log container not available')
     }
 
-    const priceElement = document.createElement('div')
-    priceElement.innerHTML = `
-      ${price}: ${name}
-    `
+    const rewardElement = document.createElement('div')
+    rewardElement.classList.add("as-power-log-item")
+
+    const priceElement = document.createElement('span')
+    priceElement.textContent = `${price}:`
+    rewardElement.appendChild(priceElement)
+
+    const iconElement = document.createElement('img')
+    iconElement.classList.add("as-power-log-icon")
+    iconElement.src = iconUrl
+    rewardElement.appendChild(iconElement)
+
+    const nameElement = document.createElement('name')
+    nameElement.textContent = name
+    rewardElement.appendChild(nameElement)
+
     const shouldScrollBottom = powerLogContainer.scrollTop >= scrollTopMax()
 
-    powerLogContainer.appendChild(priceElement)
+    powerLogContainer.appendChild(rewardElement)
 
     if (shouldScrollBottom) {
       powerLogContainer.scrollTop = powerLogContainer.scrollHeight
