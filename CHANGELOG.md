@@ -1,3 +1,9 @@
+# 5.56 (29.06.2023)
+* Fix: Auto-Spinner not working due to erep changes
+* Feat: Customizable Auto-Spinner animation
+* Feat: Display icon next to a reward in a prize log
+* Feat: Daily Challenges Auto-Collect button
+
 # 5.55 (1.04.2023)
 * Feat: Auto-Spinner for a power spin
 
