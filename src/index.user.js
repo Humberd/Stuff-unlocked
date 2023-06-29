@@ -5000,7 +5000,7 @@ function hookUpDailyChallengeAutoCollect() {
     titleRootElement.appendChild(claimAllButtonElement)
 
     function clickHandler() {
-      const claimButtonElements = document.querySelectorAll('.claimButton')
+      const claimButtonElements = document.querySelectorAll('.missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton')
       if (!claimButtonElements.length) {
         console.log('No more challenges to claim.')
         return;
