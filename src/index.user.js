@@ -4581,12 +4581,28 @@ function hookUpPowerSpin() {
       createForm();
       hookUpEvents();
       createPrizeLog()
+      overrideShowMultiprize();
+      overrideTimelineMax();
       overrideSpinFunction();
       overrideMultiSpinFunction();
     } catch (e) {
       console.warn(e);
     }
   });
+
+  function overrideShowMultiprize() {
+    erepublik.wheel_of_fortune.showMultiPrize = function () {}
+  }
+  function overrideTimelineMax() {
+    let originalFunction = TimelineMax.prototype.to;
+
+    TimelineMax.prototype.to = function (context, delay, config) {
+      if (config.ease === Expo.easeOut) {
+        delay = 1
+      }
+      return originalFunction.apply(this, [context, delay, config]);
+    };
+  }
 
   function overrideMultiSpinFunction() {
     const old = erepublik.wheel_of_fortune.multispin
@@ -4606,7 +4622,6 @@ function hookUpPowerSpin() {
     function findRewardById(id) {
       return window.global_wof_build_data.prizes.prizes[id]
     }
-
   }
 
   function overrideSpinFunction() {
@@ -4731,9 +4746,6 @@ function hookUpPowerSpin() {
     const cancelButtonElement = document.getElementById("as-cancel");
     // const mainTriggerWofButtonElement = document.querySelector(".wof_btn");
     const triggerWof1xButtonElement = document.querySelector(".wof_btn.left_btn");
-    const triggerWof5xButtonElement = document.querySelector(".wof_btn.right_btn");
-
-    let intervalRef;
 
     if (
       !(
@@ -4741,8 +4753,7 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement ||
         spinButtonElement ||
         cancelButtonElement ||
-        triggerWof1xButtonElement ||
-        triggerWof5xButtonElement
+        triggerWof1xButtonElement
       )
     ) {
       console.warn("One element is not here", {
@@ -4750,8 +4761,7 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement,
         spinButtonElement,
         cancelButtonElement,
-        triggerWof1xButtonElement,
-        triggerWof2xButtonElement: triggerWof5xButtonElement
+        triggerWof1xButtonElement
       });
       throw Error("One element is not here");
     }
@@ -4785,73 +4795,43 @@ function hookUpPowerSpin() {
       stoppingTheWheel = true
     });
 
-    // for (let triggerElement of [triggerWof1xButtonElement, triggerWof5xButtonElement]) {
-    //   triggerElement.addEventListener('click', () => {
-    //     setTimeout(() => {
-    //       let {price, rewardName} = extractPrize();
-    //       logPrize(price, rewardName)
-    //     }, 7000)
-    //   })
-    // }
-
     function spinTheWheel(maxCost, shouldStopAtGoldJackpot) {
       console.log('Starting the wheel');
 
       spinButtonElement.classList.add('as-hidden')
       cancelButtonElement.classList.remove('as-hidden')
 
-      intervalRef = setInterval(() => {
-        let {price, rewardName} = extractPrize();
-        console.log(`${price}: ${rewardName}`);
+      const currentCost = window.global_wof_build_data.cost;
+      if (maxCost <= currentCost) {
+        console.log("Not spinning, because we've already reached the limit.")
+        return;
+      }
+
+      function timeHandler() {
+        const currentCost = window.global_wof_build_data.cost;
+        let spinsRequiredCount = (maxCost - currentCost) / 100;
+        console.log({spinsRequired: spinsRequiredCount})
 
         if (stoppingTheWheel) {
           stoppingTheWheel = false
           stopTheWheel();
-          return
-        }
-
-        if (Number(price) > maxCost) {
-          stopTheWheel()
           return;
         }
+        const baseDelayInSeconds = 1
+        const safetyMarginInSeconds = 0.2
+        if (spinsRequiredCount) {
+          triggerWof1xButtonElement.click()
+          setTimeout(timeHandler, baseDelayInSeconds * 1000 + safetyMarginInSeconds * 1000)
 
-        const wonGoldJackpot = rewardName === '500 Gold'
-        if (shouldStopAtGoldJackpot && wonGoldJackpot) {
-          stopTheWheel()
-          return;
         }
-
-        mainTriggerWofButtonElement.click();
-      }, 7000);
-      mainTriggerWofButtonElement.click();
-    }
-
-    function extractPrice() {
-      return triggerWof1xButtonElement.querySelector("em").textContent;
-    }
-
-    function extractPrize() {
-      const price = extractPrice()
-      const allRewards = document.querySelectorAll(".wof_multi_prizes_display .wof_prize_tooltip")
-      for (let rewardElement of allRewards) {
-
       }
-      const rewardName = document
-          .querySelector(".wof_prize_title.show")
-          .textContent?.replace("You won: ", "");
-
-      return {
-        price,
-        rewardName
-      }
+      timeHandler()
     }
 
     function stopTheWheel() {
       cancelButtonElement.classList.add('as-hidden')
       spinButtonElement.classList.remove('as-hidden')
       console.log('Stopping the wheel');
-
-      clearInterval(intervalRef)
     }
   }
 
