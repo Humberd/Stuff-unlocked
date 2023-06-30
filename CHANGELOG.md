@@ -1,3 +1,6 @@
+# 5.58 (30.06.2023)
+* Fix: Stopping Auto-Spinner at gold jackpot
+
 # 5.57 (29.06.2023)
 * Fix: Daily Challenges Auto-Collect
 
