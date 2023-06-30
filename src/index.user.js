@@ -4579,6 +4579,7 @@ function hookUpPowerSpin() {
   }
 
   let stoppingTheWheel = false
+  let currentJackpotCount = 0
 
   powerSpinButtonElement.addEventListener("click", function () {
     try {
@@ -4636,6 +4637,7 @@ function hookUpPowerSpin() {
       const name = spinHttpResponse.prize.tooltip
       const price = spinHttpResponse.cost
       const iconUrl = spinHttpResponse.prize.icon
+      currentJackpotCount = spinHttpResponse.jackpot;
       logPrize(price, name, iconUrl)
       old.apply(erepublik.wheel_of_fortune, arguments)
     }
@@ -4833,6 +4835,8 @@ function hookUpPowerSpin() {
         return;
       }
 
+      let previousJackpotCount = currentJackpotCount
+
       function timeHandler() {
         const currentCost = window.global_wof_build_data.cost;
         let spinsRequiredCount = (maxCost - currentCost) / 100;
@@ -4842,10 +4846,12 @@ function hookUpPowerSpin() {
           stopTheWheel();
           return;
         }
-        if (shouldStopAtGoldJackpot && window.global_wof_build_data.progress.jackpot === 3) {
+
+        if (shouldStopAtGoldJackpot && currentJackpotCount === 3 && previousJackpotCount < 3) {
           stopTheWheel();
           return;
         }
+        previousJackpotCount = currentJackpotCount;
 
         const safetyMarginInSeconds = 0.2
         if (spinsRequiredCount) {
