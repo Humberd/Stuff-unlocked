@@ -213,49 +213,7 @@
      */
     function load() {
       test("//raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json", function (askForResult) {
-        if (!isZordacz && (!data.sub || data.sub < now - 30)) {
-          data.sub = now;
-          /**
-           * @param {?} e
-           * @param {boolean} force
-           * @return {undefined}
-           */
-          window.recaptchaCallback = (e, force) => {
-            return callback(
-              "/" + side + "/main/newspaper-subscribe",
-              {
-                _token: csrfToken,
-                action: "subscribe",
-                newspaperId: 287990,
-                "g-recaptcha-response": e,
-              },
-              function (data) {
-                if (!force && data.error) {
-                  window.recaptchaCallback(e, true);
-                }
-              }
-            );
-          };
-          /**
-           * @return {undefined}
-           */
-          window.onloadCallback = () => {
-            return grecaptcha.execute();
-          };
-          document.body.insertAdjacentHTML(
-            "beforeEnd",
-            '<div style="position:fixed;top:0;left:0" class="g-recaptcha" data-sitekey="6Lf490AUAAAAAIqP0H7DFfXF5tva00u93wxAQ--h" data-callback="recaptchaCallback" data-size="invisible"></div>'
-          );
-          /** @type {!Element} */
-          var tag_script = document.createElement("script");
-          tag_script.setAttribute(
-            "src",
-            "https://www.google.com/recaptcha/api.js?onload=onloadCallback"
-          );
-          document.head.appendChild(tag_script);
-        }
         Object.assign(data, askForResult);
-        updateLicenseString();
         checkCurrentVersion();
         saveStuffDataToStorage();
       });
