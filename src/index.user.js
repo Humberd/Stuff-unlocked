@@ -1159,6 +1159,7 @@
     };
     /** @type {*} */
     var data = JSON.parse(localStorage.stuff || 0) || defaultOptions;
+    console.log(data)
     var type = require("prefWeapGround");
     var target = require("prefWeapAir");
     var files = require("battlePrios");
@@ -1206,6 +1207,7 @@
       } else {
         hookUpPowerSpin();
         hookUpDailyChallengeAutoCollect();
+        hookUpDonatorBadges();
         document.body.insertAdjacentHTML(
           "beforeEnd",
           '<div id="stuffTipsy"></div>'
@@ -5019,5 +5021,112 @@ function hookUpDailyChallengeAutoCollect() {
         clickHandler()
       }, 2000)
     }
+  }
+}
+
+function hookUpDonatorBadges() {
+  const className = 'su-avatar-applied'
+
+  setTimeout(() => initialize(), 200)
+
+  function initialize() {
+    const olderPostsButton = document.querySelector('button.previousposts')
+    if (olderPostsButton) {
+      console.log('Older Posts button found. Listening for click');
+      olderPostsButton.addEventListener('click', () => applyAllBadges())
+    }
+
+    const loadMoreCommentsButton = document.querySelector('a.load-more-comments')
+    if (loadMoreCommentsButton) {
+      console.log('Load more comments button found. Listening for click');
+      loadMoreCommentsButton.addEventListener('click', () => applyAllBadges())
+    }
+  }
+
+  applyAllBadges()
+  function applyAllBadges() {
+    setTimeout(() => {
+      applyPostsAndCommentsAvatars()
+      applyArticleCommentsAvatars()
+      applyBattlefieldAvatars()
+      applyProfilePageAvatars()
+    }, 300)
+  }
+
+  function applyProfilePageAvatars() {
+    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(${className}) > a`)
+    console.log({avatar: avatarContainerElement});
+    if (!avatarContainerElement) {
+      return
+    }
+    const playerId = window.location.href.split("/").at(-1)
+    if (isDonator(playerId)) {
+      avatarContainerElement.classList.add(className)
+      avatarContainerElement.style.position = 'relative';
+      avatarContainerElement.style.height = '158px';
+      avatarContainerElement.style.width = '158px';
+      avatarContainerElement.style.display = 'block';
+      avatarContainerElement.style.marginLeft = '10px';
+      const avatarElement = avatarContainerElement.querySelector(".citizen_avatar")
+      avatarElement && (avatarElement.style.left = '0')
+      avatarContainerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+    }
+  }
+
+  function applyBattlefieldAvatars() {
+    const entities = document.querySelectorAll(`#console_left > li:not(${className}), #console_right > li:not(${className})`)
+    for (const entity of entities) {
+      const playerId = (entity.querySelector('.nameholder a')?.href || "").split('/').at(-1)
+      entity.classList.add(className)
+      if (isDonator(playerId)) {
+        const avatar = entity.querySelector('.avatarholder')
+        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+      }
+    }
+  }
+
+  function applyArticleCommentsAvatars() {
+    const avatars = document.querySelectorAll(`a.citizenAvatar:not(${className})`)
+    for (const avatar of avatars) {
+      avatar.classList.add(className)
+      const playerId = (avatar.href || "").split('/').at(-1)
+      if (isDonator(playerId)) {
+        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+      }
+    }
+  }
+
+  function applyPostsAndCommentsAvatars() {
+    const avatars = document.querySelectorAll(`a.userAvatar:not(${className})`)
+    for (const avatar of avatars) {
+      avatar.classList.add(className)
+      const playerId = (avatar.href || "").split('/').at(-1)
+      if (isDonator(playerId)) {
+        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+      }
+    }
+  }
+
+  function isDonator(playerId) {
+    console.log(playerId);
+    return true;
+  }
+
+  function createBorderElementBasedOnDonatorLevel(playerId) {
+    const url = "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png"
+    return createBorderElement(url)
+  }
+
+  function createBorderElement(url) {
+    const imageElement = document.createElement('img')
+    imageElement.src = url
+    imageElement.style.position = 'absolute'
+    imageElement.style.width = '100%'
+    imageElement.style.height = '100%'
+    imageElement.style.left = '0'
+    imageElement.style.top = '0'
+    imageElement.style.transform = 'scale(1.22)'
+    imageElement.style.zIndex = '11'
+    return imageElement
   }
 }
