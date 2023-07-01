@@ -5111,7 +5111,7 @@ async function hookUpDonatorBadges() {
 
   async function initialize() {
     createGlobalStylesheet()
-    delay(200)
+    await delay(300)
     const olderPostsButton = document.querySelector('button.previousposts')
     if (olderPostsButton) {
       console.log('Older Posts button found. Listening for click');
