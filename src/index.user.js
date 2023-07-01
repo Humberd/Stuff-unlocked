@@ -5206,8 +5206,8 @@ async function hookUpDonatorBadges() {
   }
 
   function isDonator(playerId) {
-    console.log(playerId);
-    return true;
+    // console.log(playerId);
+    return false;
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
