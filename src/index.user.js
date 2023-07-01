@@ -5114,13 +5114,13 @@ async function hookUpDonatorBadges() {
     await delay(300)
     const olderPostsButton = document.querySelector('button.previousposts')
     if (olderPostsButton) {
-      console.log('Older Posts button found. Listening for click');
+      console.log('Older Posts button found. Listening for a click');
       olderPostsButton.addEventListener('click', () => applyAllBadges())
     }
 
     const loadMoreCommentsButton = document.querySelector('a.load-more-comments')
     if (loadMoreCommentsButton) {
-      console.log('Load more comments button found. Listening for click');
+      console.log('Load more comments button found. Listening for a click');
       loadMoreCommentsButton.addEventListener('click', () => applyAllBadges())
     }
   }
@@ -5135,7 +5135,6 @@ async function hookUpDonatorBadges() {
   async function applyProfilePageAvatars() {
     await delay(500)
     const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`)
-    console.log({avatar: avatarContainerElement});
     if (!avatarContainerElement) {
       return
     }
@@ -5156,7 +5155,6 @@ async function hookUpDonatorBadges() {
     let currentPoolTime = 300
     while(true) {
       const entities = document.querySelectorAll(`#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`)
-      console.log({entities});
       for (const entity of entities) {
         const containerElement = entity.querySelector("q")
         if (!containerElement) {
