@@ -4543,6 +4543,10 @@
   });
 })();
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function isFriend(citizenHovercard) {
   for (let entry of citizenHovercard.interactionButtons) {
     if (entry.type === "removeFriend") {
@@ -5025,11 +5029,32 @@ function hookUpDailyChallengeAutoCollect() {
 }
 
 function hookUpDonatorBadges() {
-  const className = 'su-avatar-applied'
+  const CLASS_NAMES = {
+    APPLIED: 'su-avatar-applied',
+    DONATOR_BORDER: 'su-donator-border'
+  }
+
+  function createGlobalStylesheet() {
+    const style = document.createElement('style');
+    // language=CSS
+    style.textContent = `
+        img.${CLASS_NAMES.DONATOR_BORDER} {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            transform: scale(1.22);
+            z-index: 11;
+        }
+    `;
+    document.head.appendChild(style)
+  }
 
   setTimeout(() => initialize(), 200)
 
   function initialize() {
+    createGlobalStylesheet()
     const olderPostsButton = document.querySelector('button.previousposts')
     if (olderPostsButton) {
       console.log('Older Posts button found. Listening for click');
@@ -5044,24 +5069,23 @@ function hookUpDonatorBadges() {
   }
 
   applyAllBadges()
-  function applyAllBadges() {
-    setTimeout(() => {
+  async function applyAllBadges() {
       applyPostsAndCommentsAvatars()
       applyArticleCommentsAvatars()
       applyBattlefieldAvatars()
       applyProfilePageAvatars()
-    }, 300)
   }
 
-  function applyProfilePageAvatars() {
-    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(${className}) > a`)
+  async function applyProfilePageAvatars() {
+    await delay(500)
+    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(${CLASS_NAMES.APPLIED}) > a`)
     console.log({avatar: avatarContainerElement});
     if (!avatarContainerElement) {
       return
     }
     const playerId = window.location.href.split("/").at(-1)
     if (isDonator(playerId)) {
-      avatarContainerElement.classList.add(className)
+      avatarContainerElement.classList.add(CLASS_NAMES.APPLIED)
       avatarContainerElement.style.position = 'relative';
       avatarContainerElement.style.height = '158px';
       avatarContainerElement.style.width = '158px';
@@ -5074,10 +5098,10 @@ function hookUpDonatorBadges() {
   }
 
   function applyBattlefieldAvatars() {
-    const entities = document.querySelectorAll(`#console_left > li:not(${className}), #console_right > li:not(${className})`)
+    const entities = document.querySelectorAll(`#console_left > li:not(${CLASS_NAMES.APPLIED}), #console_right > li:not(${CLASS_NAMES.APPLIED})`)
     for (const entity of entities) {
       const playerId = (entity.querySelector('.nameholder a')?.href || "").split('/').at(-1)
-      entity.classList.add(className)
+      entity.classList.add(CLASS_NAMES.APPLIED)
       if (isDonator(playerId)) {
         const avatar = entity.querySelector('.avatarholder')
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
@@ -5086,9 +5110,9 @@ function hookUpDonatorBadges() {
   }
 
   function applyArticleCommentsAvatars() {
-    const avatars = document.querySelectorAll(`a.citizenAvatar:not(${className})`)
+    const avatars = document.querySelectorAll(`a.citizenAvatar:not(${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
-      avatar.classList.add(className)
+      avatar.classList.add(CLASS_NAMES.APPLIED)
       const playerId = (avatar.href || "").split('/').at(-1)
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
@@ -5097,9 +5121,9 @@ function hookUpDonatorBadges() {
   }
 
   function applyPostsAndCommentsAvatars() {
-    const avatars = document.querySelectorAll(`a.userAvatar:not(${className})`)
+    const avatars = document.querySelectorAll(`a.userAvatar:not(${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
-      avatar.classList.add(className)
+      avatar.classList.add(CLASS_NAMES.APPLIED)
       const playerId = (avatar.href || "").split('/').at(-1)
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
@@ -5120,13 +5144,7 @@ function hookUpDonatorBadges() {
   function createBorderElement(url) {
     const imageElement = document.createElement('img')
     imageElement.src = url
-    imageElement.style.position = 'absolute'
-    imageElement.style.width = '100%'
-    imageElement.style.height = '100%'
-    imageElement.style.left = '0'
-    imageElement.style.top = '0'
-    imageElement.style.transform = 'scale(1.22)'
-    imageElement.style.zIndex = '11'
+    imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER)
     return imageElement
   }
 }
