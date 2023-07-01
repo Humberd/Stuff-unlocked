@@ -5124,7 +5124,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   }
 
   async function applyPostsAndCommentsAvatars() {
-    await delay(200);
+    await delay(300);
     const avatars = document.querySelectorAll(
       `a.userAvatar:not(.${CLASS_NAMES.APPLIED})`
     );
