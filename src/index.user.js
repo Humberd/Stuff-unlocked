@@ -8,6 +8,9 @@
 // @run-at		document-start
 // @grant		  none
 // ==/UserScript==
+const CONTRIBUTORS_URL =
+  "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/donators/src/contributors.json";
+// const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json"
 !(function () {
   /** @type {!Array} */
   var afterRequestCallbacks = [];
@@ -96,12 +99,12 @@
     }
 
     /**
-     * @param {string} pluginId
+     * @param {string} url
      * @param {!Function} callback
      * @return {undefined}
      */
-    function test(pluginId, callback) {
-      fetch(pluginId, {
+    function test(url, callback) {
+      fetch(url, {
         credentials: "same-origin",
       })
         .then((e) => {
@@ -212,7 +215,7 @@
      * @return {undefined}
      */
     function load() {
-      test("//raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json", function (askForResult) {
+      test(CONTRIBUTORS_URL, function (askForResult) {
         Object.assign(data, askForResult);
         checkCurrentVersion();
         saveStuffDataToStorage();
@@ -1145,7 +1148,7 @@
         hookUpFeedCommentsScroll();
         hookUpPowerSpin();
         hookUpDailyChallengeAutoCollect();
-        hookUpDonatorBadges();
+        hookUpDonatorBadges(data.unlocked);
         document.body.insertAdjacentHTML(
           "beforeEnd",
           '<div id="stuffTipsy"></div>'
@@ -4091,15 +4094,21 @@
 
               /**
                * @param {!Object} citizenData
-               * @param {?} done
+               * @param {?} playerId
                * @param {!Object} eventData
                * @param {?} callback
                * @return {undefined}
                */
-              function updateTooltip(citizenData, done, eventData, callback) {
+              function updateTooltip(
+                citizenData,
+                playerId,
+                eventData,
+                callback
+              ) {
                 const { citizenProfile: self, citizenHovercard } = citizenData;
 
                 console.log({
+                  playerId,
                   self,
                   citizenHovercard,
                 });
@@ -4134,65 +4143,97 @@
                     ? "#FB7E3D"
                     : "#83B70B";
                 /** @type {string} */
-                element.innerHTML = eventData.orgTitle =
-                  '<div id="eRStooltip"><div style="background:rgb(30,30,30);height:84px"><img src="' +
-                  opts.avatar +
-                  '" style="float:left;width:84px;height:84px;margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0"><isZordacz style="background:linear-gradient(to right,' +
-                  m +
-                  " 0%," +
-                  m +
-                  " " +
-                  g +
-                  "%,rgb(80,80,80) " +
-                  (g + 0.1) +
-                  '%,rgb(80,80,80) 100%)">' +
-                  opts.level +
-                  "</isZordacz><isZordacz" +
-                  (self.isDictator ? ' style="background:rgb(204,60,0)"' : "") +
-                  ">" +
-                  (micropost.length < 22
-                    ? micropost
-                    : micropost.substring(0, 20) + "\u2026") +
-                  "</isZordacz>" +
-                  (opts.onlineStatus
-                    ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>'
-                    : "") +
-                  "<br>" +
-                  (opts.is_organization ? require("Organization", 1) : "") +
-                  (isFriend(citizenHovercard) ? require("Friend", 1) : "") +
-                  (opts.is_alive ? "" : require("Dead")) +
-                  ("Permanently" == opts.banStatus.type
-                    ? require("Permaban")
-                    : opts.banStatus.type
-                    ? require("Tempban")
-                    : "") +
-                  (data.contributors && data.contributors.includes(+done)
-                    ? require("Stuff++ contributor", 1)
-                    : "") +
-                  (self.isModerator ? require("Mod") : "") +
-                  "<br><brown>" +
-                  (opts.is_organization
-                    ? "Created at: " + opts.created_at
-                    : "eR birthday: " + citizenHovercard.bornOn) +
-                  "</brown>" +
-                  locationInfo(self) +
-                  locationInfo(self, 1) +
-                  hovercardStrength(self, citizenHovercard, resolve) +
-                  hovercardDivision(self, citizenHovercard) +
-                  '</div><div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">' +
-                  (settings.power_pack ? toArray("PP") : "") +
-                  (settings.infantry_kit ? toArray("IK") : "") +
-                  (settings.division_switch_pack ? toArray("MP") : "") +
-                  (isZordacz && data.l[opts.id] ? toArray("AF") : "") +
-                  '</div><div style="background:rgb(50,50,50);padding:0 5px;height:63px"><div>' +
-                  hovercardMilitaryInfo(self, citizenHovercard, 1) +
-                  hovercardMilitaryInfo(self, citizenHovercard) +
-                  "</div><div>" +
-                  process(self, done, 1) +
-                  process(self, done) +
-                  '</div></div><div style="height:47px;background:#fff;color:#5a5a5a;border-radius:0 0 5px 5px;text-align:center;font:9px/14px Arial">' +
-                  uriToAdd +
-                  "</div></div>";
+                element.innerHTML = eventData.orgTitle = `
+                  <div id="eRStooltip">
+                      <div style="background:rgb(30,30,30);height:84px">
+                          <div style="float:left;width:84px;height:84px;position:relative">
+                             <img src="${
+                               opts.avatar
+                             }" style="width: 100%; height: 100%; margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0">
+                             ${
+                               (window.isDonator(playerId) &&
+                                 window.createBorderElementBasedOnDonatorLevel(
+                                   playerId
+                                 ).outerHTML) ||
+                               ""
+                             }
+                          </div>
+                         
+                          <isZordacz style="background:linear-gradient(to right,${m} 0%,${m} ${g}%,rgb(80,80,80) ${
+                  g + 0.1
+                }%,rgb(80,80,80) 100%)">${opts.level}</isZordacz>
+                          <isZordacz${
+                            self.isDictator
+                              ? ' style="background:rgb(204,60,0)"'
+                              : ""
+                          }>
+                              ${
+                                micropost.length < 22
+                                  ? micropost
+                                  : micropost.substring(0, 20) + "\u2026"
+                              }
+                          </isZordacz>
+                          ${
+                            opts.onlineStatus
+                              ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>'
+                              : ""
+                          }
+                          <br>${
+                            opts.is_organization
+                              ? require("Organization", 1)
+                              : ""
+                          }
+                          ${
+                            isFriend(citizenHovercard)
+                              ? require("Friend", 1)
+                              : ""
+                          }
+                          ${opts.is_alive ? "" : require("Dead")}
+                          ${
+                            "Permanently" == opts.banStatus.type
+                              ? require("Permaban")
+                              : opts.banStatus.type
+                              ? require("Tempban")
+                              : ""
+                          }
+                          ${
+                            data.contributors &&
+                            data.contributors.includes(+playerId)
+                              ? require("Stuff++ contributor", 1)
+                              : ""
+                          }
+                          ${self.isModerator ? require("Mod") : ""}
+                          <br><brown>${
+                            opts.is_organization
+                              ? "Created at: " + opts.created_at
+                              : "eR birthday: " + citizenHovercard.bornOn
+                          }</brown>
+                          ${locationInfo(self)}${locationInfo(self, 1)}
+                          ${hovercardStrength(self, citizenHovercard, resolve)}
+                          ${hovercardDivision(self, citizenHovercard)}
+                      </div>
+                      <div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">
+                          ${settings.power_pack ? toArray("PP") : ""}
+                          ${settings.infantry_kit ? toArray("IK") : ""}
+                          ${settings.division_switch_pack ? toArray("MP") : ""}
+                          ${isZordacz && data.l[opts.id] ? toArray("AF") : ""}
+                      </div>
+                      <div style="background:rgb(50,50,50);padding:0 5px;height:63px">
+                          <div>
+                              ${hovercardMilitaryInfo(
+                                self,
+                                citizenHovercard,
+                                1
+                              )}
+                              ${hovercardMilitaryInfo(self, citizenHovercard)}
+                          </div>
+                          <div>
+                              ${process(self, playerId, 1)}
+                              ${process(self, playerId)}
+                          </div>
+                      </div>
+                      <div style="height:47px;background:#fff;color:#5a5a5a;border-radius:0 0 5px 5px;text-align:center;font:9px/14px Arial">${uriToAdd}</div>
+                  </div>`;
                 callback();
               }
 
@@ -4893,6 +4934,7 @@ async function hookUpDonatorBadges() {
             top: 0;
             transform: scale(1.2);
             z-index: 11;
+            pointer-events: none;
         }
         img.${CLASS_NAMES.DONATOR_BORDER}.${CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX} {
             z-index: unset;
@@ -5076,14 +5118,17 @@ async function hookUpDonatorBadges() {
 
   function isDonator(playerId) {
     // console.log(playerId);
-    return false;
+    return true;
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
     const url =
-      "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png";
+      "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/2084820/63fb23284a65221b979c9baca15ac77dc2d4f564.png";
     return createBorderElement(url, classNames);
   }
+  window.createBorderElementBasedOnDonatorLevel =
+    createBorderElementBasedOnDonatorLevel;
+  window.isDonator = isDonator;
 
   function createBorderElement(url, classNames = []) {
     const imageElement = document.createElement("img");
