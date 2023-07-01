@@ -4912,7 +4912,28 @@ function hookUpDailyChallengeAutoCollect() {
   }
 }
 
-async function hookUpDonatorBadges() {
+async function hookUpDonatorBadges(stuffUnlockedData) {
+  if (!stuffUnlockedData) {
+    return;
+  }
+  const donatorLevels = Object.values(stuffUnlockedData.donatorLevels).sort((a,b) => a.minimalDonation - b.minimalDonation)
+  for (const donatorId of Object.keys(stuffUnlockedData.donators)) {
+    const donatorInfo = stuffUnlockedData.donators[donatorId];
+    const totalDonations = donatorInfo.donations.reduce((a, b) => a + b, 0);
+    donatorInfo.totalDonations = totalDonations;
+    if (donatorInfo.customBorderUrl) {
+      donatorInfo.borderUrl = donatorInfo.customBorderUrl;
+      continue;
+    }
+    for (const donatorLevel of donatorLevels) {
+      if (totalDonations >= donatorLevel.minimalDonation) {
+        donatorInfo.borderUrl = donatorLevel.borderUrl
+      } else {
+        break;
+      }
+    }
+  }
+
   const CLASS_NAMES = {
     APPLIED: "su-avatar-applied",
     DONATOR_BORDER: "su-donator-border",
@@ -5117,13 +5138,11 @@ async function hookUpDonatorBadges() {
   }
 
   function isDonator(playerId) {
-    // console.log(playerId);
-    return true;
+    return !!stuffUnlockedData.donators[playerId]?.borderUrl
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
-    const url =
-      "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/2084820/63fb23284a65221b979c9baca15ac77dc2d4f564.png";
+    const url = stuffUnlockedData.donators[playerId]?.borderUrl
     return createBorderElement(url, classNames);
   }
   window.createBorderElementBasedOnDonatorLevel =
