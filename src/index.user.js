@@ -5031,7 +5031,8 @@ function hookUpDailyChallengeAutoCollect() {
 function hookUpDonatorBadges() {
   const CLASS_NAMES = {
     APPLIED: 'su-avatar-applied',
-    DONATOR_BORDER: 'su-donator-border'
+    DONATOR_BORDER: 'su-donator-border',
+    DONATOR_BORDER_NO_Z_INDEX: 'su-no-z-index'
   }
 
   function createGlobalStylesheet() {
@@ -5046,6 +5047,9 @@ function hookUpDonatorBadges() {
             top: 0;
             transform: scale(1.22);
             z-index: 11;
+        }
+        img.${CLASS_NAMES.DONATOR_BORDER}.${CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX} {
+            z-index: unset;
         }
     `;
     document.head.appendChild(style)
@@ -5078,7 +5082,7 @@ function hookUpDonatorBadges() {
 
   async function applyProfilePageAvatars() {
     await delay(500)
-    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(${CLASS_NAMES.APPLIED}) > a`)
+    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`)
     console.log({avatar: avatarContainerElement});
     if (!avatarContainerElement) {
       return
@@ -5097,20 +5101,33 @@ function hookUpDonatorBadges() {
     }
   }
 
-  function applyBattlefieldAvatars() {
-    const entities = document.querySelectorAll(`#console_left > li:not(${CLASS_NAMES.APPLIED}), #console_right > li:not(${CLASS_NAMES.APPLIED})`)
-    for (const entity of entities) {
-      const playerId = (entity.querySelector('.nameholder a')?.href || "").split('/').at(-1)
-      entity.classList.add(CLASS_NAMES.APPLIED)
-      if (isDonator(playerId)) {
-        const avatar = entity.querySelector('.avatarholder')
-        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+  async function applyBattlefieldAvatars() {
+    if (!document.querySelector("#pvp")) {
+      return
+    }
+    const maxPoolTime = 2000
+    let currentPoolTime = 300
+    while(true) {
+      const entities = document.querySelectorAll(`#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`)
+      console.log({entities});
+      for (const entity of entities) {
+        const containerElement = entity.querySelector("q")
+        if (!containerElement) {
+          continue;
+        }
+        const playerId = (containerElement.querySelector('a')?.href || "").split('/').at(-1)
+        entity.classList.add(CLASS_NAMES.APPLIED)
+        if (isDonator(playerId)) {
+          containerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId, [CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX]))
+        }
       }
+      currentPoolTime = Math.min(currentPoolTime + 200, maxPoolTime)
+      await delay(currentPoolTime)
     }
   }
 
   function applyArticleCommentsAvatars() {
-    const avatars = document.querySelectorAll(`a.citizenAvatar:not(${CLASS_NAMES.APPLIED})`)
+    const avatars = document.querySelectorAll(`a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
       avatar.classList.add(CLASS_NAMES.APPLIED)
       const playerId = (avatar.href || "").split('/').at(-1)
@@ -5121,7 +5138,7 @@ function hookUpDonatorBadges() {
   }
 
   function applyPostsAndCommentsAvatars() {
-    const avatars = document.querySelectorAll(`a.userAvatar:not(${CLASS_NAMES.APPLIED})`)
+    const avatars = document.querySelectorAll(`a.userAvatar:not(.${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
       avatar.classList.add(CLASS_NAMES.APPLIED)
       const playerId = (avatar.href || "").split('/').at(-1)
@@ -5136,15 +5153,15 @@ function hookUpDonatorBadges() {
     return true;
   }
 
-  function createBorderElementBasedOnDonatorLevel(playerId) {
+  function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
     const url = "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png"
-    return createBorderElement(url)
+    return createBorderElement(url, classNames)
   }
 
-  function createBorderElement(url) {
+  function createBorderElement(url, classNames = []) {
     const imageElement = document.createElement('img')
     imageElement.src = url
-    imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER)
+    imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER, ...classNames)
     return imageElement
   }
 }
