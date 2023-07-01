@@ -145,8 +145,7 @@
         })
         .then((result) => {
           return (
-            done &&
-            done("{" == result.trim()[0] ? JSON.parse(result) : result)
+            done && done("{" == result.trim()[0] ? JSON.parse(result) : result)
           );
         });
     }
@@ -377,13 +376,9 @@
           p(y);
         } else {
           /** @type {number} */
-          var inPropertyPath = Math.floor(
-            firstBytePositionOfNextBlock / 3600
-          );
+          var inPropertyPath = Math.floor(firstBytePositionOfNextBlock / 3600);
           /** @type {number} */
-          var width = Math.floor(
-            (firstBytePositionOfNextBlock % 3600) / 60
-          );
+          var width = Math.floor((firstBytePositionOfNextBlock % 3600) / 60);
           /** @type {number} */
           var h = Math.floor(firstBytePositionOfNextBlock % 60);
           /** @type {string} */
@@ -501,12 +496,9 @@
      * @return {undefined}
      */
     function init() {
-      expect(
-        ".costperUse,#otherMarket,.travelToMarket",
-        (inventoryService) => {
-          return inventoryService.remove();
-        }
-      );
+      expect(".costperUse,#otherMarket,.travelToMarket", (inventoryService) => {
+        return inventoryService.remove();
+      });
       var options = angular.element("#marketplace").scope();
       /** @type {!Array} */
       var args = [
@@ -519,9 +511,7 @@
           : options.settings.lastQuality,
       ];
       var i =
-        args[0] == params.country
-          ? params.countryLocationId
-          : params.country;
+        args[0] == params.country ? params.countryLocationId : params.country;
       /** @type {(Element|null)} */
       var fontAwesomeLink = document.getElementById("erepDE");
       /** @type {(Element|null)} */
@@ -694,9 +684,7 @@
         /** @type {number} */
         self.value = Math.min(
           parseInt(params.currencyAmount / self.dataset.price),
-          self.nextElementSibling.nextElementSibling.getAttribute(
-            "maximum"
-          ),
+          self.nextElementSibling.nextElementSibling.getAttribute("maximum"),
           Math.max(
             Math.floor((window.freeSpace || 99999999) / (e ? 100 : 1)) -
               (e ? 1 : 0),
@@ -721,14 +709,11 @@
       var install = hasLicense();
       /** @type {string} */
       var method = install ? install + "d left" : "Expired";
-      expect(
-        ".stuffBtn+.stuffBtn span,#AF_l",
-        (btn_follow, is_following) => {
-          return (btn_follow.textContent = is_following
-            ? "License: " + method
-            : method.split(" ")[0]);
-        }
-      );
+      expect(".stuffBtn+.stuffBtn span,#AF_l", (btn_follow, is_following) => {
+        return (btn_follow.textContent = is_following
+          ? "License: " + method
+          : method.split(" ")[0]);
+      });
     }
 
     /**
@@ -811,10 +796,7 @@
       updateExpCounter();
       if (window.mercenaryEl) {
         /** @type {number} */
-        mercenaryEl.textContent = Math.min(
-          +mercenaryEl.textContent + num,
-          25
-        );
+        mercenaryEl.textContent = Math.min(+mercenaryEl.textContent + num, 25);
       }
       if (window.freedomFighterEl) {
         /** @type {number} */
@@ -1092,9 +1074,7 @@
         /** @type {(Element|null)} */
         var s = document.querySelector(".friends_title a");
         /** @type {number} */
-        var NUM_BOXES = Math.ceil(
-          s?.textContent?.match(/\d+/)[0] / 20 || 0
-        );
+        var NUM_BOXES = Math.ceil(s?.textContent?.match(/\d+/)[0] / 20 || 0);
         expect(".view_friends", (inventoryService) => {
           return inventoryService.remove();
         });
@@ -1159,7 +1139,7 @@
     };
     /** @type {*} */
     var data = JSON.parse(localStorage.stuff || 0) || defaultOptions;
-    console.log(data)
+    console.log(data);
     var type = require("prefWeapGround");
     var target = require("prefWeapAir");
     var files = require("battlePrios");
@@ -1171,8 +1151,7 @@
     var Handlebars = require("assignEmployees");
     var errors = require("employeeCompanies");
     /** @type {*} */
-    var recentFiles =
-      JSON.parse(localStorage.wamCompaniesLeftToday || 0) || [];
+    var recentFiles = JSON.parse(localStorage.wamCompaniesLeftToday || 0) || [];
     /** @type {*} */
     var result = JSON.parse(localStorage.statsToday || "[0,0,0,0]");
     var destinationUnitName = Environment.isOnHomepage;
@@ -1312,19 +1291,16 @@
                         '</label><label>Allow travel if needed<input id="allowTravel" type="checkbox"></label><label>Battle type preference<select id="battleType"><option value="both">No preference</option><option value="ground">Ground ONLY</option><option value="air">Air ONLY</option></select></label><label>Preferred countries<input id="preferCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><label>Avoided countries<input id="avoidCountries" type="text" placeholder="comma-separated country IDs, e.g. 67,68,69"></label><a href="http://wcsimulator.droppages.com/countryids.html" id="countryIDs">Country IDs</a></div></div></div>'
                     );
                     checkCurrentVersion();
-                    expect(
-                      "#stuffOptions a:last-child,#stuffBlock",
-                      (e) => {
-                        return e.addEventListener("click", () => {
-                          return expect(
-                            "#stuffOptions>*,#stuffBlock",
-                            (builderID) => {
-                              return (builderID.style.display = "none");
-                            }
-                          );
-                        });
-                      }
-                    );
+                    expect("#stuffOptions a:last-child,#stuffBlock", (e) => {
+                      return e.addEventListener("click", () => {
+                        return expect(
+                          "#stuffOptions>*,#stuffBlock",
+                          (builderID) => {
+                            return (builderID.style.display = "none");
+                          }
+                        );
+                      });
+                    });
                     expect(".eRSreset", (e) => {
                       return e.addEventListener("click", function () {
                         localStorage.clear();
@@ -1359,9 +1335,9 @@
                       var a = el.nextSibling;
                       el.addEventListener("input", function () {
                         /** @type {string} */
-                        var hp = (
-                          el.value * reset_health_to_recover
-                        ).toFixed(0);
+                        var hp = (el.value * reset_health_to_recover).toFixed(
+                          0
+                        );
                         /** @type {string} */
                         a.textContent =
                           hp > reset_health_to_recover
@@ -1372,9 +1348,7 @@
                             : hp + "hp";
                         /** @type {string} */
                         a.style.color =
-                          el.value < 1.8 && el.value > 0.5
-                            ? "#83B70B"
-                            : "red";
+                          el.value < 1.8 && el.value > 0.5 ? "#83B70B" : "red";
                       });
                       el.dispatchEvent(new Event("input"));
                     });
@@ -1453,10 +1427,7 @@
             clonedTooltipElem.style.paddingBottom = "5px";
             clonedTooltipElem.style.marginBottom = "10px";
             clonedTooltipElem.style.backgroundColor = "rgb(208, 237, 242)";
-            return elem.insertAdjacentElement(
-              "afterEnd",
-              clonedTooltipElem
-            );
+            return elem.insertAdjacentElement("afterEnd", clonedTooltipElem);
           });
 
           if (
@@ -1472,8 +1443,7 @@
                   if (
                     !(
                       (td1b2 && "AUTOBOT ON" == td1b2.textContent) ||
-                      globalNS.userInfo.wellness >=
-                        reset_health_to_recover ||
+                      globalNS.userInfo.wellness >= reset_health_to_recover ||
                       !use() ||
                       !smallestFood.use ||
                       SERVER_DATA.deployment
@@ -1596,9 +1566,7 @@
                    */
                   function initialize() {
                     expect('a[href*="/main/warn/"]', (a) => {
-                      return (a.href = atob(
-                        a.href.split("/main/warn/")[1]
-                      ));
+                      return (a.href = atob(a.href.split("/main/warn/")[1]));
                     });
                   }
 
@@ -1685,15 +1653,13 @@
                               )
                       );
                       if (location.href.includes("economy/marketplace")) {
-                        elements.target
-                          .querySelectorAll("a")
-                          .forEach((e) => {
-                            return e.addEventListener("click", () => {
-                              return setTimeout(() => {
-                                return location.reload();
-                              }, 200);
-                            });
+                        elements.target.querySelectorAll("a").forEach((e) => {
+                          return e.addEventListener("click", () => {
+                            return setTimeout(() => {
+                              return location.reload();
+                            }, 200);
                           });
+                        });
                       }
                     }
                   }
@@ -1717,24 +1683,8 @@
                     ret =
                       ret +
                       fn(
-                        1 == r
-                          ? 1
-                          : 2 == r
-                          ? 2
-                          : 3 == r
-                          ? 23
-                          : 4 == r
-                          ? 3
-                          : 4,
-                        1 == r
-                          ? 1
-                          : 2 == r
-                          ? 7
-                          : 3 == r
-                          ? 1
-                          : 4 == r
-                          ? 5
-                          : 1
+                        1 == r ? 1 : 2 == r ? 2 : 3 == r ? 23 : 4 == r ? 3 : 4,
+                        1 == r ? 1 : 2 == r ? 7 : 3 == r ? 1 : 4 == r ? 5 : 1
                       );
                   }
                   expect("#newMenu", (types) => {
@@ -1840,8 +1790,7 @@
                   if (
                     !data.displayStorage &&
                     (!le ||
-                      (le &&
-                        location.href.includes("citizen/profile/" + name)))
+                      (le && location.href.includes("citizen/profile/" + name)))
                   ) {
                     (function (item) {
                       /**
@@ -1876,8 +1825,8 @@
                       var result = Object.assign(
                         item.inventoryItems.finalProducts.items,
                         item.inventoryItems.rawMaterials.items,
-                        (item.inventoryItems.activeEnhancements || {})
-                          .items || []
+                        (item.inventoryItems.activeEnhancements || {}).items ||
+                          []
                       );
                       /** @type {string} */
                       var s = '<div id="sideInventory">';
@@ -1899,8 +1848,7 @@
                           s =
                             s +
                             ("<div" +
-                              (options.active &&
-                              options.active.time_left < 36e3
+                              (options.active && options.active.time_left < 36e3
                                 ? ' data-time-left="' +
                                   options.active.time_left +
                                   '"'
@@ -1923,9 +1871,7 @@
                                 : "") +
                               (b ? u.join("<br>") : "") +
                               (enable_keys
-                                ? _resolve(
-                                    "Click to work overtime for 10hp"
-                                  )
+                                ? _resolve("Click to work overtime for 10hp")
                                 : "") +
                               '"><img src="' +
                               (options.icon
@@ -1955,8 +1901,7 @@
                                     ) +
                                     "d" +
                                     Math.trunc(
-                                      (options.active.time_left % 86400) /
-                                        3600
+                                      (options.active.time_left % 86400) / 3600
                                     ) +
                                     "h"
                                   : "<q>" +
@@ -1985,8 +1930,7 @@
                                   (1 == options.industryId &&
                                     options.quality < 8 &&
                                     err <
-                                      240 *
-                                        globalNS.userInfo.energyPerInterval)
+                                      240 * globalNS.userInfo.energyPerInterval)
                                 ? "<q>" + resolve(options.amount) + "</q>"
                                 : format(options.amount, 2)) +
                               "</span></div>");
@@ -2041,8 +1985,7 @@
                                     action_type: "workOvertime",
                                   },
                                   function (response) {
-                                    var n =
-                                      response.status && response.message;
+                                    var n = response.status && response.message;
                                     if (
                                       (humanMsg.displayMsg(
                                         n
@@ -2053,8 +1996,7 @@
                                       ),
                                       n)
                                     ) {
-                                      var enableLink =
-                                        e.querySelector("span");
+                                      var enableLink = e.querySelector("span");
                                       /** @type {number} */
                                       enableLink.textContent =
                                         +enableLink.textContent - 24;
@@ -2107,8 +2049,7 @@
                           );
                         });
                         expect("span.name", (e) => {
-                          return (e.textContent =
-                            e.textContent.split(",")[0]);
+                          return (e.textContent = e.textContent.split(",")[0]);
                         });
                       } else {
                         expect(".currency_amount", (table) => {
@@ -2274,10 +2215,7 @@
                 });
                 expect(".collectAll", (e) => {
                   return e.addEventListener("click", function () {
-                    angular
-                      .element("#weeklyChallenge")
-                      .scope()
-                      .getAllReward();
+                    angular.element("#weeklyChallenge").scope().getAllReward();
                     e.remove();
                   });
                 });
@@ -2287,9 +2225,7 @@
               addEventListener("click", function (e) {
                 if (
                   !(
-                    document
-                      .getElementById("citizenFeed")
-                      .contains(e.target) ||
+                    document.getElementById("citizenFeed").contains(e.target) ||
                     e.target.classList.contains("emoji") ||
                     e.target.classList.contains("std_global_btn")
                   )
@@ -2325,14 +2261,12 @@
                 }
                 if (!data.replaceWaitingwithCountdown) {
                   setInterval(function () {
-                    var startTime =
-                      battleListingScope.campaigns.requestTime;
+                    var startTime = battleListingScope.campaigns.requestTime;
                     expect(".timer:not(.countdownAdded)", function (col) {
                       col.classList.add("countdownAdded");
                       /** @type {number} */
                       var result =
-                        angular.element(col).scope().campaign.start -
-                        startTime;
+                        angular.element(col).scope().campaign.start - startTime;
                       if (result > 0) {
                         cb(col, result, (selfContext) => {
                           return (selfContext.textContent = "00h:00m");
@@ -2351,8 +2285,7 @@
                   (append(
                     "#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}"
                   ),
-                  (localStorage.hasMaverick =
-                    SERVER_DATA.canSwitchDivisions),
+                  (localStorage.hasMaverick = SERVER_DATA.canSwitchDivisions),
                   afterRequestCallbacks.push(function (data, url) {
                     if (
                       !(
@@ -2485,10 +2418,7 @@
                             savedStats = (
                               includes ? includes.split(";")[0] : "0|0"
                             ).split("|");
-                            savedStats[2] = info.textContent.replace(
-                              /,/g,
-                              ""
-                            );
+                            savedStats[2] = info.textContent.replace(/,/g, "");
                             elem.insertAdjacentHTML(
                               "beforeEnd",
                               '<div id="personal_stats"><q>' +
@@ -2522,9 +2452,8 @@
                               (SERVER_DATA.isCivilWar
                                 ? ""
                                 : '<div id="travelButtons"><span><img src="//www.erepublik.net/images/flags_png/L/' +
-                                  _this.info.countries[
-                                    SERVER_DATA.leftBattleId
-                                  ].permalink +
+                                  _this.info.countries[SERVER_DATA.leftBattleId]
+                                    .permalink +
                                   '.png">Join</span><span>Join <img src="//www.erepublik.net/images/flags_png/L/' +
                                   _this.info.countries[
                                     SERVER_DATA.rightBattleId
@@ -2665,10 +2594,9 @@
                                   location.href = data.url;
                                 } else {
                                   if (
-                                    [
-                                      "ENEMY_ATTACKED",
-                                      "LOW_HEALTH",
-                                    ].includes(data.message)
+                                    ["ENEMY_ATTACKED", "LOW_HEALTH"].includes(
+                                      data.message
+                                    )
                                   ) {
                                     /** @type {number} */
                                     window.globalNS.userInfo.wellness = 0;
@@ -2683,22 +2611,18 @@
                                         var n = data.details;
                                         var userData = data.user;
                                         battleFX.updateRank(data.rank);
-                                        window.totalPrestigePoints +=
-                                          data.hits;
-                                        expectation.forEach(
-                                          (selfContext) => {
-                                            return (selfContext.textContent =
-                                              totalPrestigePoints);
-                                          }
-                                        );
+                                        window.totalPrestigePoints += data.hits;
+                                        expectation.forEach((selfContext) => {
+                                          return (selfContext.textContent =
+                                            totalPrestigePoints);
+                                        });
                                         stream.forEach((url) => {
                                           return (url.textContent = resolve(
                                             n.currency
                                           ));
                                         });
                                         expected.forEach(function (e) {
-                                          var value =
-                                            n.current_energy_ratio;
+                                          var value = n.current_energy_ratio;
                                           /** @type {string} */
                                           e.style.width = value + "%";
                                           e.classList.remove(
@@ -2716,10 +2640,9 @@
                                         });
                                         if (userData.weaponQuantity >= 0) {
                                           con.forEach((url) => {
-                                            return (url.textContent =
-                                              resolve(
-                                                userData.weaponQuantity
-                                              ));
+                                            return (url.textContent = resolve(
+                                              userData.weaponQuantity
+                                            ));
                                           });
                                         }
                                         globalNS.updateSideBar(n);
@@ -2851,9 +2774,8 @@
                       });
                       var $checkBox2 = expect("#allin", (select) => {
                         return select.addEventListener("change", () => {
-                          return (reverbSlider.disabled =
-                            check[0].disabled =
-                              select.checked);
+                          return (reverbSlider.disabled = check[0].disabled =
+                            select.checked);
                         });
                       });
                       /** @type {(Element|null)} */
@@ -2883,12 +2805,8 @@
                       var focusNewTabNotification =
                         document.getElementById("stopNoEpic");
                       var expectation = expect("#prestige_value");
-                      var stream = expect(
-                        "#side_bar_currency_account_value"
-                      );
-                      var expected = expect(
-                        ".left_player .energy_progress"
-                      );
+                      var stream = expect("#side_bar_currency_account_value");
+                      var expected = expect(".left_player .energy_progress");
                       var con = expect(".weapon_no");
                       document
                         .querySelector("#AutoBot img")
@@ -2949,12 +2867,9 @@
                                   ];
                                 /** @type {number} */
                                 var delta_length_z =
-                                  +dom.getElementsByTagName("select")[0]
-                                    .value;
+                                  +dom.getElementsByTagName("select")[0].value;
                                 var soundEnabled =
-                                  document.getElementById(
-                                    "InfCalc_NE"
-                                  ).checked;
+                                  document.getElementById("InfCalc_NE").checked;
                                 /** @type {number} */
                                 var volume =
                                   bd.loggedIn.hovercardData.fighterInfo[
@@ -2972,9 +2887,8 @@
                                         100) *
                                   (1 +
                                     parseInt(
-                                      document.getElementById(
-                                        "InfCalc_booster"
-                                      ).value
+                                      document.getElementById("InfCalc_booster")
+                                        .value
                                     ) /
                                       100);
                                 /** @type {number} */
@@ -2996,8 +2910,7 @@
                                     (b.nextRankAt - b.points > 0
                                       ? format(
                                           Math.ceil(
-                                            (10 *
-                                              (b.nextRankAt - b.points)) /
+                                            (10 * (b.nextRankAt - b.points)) /
                                               volume /
                                               (document.getElementById(
                                                 "InfCalc_WarStash"
@@ -3034,20 +2947,15 @@
                             var bd = angular
                               .element("#str_progress")
                               .scope().data;
-                            expect(
-                              ".citizen_military_box_wide",
-                              (table) => {
-                                return table.insertAdjacentHTML(
-                                  "afterEnd",
-                                  '<div class="citizen_military_box infCalcResults"><select></select></div>'
-                                );
-                              }
-                            )[1].nextSibling.insertAdjacentHTML(
+                            expect(".citizen_military_box_wide", (table) => {
+                              return table.insertAdjacentHTML(
+                                "afterEnd",
+                                '<div class="citizen_military_box infCalcResults"><select></select></div>'
+                              );
+                            })[1].nextSibling.insertAdjacentHTML(
                               "afterEnd",
                               '<div id="infCalc" class="citizen_military"><label>Hits <input type="text" id="InfCalc_hits" value="1"></label><label>Natural Enemy <input type="checkbox" id="InfCalc_NE"></label><label title="+10% rank points">War Stash <input type="checkbox" id="InfCalc_WarStash" ' +
-                                (bd.activePacks.war_stash
-                                  ? "checked"
-                                  : "") +
+                                (bd.activePacks.war_stash ? "checked" : "") +
                                 '></label><label>Damage Booster<input type="text" id="InfCalc_booster" value="0%"></label><label>Legend Bonus<input type="text" id="InfCalc_legend" value="' +
                                 Math.max(
                                   (100 *
@@ -3109,18 +3017,15 @@
                                     }
                                     /** @type {string} */
                                     b.innerHTML = name;
-                                    b.addEventListener(
-                                      "change",
-                                      function () {
-                                        /** @type {number} */
-                                        data.infCalc.selWep[dim] = Math.min(
-                                          this.value,
-                                          7
-                                        );
-                                        saveStuffDataToStorage();
-                                        init();
-                                      }
-                                    );
+                                    b.addEventListener("change", function () {
+                                      /** @type {number} */
+                                      data.infCalc.selWep[dim] = Math.min(
+                                        this.value,
+                                        7
+                                      );
+                                      saveStuffDataToStorage();
+                                      init();
+                                    });
                                   });
                               }
                             );
@@ -3131,15 +3036,9 @@
                                 return p.addEventListener("keyup", init);
                               }
                             );
-                            expect(
-                              "#InfCalc_NE,#InfCalc_WarStash",
-                              (sound) => {
-                                return sound.addEventListener(
-                                  "change",
-                                  init
-                                );
-                              }
-                            );
+                            expect("#InfCalc_NE,#InfCalc_WarStash", (sound) => {
+                              return sound.addEventListener("change", init);
+                            });
                             if (data.infCalc.date != now) {
                               u(35, function () {
                                 /** @type {number} */
@@ -3155,9 +3054,7 @@
                                       (
                                         (redLookupTable[35][
                                           restart(
-                                            removeClass < 3
-                                              ? removeClass
-                                              : 23
+                                            removeClass < 3 ? removeClass : 23
                                           )
                                         ]["q" + i] || [])[1] || {}
                                       ).gross /
@@ -3202,9 +3099,7 @@
                         });
                       }
                     } else {
-                      if (
-                        location.href.includes("economy/exchange-market")
-                      ) {
+                      if (location.href.includes("economy/exchange-market")) {
                         console.log("EXCHANGE MARKET");
                         if (!data.autofillGold) {
                           (function () {
@@ -3286,12 +3181,9 @@
                               if (container.querySelector("span")) {
                                 /** @type {string} */
                                 container.style.display = "block";
-                                expect(
-                                  "#help_manage",
-                                  (inventoryService) => {
-                                    return inventoryService.remove();
-                                  }
-                                );
+                                expect("#help_manage", (inventoryService) => {
+                                  return inventoryService.remove();
+                                });
                               }
                               expect("#CompanyManager span", (e) => {
                                 return e.addEventListener(
@@ -3299,8 +3191,7 @@
                                   function (mutation) {
                                     window.pageDetails.recoverable_health.value =
                                       food_remaining;
-                                    var i =
-                                      expect(".owner_work.active").length;
+                                    var i = expect(".owner_work.active").length;
                                     expectation.forEach(function (
                                       pxPhysicalNode
                                     ) {
@@ -3319,9 +3210,7 @@
                                       ) {
                                         pxPhysicalNode
                                           .querySelectorAll(".owner_work")
-                                          .forEach(function (
-                                            divChatButton
-                                          ) {
+                                          .forEach(function (divChatButton) {
                                             if (
                                               !divChatButton.classList.contains(
                                                 "active"
@@ -3420,13 +3309,10 @@
                                       if (c) {
                                         /** @type {number} */
                                         var elem =
-                                          +child.parentElement.id.split(
-                                            "_"
-                                          )[1];
+                                          +child.parentElement.id.split("_")[1];
                                         if (name) {
                                           queue.push([elem, c]);
-                                          outerStepNumber =
-                                            outerStepNumber + c;
+                                          outerStepNumber = outerStepNumber + c;
                                         } else {
                                           arg.push(elem);
                                         }
@@ -3497,9 +3383,7 @@
                                             +callingModule.id.split("_")[1];
                                           if (port) {
                                             callback(
-                                              "/" +
-                                                side +
-                                                "/main/travelData",
+                                              "/" + side + "/main/travelData",
                                               {
                                                 _token: csrfToken,
                                                 holdingId: port,
@@ -3522,8 +3406,7 @@
                                         function () {
                                           /** @type {boolean} */
                                           var c =
-                                            "Select all" ==
-                                            this.textContent;
+                                            "Select all" == this.textContent;
                                           /** @type {string} */
                                           this.textContent = c
                                             ? "Deselect all"
@@ -3600,9 +3483,7 @@
                                       value.forEach(function (ctx) {
                                         /** @type {number} */
                                         var value =
-                                          +ctx.parentElement.id.split(
-                                            "_"
-                                          )[1];
+                                          +ctx.parentElement.id.split("_")[1];
                                         if (isMobile) {
                                           for (let item of list) {
                                             if (item[0] == value) {
@@ -3611,8 +3492,7 @@
                                           }
                                         } else {
                                           /** @type {boolean} */
-                                          ctx.checked =
-                                            list.includes(value);
+                                          ctx.checked = list.includes(value);
                                         }
                                       });
                                       fixRepoAlerts(isMobile);
@@ -3648,8 +3528,7 @@
                                         : 0))) /
                                     100);
                                 /** @type {number} */
-                                var baseNumber =
-                                  price * $scope.inputs.quantity;
+                                var baseNumber = price * $scope.inputs.quantity;
                                 expect("#TaxPerUnit", (dashboardPanel) => {
                                   return (dashboardPanel.innerHTML = (
                                     $scope.inputs.pricePerUnit - price
@@ -3696,38 +3575,31 @@
                                   sound.value =
                                     (itemAmounts[
                                       $scope.inputs.selectedIndustry
-                                    ] || {})[
-                                      $scope.inputs.selectedQuality
-                                    ] || 0;
+                                    ] || {})[$scope.inputs.selectedQuality] ||
+                                    0;
                                   sound.dispatchEvent(new Event("input"));
                                 });
-                                expect(
-                                  "#marketOffers tr",
-                                  function (service) {
-                                    if (
-                                      $scope.inputs.selectedIndustry ==
-                                        service.dataset.industry_id &&
-                                      $scope.inputs.selectedQuality ==
-                                        service.dataset.quality
-                                    ) {
-                                      $scope.inputs.selectedCountry =
-                                        service.dataset.country_id;
-                                      $scope.$apply();
-                                      expect(
-                                        ".offers_price input",
-                                        function (elem) {
-                                          elem.value =
-                                            service.querySelector(
-                                              ".offer_price strong"
-                                            ).textContent;
-                                          elem.dispatchEvent(
-                                            new Event("input")
-                                          );
-                                        }
-                                      );
-                                    }
+                                expect("#marketOffers tr", function (service) {
+                                  if (
+                                    $scope.inputs.selectedIndustry ==
+                                      service.dataset.industry_id &&
+                                    $scope.inputs.selectedQuality ==
+                                      service.dataset.quality
+                                  ) {
+                                    $scope.inputs.selectedCountry =
+                                      service.dataset.country_id;
+                                    $scope.$apply();
+                                    expect(
+                                      ".offers_price input",
+                                      function (elem) {
+                                        elem.value = service.querySelector(
+                                          ".offer_price strong"
+                                        ).textContent;
+                                        elem.dispatchEvent(new Event("input"));
+                                      }
+                                    );
                                   }
-                                );
+                                });
                               }
 
                               /**
@@ -3753,9 +3625,7 @@
                               data.goldPrice = data.goldPrice || {};
                               if (data.goldPrice.date != now) {
                                 callback(
-                                  "/" +
-                                    side +
-                                    "/economy/exchange/retrieve/",
+                                  "/" + side + "/economy/exchange/retrieve/",
                                   {
                                     _token: csrfToken,
                                     page: 1,
@@ -3779,10 +3649,7 @@
                               var stream = expect(
                                 ".offers_quantity input",
                                 (inputElem) => {
-                                  return inputElem.setAttribute(
-                                    "maxlength",
-                                    9
-                                  );
+                                  return inputElem.setAttribute("maxlength", 9);
                                 }
                               );
                               /** @type {!Array} */
@@ -3793,9 +3660,7 @@
                                   "click",
                                   function (event) {
                                     if (
-                                      event.target.matches(
-                                        ".sell_selector *"
-                                      )
+                                      event.target.matches(".sell_selector *")
                                     ) {
                                       start();
                                     }
@@ -3816,10 +3681,7 @@
                                   );
                                 }
                               );
-                              afterRequestCallbacks.push(function (
-                                value,
-                                url
-                              ) {
+                              afterRequestCallbacks.push(function (value, url) {
                                 if (url.includes("inventory-items")) {
                                   var row = angular
                                     .element("#inventoryItems")
@@ -3869,15 +3731,10 @@
                                     ),
                                     expect(
                                       ".relative",
-                                      function (
-                                        elem,
-                                        canCreateDiscussions
-                                      ) {
+                                      function (elem, canCreateDiscussions) {
                                         if (!canCreateDiscussions) {
                                           elem
-                                            .querySelectorAll(
-                                              "span.ng-binding"
-                                            )
+                                            .querySelectorAll("span.ng-binding")
                                             .forEach((builderID) => {
                                               return (builderID.style.display =
                                                 "none");
@@ -3898,15 +3755,12 @@
                                         }
                                       }
                                     ),
-                                    expect(
-                                      "#sell_offers table",
-                                      (types) => {
-                                        return types.insertAdjacentHTML(
-                                          "beforeEnd",
-                                          '<tfoot><tr><td colspan="3"><td id="Total_netF"></td><td colspan="2"></td></tr></tfoot>'
-                                        );
-                                      }
-                                    ),
+                                    expect("#sell_offers table", (types) => {
+                                      return types.insertAdjacentHTML(
+                                        "beforeEnd",
+                                        '<tfoot><tr><td colspan="3"><td id="Total_netF"></td><td colspan="2"></td></tr></tfoot>'
+                                      );
+                                    }),
                                     expect(".offers_price", (table) => {
                                       return table.insertAdjacentHTML(
                                         "afterEnd",
@@ -3914,9 +3768,7 @@
                                       );
                                     }),
                                     render()),
-                                  /marketplaceActions|myMarketOffers/.test(
-                                    url
-                                  ))
+                                  /marketplaceActions|myMarketOffers/.test(url))
                                 ) {
                                   expect(
                                     ".Total_net,.offer_price span",
@@ -3928,63 +3780,60 @@
                                   var total = 0;
                                   /** @type {number} */
                                   path[1] = 0;
-                                  expect(
-                                    "#marketOffers tr",
-                                    function (result) {
-                                      var t =
-                                        $scope.settings.countries[
-                                          result.dataset.country_id
-                                        ].taxes[result.dataset.industry_id];
-                                      /** @type {number} */
-                                      var value =
-                                        result.querySelector(
-                                          ".offer_price strong"
-                                        ).textContent /
-                                        ((100 +
-                                          (t.valueAddedTax +
-                                            (result.dataset.country_id !=
-                                            params.country
-                                              ? t.importTax
-                                              : 0))) /
-                                          100);
-                                      /** @type {number} */
-                                      var w = value * result.dataset.amount;
-                                      total = total + w;
-                                      result
-                                        .querySelectorAll(".offer_price")
-                                        .forEach(function (where) {
-                                          where.insertAdjacentHTML(
-                                            "beforeEnd",
-                                            "<span><br>Net: " +
-                                              value.toFixed(4) +
-                                              " " +
-                                              params.currency +
-                                              "</span>"
-                                          );
-                                          where.insertAdjacentHTML(
-                                            "afterEnd",
-                                            '<td class="Total_net"><strong>' +
-                                              resolve(w.toFixed(2)) +
-                                              "</strong> " +
-                                              params.currency +
-                                              "<br><span>" +
-                                              resolve(
-                                                (
-                                                  w / data.goldPrice.price
-                                                ).toFixed(2)
-                                              ) +
-                                              " g</span></td>"
-                                          );
-                                        });
-                                      if (1 == result.dataset.industry_id) {
-                                        path[1] +=
-                                          result.dataset.amount *
-                                          (result.dataset.quality < 7
-                                            ? 2 * result.dataset.quality
-                                            : 20);
-                                      }
+                                  expect("#marketOffers tr", function (result) {
+                                    var t =
+                                      $scope.settings.countries[
+                                        result.dataset.country_id
+                                      ].taxes[result.dataset.industry_id];
+                                    /** @type {number} */
+                                    var value =
+                                      result.querySelector(
+                                        ".offer_price strong"
+                                      ).textContent /
+                                      ((100 +
+                                        (t.valueAddedTax +
+                                          (result.dataset.country_id !=
+                                          params.country
+                                            ? t.importTax
+                                            : 0))) /
+                                        100);
+                                    /** @type {number} */
+                                    var w = value * result.dataset.amount;
+                                    total = total + w;
+                                    result
+                                      .querySelectorAll(".offer_price")
+                                      .forEach(function (where) {
+                                        where.insertAdjacentHTML(
+                                          "beforeEnd",
+                                          "<span><br>Net: " +
+                                            value.toFixed(4) +
+                                            " " +
+                                            params.currency +
+                                            "</span>"
+                                        );
+                                        where.insertAdjacentHTML(
+                                          "afterEnd",
+                                          '<td class="Total_net"><strong>' +
+                                            resolve(w.toFixed(2)) +
+                                            "</strong> " +
+                                            params.currency +
+                                            "<br><span>" +
+                                            resolve(
+                                              (
+                                                w / data.goldPrice.price
+                                              ).toFixed(2)
+                                            ) +
+                                            " g</span></td>"
+                                        );
+                                      });
+                                    if (1 == result.dataset.industry_id) {
+                                      path[1] +=
+                                        result.dataset.amount *
+                                        (result.dataset.quality < 7
+                                          ? 2 * result.dataset.quality
+                                          : 20);
                                     }
-                                  );
+                                  });
                                   r();
                                   /** @type {string} */
                                   document.getElementById(
@@ -3996,9 +3845,7 @@
                                     params.currency +
                                     "<br><span>" +
                                     resolve(
-                                      (
-                                        total / data.goldPrice.price
-                                      ).toFixed(2)
+                                      (total / data.goldPrice.price).toFixed(2)
                                     ) +
                                     " g</span>";
                                 }
@@ -4015,10 +3862,7 @@
                                 canCreateDiscussions,
                                 url
                               ) {
-                                if (
-                                  url.includes("articleComments") &&
-                                  !be
-                                ) {
+                                if (url.includes("articleComments") && !be) {
                                   if (
                                     document.getElementById(
                                       location.hash.split("#")[1]
@@ -4068,32 +3912,27 @@
                                   });
                                   /** @type {!Array} */
                                   var MINSPANS = [0];
-                                  expect(
-                                    ".salary_sorted tr",
-                                    function (elem) {
-                                      var self = angular
-                                        .element(elem)
-                                        .scope().job;
-                                      elem
-                                        .getElementsByClassName(
-                                          "jm_salary"
-                                        )[0]
-                                        .insertAdjacentHTML(
-                                          "beforeEnd",
-                                          '<span class="stprice netSalary"><br>' +
-                                            (self.salaryLimit > 0
-                                              ? "Max  " +
-                                                resolve(self.salaryLimit) +
-                                                "cc/day"
-                                              : "No overtime limit") +
-                                            "</span>"
-                                        );
-                                      if (self.netSalary > MINSPANS[0]) {
-                                        /** @type {!Array} */
-                                        MINSPANS = [self.netSalary, elem];
-                                      }
+                                  expect(".salary_sorted tr", function (elem) {
+                                    var self = angular
+                                      .element(elem)
+                                      .scope().job;
+                                    elem
+                                      .getElementsByClassName("jm_salary")[0]
+                                      .insertAdjacentHTML(
+                                        "beforeEnd",
+                                        '<span class="stprice netSalary"><br>' +
+                                          (self.salaryLimit > 0
+                                            ? "Max  " +
+                                              resolve(self.salaryLimit) +
+                                              "cc/day"
+                                            : "No overtime limit") +
+                                          "</span>"
+                                      );
+                                    if (self.netSalary > MINSPANS[0]) {
+                                      /** @type {!Array} */
+                                      MINSPANS = [self.netSalary, elem];
                                     }
-                                  );
+                                  });
                                   if (MINSPANS[1]) {
                                     MINSPANS[1]
                                       .querySelector(".jm_net_salary")
@@ -4110,9 +3949,7 @@
                                   }
                                 });
                               } else {
-                                if (
-                                  location.href.includes("tokens-market")
-                                ) {
+                                if (location.href.includes("tokens-market")) {
                                   insertContent(
                                     "#marketplace",
                                     "game-token/statistics/price"
@@ -4171,8 +4008,7 @@
                   prev[version ? "residenceCountry" : "citizenshipCountry"];
                 /** @type {string} */
                 var micropost =
-                  p.name +
-                  (version ? ", " + prev.residenceRegion.name : "");
+                  p.name + (version ? ", " + prev.residenceRegion.name : "");
                 return (
                   '<br><img src="//www.erepublik.net/images/flags_png/S/' +
                   p.permalink +
@@ -4256,15 +4092,11 @@
                * @return {?}
                */
               function process(item, name, val) {
-                var state = val
-                  ? item.partyData
-                  : item.military.militaryUnit;
+                var state = val ? item.partyData : item.military.militaryUnit;
                 return (
                   "<div>" +
                   (state
-                    ? '<img src="' +
-                      state.avatar +
-                      '" style="background:#fff">'
+                    ? '<img src="' + state.avatar + '" style="background:#fff">'
                     : "") +
                   "<div><isZordacz>" +
                   (val
@@ -4305,14 +4137,8 @@
                * @param {?} callback
                * @return {undefined}
                */
-              function updateTooltip(
-                citizenData,
-                done,
-                eventData,
-                callback
-              ) {
-                const { citizenProfile: self, citizenHovercard } =
-                  citizenData;
+              function updateTooltip(citizenData, done, eventData, callback) {
+                const { citizenProfile: self, citizenHovercard } = citizenData;
 
                 console.log({
                   self,
@@ -4344,8 +4170,7 @@
                 /** @type {string} */
                 var m =
                   opts.level > 69 &&
-                  opts.nextLevelXp -
-                    self.citizenAttributes.experience_points <
+                  opts.nextLevelXp - self.citizenAttributes.experience_points <
                     500
                     ? "#FB7E3D"
                     : "#83B70B";
@@ -4364,9 +4189,7 @@
                   '%,rgb(80,80,80) 100%)">' +
                   opts.level +
                   "</isZordacz><isZordacz" +
-                  (self.isDictator
-                    ? ' style="background:rgb(204,60,0)"'
-                    : "") +
+                  (self.isDictator ? ' style="background:rgb(204,60,0)"' : "") +
                   ">" +
                   (micropost.length < 22
                     ? micropost
@@ -4440,12 +4263,7 @@
                                       citizenProfile,
                                       citizenHovercard,
                                     };
-                                    updateTooltip(
-                                      _this[key],
-                                      key,
-                                      item,
-                                      prop
-                                    );
+                                    updateTooltip(_this[key], key, item, prop);
                                   });
                                 }
                               );
@@ -4522,9 +4340,7 @@
           }
           expect('#menu5 li a[href*="elections"]', function (sourceDest) {
             /** @type {number} */
-            var t = +document
-              .querySelector(".date")
-              .textContent.split(" ")[1];
+            var t = +document.querySelector(".date").textContent.split(" ")[1];
             /** @type {string} */
             sourceDest.href =
               "/" +
@@ -4544,7 +4360,7 @@
 })();
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function isFriend(citizenHovercard) {
@@ -4574,24 +4390,24 @@ ${divisionNumber}
 
 function hookUpPowerSpin() {
   const STORAGE_KEYS = {
-    MAX_MONEY: 'as-max-money-per-spin',
-    STOP_AT_GOLD_JACKPOT: 'as-stop-at-gold',
-    SPIN_ANIMATION_IN_SECONDS: 'as-spin-animation-in-seconds'
-  }
+    MAX_MONEY: "as-max-money-per-spin",
+    STOP_AT_GOLD_JACKPOT: "as-stop-at-gold",
+    SPIN_ANIMATION_IN_SECONDS: "as-spin-animation-in-seconds",
+  };
 
   const powerSpinButtonElement = document.getElementById("launch_wof");
   if (!powerSpinButtonElement) {
     return;
   }
 
-  let stoppingTheWheel = false
-  let currentJackpotCount = 0
+  let stoppingTheWheel = false;
+  let currentJackpotCount = 0;
 
   powerSpinButtonElement.addEventListener("click", function () {
     try {
       createForm();
       hookUpEvents();
-      createPrizeLog()
+      createPrizeLog();
       overrideShowMultiprize();
       overrideTimelineMax();
       overrideSpinFunction();
@@ -4602,51 +4418,63 @@ function hookUpPowerSpin() {
   });
 
   function overrideShowMultiprize() {
-    erepublik.wheel_of_fortune.showMultiPrize = function () {}
+    erepublik.wheel_of_fortune.showMultiPrize = function () {};
   }
 
   function overrideTimelineMax() {
     let originalFunction = TimelineMax.prototype.to;
-    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+    const spinAnimationInSecondsElement = document.getElementById(
+      "as-spin-animation-in-seconds"
+    );
 
     TimelineMax.prototype.to = function (context, delay, config) {
       if (config.ease === Expo.easeOut) {
-        delay = (spinAnimationInSecondsElement.value || 1)
+        delay = spinAnimationInSecondsElement.value || 1;
       }
       return originalFunction.apply(this, [context, delay, config]);
     };
   }
 
   function overrideMultiSpinFunction() {
-    const old = erepublik.wheel_of_fortune.multispin
-    erepublik.wheel_of_fortune.multispin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
+    const old = erepublik.wheel_of_fortune.multispin;
+    erepublik.wheel_of_fortune.multispin = function (
+      numPrizes,
+      always3,
+      spinHttpResponse,
+      multiSpin
+    ) {
       if (!spinHttpResponse.alreadyHandled) {
-        spinHttpResponse.alreadyHandled = true
+        spinHttpResponse.alreadyHandled = true;
         spinHttpResponse.prizes.forEach((reward, index) => {
-          const {tooltip, icon} = findRewardById(reward.index)
-          const cost = spinHttpResponse.cost + 100*index
-          logPrize(cost, tooltip, icon)
-        })
+          const { tooltip, icon } = findRewardById(reward.index);
+          const cost = spinHttpResponse.cost + 100 * index;
+          logPrize(cost, tooltip, icon);
+        });
       }
 
-      old.apply(erepublik.wheel_of_fortune, arguments)
-    }
+      old.apply(erepublik.wheel_of_fortune, arguments);
+    };
 
     function findRewardById(id) {
-      return window.global_wof_build_data.prizes.prizes[id]
+      return window.global_wof_build_data.prizes.prizes[id];
     }
   }
 
   function overrideSpinFunction() {
-    const old = erepublik.wheel_of_fortune.spin
-    erepublik.wheel_of_fortune.spin = function (numPrizes, always3, spinHttpResponse, multiSpin) {
-      const name = spinHttpResponse.prize.tooltip
-      const price = spinHttpResponse.cost
-      const iconUrl = spinHttpResponse.prize.icon
+    const old = erepublik.wheel_of_fortune.spin;
+    erepublik.wheel_of_fortune.spin = function (
+      numPrizes,
+      always3,
+      spinHttpResponse,
+      multiSpin
+    ) {
+      const name = spinHttpResponse.prize.tooltip;
+      const price = spinHttpResponse.cost;
+      const iconUrl = spinHttpResponse.prize.icon;
       currentJackpotCount = spinHttpResponse.jackpot;
-      logPrize(price, name, iconUrl)
-      old.apply(erepublik.wheel_of_fortune, arguments)
-    }
+      logPrize(price, name, iconUrl);
+      old.apply(erepublik.wheel_of_fortune, arguments);
+    };
   }
 
   function createForm() {
@@ -4741,33 +4569,42 @@ function hookUpPowerSpin() {
 
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
-        document.getElementById("as-stop-at-gold");
-    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+      document.getElementById("as-stop-at-gold");
+    const spinAnimationInSecondsElement = document.getElementById(
+      "as-spin-animation-in-seconds"
+    );
 
-    const storedMaxMoney = localStorage.getItem(STORAGE_KEYS.MAX_MONEY)
+    const storedMaxMoney = localStorage.getItem(STORAGE_KEYS.MAX_MONEY);
     if (storedMaxMoney) {
-      maxMoneyInputElement.value = storedMaxMoney
+      maxMoneyInputElement.value = storedMaxMoney;
     }
 
-    const storedStopAtGold = localStorage.getItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT)
+    const storedStopAtGold = localStorage.getItem(
+      STORAGE_KEYS.STOP_AT_GOLD_JACKPOT
+    );
     if (!storedStopAtGold) {
-      stopAtGoldCheckboxElement.checked = true
+      stopAtGoldCheckboxElement.checked = true;
     } else {
-      stopAtGoldCheckboxElement.checked = storedStopAtGold === 'true'
+      stopAtGoldCheckboxElement.checked = storedStopAtGold === "true";
     }
-    const spinAnimationInSeconds = localStorage.getItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS)
-    spinAnimationInSecondsElement.value = spinAnimationInSeconds || 1
+    const spinAnimationInSeconds = localStorage.getItem(
+      STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS
+    );
+    spinAnimationInSecondsElement.value = spinAnimationInSeconds || 1;
   }
 
   function hookUpEvents() {
     const maxMoneyInputElement = document.getElementById("as-max-money");
     const stopAtGoldCheckboxElement =
       document.getElementById("as-stop-at-gold");
-    const spinAnimationInSecondsElement = document.getElementById('as-spin-animation-in-seconds')
+    const spinAnimationInSecondsElement = document.getElementById(
+      "as-spin-animation-in-seconds"
+    );
 
     const spinButtonElement = document.getElementById("as-spin");
     const cancelButtonElement = document.getElementById("as-cancel");
-    const triggerWof1xButtonElement = document.querySelector(".wof_btn.left_btn");
+    const triggerWof1xButtonElement =
+      document.querySelector(".wof_btn.left_btn");
 
     if (
       !(
@@ -4783,23 +4620,29 @@ function hookUpPowerSpin() {
         stopAtGoldCheckboxElement,
         spinButtonElement,
         cancelButtonElement,
-        triggerWof1xButtonElement
+        triggerWof1xButtonElement,
       });
       throw Error("One element is not here");
     }
 
-    maxMoneyInputElement.addEventListener('change', event => {
-      localStorage.setItem(STORAGE_KEYS.MAX_MONEY, event.target.value)
-    })
+    maxMoneyInputElement.addEventListener("change", (event) => {
+      localStorage.setItem(STORAGE_KEYS.MAX_MONEY, event.target.value);
+    });
 
-    stopAtGoldCheckboxElement.addEventListener('change', event => {
-      localStorage.setItem(STORAGE_KEYS.STOP_AT_GOLD_JACKPOT, event.target.checked)
-    })
+    stopAtGoldCheckboxElement.addEventListener("change", (event) => {
+      localStorage.setItem(
+        STORAGE_KEYS.STOP_AT_GOLD_JACKPOT,
+        event.target.checked
+      );
+    });
 
-    spinAnimationInSecondsElement.addEventListener('change', event => {
-      console.log('change', event.target.value);
-      localStorage.setItem(STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS, event.target.value)
-    })
+    spinAnimationInSecondsElement.addEventListener("change", (event) => {
+      console.log("change", event.target.value);
+      localStorage.setItem(
+        STORAGE_KEYS.SPIN_ANIMATION_IN_SECONDS,
+        event.target.value
+      );
+    });
 
     spinButtonElement.addEventListener("click", () => {
       const maxMoneyPerSpin = Math.floor(Number(maxMoneyInputElement.value));
@@ -4814,67 +4657,85 @@ function hookUpPowerSpin() {
         `maxMoneyPerSpin = ${maxMoneyPerSpin}, shouldStopAtGoldJackpot = ${shouldStopAtGoldJackpot}`
       );
 
-      spinTheWheel(maxMoneyPerSpin, shouldStopAtGoldJackpot, Number(spinAnimationInSecondsElement.value));
+      spinTheWheel(
+        maxMoneyPerSpin,
+        shouldStopAtGoldJackpot,
+        Number(spinAnimationInSecondsElement.value)
+      );
     });
 
     cancelButtonElement.addEventListener("click", () => {
-      console.log('Flagging to stop the wheel');
-      stoppingTheWheel = true
+      console.log("Flagging to stop the wheel");
+      stoppingTheWheel = true;
     });
 
-    function spinTheWheel(maxCost, shouldStopAtGoldJackpot, baseDelayInSeconds) {
-      console.log('Starting the wheel');
+    function spinTheWheel(
+      maxCost,
+      shouldStopAtGoldJackpot,
+      baseDelayInSeconds
+    ) {
+      console.log("Starting the wheel");
 
-      spinButtonElement.classList.add('as-hidden')
-      cancelButtonElement.classList.remove('as-hidden')
+      spinButtonElement.classList.add("as-hidden");
+      cancelButtonElement.classList.remove("as-hidden");
 
       const currentCost = window.global_wof_build_data.cost;
       if (maxCost <= currentCost) {
-        console.log("Not spinning, because we've already reached the limit.")
+        console.log("Not spinning, because we've already reached the limit.");
         stopTheWheel();
         return;
       }
 
       if (baseDelayInSeconds <= 0) {
-        console.log('Stopping the wheel, because spin animation must be more than 0s, but is: ', baseDelayInSeconds)
+        console.log(
+          "Stopping the wheel, because spin animation must be more than 0s, but is: ",
+          baseDelayInSeconds
+        );
         stopTheWheel();
         return;
       }
 
-      let previousJackpotCount = currentJackpotCount
+      let previousJackpotCount = currentJackpotCount;
 
       function timeHandler() {
         const currentCost = window.global_wof_build_data.cost;
         let spinsRequiredCount = (maxCost - currentCost) / 100;
-        console.log({spinsRequired: spinsRequiredCount})
+        console.log({ spinsRequired: spinsRequiredCount });
 
         if (stoppingTheWheel) {
           stopTheWheel();
           return;
         }
 
-        if (shouldStopAtGoldJackpot && currentJackpotCount === 3 && previousJackpotCount < 3) {
+        if (
+          shouldStopAtGoldJackpot &&
+          currentJackpotCount === 3 &&
+          previousJackpotCount < 3
+        ) {
           stopTheWheel();
           return;
         }
         previousJackpotCount = currentJackpotCount;
 
-        const safetyMarginInSeconds = 0.2
+        const safetyMarginInSeconds = 0.2;
         if (spinsRequiredCount) {
-          triggerWof1xButtonElement.click()
-          setTimeout(timeHandler, baseDelayInSeconds * 1000 + safetyMarginInSeconds * 1000)
+          triggerWof1xButtonElement.click();
+          setTimeout(
+            timeHandler,
+            baseDelayInSeconds * 1000 + safetyMarginInSeconds * 1000
+          );
         } else {
-          stopTheWheel()
+          stopTheWheel();
         }
       }
-      timeHandler()
+      timeHandler();
     }
 
     function stopTheWheel() {
-      cancelButtonElement.classList.add('as-hidden')
-      spinButtonElement.classList.remove('as-hidden')
-      console.log('Stopping the wheel');
-      stoppingTheWheel = false
+      cancelButtonElement.classList.add("as-hidden");
+      spinButtonElement.classList.remove("as-hidden");
+      console.log("Stopping the wheel");
+      stoppingTheWheel = false;
     }
   }
 
@@ -4942,104 +4803,114 @@ function hookUpPowerSpin() {
     console.log(`Logging prize: price = ${price}, name = ${name}`);
     const powerLogContainer = document.getElementById("as-power-log-container");
     if (!powerLogContainer) {
-      throw Error('Power log container not available')
+      throw Error("Power log container not available");
     }
 
-    const rewardElement = document.createElement('div')
-    rewardElement.classList.add("as-power-log-item")
+    const rewardElement = document.createElement("div");
+    rewardElement.classList.add("as-power-log-item");
 
-    const priceElement = document.createElement('span')
-    priceElement.textContent = `${price}: `
-    rewardElement.appendChild(priceElement)
+    const priceElement = document.createElement("span");
+    priceElement.textContent = `${price}: `;
+    rewardElement.appendChild(priceElement);
 
-    const iconElement = document.createElement('img')
-    iconElement.classList.add("as-power-log-icon")
-    iconElement.src = iconUrl
-    rewardElement.appendChild(iconElement)
+    const iconElement = document.createElement("img");
+    iconElement.classList.add("as-power-log-icon");
+    iconElement.src = iconUrl;
+    rewardElement.appendChild(iconElement);
 
-    const nameElement = document.createElement('span')
-    nameElement.textContent = name
-    rewardElement.appendChild(nameElement)
+    const nameElement = document.createElement("span");
+    nameElement.textContent = name;
+    rewardElement.appendChild(nameElement);
 
-    const shouldScrollBottom = powerLogContainer.scrollTop >= scrollTopMax()
+    const shouldScrollBottom = powerLogContainer.scrollTop >= scrollTopMax();
 
-    powerLogContainer.appendChild(rewardElement)
+    powerLogContainer.appendChild(rewardElement);
 
     if (shouldScrollBottom) {
-      powerLogContainer.scrollTop = powerLogContainer.scrollHeight
+      powerLogContainer.scrollTop = powerLogContainer.scrollHeight;
     }
 
     function scrollTopMax() {
       const tolerance = 1; // you can adjust this value to account for small inaccuracies
-      return powerLogContainer.scrollHeight - powerLogContainer.clientHeight - tolerance
+      return (
+        powerLogContainer.scrollHeight -
+        powerLogContainer.clientHeight -
+        tolerance
+      );
     }
   }
 }
 
 function hookUpDailyChallengeAutoCollect() {
-  const dcButtonElement = document.getElementById('dailyMissionsPopupTrigger');
+  const dcButtonElement = document.getElementById("dailyMissionsPopupTrigger");
   if (!dcButtonElement) {
     return;
   }
-  dcButtonElement.addEventListener('click', function() {
+  dcButtonElement.addEventListener("click", function () {
     setTimeout(() => {
       try {
-        createButton()
+        createButton();
       } catch (e) {
         console.warn(e);
       }
-    }, 300)
-  })
+    }, 300);
+  });
 
   function createButton() {
-    const BUTTON_ID = 'claimAllButton'
-    const titleRootElement = document.querySelector('#dailyMissionsPopup > h2')
+    const BUTTON_ID = "claimAllButton";
+    const titleRootElement = document.querySelector("#dailyMissionsPopup > h2");
     if (!titleRootElement) {
-      throw Error('No title root element')
+      throw Error("No title root element");
     }
     if (document.getElementById(BUTTON_ID)) {
-      console.log('Button is already created');
+      console.log("Button is already created");
       return;
     }
 
-    const claimAllButtonElement = document.createElement('a')
-    claimAllButtonElement.id = BUTTON_ID
-    claimAllButtonElement.classList.add('std_global_btn', 'greenColor', 'smallSize')
-    claimAllButtonElement.style.float = 'right'
-    claimAllButtonElement.style.marginRight = '16px'
-    claimAllButtonElement.textContent = 'Claim All'
-    claimAllButtonElement.addEventListener('click', clickHandler)
-    titleRootElement.appendChild(claimAllButtonElement)
+    const claimAllButtonElement = document.createElement("a");
+    claimAllButtonElement.id = BUTTON_ID;
+    claimAllButtonElement.classList.add(
+      "std_global_btn",
+      "greenColor",
+      "smallSize"
+    );
+    claimAllButtonElement.style.float = "right";
+    claimAllButtonElement.style.marginRight = "16px";
+    claimAllButtonElement.textContent = "Claim All";
+    claimAllButtonElement.addEventListener("click", clickHandler);
+    titleRootElement.appendChild(claimAllButtonElement);
 
     function clickHandler() {
-      const claimButtonElements = document.querySelectorAll('.missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton')
+      const claimButtonElements = document.querySelectorAll(
+        ".missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton"
+      );
       if (!claimButtonElements.length) {
-        console.log('No more challenges to claim.')
+        console.log("No more challenges to claim.");
         return;
       }
       console.log(`Challenges to claim: ${claimButtonElements.length}`);
       for (let claimButtonElement of claimButtonElements) {
-        claimButtonElement.click()
+        claimButtonElement.click();
       }
       setTimeout(() => {
-        clickHandler()
-      }, 2000)
+        clickHandler();
+      }, 2000);
     }
   }
 }
 
 async function hookUpDonatorBadges() {
   const CLASS_NAMES = {
-    APPLIED: 'su-avatar-applied',
-    DONATOR_BORDER: 'su-donator-border',
-    DONATOR_BORDER_NO_Z_INDEX: 'su-no-z-index',
-    PROFILE_PAGE_AVATAR_CONTAINER: 'su-avatar-container',
-    BATTLE_FIELD_NAME_ANIMATION: 'su-battlefield-name-animation',
-    BATTLE_FIELD_NAME: 'su-battlefield-name'
-  }
+    APPLIED: "su-avatar-applied",
+    DONATOR_BORDER: "su-donator-border",
+    DONATOR_BORDER_NO_Z_INDEX: "su-no-z-index",
+    PROFILE_PAGE_AVATAR_CONTAINER: "su-avatar-container",
+    BATTLE_FIELD_NAME_ANIMATION: "su-battlefield-name-animation",
+    BATTLE_FIELD_NAME: "su-battlefield-name",
+  };
 
   function createGlobalStylesheet() {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     // language=CSS
     style.textContent = `
         img.${CLASS_NAMES.DONATOR_BORDER} {
@@ -5103,104 +4974,130 @@ async function hookUpDonatorBadges() {
             }
         }
     `;
-    document.head.appendChild(style)
+    document.head.appendChild(style);
   }
 
-  initialize()
-  applyAllBadges()
+  initialize();
+  applyAllBadges();
 
   async function initialize() {
-    createGlobalStylesheet()
-    await delay(300)
-    const olderPostsButton = document.querySelector('button.previousposts')
+    createGlobalStylesheet();
+    await delay(300);
+    const olderPostsButton = document.querySelector("button.previousposts");
     if (olderPostsButton) {
-      console.log('Older Posts button found. Listening for a click');
-      olderPostsButton.addEventListener('click', () => applyAllBadges())
+      console.log("Older Posts button found. Listening for a click");
+      olderPostsButton.addEventListener("click", () => applyAllBadges());
     }
 
-    const loadMoreCommentsButton = document.querySelector('a.load-more-comments')
+    const loadMoreCommentsButton = document.querySelector(
+      "a.load-more-comments"
+    );
     if (loadMoreCommentsButton) {
-      console.log('Load more comments button found. Listening for a click');
-      loadMoreCommentsButton.addEventListener('click', () => applyAllBadges())
+      console.log("Load more comments button found. Listening for a click");
+      loadMoreCommentsButton.addEventListener("click", () => applyAllBadges());
     }
   }
 
   async function applyAllBadges() {
-      applyPostsAndCommentsAvatars()
-      applyArticleCommentsAvatars()
-      applyBattlefieldAvatars()
-      applyProfilePageAvatars()
+    applyPostsAndCommentsAvatars();
+    applyArticleCommentsAvatars();
+    applyBattlefieldAvatars();
+    applyProfilePageAvatars();
   }
 
   async function applyProfilePageAvatars() {
-    await delay(500)
-    const avatarContainerElement = document.querySelector(`.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`)
+    await delay(500);
+    const avatarContainerElement = document.querySelector(
+      `.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`
+    );
     if (!avatarContainerElement) {
-      return
+      return;
     }
-    const playerId = window.location.href.split("/").at(-1)
+    const playerId = window.location.href.split("/").at(-1);
     if (isDonator(playerId)) {
-      avatarContainerElement.classList.add(CLASS_NAMES.APPLIED, CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER)
-      const avatarElement = avatarContainerElement.querySelector(".citizen_avatar")
-      avatarElement && (avatarElement.style.left = '0')
-      avatarContainerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+      avatarContainerElement.classList.add(
+        CLASS_NAMES.APPLIED,
+        CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER
+      );
+      const avatarElement =
+        avatarContainerElement.querySelector(".citizen_avatar");
+      avatarElement && (avatarElement.style.left = "0");
+      avatarContainerElement.appendChild(
+        createBorderElementBasedOnDonatorLevel(playerId)
+      );
     }
   }
 
   async function applyBattlefieldAvatars() {
     if (!document.querySelector("#pvp")) {
-      return
+      return;
     }
-    const maxPoolTime = 2000
-    let currentPoolTime = 300
-    while(true) {
-      const entities = document.querySelectorAll(`#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`)
+    const maxPoolTime = 2000;
+    let currentPoolTime = 300;
+    while (true) {
+      const entities = document.querySelectorAll(
+        `#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`
+      );
       for (const entity of entities) {
-        const containerElement = entity.querySelector("q")
+        const containerElement = entity.querySelector("q");
         if (!containerElement) {
           continue;
         }
-        const playerId = (containerElement.querySelector('a')?.href || "").split('/').at(-1)
-        entity.classList.add(CLASS_NAMES.APPLIED)
+        const playerId = (containerElement.querySelector("a")?.href || "")
+          .split("/")
+          .at(-1);
+        entity.classList.add(CLASS_NAMES.APPLIED);
         if (isDonator(playerId)) {
-          containerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId, [CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX]))
+          containerElement.appendChild(
+            createBorderElementBasedOnDonatorLevel(playerId, [
+              CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX,
+            ])
+          );
 
-          const playerNameElement = entity.querySelector('.player_name')
+          const playerNameElement = entity.querySelector(".player_name");
           if (!playerNameElement) {
             continue;
           }
-          playerNameElement.querySelector('a')?.classList?.add(CLASS_NAMES.BATTLE_FIELD_NAME)
+          playerNameElement
+            .querySelector("a")
+            ?.classList?.add(CLASS_NAMES.BATTLE_FIELD_NAME);
 
-          const animationElement = document.createElement('div')
-          animationElement.classList.add(CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION)
-          playerNameElement.appendChild(animationElement)
+          const animationElement = document.createElement("div");
+          animationElement.classList.add(
+            CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION
+          );
+          playerNameElement.appendChild(animationElement);
         }
       }
-      currentPoolTime = Math.min(currentPoolTime + 200, maxPoolTime)
-      await delay(currentPoolTime)
+      currentPoolTime = Math.min(currentPoolTime + 200, maxPoolTime);
+      await delay(currentPoolTime);
     }
   }
 
   async function applyArticleCommentsAvatars() {
-    await delay(200)
-    const avatars = document.querySelectorAll(`a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`)
+    await delay(200);
+    const avatars = document.querySelectorAll(
+      `a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`
+    );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED)
-      const playerId = (avatar.href || "").split('/').at(-1)
+      avatar.classList.add(CLASS_NAMES.APPLIED);
+      const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
-        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
       }
     }
   }
 
   async function applyPostsAndCommentsAvatars() {
-    await delay(200)
-    const avatars = document.querySelectorAll(`a.userAvatar:not(.${CLASS_NAMES.APPLIED})`)
+    await delay(200);
+    const avatars = document.querySelectorAll(
+      `a.userAvatar:not(.${CLASS_NAMES.APPLIED})`
+    );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED)
-      const playerId = (avatar.href || "").split('/').at(-1)
+      avatar.classList.add(CLASS_NAMES.APPLIED);
+      const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
-        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
+        avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
       }
     }
   }
@@ -5211,14 +5108,15 @@ async function hookUpDonatorBadges() {
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
-    const url = "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png"
-    return createBorderElement(url, classNames)
+    const url =
+      "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png";
+    return createBorderElement(url, classNames);
   }
 
   function createBorderElement(url, classNames = []) {
-    const imageElement = document.createElement('img')
-    imageElement.src = url
-    imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER, ...classNames)
-    return imageElement
+    const imageElement = document.createElement("img");
+    imageElement.src = url;
+    imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER, ...classNames);
+    return imageElement;
   }
 }
