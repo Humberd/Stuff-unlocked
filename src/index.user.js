@@ -5028,11 +5028,14 @@ function hookUpDailyChallengeAutoCollect() {
   }
 }
 
-function hookUpDonatorBadges() {
+async function hookUpDonatorBadges() {
   const CLASS_NAMES = {
     APPLIED: 'su-avatar-applied',
     DONATOR_BORDER: 'su-donator-border',
-    DONATOR_BORDER_NO_Z_INDEX: 'su-no-z-index'
+    DONATOR_BORDER_NO_Z_INDEX: 'su-no-z-index',
+    PROFILE_PAGE_AVATAR_CONTAINER: 'su-avatar-container',
+    BATTLE_FIELD_NAME_ANIMATION: 'su-battlefield-name-animation',
+    BATTLE_FIELD_NAME: 'su-battlefield-name'
   }
 
   function createGlobalStylesheet() {
@@ -5045,20 +5048,70 @@ function hookUpDonatorBadges() {
             height: 100%;
             left: 0;
             top: 0;
-            transform: scale(1.22);
+            transform: scale(1.2);
             z-index: 11;
         }
         img.${CLASS_NAMES.DONATOR_BORDER}.${CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX} {
             z-index: unset;
         }
+        .${CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER} {
+            position: relative;
+            height: 158px;
+            width: 158px;
+            display: block;
+            margin-left: 10px;
+        }
+        .${CLASS_NAMES.BATTLE_FIELD_NAME} {
+            color: #fff !important;
+            text-shadow: -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+        }
+        .${CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION} {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .${CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION}::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #fb0094, #0000ff, #00ff00, #ffff00, #fb0094, #0000ff, #00ff00, #ffff00, #fb0094);
+            animation: su-name-animation 20s linear infinite;
+            background-size: 500%
+        }
+        .${CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION}::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #fb0094, #0000ff, #00ff00, #ffff00, #fb0094, #0000ff, #00ff00, #ffff00, #fb0094);
+            animation: su-name-animation 20s linear infinite;
+            background-size: 500%;
+            filter: blur(20px);
+        }
+        @keyframes su-name-animation {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 500% 0;
+            }
+        }
     `;
     document.head.appendChild(style)
   }
 
-  setTimeout(() => initialize(), 200)
+  initialize()
+  applyAllBadges()
 
-  function initialize() {
+  async function initialize() {
     createGlobalStylesheet()
+    delay(200)
     const olderPostsButton = document.querySelector('button.previousposts')
     if (olderPostsButton) {
       console.log('Older Posts button found. Listening for click');
@@ -5072,7 +5125,6 @@ function hookUpDonatorBadges() {
     }
   }
 
-  applyAllBadges()
   async function applyAllBadges() {
       applyPostsAndCommentsAvatars()
       applyArticleCommentsAvatars()
@@ -5089,12 +5141,7 @@ function hookUpDonatorBadges() {
     }
     const playerId = window.location.href.split("/").at(-1)
     if (isDonator(playerId)) {
-      avatarContainerElement.classList.add(CLASS_NAMES.APPLIED)
-      avatarContainerElement.style.position = 'relative';
-      avatarContainerElement.style.height = '158px';
-      avatarContainerElement.style.width = '158px';
-      avatarContainerElement.style.display = 'block';
-      avatarContainerElement.style.marginLeft = '10px';
+      avatarContainerElement.classList.add(CLASS_NAMES.APPLIED, CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER)
       const avatarElement = avatarContainerElement.querySelector(".citizen_avatar")
       avatarElement && (avatarElement.style.left = '0')
       avatarContainerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId))
@@ -5119,6 +5166,16 @@ function hookUpDonatorBadges() {
         entity.classList.add(CLASS_NAMES.APPLIED)
         if (isDonator(playerId)) {
           containerElement.appendChild(createBorderElementBasedOnDonatorLevel(playerId, [CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX]))
+
+          const playerNameElement = entity.querySelector('.player_name')
+          if (!playerNameElement) {
+            continue;
+          }
+          playerNameElement.querySelector('a')?.classList?.add(CLASS_NAMES.BATTLE_FIELD_NAME)
+
+          const animationElement = document.createElement('div')
+          animationElement.classList.add(CLASS_NAMES.BATTLE_FIELD_NAME_ANIMATION)
+          playerNameElement.appendChild(animationElement)
         }
       }
       currentPoolTime = Math.min(currentPoolTime + 200, maxPoolTime)
@@ -5126,7 +5183,8 @@ function hookUpDonatorBadges() {
     }
   }
 
-  function applyArticleCommentsAvatars() {
+  async function applyArticleCommentsAvatars() {
+    await delay(200)
     const avatars = document.querySelectorAll(`a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
       avatar.classList.add(CLASS_NAMES.APPLIED)
@@ -5137,7 +5195,8 @@ function hookUpDonatorBadges() {
     }
   }
 
-  function applyPostsAndCommentsAvatars() {
+  async function applyPostsAndCommentsAvatars() {
+    await delay(200)
     const avatars = document.querySelectorAll(`a.userAvatar:not(.${CLASS_NAMES.APPLIED})`)
     for (const avatar of avatars) {
       avatar.classList.add(CLASS_NAMES.APPLIED)
