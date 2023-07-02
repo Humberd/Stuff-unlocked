@@ -4715,6 +4715,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
     for (const feedTab of feedTabs) {
       feedTab.classList.add(CLASS_NAMES.ACTION_APPLIED);
       feedTab.addEventListener("click", () => {
+        removeFromPostsAndCommentsAvatars();
         applyAllBadges();
         hookUpEventListeners();
       });
@@ -4832,6 +4833,16 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
       }
+    }
+  }
+
+  async function removeFromPostsAndCommentsAvatars() {
+    const avatars = document.querySelectorAll(
+        `a.userAvatar.${CLASS_NAMES.AVATAR_APPLIED}`
+    );
+    for (const avatar of avatars) {
+      avatar.classList.remove(CLASS_NAMES.AVATAR_APPLIED)
+      avatar.querySelector(`.${CLASS_NAMES.DONATOR_BORDER}`)?.remove()
     }
   }
 
