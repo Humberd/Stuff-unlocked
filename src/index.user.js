@@ -1199,14 +1199,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                   path ? "afterBegin" : "afterEnd",
                   '<div class="stuffBtn">Stuff++ Unlocked<span>' +
                     GM_info.script.version +
-                    "</span></div>" +
-                    (data.autoFighter
-                      ? ""
-                      : '<div class="stuffBtn">' +
-                        (path ? "AF" : "AutoFighter") +
-                        "<span>" +
-                        GM_info.script.version +
-                        "</span></div>")
+                    "</span></div>"
                 );
               });
               expect(".stuffBtn", (t, canCreateDiscussions) => {
@@ -1224,7 +1217,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                       "beforeEnd",
                       '<div id="stuffBlock"></div><div id="stuffOptions"><div style="width:602px"><div class="header-links"><a href="https://github.com/Humberd/Stuff-unlocked">Stuff++ Unlocked Website</a><a class="eRSreset">RESET</a><a href="//github.com/Humberd/Stuff-unlocked/raw/master/src/index.user.js">UPDATE</a><a href="/' +
                         side +
-                        '/citizen/profile/4659830">Contact / Donate</a><a>Close</a></div><div><span>Battlefield</span><label>Improved battlefield<input id="battlefield" type="checkbox"></label><label>Replace BH/SH view with damage top10<input id="topLists" type="checkbox"></label><label>AutoBot<input id="autoBot" type="checkbox"></label><span>Companies</span><label>Company manager<input id="companyManager" type="checkbox"></label><label>Show the best local job offer<input id="showBestJobOffer" type="checkbox"></label><span>Energy</span><label>Automatic energy recovery<input id="energyRecovery" type="checkbox"></label><label>Show remaining time to full health reserve<input id="fullEnergy" type="checkbox"></label><label>Show recoverable energy<input id="maxEnergy" type="checkbox"></label><span>Main page</span><label>Hide medal posts<input id="hideMedals" type="checkbox"></label><label>Improved feeds<input id="improveFeeds" type="checkbox"></label><label>Autorefresh main page every 10 minutes<input id="autoRefresh" type="checkbox"></label><label>Epic battle sensor<input id="epicSensor" type="checkbox"></label><span>Marketplace</span><label>Improved marketplace<input id="improveMarketplace" type="checkbox"></label><label>Autofill maximum item amount<input id="autofillMarket" type="checkbox"></label><label>Direct market links in main menu<input id="marketLinks" type="checkbox"></label></div><div><span>Monetary market</span><label>Autofill maximum gold amount<input id="autofillGold" type="checkbox"></label><span>Profile</span><label>Improved profile page<input id="improveProfile" type="checkbox"></label><label>Influence calculator<input id="influenceCalculator" type="checkbox"></label><span>Storage</span><label>Improved inventory<input id="improveInventory" type="checkbox"></label><label>Display sidebar storage<input id="displayStorage" type="checkbox"></label><span>Wars page</span><label>Compact layout<input id="compactWarsPage" type="checkbox"></label><label>Replace "waiting" with countdown timers<input id="replaceWaitingwithCountdown" type="checkbox"></label><span>Other</span><label>AutoFighter<input id="autoFighter" type="checkbox"></label><label>Display XP needed to level-up<input id="xpLeft" type="checkbox"></label><label>Kills, PP, and damage on sidebar<input id="showStats" type="checkbox"></label><label>Mercenary and Freedom Fighter progress<input id="mercFF" type="checkbox"></label><label>Remove external link warning<input id="externalLinks" type="checkbox"></label><label>Improved player hovercards<input id="playerTooltip" type="checkbox"></label><label>Automatic login<input id="autoLogin" type="checkbox"></label><label>Block pack/promo popups<input id="popupBlocker" type="checkbox"></label><label>Remove True Patriot notifications<input id="closeTPnotifications" type="checkbox"></label></div></div><div style="width:452px"><div><a href="//docs.google.com/spreadsheets/d/1APUYLfQfiNW1MbZmE1nMA8mFrcWbkFVvD9AK9JmVj08">AutoFighter Website</a><a class="eRSreset">RESET</a><a href="/' +
+                        '/citizen/profile/4659830">Contact / Donate</a><a>Close</a></div><div><span>Battlefield</span><label>Improved battlefield<input id="battlefield" type="checkbox"></label><label>Replace BH/SH view with damage top10<input id="topLists" type="checkbox"></label><span>Companies</span><label>Company manager<input id="companyManager" type="checkbox"></label><label>Show the best local job offer<input id="showBestJobOffer" type="checkbox"></label><span>Energy</span><label>Automatic energy recovery<input id="energyRecovery" type="checkbox"></label><label>Show remaining time to full health reserve<input id="fullEnergy" type="checkbox"></label><label>Show recoverable energy<input id="maxEnergy" type="checkbox"></label><span>Main page</span><label>Hide medal posts<input id="hideMedals" type="checkbox"></label><label>Autorefresh main page every 10 minutes<input id="autoRefresh" type="checkbox"></label><label>Epic battle sensor<input id="epicSensor" type="checkbox"></label><span>Marketplace</span><label>Improved marketplace<input id="improveMarketplace" type="checkbox"></label><label>Autofill maximum item amount<input id="autofillMarket" type="checkbox"></label><label>Direct market links in main menu<input id="marketLinks" type="checkbox"></label></div><div><span>Monetary market</span><label>Autofill maximum gold amount<input id="autofillGold" type="checkbox"></label><span>Profile</span><label>Improved profile page<input id="improveProfile" type="checkbox"></label><label>Influence calculator<input id="influenceCalculator" type="checkbox"></label><span>Storage</span><label>Improved inventory<input id="improveInventory" type="checkbox"></label><label>Display sidebar storage<input id="displayStorage" type="checkbox"></label><span>Wars page</span><label>Compact layout<input id="compactWarsPage" type="checkbox"></label><label>Replace "waiting" with countdown timers<input id="replaceWaitingwithCountdown" type="checkbox"></label><span>Other</span><label>Display XP needed to level-up<input id="xpLeft" type="checkbox"></label><label>Kills, PP, and damage on sidebar<input id="showStats" type="checkbox"></label><label>Mercenary and Freedom Fighter progress<input id="mercFF" type="checkbox"></label><label>Remove external link warning<input id="externalLinks" type="checkbox"></label><label>Improved player hovercards<input id="playerTooltip" type="checkbox"></label><label>Automatic login<input id="autoLogin" type="checkbox"></label><label>Block pack/promo popups<input id="popupBlocker" type="checkbox"></label><label>Remove True Patriot notifications<input id="closeTPnotifications" type="checkbox"></label></div></div><div style="width:452px"><div><a href="//docs.google.com/spreadsheets/d/1APUYLfQfiNW1MbZmE1nMA8mFrcWbkFVvD9AK9JmVj08">AutoFighter Website</a><a class="eRSreset">RESET</a><a href="/' +
                         side +
                         '/citizen/profile/4659830">Contact</a><a>Close</a></div><div style="width:98%;margin:1%;float:left;background:#242B27"><span>Settings<div id="AF_l" style="position:absolute;top:6px;right:10px;color:yellow"></div></span><label>Train<input id="train" type="checkbox"></label><label>Work (for employer)<input id="work" type="checkbox"></label><label>Work overtime<input id="workOvertime" type="checkbox"></label><label>Work as manager (visit companies page for setup)<input id="workAsManager" type="checkbox"></label><label>Assign employees (as above)<input id="assignEmployees" type="checkbox"></label><label>Buy 10g from monetary market<input id="buyMMgold" type="checkbox"></label><label>Collect Weekly Challenge rewards<input id="collectWcRewards" type="checkbox"></label><label>Return to residence<input id="returnToResidence" type="checkbox"></label><label>Don\'t fight until you have<input id="energyRatio" type="range" min="0" max="2.00" step="0.05"><isZordacz style="float:right;margin:0 5px"></isZordacz></label><label>Maximum kills to do in one go<input id="maxKills" type="number" min="0" style="width:70px;text-align:right"></label><label>Go all-in in epic battles (without EBs)<input id="epicAllIn" type="checkbox"></label><label>Preferred ground weapon<select id="prefWeapGround"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option><option value="5">Q5</option><option value="6">Q6</option><option value="7">Q7</option><option value="10">Bazooka</option></select></label><label>Preferred air weapon<select id="prefWeapAir"><option value="0">No preference</option><option value="-1">Q0</option><option value="1">Q1</option></select></label><label>Battle priority #1' +
                         t +
@@ -1341,12 +1334,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                 });
               });
               checkCurrentVersion();
-              if (!data.autoFighter) {
-                document.body.insertAdjacentHTML(
-                  "beforeEnd",
-                  '<div id="AFlaunch" title="Click to launch AutoFighter"><div></div></div>'
-                );
-              }
               expect("#AFlaunch", function (local) {
                 update(local, "e");
                 local.addEventListener("click", function () {
@@ -2168,23 +2155,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                 });
               }
             });
-            if (!data.improveFeeds) {
-              addEventListener("click", function (e) {
-                if (
-                  !(
-                    document.getElementById("citizenFeed").contains(e.target) ||
-                    e.target.classList.contains("emoji") ||
-                    e.target.classList.contains("std_global_btn")
-                  )
-                ) {
-                  expect(".commentsWrapper", (type) => {
-                    return type.parentElement.parentElement
-                      .querySelector(".postBtn")
-                      .click();
-                  });
-                }
-              });
-            }
             if (!data.hideMedals) {
               append(
                 "#citizenFeed .postsWrapper .postContainer.autoPost{display:none}"
@@ -2503,273 +2473,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                           }
                         });
                       }
-                    })(),
-                  data.autoBot ||
-                    SERVER_DATA.spectatorOnly ||
-                    (function () {
-                      /**
-                       * @return {undefined}
-                       */
-                      function update() {
-                        if ("AUTOBOT ON" == l_p[0].textContent) {
-                          nudgePick(
-                            reverbSlider.value < 3 && !reverbSlider.disabled
-                              ? 2500
-                              : 1e3
-                          );
-                          if (globalNS.userInfo.wellness >= tblr.value) {
-                            callback(
-                              "/" +
-                                side +
-                                "/military/fight-shoo" +
-                                (SERVER_DATA.onAirforceBattlefield
-                                  ? "oo"
-                                  : "o") +
-                                "t/" +
-                                ms,
-                              {
-                                sideId: SERVER_DATA.countryId,
-                                battleId: ms,
-                                _token: csrfToken,
-                              },
-                              function (data) {
-                                if (
-                                  ["UNKNOWN_SIDE", "WRONG_SIDE"].includes(
-                                    data.message
-                                  )
-                                ) {
-                                  location.href = data.url;
-                                } else {
-                                  if (
-                                    ["ENEMY_ATTACKED", "LOW_HEALTH"].includes(
-                                      data.message
-                                    )
-                                  ) {
-                                    /** @type {number} */
-                                    window.globalNS.userInfo.wellness = 0;
-                                    nudgePick(0);
-                                  } else {
-                                    if ("ZONE_INACTIVE" == data.message) {
-                                      t();
-                                    } else {
-                                      if ("SHOOT_LOCKOUT" == data.message) {
-                                        nudgePick(450);
-                                      } else {
-                                        var n = data.details;
-                                        var userData = data.user;
-                                        battleFX.updateRank(data.rank);
-                                        window.totalPrestigePoints += data.hits;
-                                        expectation.forEach((selfContext) => {
-                                          return (selfContext.textContent =
-                                            totalPrestigePoints);
-                                        });
-                                        stream.forEach((url) => {
-                                          return (url.textContent = resolve(
-                                            n.currency
-                                          ));
-                                        });
-                                        expected.forEach(function (e) {
-                                          var value = n.current_energy_ratio;
-                                          /** @type {string} */
-                                          e.style.width = value + "%";
-                                          e.classList.remove(
-                                            "high",
-                                            "medium",
-                                            "low"
-                                          );
-                                          e.classList.add(
-                                            value < 20
-                                              ? "low"
-                                              : value > 60
-                                              ? "high"
-                                              : "medium"
-                                          );
-                                        });
-                                        if (userData.weaponQuantity >= 0) {
-                                          con.forEach((url) => {
-                                            return (url.textContent = resolve(
-                                              userData.weaponQuantity
-                                            ));
-                                          });
-                                        }
-                                        globalNS.updateSideBar(n);
-                                        if (upsampleHeight) {
-                                          /** @type {number} */
-                                          h =
-                                            h -
-                                            (data.oldEnemy.isNatural
-                                              ? Math.floor(
-                                                  1.1 * userData.givenDamage
-                                                )
-                                              : userData.givenDamage);
-                                          /** @type {string} */
-                                          check[0].value = Math.max(
-                                            0,
-                                            h / (i ? 1e3 : 1e6)
-                                          ).toFixed();
-                                        }
-                                        if (
-                                          !(
-                                            reverbSlider.disabled ||
-                                            1 !=
-                                              (reverbSlider.value =
-                                                reverbSlider.value - 1)
-                                          )
-                                        ) {
-                                          nudgePick(900);
-                                        }
-                                        if (
-                                          (!state.checked &&
-                                            !food_remaining &&
-                                            globalNS.userInfo.wellness <
-                                              tblr.value) ||
-                                          (!reverbSlider.disabled &&
-                                            reverbSlider.value <= 0) ||
-                                          (upsampleHeight && h <= 0) ||
-                                          (focusNewTabNotification.checked &&
-                                            !userData.epicBattle)
-                                        ) {
-                                          t();
-                                        }
-                                        checkKillProgress(data);
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            );
-                          } else {
-                            if (use() || state.checked) {
-                              test(
-                                "/" +
-                                  side +
-                                  "/main/eat?format=json&_token=" +
-                                  csrfToken +
-                                  "&buttonColor=" +
-                                  (state.checked ? "orange" : "blue"),
-                                function (result) {
-                                  energy.processResponse(result);
-                                  nudgePick(1e3);
-                                }
-                              );
-                            } else {
-                              t();
-                            }
-                          }
-                        }
-                      }
-
-                      /**
-                       * @return {undefined}
-                       */
-                      function t() {
-                        /** @type {string} */
-                        l_p[0].textContent = "AUTOBOT OFF";
-                        /** @type {string} */
-                        l_p[0].style.background = "#FB7E3D";
-                        /** @type {boolean} */
-                        upsampleHeight = false;
-                        /** @type {number} */
-                        check[0].value = 0;
-                        clearTimeout(timer);
-                      }
-
-                      /**
-                       * @param {number} idleTime
-                       * @return {undefined}
-                       */
-                      function nudgePick(idleTime) {
-                        clearTimeout(timer);
-                        /** @type {number} */
-                        timer = setTimeout(update, idleTime);
-                      }
-
-                      append(
-                        "#AutoBot,#AutoBot img{position:absolute;background:rgba(36,43,39,.6)}#AutoBot{transition:left .3s;width:136px;left:-136px;top:240px;border-radius:3px;color:#fff;font:700 12px/20px Arial;text-align:left;z-index:10;text-shadow:0 0 2px #000}#AutoBot input{width:25px;margin:3px 1px;text-align:center}#AutoBot input[type=number]{width:60px;position:absolute;right:5px;margin:0}#AutoBot div{padding:5px}#AutoBot img{width:36px;height:36px;padding:0 6px;top:40%;right:-48px;cursor:pointer;border-radius:0 3px 3px 0}#AutoBot img:hover{filter:brightness(1.2)}#AutoBotSwitch{cursor:pointer;width:100%;background:#FB7E3D;text-align:center}#AutoBotSwitch:hover{background:#83B70B!important}"
-                      );
-                      var timer;
-                      var i = SERVER_DATA.onAirforceBattlefield;
-                      expect(".battle_footer", (table) => {
-                        return table.insertAdjacentHTML(
-                          "afterEnd",
-                          '<div id="AutoBot"><div><label>Kills<input id="kills" type="number" value="25" min="0"></label><br><label>Damage<input id="damage" type="number" placeholder="in ' +
-                            (i ? "k" : "M") +
-                            '" min="0"></label><br><label><input id="allin" type="checkbox">All-in</label><label><input id="eatEB" type="checkbox">Eat EBs</label><br><label>Min HP<input id="minEnergy" type="number" value="50" step="10" min="0"></label><br><label><input id="stopNoEpic" type="checkbox">Stop if no epic</label><br><label><input id="freezeBattlefield" type="checkbox">Freeze battlefield</label><br></div><p id="AutoBotSwitch">AUTOBOT OFF</p><img src="//www.erepublik.net/images/emoji/emojione/color/1f52b.png"></div>'
-                        );
-                      });
-                      var l_p = expect("#AutoBotSwitch", (n) => {
-                        return n.addEventListener("click", function () {
-                          if ("AUTOBOT OFF" == n.textContent) {
-                            /** @type {string} */
-                            n.textContent = "AUTOBOT ON";
-                            /** @type {string} */
-                            n.style.background = "#83B70B";
-                            if (
-                              reverbSlider.disabled &&
-                              !$checkBox2[0].checked
-                            ) {
-                              /** @type {boolean} */
-                              upsampleHeight = true;
-                              /** @type {number} */
-                              h = +check[0].value * (i ? 1e3 : 1e6);
-                            }
-                            update();
-                          } else {
-                            t();
-                          }
-                        });
-                      });
-                      var $checkBox2 = expect("#allin", (select) => {
-                        return select.addEventListener("change", () => {
-                          return (reverbSlider.disabled = check[0].disabled =
-                            select.checked);
-                        });
-                      });
-                      /** @type {(Element|null)} */
-                      var state = document.getElementById("eatEB");
-                      /** @type {(Element|null)} */
-                      var reverbSlider = document.getElementById("kills");
-                      var check = expect("#damage", (e) => {
-                        return e.addEventListener("input", () => {
-                          return (reverbSlider.disabled = e.value > 0);
-                        });
-                      });
-                      /** @type {number} */
-                      var h = 0;
-                      /** @type {boolean} */
-                      var upsampleHeight = false;
-                      /** @type {(Element|null)} */
-                      var tblr = document.getElementById("minEnergy");
-                      if (!toTop && data["kills"[2]][name] > 7500) {
-                        $checkBox2[0].click();
-                        /** @type {boolean} */
-                        state.checked = true;
-                        /** @type {number} */
-                        tblr.value = reset_health_to_recover - 10;
-                        setInterval(selectWeapon, 1e3, -1);
-                      }
-                      /** @type {(Element|null)} */
-                      var focusNewTabNotification =
-                        document.getElementById("stopNoEpic");
-                      var expectation = expect("#prestige_value");
-                      var stream = expect("#side_bar_currency_account_value");
-                      var expected = expect(".left_player .energy_progress");
-                      var con = expect(".weapon_no");
-                      document
-                        .querySelector("#AutoBot img")
-                        .addEventListener("click", (dom) => {
-                          return (dom.target.parentElement.style.left =
-                            "0px" == dom.target.parentElement.style.left
-                              ? "-136px"
-                              : "0px");
-                        });
-                      document
-                        .getElementById("freezeBattlefield")
-                        .addEventListener("click", (event) => {
-                          return ERPK.initPlayerRateFilter(
-                            event.target.checked ? "Off" : "On"
-                          );
-                        });
                     })(),
                   data.mercFF || SERVER_DATA.isCivilWar || !toTop || link(),
                   isZordacz && SERVER_DATA.webDeployEnabled)
@@ -4289,36 +3992,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
               } else {
                 afterRequestCallbacks.push(() => {
                   return setTimeout(cb, 500);
-                });
-              }
-            })();
-          }
-          if (!data.autoFighter) {
-            (function () {
-              var e = require("preferCountries").split(",").map(Number);
-              var log = require("avoidCountries").split(",").map(Number);
-              /** @type {boolean} */
-              var i = false;
-              for (let block_idx of [
-                "battlefield",
-                "autoBot",
-                "energyRecovery",
-                "autoLogin",
-              ]) {
-                if (data[block_idx]) {
-                  /** @type {boolean} */
-                  data[block_idx] = false;
-                  /** @type {boolean} */
-                  i = true;
-                }
-              }
-              if (i) {
-                saveStuffDataToStorage();
-                _load(
-                  "AutoFighter requires the following Stuff++ options:<br>-Improved battlefield<br>-AutoBot<br>-Automatic energy recovery<br>-Automatic login<br><br>They have been enabled for you."
-                );
-                addEventListener("click", () => {
-                  return location.reload();
                 });
               }
             })();
