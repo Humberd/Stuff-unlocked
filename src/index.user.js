@@ -4916,26 +4916,30 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   if (!stuffUnlockedData) {
     return;
   }
-  const donatorLevels = Object.values(stuffUnlockedData.donatorLevels).sort((a,b) => a.minimalDonation - b.minimalDonation)
-  for (const donatorId of Object.keys(stuffUnlockedData.donators)) {
-    const donatorInfo = stuffUnlockedData.donators[donatorId];
-    const totalDonations = donatorInfo.donations.reduce((a, b) => a + b, 0);
-    donatorInfo.totalDonations = totalDonations;
-    if (donatorInfo.customBorderUrl) {
-      donatorInfo.borderUrl = donatorInfo.customBorderUrl;
-      continue;
-    }
-    for (const donatorLevel of donatorLevels) {
-      if (totalDonations >= donatorLevel.minimalDonation) {
-        donatorInfo.borderUrl = donatorLevel.borderUrl
-      } else {
-        break;
+  function parseStuffUnlockedData() {
+    const donatorLevels = Object.values(stuffUnlockedData.donatorLevels).sort(
+      (a, b) => a.minimalDonation - b.minimalDonation
+    );
+    for (const donatorId of Object.keys(stuffUnlockedData.donators)) {
+      const donatorInfo = stuffUnlockedData.donators[donatorId];
+      const totalDonations = donatorInfo.donations.reduce((a, b) => a + b, 0);
+      donatorInfo.totalDonations = totalDonations;
+      if (donatorInfo.customBorderUrl) {
+        donatorInfo.borderUrl = donatorInfo.customBorderUrl;
+        continue;
+      }
+      for (const donatorLevel of donatorLevels) {
+        if (totalDonations >= donatorLevel.minimalDonation) {
+          donatorInfo.borderUrl = donatorLevel.borderUrl;
+        } else {
+          break;
+        }
       }
     }
   }
-
   const CLASS_NAMES = {
-    APPLIED: "su-avatar-applied",
+    AVATAR_APPLIED: "su-avatar-applied",
+    ACTION_APPLIED: "su-action-applied",
     DONATOR_BORDER: "su-donator-border",
     DONATOR_BORDER_NO_Z_INDEX: "su-no-z-index",
     PROFILE_PAGE_AVATAR_CONTAINER: "su-avatar-container",
@@ -5012,23 +5016,59 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
     document.head.appendChild(style);
   }
 
-  initialize();
+  parseStuffUnlockedData();
+  createGlobalStylesheet();
+
+  hookUpEventListeners();
   applyAllBadges();
 
-  async function initialize() {
-    createGlobalStylesheet();
+  async function hookUpEventListeners() {
     await delay(300);
-    const olderPostsButton = document.querySelector("button.previousposts");
+    // on Main Page
+    const olderPostsButton = document.querySelector(
+      `button.previousposts:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
     if (olderPostsButton) {
       console.log("Older Posts button found. Listening for a click");
-      olderPostsButton.addEventListener("click", () => applyAllBadges());
+      olderPostsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      olderPostsButton.addEventListener("click", () => {
+        applyAllBadges();
+        hookUpEventListeners();
+      });
     }
 
+    // on Main Page
+    const expandCommentsButton = document.querySelectorAll(
+      `.postContent .commentCounter:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
+    console.log(
+      `Found ${expandCommentsButton.length} comment expand buttons. Listening for a click`
+    );
+    for (const commentsButton of expandCommentsButton) {
+      commentsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      commentsButton.addEventListener("click", () => applyAllBadges());
+    }
+
+    // on Main Page
+    const feedTabs = document.querySelectorAll(
+      `#citizenFeed .tabsWrapper .tab:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
+    console.log(`Found ${feedTabs.length} feed tabs. Listening for a click`);
+    for (const feedTab of feedTabs) {
+      feedTab.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      feedTab.addEventListener("click", () => {
+        applyAllBadges();
+        hookUpEventListeners();
+      });
+    }
+
+    // on Article Page
     const loadMoreCommentsButton = document.querySelector(
-      "a.load-more-comments"
+      `a.load-more-comments:not(.${CLASS_NAMES.ACTION_APPLIED})`
     );
     if (loadMoreCommentsButton) {
       console.log("Load more comments button found. Listening for a click");
+      loadMoreCommentsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
       loadMoreCommentsButton.addEventListener("click", () => applyAllBadges());
     }
   }
@@ -5043,7 +5083,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   async function applyProfilePageAvatars() {
     await delay(500);
     const avatarContainerElement = document.querySelector(
-      `.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`
+      `.citizen_profile_header:not(.${CLASS_NAMES.AVATAR_APPLIED}) > a`
     );
     if (!avatarContainerElement) {
       return;
@@ -5051,7 +5091,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
     const playerId = window.location.href.split("/").at(-1);
     if (isDonator(playerId)) {
       avatarContainerElement.classList.add(
-        CLASS_NAMES.APPLIED,
+        CLASS_NAMES.AVATAR_APPLIED,
         CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER
       );
       const avatarElement =
@@ -5071,7 +5111,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
     let currentPoolTime = 300;
     while (true) {
       const entities = document.querySelectorAll(
-        `#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`
+        `#console_left > li:not(.${CLASS_NAMES.AVATAR_APPLIED}), #console_right > li:not(.${CLASS_NAMES.AVATAR_APPLIED})`
       );
       for (const entity of entities) {
         const containerElement = entity.querySelector("q");
@@ -5081,7 +5121,7 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
         const playerId = (containerElement.querySelector("a")?.href || "")
           .split("/")
           .at(-1);
-        entity.classList.add(CLASS_NAMES.APPLIED);
+        entity.classList.add(CLASS_NAMES.AVATAR_APPLIED);
         if (isDonator(playerId)) {
           containerElement.appendChild(
             createBorderElementBasedOnDonatorLevel(playerId, [
@@ -5112,10 +5152,10 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   async function applyArticleCommentsAvatars() {
     await delay(200);
     const avatars = document.querySelectorAll(
-      `a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`
+      `a.citizenAvatar:not(.${CLASS_NAMES.AVATAR_APPLIED})`
     );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED);
+      avatar.classList.add(CLASS_NAMES.AVATAR_APPLIED);
       const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
@@ -5126,10 +5166,10 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   async function applyPostsAndCommentsAvatars() {
     await delay(300);
     const avatars = document.querySelectorAll(
-      `a.userAvatar:not(.${CLASS_NAMES.APPLIED})`
+      `a.userAvatar:not(.${CLASS_NAMES.AVATAR_APPLIED})`
     );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED);
+      avatar.classList.add(CLASS_NAMES.AVATAR_APPLIED);
       const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
@@ -5138,11 +5178,13 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   }
 
   function isDonator(playerId) {
-    return !!stuffUnlockedData.donators[playerId]?.borderUrl
+    return true;
+    // return !!stuffUnlockedData.donators[playerId]?.borderUrl
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
-    const url = stuffUnlockedData.donators[playerId]?.borderUrl
+    // const url = stuffUnlockedData.donators[playerId]?.borderUrl
+    const url = stuffUnlockedData.donatorLevels["1M"].borderUrl;
     return createBorderElement(url, classNames);
   }
   window.createBorderElementBasedOnDonatorLevel =
