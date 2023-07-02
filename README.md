@@ -33,7 +33,7 @@ will have their avatars decorated with an animated border:
 3. Your border should appear to other Sutff++ unlocked users in max 1 day. 
 
 If you donate 5M+ in total you can write me a message specifying
-which [border you chose](https://store.steampowered.com/points/shop/c/avatar/cluster/1).
+which [border you choose](https://store.steampowered.com/points/shop/c/avatar/cluster/1).
 
 ## Features
 
