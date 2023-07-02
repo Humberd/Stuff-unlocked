@@ -10,6 +10,31 @@ Features extension script for eRepublik.com.
 4. Refresh your eRepublik page.
 5. That's all!
 
+## Donators badge
+
+Players who support this project
+will have their avatars decorated with an animated border:
+
+#### On a battlefield
+![donator-border-battlefield-feature.png](assets%2Fdonator-border-battlefield-feature.png)
+
+#### On your feed and articles
+![donator-border-feed-feature.png](assets%2Fdonator-border-feed-feature.png)
+
+### Donation rewards
+| 1M+ in currency                                                                                                                    | 3M+ in currency                                                                                                                    | 5M+ in currency                                                                            |
+|------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| ![foo](https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/2084820/63fb23284a65221b979c9baca15ac77dc2d4f564.png) | ![foo](https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/1037910/359032c610e13a8f370594b200b9ddf8b29aa8af.png) | [Choose your custom border](https://store.steampowered.com/points/shop/c/avatar/cluster/1) |
+
+### How to donate?
+
+1. Go to [this profile](https://www.erepublik.com/en/citizen/profile/4659830).
+2. Donate money.
+3. Your border should appear to other Sutff++ unlocked users in max 1 day. 
+
+If you donate 5M+ in total you can write me a message specifying
+which [border you chose](https://store.steampowered.com/points/shop/c/avatar/cluster/1).
+
 ## Features
 
 ### Basic
