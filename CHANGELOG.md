@@ -1,3 +1,6 @@
+# 5.61 (02.07.2023)
+* Fix: Avatar borders not displaying properly in posts feed.
+* 
 # 5.60 (02.07.2023)
 * Feat: Feed comments scroll.
 * Delete: Unused features: Autofighter and improved feed.
