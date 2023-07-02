@@ -1,3 +1,8 @@
+# 5.60 (02.07.2023)
+* Feat: Feed comments scroll.
+* Delete: Unused features: Autofighter and improved feed.
+* Feat: Donators badge.
+
 # 5.58 (30.06.2023)
 * Fix: Stopping Auto-Spinner at gold jackpot
 
