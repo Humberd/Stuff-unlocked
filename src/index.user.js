@@ -666,20 +666,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
     /**
      * @return {undefined}
      */
-    function updateLicenseString() {
-      var install = hasLicense();
-      /** @type {string} */
-      var method = install ? install + "d left" : "Expired";
-      expect(".stuffBtn+.stuffBtn span,#AF_l", (btn_follow, is_following) => {
-        return (btn_follow.textContent = is_following
-          ? "License: " + method
-          : method.split(" ")[0]);
-      });
-    }
-
-    /**
-     * @return {undefined}
-     */
     function checkCurrentVersion() {
       if (data.version && data.version != GM_info.script.version) {
         expect(
@@ -1374,7 +1360,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                   }
                 });
               });
-              updateLicenseString();
             })())
         ) {
           window.reset_health_to_recover = 2000;
