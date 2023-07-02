@@ -8,9 +8,9 @@
 // @run-at		document-start
 // @grant		  none
 // ==/UserScript==
-const CONTRIBUTORS_URL =
-  "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/donators/src/contributors.json";
-// const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json"
+// const CONTRIBUTORS_URL =
+//   "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/donators/src/contributors.json";
+const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json"
 !(function () {
   /** @type {!Array} */
   var afterRequestCallbacks = [];
@@ -5178,13 +5178,13 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
   }
 
   function isDonator(playerId) {
-    return true;
-    // return !!stuffUnlockedData.donators[playerId]?.borderUrl
+    // return true;
+    return !!stuffUnlockedData.donators[playerId]?.borderUrl
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
-    // const url = stuffUnlockedData.donators[playerId]?.borderUrl
-    const url = stuffUnlockedData.donatorLevels["1M"].borderUrl;
+    const url = stuffUnlockedData.donators[playerId]?.borderUrl
+    // const url = stuffUnlockedData.donatorLevels["1M"].borderUrl;
     return createBorderElement(url, classNames);
   }
   window.createBorderElementBasedOnDonatorLevel =
