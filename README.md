@@ -1,24 +1,39 @@
 # Stuff++ Unlocked
 
-After Zordacz received a perma ban Stuff++ randomly stopped working shortly after. It was then, when I reverse engineered the script and made it working again under the name **Staff++ Unlocked**. Then again it stopped working, because Zordacz made some **checks on purpose** for the script to stop working when some hardcoded day is reached.
+Features extension script for eRepublik.com.
 
-After that I didn't want to dig more, so I used Stuff modified by another being. However, ~~the new fucktard did similar sheningans Zordacz did~~ it was Zordacz all the time trolling us from his grave. It automatically redirected to youtube video without reason.
+## Installation
 
-So, it was then that I fixed all the issues myself using one of the Zordacz's versions.
+1. Install [Tampermonkey](https://www.tampermonkey.net/).
+2. Open [Stuff++ unlocked url](https://github.com/Humberd/Stuff-unlocked/raw/master/src/index.user.js).
+3. Tampermonkey page should appear. Install the script.
+4. Refresh your eRepublik page.
+5. That's all!
 
-The script is available here: https://github.com/Humberd/Stuff-unlocked/raw/master/src/index.user.js
+## Features
 
-The code is open source and can be find here: https://github.com/Humberd/Stuff-unlocked
+### Basic
 
-The features I added:
-1. Unlocked autofighter
-2. Fixed '48' bug preventing launching the script.
-3. General cleanup of the code using unuglyfier
+Basic feature inherited from Zordacz's old version.
 
-If there is enough interest I could spend the time and make some improvements/bugfixes.
+![basic-stuff-features.png](assets%2Fbasic-stuff-features.png)![img.png](assets/img.png)
 
-Contribution is welcomed!!! Both code and economical
+### PowerSpin Auto-Spinner
 
-And remember kids.  
-**USE SCRIPTS ONLY FROM TRUSTED SOURCES**  
-Every script has the ability to steal all your money in a moment should the author chooses to.
+* Display Power Spin Log.
+* Auto spin until a money limit is reached,
+* Or when we reach the 3rd Jackpot.
+* Drastically improves spin animation speed allowing rolling again nearly instantly.
+
+![auto-spinner-feature.png](assets%2Fauto-spinner-feature.png)
+
+### Daily Challenge reward collector
+
+* Claim All button to collect all daily challenges.
+
+![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)![img.png](assets/img.png)
+
+### Feed comments scroll
+
+![feed-comments-scroll-feature.png](assets%2Ffeed-comments-scroll-feature.png)
+
