@@ -8,6 +8,9 @@
 // @run-at		document-start
 // @grant		  none
 // ==/UserScript==
+// const CONTRIBUTORS_URL =
+//   "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/donators/src/contributors.json";
+const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json"
 !(function () {
   /** @type {!Array} */
   var afterRequestCallbacks = [];
@@ -96,12 +99,12 @@
     }
 
     /**
-     * @param {string} pluginId
+     * @param {string} url
      * @param {!Function} callback
      * @return {undefined}
      */
-    function test(pluginId, callback) {
-      fetch(pluginId, {
+    function test(url, callback) {
+      fetch(url, {
         credentials: "same-origin",
       })
         .then((e) => {
@@ -212,50 +215,8 @@
      * @return {undefined}
      */
     function load() {
-      test("//raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json", function (askForResult) {
-        if (!isZordacz && (!data.sub || data.sub < now - 30)) {
-          data.sub = now;
-          /**
-           * @param {?} e
-           * @param {boolean} force
-           * @return {undefined}
-           */
-          window.recaptchaCallback = (e, force) => {
-            return callback(
-              "/" + side + "/main/newspaper-subscribe",
-              {
-                _token: csrfToken,
-                action: "subscribe",
-                newspaperId: 287990,
-                "g-recaptcha-response": e,
-              },
-              function (data) {
-                if (!force && data.error) {
-                  window.recaptchaCallback(e, true);
-                }
-              }
-            );
-          };
-          /**
-           * @return {undefined}
-           */
-          window.onloadCallback = () => {
-            return grecaptcha.execute();
-          };
-          document.body.insertAdjacentHTML(
-            "beforeEnd",
-            '<div style="position:fixed;top:0;left:0" class="g-recaptcha" data-sitekey="6Lf490AUAAAAAIqP0H7DFfXF5tva00u93wxAQ--h" data-callback="recaptchaCallback" data-size="invisible"></div>'
-          );
-          /** @type {!Element} */
-          var tag_script = document.createElement("script");
-          tag_script.setAttribute(
-            "src",
-            "https://www.google.com/recaptcha/api.js?onload=onloadCallback"
-          );
-          document.head.appendChild(tag_script);
-        }
+      test(CONTRIBUTORS_URL, function (askForResult) {
         Object.assign(data, askForResult);
-        updateLicenseString();
         checkCurrentVersion();
         saveStuffDataToStorage();
       });
@@ -700,20 +661,6 @@
      */
     function hasLicense() {
       return 999;
-    }
-
-    /**
-     * @return {undefined}
-     */
-    function updateLicenseString() {
-      var install = hasLicense();
-      /** @type {string} */
-      var method = install ? install + "d left" : "Expired";
-      expect(".stuffBtn+.stuffBtn span,#AF_l", (btn_follow, is_following) => {
-        return (btn_follow.textContent = is_following
-          ? "License: " + method
-          : method.split(" ")[0]);
-      });
     }
 
     /**
@@ -1187,7 +1134,7 @@
         hookUpFeedCommentsScroll();
         hookUpPowerSpin();
         hookUpDailyChallengeAutoCollect();
-        hookUpDonatorBadges();
+        hookUpDonatorBadges(data.unlocked);
         document.body.insertAdjacentHTML(
           "beforeEnd",
           '<div id="stuffTipsy"></div>'
@@ -1413,7 +1360,6 @@
                   }
                 });
               });
-              updateLicenseString();
             })())
         ) {
           window.reset_health_to_recover = 2000;
@@ -4133,15 +4079,21 @@
 
               /**
                * @param {!Object} citizenData
-               * @param {?} done
+               * @param {?} playerId
                * @param {!Object} eventData
                * @param {?} callback
                * @return {undefined}
                */
-              function updateTooltip(citizenData, done, eventData, callback) {
+              function updateTooltip(
+                citizenData,
+                playerId,
+                eventData,
+                callback
+              ) {
                 const { citizenProfile: self, citizenHovercard } = citizenData;
 
                 console.log({
+                  playerId,
                   self,
                   citizenHovercard,
                 });
@@ -4176,65 +4128,97 @@
                     ? "#FB7E3D"
                     : "#83B70B";
                 /** @type {string} */
-                element.innerHTML = eventData.orgTitle =
-                  '<div id="eRStooltip"><div style="background:rgb(30,30,30);height:84px"><img src="' +
-                  opts.avatar +
-                  '" style="float:left;width:84px;height:84px;margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0"><isZordacz style="background:linear-gradient(to right,' +
-                  m +
-                  " 0%," +
-                  m +
-                  " " +
-                  g +
-                  "%,rgb(80,80,80) " +
-                  (g + 0.1) +
-                  '%,rgb(80,80,80) 100%)">' +
-                  opts.level +
-                  "</isZordacz><isZordacz" +
-                  (self.isDictator ? ' style="background:rgb(204,60,0)"' : "") +
-                  ">" +
-                  (micropost.length < 22
-                    ? micropost
-                    : micropost.substring(0, 20) + "\u2026") +
-                  "</isZordacz>" +
-                  (opts.onlineStatus
-                    ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>'
-                    : "") +
-                  "<br>" +
-                  (opts.is_organization ? require("Organization", 1) : "") +
-                  (isFriend(citizenHovercard) ? require("Friend", 1) : "") +
-                  (opts.is_alive ? "" : require("Dead")) +
-                  ("Permanently" == opts.banStatus.type
-                    ? require("Permaban")
-                    : opts.banStatus.type
-                    ? require("Tempban")
-                    : "") +
-                  (data.contributors && data.contributors.includes(+done)
-                    ? require("Stuff++ contributor", 1)
-                    : "") +
-                  (self.isModerator ? require("Mod") : "") +
-                  "<br><brown>" +
-                  (opts.is_organization
-                    ? "Created at: " + opts.created_at
-                    : "eR birthday: " + citizenHovercard.bornOn) +
-                  "</brown>" +
-                  locationInfo(self) +
-                  locationInfo(self, 1) +
-                  hovercardStrength(self, citizenHovercard, resolve) +
-                  hovercardDivision(self, citizenHovercard) +
-                  '</div><div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">' +
-                  (settings.power_pack ? toArray("PP") : "") +
-                  (settings.infantry_kit ? toArray("IK") : "") +
-                  (settings.division_switch_pack ? toArray("MP") : "") +
-                  (isZordacz && data.l[opts.id] ? toArray("AF") : "") +
-                  '</div><div style="background:rgb(50,50,50);padding:0 5px;height:63px"><div>' +
-                  hovercardMilitaryInfo(self, citizenHovercard, 1) +
-                  hovercardMilitaryInfo(self, citizenHovercard) +
-                  "</div><div>" +
-                  process(self, done, 1) +
-                  process(self, done) +
-                  '</div></div><div style="height:47px;background:#fff;color:#5a5a5a;border-radius:0 0 5px 5px;text-align:center;font:9px/14px Arial">' +
-                  uriToAdd +
-                  "</div></div>";
+                element.innerHTML = eventData.orgTitle = `
+                  <div id="eRStooltip">
+                      <div style="background:rgb(30,30,30);height:84px">
+                          <div style="float:left;width:84px;height:84px;position:relative">
+                             <img src="${
+                               opts.avatar
+                             }" style="width: 100%; height: 100%; margin:0 2px 0 0;background:#fff;border-radius:5px 0 0 0">
+                             ${
+                               (window.isDonator(playerId) &&
+                                 window.createBorderElementBasedOnDonatorLevel(
+                                   playerId
+                                 ).outerHTML) ||
+                               ""
+                             }
+                          </div>
+                         
+                          <isZordacz style="background:linear-gradient(to right,${m} 0%,${m} ${g}%,rgb(80,80,80) ${
+                  g + 0.1
+                }%,rgb(80,80,80) 100%)">${opts.level}</isZordacz>
+                          <isZordacz${
+                            self.isDictator
+                              ? ' style="background:rgb(204,60,0)"'
+                              : ""
+                          }>
+                              ${
+                                micropost.length < 22
+                                  ? micropost
+                                  : micropost.substring(0, 20) + "\u2026"
+                              }
+                          </isZordacz>
+                          ${
+                            opts.onlineStatus
+                              ? '<span style="background:#83B70B;border-radius:10px;height:12px;width:12px;display:inline-block;margin:0 5px -1px;border:1px solid;box-shadow:0 0 3px"></span>'
+                              : ""
+                          }
+                          <br>${
+                            opts.is_organization
+                              ? require("Organization", 1)
+                              : ""
+                          }
+                          ${
+                            isFriend(citizenHovercard)
+                              ? require("Friend", 1)
+                              : ""
+                          }
+                          ${opts.is_alive ? "" : require("Dead")}
+                          ${
+                            "Permanently" == opts.banStatus.type
+                              ? require("Permaban")
+                              : opts.banStatus.type
+                              ? require("Tempban")
+                              : ""
+                          }
+                          ${
+                            data.contributors &&
+                            data.contributors.includes(+playerId)
+                              ? require("Stuff++ contributor", 1)
+                              : ""
+                          }
+                          ${self.isModerator ? require("Mod") : ""}
+                          <br><brown>${
+                            opts.is_organization
+                              ? "Created at: " + opts.created_at
+                              : "eR birthday: " + citizenHovercard.bornOn
+                          }</brown>
+                          ${locationInfo(self)}${locationInfo(self, 1)}
+                          ${hovercardStrength(self, citizenHovercard, resolve)}
+                          ${hovercardDivision(self, citizenHovercard)}
+                      </div>
+                      <div style="position:absolute;top:2px;right:5px;text-align:center;width:20px">
+                          ${settings.power_pack ? toArray("PP") : ""}
+                          ${settings.infantry_kit ? toArray("IK") : ""}
+                          ${settings.division_switch_pack ? toArray("MP") : ""}
+                          ${isZordacz && data.l[opts.id] ? toArray("AF") : ""}
+                      </div>
+                      <div style="background:rgb(50,50,50);padding:0 5px;height:63px">
+                          <div>
+                              ${hovercardMilitaryInfo(
+                                self,
+                                citizenHovercard,
+                                1
+                              )}
+                              ${hovercardMilitaryInfo(self, citizenHovercard)}
+                          </div>
+                          <div>
+                              ${process(self, playerId, 1)}
+                              ${process(self, playerId)}
+                          </div>
+                      </div>
+                      <div style="height:47px;background:#fff;color:#5a5a5a;border-radius:0 0 5px 5px;text-align:center;font:9px/14px Arial">${uriToAdd}</div>
+                  </div>`;
                 callback();
               }
 
@@ -4913,9 +4897,34 @@ function hookUpDailyChallengeAutoCollect() {
   }
 }
 
-async function hookUpDonatorBadges() {
+async function hookUpDonatorBadges(stuffUnlockedData) {
+  if (!stuffUnlockedData) {
+    return;
+  }
+  function parseStuffUnlockedData() {
+    const donatorLevels = Object.values(stuffUnlockedData.donatorLevels).sort(
+      (a, b) => a.minimalDonation - b.minimalDonation
+    );
+    for (const donatorId of Object.keys(stuffUnlockedData.donators)) {
+      const donatorInfo = stuffUnlockedData.donators[donatorId];
+      const totalDonations = donatorInfo.donations.reduce((a, b) => a + b, 0);
+      donatorInfo.totalDonations = totalDonations;
+      if (donatorInfo.customBorderUrl) {
+        donatorInfo.borderUrl = donatorInfo.customBorderUrl;
+        continue;
+      }
+      for (const donatorLevel of donatorLevels) {
+        if (totalDonations >= donatorLevel.minimalDonation) {
+          donatorInfo.borderUrl = donatorLevel.borderUrl;
+        } else {
+          break;
+        }
+      }
+    }
+  }
   const CLASS_NAMES = {
-    APPLIED: "su-avatar-applied",
+    AVATAR_APPLIED: "su-avatar-applied",
+    ACTION_APPLIED: "su-action-applied",
     DONATOR_BORDER: "su-donator-border",
     DONATOR_BORDER_NO_Z_INDEX: "su-no-z-index",
     PROFILE_PAGE_AVATAR_CONTAINER: "su-avatar-container",
@@ -4935,6 +4944,7 @@ async function hookUpDonatorBadges() {
             top: 0;
             transform: scale(1.2);
             z-index: 11;
+            pointer-events: none;
         }
         img.${CLASS_NAMES.DONATOR_BORDER}.${CLASS_NAMES.DONATOR_BORDER_NO_Z_INDEX} {
             z-index: unset;
@@ -4991,23 +5001,59 @@ async function hookUpDonatorBadges() {
     document.head.appendChild(style);
   }
 
-  initialize();
+  parseStuffUnlockedData();
+  createGlobalStylesheet();
+
+  hookUpEventListeners();
   applyAllBadges();
 
-  async function initialize() {
-    createGlobalStylesheet();
+  async function hookUpEventListeners() {
     await delay(300);
-    const olderPostsButton = document.querySelector("button.previousposts");
+    // on Main Page
+    const olderPostsButton = document.querySelector(
+      `button.previousposts:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
     if (olderPostsButton) {
       console.log("Older Posts button found. Listening for a click");
-      olderPostsButton.addEventListener("click", () => applyAllBadges());
+      olderPostsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      olderPostsButton.addEventListener("click", () => {
+        applyAllBadges();
+        hookUpEventListeners();
+      });
     }
 
+    // on Main Page
+    const expandCommentsButton = document.querySelectorAll(
+      `.postContent .commentCounter:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
+    console.log(
+      `Found ${expandCommentsButton.length} comment expand buttons. Listening for a click`
+    );
+    for (const commentsButton of expandCommentsButton) {
+      commentsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      commentsButton.addEventListener("click", () => applyAllBadges());
+    }
+
+    // on Main Page
+    const feedTabs = document.querySelectorAll(
+      `#citizenFeed .tabsWrapper .tab:not(.${CLASS_NAMES.ACTION_APPLIED})`
+    );
+    console.log(`Found ${feedTabs.length} feed tabs. Listening for a click`);
+    for (const feedTab of feedTabs) {
+      feedTab.classList.add(CLASS_NAMES.ACTION_APPLIED);
+      feedTab.addEventListener("click", () => {
+        applyAllBadges();
+        hookUpEventListeners();
+      });
+    }
+
+    // on Article Page
     const loadMoreCommentsButton = document.querySelector(
-      "a.load-more-comments"
+      `a.load-more-comments:not(.${CLASS_NAMES.ACTION_APPLIED})`
     );
     if (loadMoreCommentsButton) {
       console.log("Load more comments button found. Listening for a click");
+      loadMoreCommentsButton.classList.add(CLASS_NAMES.ACTION_APPLIED);
       loadMoreCommentsButton.addEventListener("click", () => applyAllBadges());
     }
   }
@@ -5022,7 +5068,7 @@ async function hookUpDonatorBadges() {
   async function applyProfilePageAvatars() {
     await delay(500);
     const avatarContainerElement = document.querySelector(
-      `.citizen_profile_header:not(.${CLASS_NAMES.APPLIED}) > a`
+      `.citizen_profile_header:not(.${CLASS_NAMES.AVATAR_APPLIED}) > a`
     );
     if (!avatarContainerElement) {
       return;
@@ -5030,7 +5076,7 @@ async function hookUpDonatorBadges() {
     const playerId = window.location.href.split("/").at(-1);
     if (isDonator(playerId)) {
       avatarContainerElement.classList.add(
-        CLASS_NAMES.APPLIED,
+        CLASS_NAMES.AVATAR_APPLIED,
         CLASS_NAMES.PROFILE_PAGE_AVATAR_CONTAINER
       );
       const avatarElement =
@@ -5050,7 +5096,7 @@ async function hookUpDonatorBadges() {
     let currentPoolTime = 300;
     while (true) {
       const entities = document.querySelectorAll(
-        `#console_left > li:not(.${CLASS_NAMES.APPLIED}), #console_right > li:not(.${CLASS_NAMES.APPLIED})`
+        `#console_left > li:not(.${CLASS_NAMES.AVATAR_APPLIED}), #console_right > li:not(.${CLASS_NAMES.AVATAR_APPLIED})`
       );
       for (const entity of entities) {
         const containerElement = entity.querySelector("q");
@@ -5060,7 +5106,7 @@ async function hookUpDonatorBadges() {
         const playerId = (containerElement.querySelector("a")?.href || "")
           .split("/")
           .at(-1);
-        entity.classList.add(CLASS_NAMES.APPLIED);
+        entity.classList.add(CLASS_NAMES.AVATAR_APPLIED);
         if (isDonator(playerId)) {
           containerElement.appendChild(
             createBorderElementBasedOnDonatorLevel(playerId, [
@@ -5091,10 +5137,10 @@ async function hookUpDonatorBadges() {
   async function applyArticleCommentsAvatars() {
     await delay(200);
     const avatars = document.querySelectorAll(
-      `a.citizenAvatar:not(.${CLASS_NAMES.APPLIED})`
+      `a.citizenAvatar:not(.${CLASS_NAMES.AVATAR_APPLIED})`
     );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED);
+      avatar.classList.add(CLASS_NAMES.AVATAR_APPLIED);
       const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
@@ -5103,12 +5149,12 @@ async function hookUpDonatorBadges() {
   }
 
   async function applyPostsAndCommentsAvatars() {
-    await delay(200);
+    await delay(300);
     const avatars = document.querySelectorAll(
-      `a.userAvatar:not(.${CLASS_NAMES.APPLIED})`
+      `a.userAvatar:not(.${CLASS_NAMES.AVATAR_APPLIED})`
     );
     for (const avatar of avatars) {
-      avatar.classList.add(CLASS_NAMES.APPLIED);
+      avatar.classList.add(CLASS_NAMES.AVATAR_APPLIED);
       const playerId = (avatar.href || "").split("/").at(-1);
       if (isDonator(playerId)) {
         avatar.appendChild(createBorderElementBasedOnDonatorLevel(playerId));
@@ -5117,15 +5163,18 @@ async function hookUpDonatorBadges() {
   }
 
   function isDonator(playerId) {
-    // console.log(playerId);
-    return false;
+    // return true;
+    return !!stuffUnlockedData.donators[playerId]?.borderUrl
   }
 
   function createBorderElementBasedOnDonatorLevel(playerId, classNames) {
-    const url =
-      "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/601220/e119bfe908ffa70258fa02d6ecdf85825a8766e7.png";
+    const url = stuffUnlockedData.donators[playerId]?.borderUrl
+    // const url = stuffUnlockedData.donatorLevels["1M"].borderUrl;
     return createBorderElement(url, classNames);
   }
+  window.createBorderElementBasedOnDonatorLevel =
+    createBorderElementBasedOnDonatorLevel;
+  window.isDonator = isDonator;
 
   function createBorderElement(url, classNames = []) {
     const imageElement = document.createElement("img");
