@@ -3849,7 +3849,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                          
                           <isZordacz style="background:linear-gradient(to right,${m} 0%,${m} ${g}%,rgb(80,80,80) ${
                   g + 0.1
-                }%,rgb(80,80,80) 100%)">${opts.level}</isZordacz>
+                }%,rgb(80,80,80) 100%)">${citizenHovercard.level}</isZordacz>
                           <isZordacz${
                             self.isDictator
                               ? ' style="background:rgb(204,60,0)"'
