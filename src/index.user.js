@@ -3723,14 +3723,14 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                     ? ""
                     : index
                     ? "Q7 hit: " +
-                      resolve(fighterInfo.military.damagePerHit) +
+                      resolve(fighterInfo.military.damagePerHit || "") +
                       (fighterInfo.military.damagePerHitLegend > 0
                         ? " (TP " +
-                          resolve(fighterInfo.military.damagePerHitLegend) +
+                          resolve(fighterInfo.military.damagePerHitLegend || "") +
                           ")"
                         : "")
                     : "Q0 hit: " +
-                      resolve(fighterInfo.aviation.damagePerHitNoWeapon)) +
+                      resolve(fighterInfo.aviation.damagePerHitNoWeapon || "")) +
                   "</brown></div></div>"
                 );
               }
