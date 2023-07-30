@@ -4570,7 +4570,8 @@ function hookUpDailyChallengeAutoCollect() {
       console.log('Going to wait for: ' + timeToWait + ' ms.');
       setTimeout(() => {
         clickHandler();
-      }, timeToWait);    }
+      }, timeToWait);
+    }
   }
 }
 
