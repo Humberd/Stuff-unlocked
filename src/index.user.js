@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.62
+// @version		5.63
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -4547,7 +4547,7 @@ function hookUpDailyChallengeAutoCollect() {
     );
     claimAllButtonElement.style.float = "right";
     claimAllButtonElement.style.marginRight = "16px";
-    claimAllButtonElement.textContent = "Claim All";
+    claimAllButtonElement.textContent = "Claim All & Close";
     claimAllButtonElement.addEventListener("click", clickHandler);
     titleRootElement.appendChild(claimAllButtonElement);
 
@@ -4555,18 +4555,22 @@ function hookUpDailyChallengeAutoCollect() {
       const claimButtonElements = document.querySelectorAll(
         ".missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton"
       );
+      const closeBtn = document.querySelector('#dailyMissionsPopup > a.close.closeButton[title="Close"]');
       if (!claimButtonElements.length) {
         console.log("No more challenges to claim.");
+        closeBtn.click();
         return;
       }
       console.log(`Challenges to claim: ${claimButtonElements.length}`);
       for (let claimButtonElement of claimButtonElements) {
         claimButtonElement.click();
       }
+
+      const timeToWait = Math.floor(1500 + Math.random()*(2500 - 1500 + 1)); // Random int between 1500 and 2500
+      console.log('Going to wait for: ' + timeToWait + ' ms.');
       setTimeout(() => {
         clickHandler();
-      }, 2000);
-    }
+      }, timeToWait);    }
   }
 }
 
