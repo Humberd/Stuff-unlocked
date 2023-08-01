@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.63
+// @version		5.62
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -4548,29 +4548,26 @@ function hookUpDailyChallengeAutoCollect() {
     claimAllButtonElement.style.float = "right";
     claimAllButtonElement.style.marginRight = "16px";
     claimAllButtonElement.textContent = "Claim All & Close";
-    claimAllButtonElement.addEventListener("click", clickHandler);
+    claimAllButtonElement.addEventListener("click", () => clickHandler(1000));
     titleRootElement.appendChild(claimAllButtonElement);
 
-    function clickHandler() {
+    function clickHandler(timeToWaitInMs) {
       const claimButtonElements = document.querySelectorAll(
         ".missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton"
       );
-      const closeBtn = document.querySelector('#dailyMissionsPopup > a.close.closeButton[title="Close"]');
       if (!claimButtonElements.length) {
-        console.log("No more challenges to claim.");
-        closeBtn.click();
+        console.log("No more challenges to claim. Closing challenges window.");
+        const closeButtonElement = document.querySelector('#dailyMissionsPopup > a.close.closeButton[title="Close"]');
+        closeButtonElement?.click();
         return;
       }
       console.log(`Challenges to claim: ${claimButtonElements.length}`);
-      for (let claimButtonElement of claimButtonElements) {
-        claimButtonElement.click();
-      }
+      claimButtonElements[0]?.click();
 
-      const timeToWait = Math.floor(1500 + Math.random()*(2500 - 1500 + 1)); // Random int between 1500 and 2500
-      console.log('Going to wait for: ' + timeToWait + ' ms.');
+      console.log('Going to wait for: ' + timeToWaitInMs + ' ms.');
       setTimeout(() => {
-        clickHandler();
-      }, timeToWait);
+        clickHandler(Math.floor(500 + Math.random() * (900 - 500 + 1)));
+      }, timeToWaitInMs);
     }
   }
 }
