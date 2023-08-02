@@ -4547,25 +4547,27 @@ function hookUpDailyChallengeAutoCollect() {
     );
     claimAllButtonElement.style.float = "right";
     claimAllButtonElement.style.marginRight = "16px";
-    claimAllButtonElement.textContent = "Claim All";
-    claimAllButtonElement.addEventListener("click", clickHandler);
+    claimAllButtonElement.textContent = "Claim All & Close";
+    claimAllButtonElement.addEventListener("click", () => clickHandler(1000));
     titleRootElement.appendChild(claimAllButtonElement);
 
-    function clickHandler() {
+    function clickHandler(timeToWaitInMs) {
       const claimButtonElements = document.querySelectorAll(
         ".missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton"
       );
       if (!claimButtonElements.length) {
-        console.log("No more challenges to claim.");
+        console.log("No more challenges to claim. Closing challenges window.");
+        const closeButtonElement = document.querySelector('#dailyMissionsPopup > a.close.closeButton[title="Close"]');
+        closeButtonElement?.click();
         return;
       }
       console.log(`Challenges to claim: ${claimButtonElements.length}`);
-      for (let claimButtonElement of claimButtonElements) {
-        claimButtonElement.click();
-      }
+      claimButtonElements[0]?.click();
+
+      console.log('Going to wait for: ' + timeToWaitInMs + ' ms.');
       setTimeout(() => {
-        clickHandler();
-      }, 2000);
+        clickHandler(Math.floor(500 + Math.random() * (900 - 500 + 1)));
+      }, timeToWaitInMs);
     }
   }
 }
