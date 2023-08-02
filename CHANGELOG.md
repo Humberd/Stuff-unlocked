@@ -1,3 +1,7 @@
+# 5.6 (02.08.2023)
+* fix: Improve Claim All button (#15)
+* fix: Display stale player lvl in hovercard
+* 
 # 5.62 (11.07.2023)
 * fix: Broken hovercard resolution
 
