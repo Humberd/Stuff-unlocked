@@ -1,4 +1,7 @@
-# 5.6 (02.08.2023)
+# 5.64 (11.08.2023)
+* Fix: Filter out disabled buttons and lower timeToWait limits (#16)
+* 
+# 5.63 (02.08.2023)
 * fix: Improve Claim All button (#15)
 * fix: Display stale player lvl in hovercard
 * 
