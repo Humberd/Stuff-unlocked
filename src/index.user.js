@@ -4553,7 +4553,7 @@ function hookUpDailyChallengeAutoCollect() {
 
     function clickHandler(timeToWaitInMs) {
       const claimButtonElements = document.querySelectorAll(
-        ".missionWrapper:not(.alreadyClaimed) .claimButton, .rewardWrapper:not(.claimed) .claimButton"
+        ".missionWrapper:not(.alreadyClaimed) a:not(.disabled).claimButton, .rewardWrapper:not(.claimed) .claimButton"
       );
       if (!claimButtonElements.length) {
         console.log("No more challenges to claim. Closing challenges window.");
@@ -4566,7 +4566,7 @@ function hookUpDailyChallengeAutoCollect() {
 
       console.log('Going to wait for: ' + timeToWaitInMs + ' ms.');
       setTimeout(() => {
-        clickHandler(Math.floor(500 + Math.random() * (900 - 500 + 1)));
+        clickHandler(Math.floor(300 + Math.random() * (400 - 300 + 1)));
       }, timeToWaitInMs);
     }
   }
