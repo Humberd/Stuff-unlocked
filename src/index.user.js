@@ -2505,28 +2505,30 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                              * @return {undefined}
                              */
                             function init() {
-                              expectation.forEach(function (dom, mute) {
+                              expectation.forEach(function (dom, militaryType) {
                                 dom
                                   .querySelectorAll("span")
                                   .forEach((inventoryService) => {
                                     return inventoryService.remove();
                                   });
-                                var b =
+                                var militaryData =
                                   bd.military.militaryData[
-                                    mute ? "aircraft" : "ground"
+                                    militaryType ? "aircraft" : "ground"
                                   ];
+
                                 /** @type {number} */
                                 var delta_length_z =
                                   +dom.getElementsByTagName("select")[0].value;
-                                var soundEnabled =
+                                var naturalEnemy =
                                   document.getElementById("InfCalc_NE").checked;
+                                const appliedStrength = militaryData.temporaryStrength || 0
+                                const appliedRank = militaryData.rankNumber
+                                const damageNoHit = calculateNoHitDamage(appliedStrength, appliedRank);
                                 /** @type {number} */
                                 var volume =
-                                  bd.loggedIn.hovercardData.fighterInfo[
-                                    mute ? "aviation" : "military"
-                                  ].damagePerHitNoWeapon *
+                                  damageNoHit *
                                   (1 + delta_length_z / 5) *
-                                  (mute
+                                  (militaryType
                                     ? 1
                                     : 1 +
                                       parseInt(
@@ -2552,15 +2554,15 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                           document.getElementById(
                                             "InfCalc_hits"
                                           ).value *
-                                          (soundEnabled ? 1.1 : 1)
+                                          (naturalEnemy ? 1.1 : 1)
                                       ),
                                       1
                                     ) +
                                     "</span><span>Hits to next rank</span><span>" +
-                                    (b.nextRankAt - b.points > 0
+                                    (militaryData.nextRankAt - militaryData.points > 0
                                       ? format(
                                           Math.ceil(
-                                            (10 * (b.nextRankAt - b.points)) /
+                                            (10 * (militaryData.nextRankAt - militaryData.points)) /
                                               volume /
                                               (document.getElementById(
                                                 "InfCalc_WarStash"
@@ -2574,7 +2576,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                     '</span><span>Cost cc/M</span><span title="Includes food">' +
                                     format(
                                       ((delta_length_z
-                                        ? (data.infCalc[mute ? 23 : 2][
+                                        ? (data.infCalc[militaryType ? 23 : 2][
                                             Math.min(delta_length_z, 7)
                                           ] /
                                             delta_length_z) *
@@ -2583,7 +2585,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                         force_z *
                                           data.infCalc.cheapestFood *
                                           10) /
-                                        (soundEnabled ? 1.1 : 1),
+                                        (naturalEnemy ? 1.1 : 1),
                                       2
                                     ) +
                                     "</span>"
@@ -2597,6 +2599,12 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                             var bd = angular
                               .element("#str_progress")
                               .scope().data;
+                            const {rankNumber} = bd.military.militaryData;
+                            let legendBonus = 0;
+                            if (rankNumber > 70) {
+                              legendBonus = rankNumber - 70 + 1;
+                            }
+
                             expect(".citizen_military_box_wide", (table) => {
                               return table.insertAdjacentHTML(
                                 "afterEnd",
@@ -2607,15 +2615,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                               '<div id="infCalc" class="citizen_military"><label>Hits <input type="text" id="InfCalc_hits" value="1"></label><label>Natural Enemy <input type="checkbox" id="InfCalc_NE"></label><label title="+10% rank points">War Stash <input type="checkbox" id="InfCalc_WarStash" ' +
                                 (bd.activePacks.war_stash ? "checked" : "") +
                                 '></label><label>Damage Booster<input type="text" id="InfCalc_booster" value="0%"></label><label>Legend Bonus<input type="text" id="InfCalc_legend" value="' +
-                                Math.max(
-                                  (100 *
-                                    bd.loggedIn.hovercardData.fighterInfo
-                                      .military.damagePerHitLegend) /
-                                    bd.loggedIn.hovercardData.fighterInfo
-                                      .military.damagePerHit -
-                                    100,
-                                  0
-                                ).toFixed() +
+                                legendBonus*10 +
                                 '%"></label></div>'
                             );
                             expect(
@@ -4865,4 +4865,8 @@ async function hookUpDonatorBadges(stuffUnlockedData) {
     imageElement.classList.add(CLASS_NAMES.DONATOR_BORDER, ...classNames);
     return imageElement;
   }
+}
+
+function calculateNoHitDamage(strength, rank) {
+  return 10 * (1+ strength/400)*(1+ rank/5)
 }
