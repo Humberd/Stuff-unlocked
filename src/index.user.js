@@ -3154,10 +3154,10 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                           }
                         } else {
                           if (
-                            location.href.includes("economy/inventory") &&
+                              (location.href.includes("economy/inventory") || location.href.includes("main/inventory")) &&
                             !data.improveInventory
                           ) {
-                            (function () {
+                            (() => {
                               /**
                                * @return {undefined}
                                */
@@ -3207,7 +3207,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                               /**
                                * @return {undefined}
                                */
-                              function r() {
+                              function renderTotalFoodHp() {
                                 /** @type {string} */
                                 document.getElementById(
                                   "totalFoodHP"
@@ -3349,7 +3349,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                       row.status.totalStorage -
                                         row.status.usedStorage
                                     );
-                                  r();
+                                  renderTotalFoodHp();
                                   start();
                                   render();
                                 }
@@ -3484,7 +3484,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                           : 20);
                                     }
                                   });
-                                  r();
+                                  renderTotalFoodHp();
                                   /** @type {string} */
                                   document.getElementById(
                                     "Total_netF"
