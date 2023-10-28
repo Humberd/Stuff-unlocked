@@ -4116,6 +4116,7 @@ function hookUpPowerSpin() {
     ) {
       if (!spinHttpResponse.alreadyHandled) {
         spinHttpResponse.alreadyHandled = true;
+        currentJackpotCount = spinHttpResponse.jackpot;
         spinHttpResponse.prizes.forEach((reward, index) => {
           const { tooltip, icon } = findRewardById(reward.index);
           const cost = spinHttpResponse.cost + 100 * index;
@@ -4139,11 +4140,9 @@ function hookUpPowerSpin() {
       spinHttpResponse,
       multiSpin
     ) {
-      const name = spinHttpResponse.prize.tooltip;
-      const price = spinHttpResponse.cost;
-      const iconUrl = spinHttpResponse.prize.icon;
-      currentJackpotCount = spinHttpResponse.jackpot;
-      logPrize(price, name, iconUrl);
+      // For now do nothing.
+      // The game started calling both multispin and spin functions for a single spin.
+      // We are now handling logic in a multispin function.
       old.apply(erepublik.wheel_of_fortune, arguments);
     };
   }
@@ -4371,7 +4370,7 @@ function hookUpPowerSpin() {
       function timeHandler() {
         const currentCost = window.global_wof_build_data.cost;
         let spinsRequiredCount = (maxCost - currentCost) / 100;
-        console.log({ spinsRequired: spinsRequiredCount });
+        console.log({ spinsRequiredCount, previousJackpotCount, currentJackpotCount });
 
         if (stoppingTheWheel) {
           stopTheWheel();
