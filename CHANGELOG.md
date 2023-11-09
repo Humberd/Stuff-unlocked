@@ -1,13 +1,21 @@
-# 5.6 (02.08.2023)
+# 5.54 (28.10.2023)
+* fix: Hits calculation on a profile page
+* fix: Storage helper features
+* fix: Stopping at gold Jackpot
+
+# 5.64 (11.08.2023)
+* Fix: Filter out disabled buttons and lower timeToWait limits (#16)
+
+# 5.63 (02.08.2023)
 * fix: Improve Claim All button (#15)
 * fix: Display stale player lvl in hovercard
-* 
+
 # 5.62 (11.07.2023)
 * fix: Broken hovercard resolution
 
 # 5.61 (02.07.2023)
 * Fix: Avatar borders not displaying properly in posts feed.
-* 
+
 # 5.60 (02.07.2023)
 * Feat: Feed comments scroll.
 * Delete: Unused features: Autofighter and improved feed.
