@@ -1,4 +1,4 @@
-# 5.54 (28.10.2023)
+# 5.65 (28.10.2023)
 * fix: Hits calculation on a profile page
 * fix: Storage helper features
 * fix: Stopping at gold Jackpot
