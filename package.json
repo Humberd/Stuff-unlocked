@@ -1,6 +1,6 @@
 {
   "name": "stuff-unlocked",
-  "version": "5.65",
+  "version": "5.66",
   "description": "",
   "main": "src/index.user.js",
   "scripts": {
