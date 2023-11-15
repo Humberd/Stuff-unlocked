@@ -1,3 +1,19 @@
+# 5.66 (15.11.2023)
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Empty Github Action release script
+* Misc: Auto version updater script
+* Misc: Set version in package.json
+* Fix: Changelog number
+* Misc: Disable and show loading animation on 'Claim All & Close' button upon click (#18)
+
 # 5.65 (28.10.2023)
 * fix: Hits calculation on a profile page
 * fix: Storage helper features
