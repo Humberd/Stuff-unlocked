@@ -11,6 +11,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Release Version
+        id: release-version
         run: |
           node scripts/version-updater.js
       - name: Create Pull Request
