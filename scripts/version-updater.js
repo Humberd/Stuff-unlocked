@@ -80,6 +80,7 @@ function prependChangesToChangelog(version, changes, date) {
 
 function doAll() {
   const newVersion = bumpCurrentVersion(Type.minor);
+  console.log(`Bumping version to ${newVersion}`);
   updateAllVersions(newVersion);
 
   const currentDate = new Date()
@@ -89,9 +90,13 @@ function doAll() {
     .reverse()
     .join(".");
 
+  const allCommitsSinceLastBump = getAllCommitsSinceLastBump();
+  console.log("All commits since last bump:");
+  console.log(allCommitsSinceLastBump);
+
   prependChangesToChangelog(
     newVersion,
-    getAllCommitsSinceLastBump(),
+    allCommitsSinceLastBump,
     currentDate
   );
 }
