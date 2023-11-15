@@ -78,19 +78,30 @@ function prependChangesToChangelog(version, changes, date) {
   fs.writeFileSync(path, updatedChangelog);
 }
 
-function outputVersionToGithubAction(newVersion, changes) {
-  try {
-    const core = require("@actions/core");
-    core.setOutput("newVersion", newVersion);
-    core.setOutput("changes", changes);
-  } catch (e) {
-    console.error(
-      "No GitHub Actions core module found. Skipping setting output."
-    );
+async function outputVersionToGithubAction(newVersion, changes) {
+  if (process.env.GITHUB_ACTIONS !== "true") {
+    console.log("Not running outside GitHub Actions. Skipping setting output.");
+    return;
   }
+  await installDependencies();
+
+  const core = require("@actions/core");
+  core.setOutput("newVersion", newVersion);
+  core.setOutput("changes", changes);
 }
 
-function doAll() {
+async function installDependencies() {
+  const util = require("util");
+  const jsExec = util.promisify(require("child_process").exec);
+
+  console.log("Installing npm dependencies");
+  const { stdout, stderr } = await jsExec("npm install @actions/core");
+  console.log("npm-install stderr:\n\n" + stderr);
+  console.log("npm-install stdout:\n\n" + stdout);
+  console.log("Finished installing npm dependencies");
+}
+
+async function doAll() {
   const newVersion = bumpCurrentVersion(Type.minor);
   console.log(`Bumping version to ${newVersion}`);
   updateAllVersions(newVersion);
@@ -108,7 +119,7 @@ function doAll() {
 
   prependChangesToChangelog(newVersion, allCommitsSinceLastBump, currentDate);
 
-  outputVersionToGithubAction(newVersion, allCommitsSinceLastBump);
+  await outputVersionToGithubAction(newVersion, allCommitsSinceLastBump);
 }
 
 doAll();
