@@ -28,7 +28,7 @@ jobs:
             ${{ env.CHANGES }}
           labels: |
             automated pr
-          branch: "version_bump$/{{ env.NEW_VERSION }}"
+          branch: version_bump$/{{ env.NEW_VERSION }}
           branch-suffix: timestamp
           delete-branch: true
 
