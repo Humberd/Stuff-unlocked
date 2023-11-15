@@ -78,6 +78,18 @@ function prependChangesToChangelog(version, changes, date) {
   fs.writeFileSync(path, updatedChangelog);
 }
 
+function outputVersionToGithubAction(newVersion, changes) {
+  try {
+    const core = require("@actions/core");
+    core.setOutput("newVersion", newVersion);
+    core.setOutput("changes", changes);
+  } catch (e) {
+    console.error(
+      "No GitHub Actions core module found. Skipping setting output."
+    );
+  }
+}
+
 function doAll() {
   const newVersion = bumpCurrentVersion(Type.minor);
   console.log(`Bumping version to ${newVersion}`);
@@ -94,11 +106,9 @@ function doAll() {
   console.log("All commits since last bump:");
   console.log(allCommitsSinceLastBump);
 
-  prependChangesToChangelog(
-    newVersion,
-    allCommitsSinceLastBump,
-    currentDate
-  );
+  prependChangesToChangelog(newVersion, allCommitsSinceLastBump, currentDate);
+
+  outputVersionToGithubAction(newVersion, allCommitsSinceLastBump);
 }
 
 doAll();
