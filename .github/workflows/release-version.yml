@@ -1,0 +1,37 @@
+name: Release Version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Release Version
+        id: release-version
+        run: |
+          node scripts/version-updater.js
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        env:
+          NEW_VERSION: ${{ steps.release-version.outputs.newVersion }}
+          CHANGES: ${{ steps.release-version.outputs.changes }}
+        with:
+          commit-message: Bump ${{ env.NEW_VERSION }}
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          title: Bump ${{ env.NEW_VERSION }}
+          body: |
+            # New Version ${{ env.NEW_VERSION }}
+            
+            ## Changes
+            ${{ env.CHANGES }}
+          labels: |
+            BUMP
+          branch: "version_bump/${{ env.NEW_VERSION }}"
+          branch-suffix: timestamp
+          delete-branch: true
+
