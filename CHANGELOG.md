@@ -1,3 +1,10 @@
+# 5.66 (15.11.2023)
+* Misc: Automatic version updater script with GH Actions
+* Misc: Auto version updater script
+* Misc: Set version in package.json
+* Fix: Changelog number
+* Misc: Disable and show loading animation on 'Claim All & Close' button upon click (#18)
+
 # 5.65 (28.10.2023)
 * fix: Hits calculation on a profile page
 * fix: Storage helper features
