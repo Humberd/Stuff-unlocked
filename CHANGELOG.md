@@ -1,3 +1,6 @@
+# 5.66 (15.11.2023)
+
+
 # 5.65 (28.10.2023)
 * fix: Hits calculation on a profile page
 * fix: Storage helper features
