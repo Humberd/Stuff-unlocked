@@ -87,7 +87,7 @@ async function outputVersionToGithubAction(newVersion, changes) {
 
   const core = require("@actions/core");
   core.setOutput("newVersion", newVersion);
-  core.setOutput("changes", changes);
+  core.setOutput("changes", "*" + changes.join("\n*"));
 }
 
 async function installDependencies() {
@@ -95,7 +95,9 @@ async function installDependencies() {
   const jsExec = util.promisify(require("child_process").exec);
 
   console.log("Installing npm dependencies");
-  const { stdout, stderr } = await jsExec("npm install @actions/core --no-save");
+  const { stdout, stderr } = await jsExec(
+    "npm install @actions/core --no-save"
+  );
   console.log("npm-install stderr:\n\n" + stderr);
   console.log("npm-install stdout:\n\n" + stdout);
   console.log("Finished installing npm dependencies");
