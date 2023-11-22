@@ -62,3 +62,30 @@ Basic feature inherited from Zordacz's old version.
 
 ![feed-comments-scroll-feature.png](assets%2Ffeed-comments-scroll-feature.png)
 
+
+# Development
+
+## Installation
+Run `npm ci` to install dependencies.
+
+## Local build
+Run `npm start` to start development server.
+
+Copy absolute disk path to `dist/index-dev.user.js` and paste it into URL of your browser.
+It should be similar to `D:\Repositories\Stuff-unlocked\dist\index-dev.user.js`.
+This will install the script in Tampermonkey.
+
+You will have to disable production script, so that only the DEV one is active.
+![img.png](assets/img.png)
+
+Now everytime you make a change in the code, the erepublik page should refresh automatically.
+
+## Production build
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Old stuff
+The old (non-React) version of the script is in `src/old-index.user.js`.
+It is appended during a build phase to `index.user.js` file.
+In result the `index.user.js` file contains both old and new version of the script.
+
+`index.user.js` = `src/userscript-header.js` + `src/old-index.user.js` + React build artifacts.
