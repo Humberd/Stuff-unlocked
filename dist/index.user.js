@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name		  eRepublik Stuff++ Unlocked 123
+// @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
 // @version		5.66
@@ -21,7 +21,7 @@ const CONTRIBUTORS_URL="https://raw.githubusercontent.com/Humberd/Stuff-unlocked
    * @param {(ArrayBuffer|ArrayBufferView|Blob|Document|FormData|null|string)=} p0
    * @return {undefined}
    */XMLHttpRequest.prototype.send=function(){this.addEventListener("load",function(){/** @type {*} */var text="{"==this.responseText.trim()[0]?JSON.parse(this.responseText):this.responseText;setTimeout(()=>{for(let requestCallback of afterRequestCallbacks){requestCallback(text,this.responseURL);}},200);});oldSend.apply(this,arguments);};// Evaluate the script after the page has loaded.
-console.log(document.readyState);if(document.readyState==='loading'){window.addEventListener("DOMContentLoaded",onContentLoaded);}else{onContentLoaded();}function onContentLoaded(){console.log('CALLED');/**
+console.log(document.readyState);if(document.readyState==='loading'){window.addEventListener("DOMContentLoaded",onContentLoaded);}else{onContentLoaded();}function onContentLoaded(){/**
      * @param {!Object} args
      * @param {!Function} query
      * @return {undefined}
@@ -7851,7 +7851,7 @@ module.exports = styleTagTransform;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -7865,14 +7865,14 @@ module.exports = styleTagTransform;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -7885,7 +7885,7 @@ module.exports = styleTagTransform;
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -7897,17 +7897,17 @@ module.exports = styleTagTransform;
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/nonce */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -7940,15 +7940,15 @@ var styleTagTransform_default = /*#__PURE__*/__webpack_require__.n(styleTagTrans
 var cjs_js_src = __webpack_require__(880);
 ;// CONCATENATED MODULE: ./src/index.css
 
-
-
-
-
-
-
-
-
-
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
 var options = {};
 
@@ -7956,7 +7956,7 @@ options.styleTagTransform = (styleTagTransform_default());
 options.setAttributes = (setAttributesWithoutAttributes_default());
 
       options.insert = insertBySelector_default().bind(null, "head");
-
+    
 options.domAPI = (styleDomAPI_default());
 options.insertStyleElement = (insertStyleElement_default());
 
@@ -7971,15 +7971,15 @@ var update = injectStylesIntoStyleTag_default()(cjs_js_src/* default */.Z, optio
 var App = __webpack_require__(7);
 ;// CONCATENATED MODULE: ./src/App.css
 
-
-
-
-
-
-
-
-
-
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
 var App_options = {};
 
@@ -7987,7 +7987,7 @@ App_options.styleTagTransform = (styleTagTransform_default());
 App_options.setAttributes = (setAttributesWithoutAttributes_default());
 
       App_options.insert = insertBySelector_default().bind(null, "head");
-
+    
 App_options.domAPI = (styleDomAPI_default());
 App_options.insertStyleElement = (insertStyleElement_default());
 
@@ -8040,7 +8040,7 @@ log("React script has successfully started");// Do required initial work. Gets c
 // different routes.
 async function main(){// Find <body/>. This can be any element. We wait until
 // the page has loaded enough for that element to exist.
-const body=await awaitElement("body");const container=document.createElement("div");body.appendChild(container);console.trace('HELLO WORLD');react_dom.render(/*#__PURE__*/(0,jsx_runtime.jsx)(src_App_0,{}),container);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',watchForUrlChange);}else{watchForUrlChange();}function watchForUrlChange(){// Call `main()` every time the page URL changes, including on first load.
+const body=await awaitElement("body");const container=document.createElement("div");body.appendChild(container);react_dom.render(/*#__PURE__*/(0,jsx_runtime.jsx)(src_App_0,{}),container);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',watchForUrlChange);}else{watchForUrlChange();}function watchForUrlChange(){// Call `main()` every time the page URL changes, including on first load.
 addLocationChangeCallback(()=>{// Greasemonkey doesn't bubble errors up to the main console,
 // so we have to catch them manually and log them
 main().catch(e=>{log(e);});});}
