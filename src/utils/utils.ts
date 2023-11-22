@@ -4,7 +4,7 @@
  * @export
  * @param {*} args
  */
-export function log(...args) {
+export function log(...args: any[]) {
     console.log(
         "%cUserscript (React Mode):",
         "color: purple; font-weight: bold",
@@ -19,8 +19,8 @@ export function log(...args) {
  * @param {string} arg
  * @returns {Promise} - the `fetch` promise
  */
-export function logFetch(arg) {
-    const url = new URL(arg, window.location);
+export function logFetch(arg: any) {
+    const url = new URL(arg, window.location.toString());
     log("fetching", "" + url);
     return fetch("" + url, { credentials: "include" });
 }
@@ -33,7 +33,7 @@ export function logFetch(arg) {
  * @param {function} callback - function to be called when URL changes
  * @returns {MutationObserver} - MutationObserver that watches the URL
  */
-export function addLocationChangeCallback(callback) {
+export function addLocationChangeCallback(callback: any) {
     // Run the callback once right at the start
     window.setTimeout(callback, 0);
 
@@ -47,7 +47,7 @@ export function addLocationChangeCallback(callback) {
         }
     });
 
-    observer.observe(body, { childList: true, subtree: true });
+    observer.observe(body as any, { childList: true, subtree: true });
     return observer;
 }
 
@@ -55,12 +55,8 @@ export function addLocationChangeCallback(callback) {
  * Awaits for an element with the specified `selector` to be found
  * and then returns the selected dom node.
  * This is used to delay rendering a widget until its parent appears.
- *
- * @export
- * @param {string} selector
- * @returns {DOMNode}
  */
-export async function awaitElement(selector) {
+export async function awaitElement(selector: string): Promise<HTMLElement> {
     const MAX_TRIES = 60;
     let tries = 0;
     return new Promise((resolve, reject) => {
@@ -77,7 +73,7 @@ export async function awaitElement(selector) {
             }
             const elm = probe();
             if (elm) {
-                resolve(elm);
+                resolve(elm as any);
                 return;
             }
 

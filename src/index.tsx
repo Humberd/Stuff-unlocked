@@ -1,9 +1,8 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import { awaitElement, log, addLocationChangeCallback } from "./utils/utils";
 import "./old-index.user.js";
+import { App } from './App';
 
 log("React script has successfully started");
 
@@ -15,7 +14,7 @@ async function main() {
     // the page has loaded enough for that element to exist.
     const body = await awaitElement("body");
     const container = document.createElement("div");
-    body.appendChild(container);
+    body.prepend(container);
     ReactDOM.render(<App />, container);
 }
 
