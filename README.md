@@ -87,4 +87,5 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 The old (non-React) version of the script is in `src/old-index.user.js`.
 It is appended during a build phase to `index.user.js` file.
 In result the `index.user.js` file contains both old and new version of the script.
-`index.user.js` = `src/userscript-header.js` + `src/old-index.user.js` + React build artifacts..
+
+`index.user.js` = `src/userscript-header.js` + `src/old-index.user.js` + React build artifacts.
