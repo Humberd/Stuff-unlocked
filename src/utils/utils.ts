@@ -1,3 +1,5 @@
+const APP_NAME = "Stuff Unlocked";
+
 /**
  * Wrapped console.log function.
  *
@@ -6,12 +8,19 @@
  */
 export function log(...args: any[]) {
     console.log(
-        "%cUserscript (React Mode):",
+        `%c${APP_NAME}:`,
         "color: purple; font-weight: bold",
         ...args
     );
 }
 
+export function error(...args: any[]) {
+    console.log(
+        `%c${APP_NAME} [ERROR]:`,
+        "color: red; font-weight: bold; border-bottom: 1px solid red;",
+        ...args
+    );
+}
 /**
  * Wrapped version of `fetch` that logs the output as it's being fetched.
  * It also specifies the full path, because in Greasemonkey, the full path is needed.

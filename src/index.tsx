@@ -1,37 +1,42 @@
-import ReactDOM from "react-dom";
 import "./index.css";
-import { awaitElement, log, addLocationChangeCallback } from "./utils/utils";
+import { addLocationChangeCallback, error, log } from "./utils/utils";
 import "./old-index.user.js";
-import { App } from './App';
+import { AnAmazingJourneyFeature } from "./features/an-amazing-journey/feature";
 
 log("React script has successfully started");
 
-// Do required initial work. Gets called every time the URL changes,
-// so that elements can be re-inserted as a user navigates a page with
-// different routes.
-async function main() {
-    // Find <body/>. This can be any element. We wait until
-    // the page has loaded enough for that element to exist.
-    const body = await awaitElement("body");
-    const container = document.createElement("div");
-    body.prepend(container);
-    ReactDOM.render(<App />, container);
+const features = [AnAmazingJourneyFeature, AnAmazingJourneyFeature];
+
+async function onUrlChange() {
+  log(`Testing ${features.length} features`);
+  let executedWithSuccess = 0;
+  for (const feature of features) {
+    if (feature.canExecute(window.location.href)) {
+      try {
+        await feature.execute();
+        executedWithSuccess++;
+      } catch (e) {
+        error(`Feature ${feature.name} failed to execute`);
+        error(e);
+      }
+    }
+  }
+  log(`Executed ${executedWithSuccess}/${features.length} features`);
 }
 
-if(document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', watchForUrlChange);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", watchForUrlChange);
 } else {
-    watchForUrlChange();
+  watchForUrlChange();
 }
 
 function watchForUrlChange() {
-    // Call `main()` every time the page URL changes, including on first load.
-    addLocationChangeCallback(() => {
-        // Greasemonkey doesn't bubble errors up to the main console,
-        // so we have to catch them manually and log them
-        main().catch((e) => {
-            log(e);
-        });
+  // Call `onUrlChange()` every time the page URL changes, including on first load.
+  addLocationChangeCallback(() => {
+    // Greasemonkey doesn't bubble errors up to the onUrlChange console,
+    // so we have to catch them manually and log them
+    onUrlChange().catch((e) => {
+      log(e);
     });
-
+  });
 }
