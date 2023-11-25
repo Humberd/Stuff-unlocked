@@ -27,6 +27,7 @@ export const CollapseButtonPanel: React.FC<CollapseButtonPanelProps> = (
           [styles.isCollapsed]: props.isCollapsed,
         })}
         onClick={() => props.onClick(!props.isCollapsed)}
+        title={props.isCollapsed ? "Expand Auto Traveller" : "Collapse Auto Traveller"}
       >
         <svg
           fill="#000000"

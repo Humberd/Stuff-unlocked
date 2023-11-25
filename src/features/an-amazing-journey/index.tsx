@@ -9,6 +9,10 @@ import { AutoTravellerPanel } from "./components/AutoTravellerPanel";
 import { createRoot } from "react-dom/client";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
+import {
+  TravelProgressPanel,
+  TravelProgressState, TravelProgressStatus
+} from "./components/TravelProgressPanel";
 
 const countriesCache = new CountriesCache();
 
@@ -26,11 +30,22 @@ export const AnAmazingJourneyFeature = createFeature({
 
 const JourneyFeatureComponent = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [travelProgressState, setTravelProgressState] = useState<
+    TravelProgressState | undefined
+  >({
+    status: TravelProgressStatus.InProgress,
+    travelsCompleted: 5,
+    travelledDistanceKm: 123_412,
+    resourcesSpent: { amount: 3_211, unit: "PLN" },
+  });
 
   return (
     <>
-      {!isCollapsed && <AutoTravellerPanel onStart={log} onStop={log} />}
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
+      {!isCollapsed && <AutoTravellerPanel onStart={log} onStop={log} />}
+      {!isCollapsed && travelProgressState && (
+        <TravelProgressPanel state={travelProgressState} />
+      )}
     </>
   );
 };
