@@ -1,0 +1,25 @@
+.inProgress {
+    margin-bottom: -9px;
+    color: #4aa9ec;
+
+    .spinner {
+        transform-origin: center;
+        animation: spinner .75s infinite linear;
+    }
+
+    @keyframes spinner {
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+}
+
+.error {
+    margin-bottom: -9px;
+    color: #a92929;
+}
+
+.completed {
+    margin-bottom: -9px;
+    color: #3b9f4e;
+}

@@ -1,20 +1,27 @@
 import { createFeature } from "../../utils/feature";
-import { awaitElement, log } from "../../utils/utils";
-import { findCountryIdFor, MazoviaRegionId, MazuriaRegionId } from "./regions";
+import { log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
-import { Travel } from "../../requests/travel-request";
-import { getCsrfToken } from "../../utils/request";
 import React, { useState } from "react";
-import { AutoTravellerPanel } from "./components/AutoTravellerPanel";
-import { createRoot } from "react-dom/client";
+import {
+  AutoTravelForm,
+  AutoTravellerPanel,
+} from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import {
   TravelProgressPanel,
-  TravelProgressState, TravelProgressStatus
+  TravelProgressState,
+  TravelProgressStatus,
 } from "./components/TravelProgressPanel";
+import { createNewTravelProgressState, getTotalTravelledDistanceKm } from "./travel";
+import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
+import { travelRouteTest } from "./regions";
+import { AnniversaryQuestData } from "../../requests/anniversary-quest-data-request";
 
 const countriesCache = new CountriesCache();
+
+const TIMER_INTERVAL_MS = 5_000;
+const currentTravelRoute = travelRouteTest
 
 export const AnAmazingJourneyFeature = createFeature({
   name: "An Amazing Journey",
@@ -32,55 +39,55 @@ const JourneyFeatureComponent = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
-  >({
-    status: TravelProgressStatus.InProgress,
-    travelsCompleted: 5,
-    travelledDistanceKm: 123_412,
-    resourcesSpent: { amount: 3_211, unit: "PLN" },
-  });
+  >();
+  const [shouldStop, setShouldStop] = useState(false);
+
+  const onStart = async (form: AutoTravelForm) => {
+    countriesCache.getCountries();
+    const currencyUnit =
+      form.resourceUsed === "preferCurrency"
+        ? getCitizenshipCurrencyName()
+        : "tickets";
+    setTravelProgressState(createNewTravelProgressState(currencyUnit));
+
+    const initialTravelledDistance = await getTotalTravelledDistanceKm();
+
+    const callback = () => {
+      if (shouldStop) {
+        setShouldStop(false);
+        setTravelProgressState((state) => {
+          if (state) {
+            return {
+              ...state,
+              status: TravelProgressStatus.Completed,
+            };
+          }
+          return state;
+        });
+        return;
+      }
+
+
+    }
+
+
+
+
+    // callback();
+    // setInterval(callback, TIMER_INTERVAL_MS);
+  };
+
+  const onStop = () => {
+    setShouldStop(true);
+  };
 
   return (
     <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
-      {!isCollapsed && <AutoTravellerPanel onStart={log} onStop={log} />}
+      {!isCollapsed && <AutoTravellerPanel onStart={onStart} onStop={log} />}
       {!isCollapsed && travelProgressState && (
         <TravelProgressPanel state={travelProgressState} />
       )}
     </>
   );
 };
-
-// if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
-//   await travelTo(MazoviaRegionId);
-//   countriesCache.updateCurrentRegionId(MazoviaRegionId);
-// } else {
-//   await travelTo(MazuriaRegionId);
-//   countriesCache.updateCurrentRegionId(MazuriaRegionId);
-// }
-//
-// log("Waiting for 5 seconds");
-// await waitFor(5000);
-//
-// if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
-//   await travelTo(MazoviaRegionId);
-//   countriesCache.updateCurrentRegionId(MazoviaRegionId);
-// } else {
-//   await travelTo(MazuriaRegionId);
-//   countriesCache.updateCurrentRegionId(MazuriaRegionId);
-// }
-async function travelTo(regionId: string) {
-  const response = await Travel.sendRequest({
-    _token: getCsrfToken(),
-    travelMethod: "preferCurrency",
-    battleId: "0",
-    inRegionId: regionId,
-    toCountryId: findCountryIdFor(
-      regionId,
-      await countriesCache.getCountries()
-    ),
-  });
-  if (response.error === 1) {
-    throw Error(`Failed to travel to ${regionId}: ${response.message}`);
-  }
-  log(`Traveled to ${regionId}`);
-}

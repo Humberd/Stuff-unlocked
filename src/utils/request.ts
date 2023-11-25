@@ -1,14 +1,10 @@
-declare const erepublik: any;
-declare const SERVER_DATA: any;
+import { getAuthToken } from "./erep-global-info";
+
 
 export function getCookieHeaders() {
   return {
-    cookie: `erpk=${erepublik.settings.pomelo.authToken}`,
+    cookie: `erpk=${getAuthToken()}`,
   };
-}
-
-export function getCsrfToken() {
-  return SERVER_DATA.csrfToken;
 }
 
 export function objectToWwwFormUrlEncoded(obj: any) {

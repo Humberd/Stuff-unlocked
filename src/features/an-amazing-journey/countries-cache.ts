@@ -1,5 +1,6 @@
 import { TravelData } from "../../requests/travel-data-request";
-import { getCsrfToken } from "../../utils/request";
+
+import { getCsrfToken } from "../../utils/erep-global-info";
 
 export class CountriesCache {
   private countries?: Record<string, TravelData.CountryValue>;
