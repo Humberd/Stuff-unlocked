@@ -1,10 +1,12 @@
 import { createFeature } from "../../utils/feature";
-import { log } from "../../utils/utils";
+import { awaitElement, log } from "../../utils/utils";
 import { findCountryIdFor, MazoviaRegionId, MazuriaRegionId } from "./regions";
 import { CountriesCache } from "./countries-cache";
 import { Travel } from "../../requests/travel-request";
 import { getCsrfToken } from "../../utils/request";
-import { waitFor } from "../../utils/time";
+import React from "react";
+import { AutoTraveler } from "./components/AutoTraveler";
+import ReactDOM from "react-dom";
 
 const countriesCache = new CountriesCache();
 
@@ -14,26 +16,35 @@ export const AnAmazingJourneyFeature = createFeature({
     "An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",
   canExecute: (url) => url.endsWith("/main/anniversaryQuest"),
   execute: async () => {
-    if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
-      await travelTo(MazoviaRegionId);
-      countriesCache.updateCurrentRegionId(MazoviaRegionId);
-    } else {
-      await travelTo(MazuriaRegionId);
-      countriesCache.updateCurrentRegionId(MazuriaRegionId);
-    }
+    // if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
+    //   await travelTo(MazoviaRegionId);
+    //   countriesCache.updateCurrentRegionId(MazoviaRegionId);
+    // } else {
+    //   await travelTo(MazuriaRegionId);
+    //   countriesCache.updateCurrentRegionId(MazuriaRegionId);
+    // }
+    //
+    // log("Waiting for 5 seconds");
+    // await waitFor(5000);
+    //
+    // if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
+    //   await travelTo(MazoviaRegionId);
+    //   countriesCache.updateCurrentRegionId(MazoviaRegionId);
+    // } else {
+    //   await travelTo(MazuriaRegionId);
+    //   countriesCache.updateCurrentRegionId(MazuriaRegionId);
+    // }
+    // render <AutoTraveler/> component under #cityInfoTopPopup element
 
-    log("Waiting for 5 seconds");
-    await waitFor(5000);
-
-    if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
-      await travelTo(MazoviaRegionId);
-      countriesCache.updateCurrentRegionId(MazoviaRegionId);
-    } else {
-      await travelTo(MazuriaRegionId);
-      countriesCache.updateCurrentRegionId(MazuriaRegionId);
-    }
+    const foo = <Foo/>;
+    console.log(foo);
+    ReactDOM.render(foo,  document.querySelector("body"));
   },
 });
+
+function Foo() {
+  return <div/>;
+}
 
 async function travelTo(regionId: string) {
   const response = await Travel.sendRequest({

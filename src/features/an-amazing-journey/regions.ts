@@ -15,22 +15,18 @@ import { TravelData } from "../../requests/travel-data-request";
 // Mazuria
 
 export interface TravelRoute {
-  from: string;
-  to: string;
+  regionIdA: string;
+  regionIdB: string;
 }
 
 export const MazuriaRegionId = "423";
 export const MazoviaRegionId = "424";
 
-export const travelRoute1: TravelRoute = {
-  from: MazuriaRegionId,
-  to: MazoviaRegionId,
+export const travelRoute: TravelRoute = {
+  regionIdA: MazuriaRegionId,
+  regionIdB: MazoviaRegionId,
 };
 
-export const travelRoute2: TravelRoute = {
-  from: MazoviaRegionId,
-  to: MazuriaRegionId,
-};
 
 export function findCountryIdFor(
   regionId: string,
