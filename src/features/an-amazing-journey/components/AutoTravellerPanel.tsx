@@ -1,7 +1,7 @@
-import React, { RefObject, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
-import { error, log } from "../../../utils/utils";
 import { useForm } from "react-hook-form";
+import { HandleMapEvents } from "../hooks/HandleMapEvents";
 
 declare global {
   function disableMap(): void;
@@ -92,38 +92,3 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   );
 };
 
-/**
- * Disable map when mouse is over the panel
- * Enable map when mouse is out of the panel
- */
-function HandleMapEvents(panelRef: RefObject<HTMLDivElement>) {
-  useEffect(() => {
-    const disableMapCallback = () => {
-      try {
-        disableMap();
-      } catch (e) {
-        error(e);
-      }
-    };
-    panelRef.current?.addEventListener("mouseover", disableMapCallback);
-    panelRef.current?.addEventListener("touchstart", disableMapCallback);
-
-    const enableMapCallback = () => {
-      try {
-        enableMap();
-      } catch (e) {
-        error(e);
-      }
-    };
-
-    panelRef.current?.addEventListener("mouseout", enableMapCallback);
-    panelRef.current?.addEventListener("touchend", enableMapCallback);
-
-    return () => {
-      panelRef.current?.removeEventListener("mouseover", disableMapCallback);
-      panelRef.current?.removeEventListener("touchstart", disableMapCallback);
-      panelRef.current?.removeEventListener("mouseout", enableMapCallback);
-      panelRef.current?.removeEventListener("touchend", enableMapCallback);
-    };
-  }, [panelRef]);
-}
