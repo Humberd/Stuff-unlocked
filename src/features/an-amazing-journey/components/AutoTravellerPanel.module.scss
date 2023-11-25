@@ -1,0 +1,51 @@
+.panel {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 999;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.18);
+    background-color: #fff;
+    border-radius: 8px;
+    height: 187px;
+    width: 293px;
+    right: 1%;
+    top: 24%;
+    padding: 16px;
+    pointer-events: auto !important;
+    cursor: auto !important;
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+label.label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+input.input {
+    width: 100px;
+    text-align: center;
+}
+
+select.select {
+}
+
+input.checkbox{
+
+}
+
+section.actionBar {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 8px;
+
+    button.start {
+    }
+
+}
+

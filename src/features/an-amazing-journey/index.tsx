@@ -5,7 +5,7 @@ import { CountriesCache } from "./countries-cache";
 import { Travel } from "../../requests/travel-request";
 import { getCsrfToken } from "../../utils/request";
 import React from "react";
-import { AutoTraveler } from "./components/AutoTraveler";
+import { AutoTravellerPanel } from "./components/AutoTravellerPanel";
 import { createRoot } from "react-dom/client";
 import { renderElement } from "../../utils/render";
 
@@ -15,7 +15,7 @@ export const AnAmazingJourneyFeature = createFeature({
   name: "An Amazing Journey",
   description:
     "An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",
-  canExecute: (url) => url.endsWith("/main/anniversaryQuest"),
+  canExecute: (url) => url.includes("/main/anniversaryQuest"),
   execute: async () => {
     // if ((await countriesCache.getCurrentRegionId()) !== MazoviaRegionId) {
     //   await travelTo(MazoviaRegionId);
@@ -37,7 +37,7 @@ export const AnAmazingJourneyFeature = createFeature({
     // }
     // render <AutoTraveler/> component under #cityInfoTopPopup element
 
-    renderElement(<AutoTraveler />).before(
+    renderElement(<AutoTravellerPanel onStart={log} onStop={log} />).before(
       document.querySelector("#cityInfoTopPopup")
     );
   },
