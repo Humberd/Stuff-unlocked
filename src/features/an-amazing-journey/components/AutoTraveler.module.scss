@@ -1,6 +1,11 @@
 .panel {
+    position: absolute;
+    z-index: 999;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.18);
     background-color: #fff;
     border-radius: 8px;
-    height: 300px;
-    width: 200px;
+    height: 187px;
+    width: 293px;
+    right: 1%;
+    top: 24%;
 }

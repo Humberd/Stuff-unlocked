@@ -6,7 +6,8 @@ import { Travel } from "../../requests/travel-request";
 import { getCsrfToken } from "../../utils/request";
 import React from "react";
 import { AutoTraveler } from "./components/AutoTraveler";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
+import { renderElement } from "../../utils/render";
 
 const countriesCache = new CountriesCache();
 
@@ -36,15 +37,11 @@ export const AnAmazingJourneyFeature = createFeature({
     // }
     // render <AutoTraveler/> component under #cityInfoTopPopup element
 
-    const foo = <Foo/>;
-    console.log(foo);
-    ReactDOM.render(foo,  document.querySelector("body"));
+    renderElement(<AutoTraveler />).before(
+      document.querySelector("#cityInfoTopPopup")
+    );
   },
 });
-
-function Foo() {
-  return <div/>;
-}
 
 async function travelTo(regionId: string) {
   const response = await Travel.sendRequest({
