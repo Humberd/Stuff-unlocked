@@ -22,6 +22,7 @@ import {
 } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
+import { ErrorPanel } from "./components/ErrorPanel";
 
 const countriesCache = new CountriesCache();
 
@@ -44,15 +45,7 @@ const JourneyFeatureComponent = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
-  >({
-    status: TravelProgressStatus.Error,
-    resourcesSpent: {
-      amount: 0,
-      unit: "tickets",
-    },
-    travelledDistanceKm: 0,
-    travelsCompleted: 0,
-  });
+  >();
   const [travelFormState, setTravelFormState] = useState<AutoTravelFormState>(
     AutoTravelFormState.IDLE
   );
@@ -61,6 +54,7 @@ const JourneyFeatureComponent = () => {
   useEffect(() => {
     shouldStopRef.current = shouldStop;
   }, [shouldStop]);
+  const [errors, setErrors] = useState<Error[]>([]);
 
   const onStart = async (form: AutoTravelForm) => {
     setTravelFormState(AutoTravelFormState.STARTED);
@@ -183,10 +177,12 @@ const JourneyFeatureComponent = () => {
       try {
         await callbackLogic();
       } catch (e: any) {
+        setErrors((errors) => [...errors, e]);
         error(e);
         try {
           await handleStop(e.message);
         } catch (e2: any) {
+          setErrors((errors) => [...errors, e2]);
           error(e2);
         }
       }
@@ -202,6 +198,10 @@ const JourneyFeatureComponent = () => {
     setShouldStop(true);
   };
 
+  const onErrorClose = () => {
+    setErrors([]);
+  };
+
   return (
     <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
@@ -214,6 +214,9 @@ const JourneyFeatureComponent = () => {
       )}
       {!isCollapsed && travelProgressState && (
         <TravelProgressPanel state={travelProgressState} />
+      )}
+      {errors.length > 0 && (
+        <ErrorPanel onClose={onErrorClose} errors={errors} />
       )}
     </>
   );
