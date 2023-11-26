@@ -13,12 +13,13 @@ export interface TravelProgressState {
   travelsCompleted: number;
   travelledDistanceKm: number;
   resourcesSpent: TravelResource;
+  errorMessage?: string;
 }
 
 export enum TravelProgressStatus {
   InProgress,
   Completed,
-  Error,
+  Error
 }
 
 export interface TravelResource {

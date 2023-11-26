@@ -1,9 +1,10 @@
 import { createFeature } from "../../utils/feature";
-import { log } from "../../utils/utils";
+import { error, log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AutoTravelForm,
+  AutoTravelFormState,
   AutoTravellerPanel,
 } from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
@@ -13,15 +14,18 @@ import {
   TravelProgressState,
   TravelProgressStatus,
 } from "./components/TravelProgressPanel";
-import { createNewTravelProgressState, getTotalTravelledDistanceKm } from "./travel";
+import {
+  createNewTravelProgressState,
+  getTotalTravelledDistanceKm,
+  travelTo,
+} from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
-import { AnniversaryQuestData } from "../../requests/anniversary-quest-data-request";
 
 const countriesCache = new CountriesCache();
 
 const TIMER_INTERVAL_MS = 5_000;
-const currentTravelRoute = travelRouteTest
+const currentTravelRoute = travelRouteTest;
 
 export const AnAmazingJourneyFeature = createFeature({
   name: "An Amazing Journey",
@@ -40,9 +44,17 @@ const JourneyFeatureComponent = () => {
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
+  const [travelFormState, setTravelFormState] = useState<AutoTravelFormState>(
+    AutoTravelFormState.IDLE
+  );
   const [shouldStop, setShouldStop] = useState(false);
+  const shouldStopRef = useRef(shouldStop);
+  useEffect(() => {
+    shouldStopRef.current = shouldStop;
+  }, [shouldStop]);
 
   const onStart = async (form: AutoTravelForm) => {
+    setTravelFormState(AutoTravelFormState.STARTED);
     countriesCache.getCountries();
     const currencyUnit =
       form.resourceUsed === "preferCurrency"
@@ -50,41 +62,119 @@ const JourneyFeatureComponent = () => {
         : "tickets";
     setTravelProgressState(createNewTravelProgressState(currencyUnit));
 
-    const initialTravelledDistance = await getTotalTravelledDistanceKm();
+    const initialTravelledDistanceKm = await getTotalTravelledDistanceKm();
+    const initialRegionId = await countriesCache.getCurrentRegionId();
+    let nextTargetRegionId =
+      initialRegionId === currentTravelRoute.regionIdA
+        ? currentTravelRoute.regionIdB
+        : currentTravelRoute.regionIdA;
+    let setIntervalId: number;
 
-    const callback = () => {
-      if (shouldStop) {
-        setShouldStop(false);
-        setTravelProgressState((state) => {
-          if (state) {
-            return {
-              ...state,
-              status: TravelProgressStatus.Completed,
-            };
-          }
-          return state;
-        });
+    const handleStop = async (errorMessage?: string) => {
+      if (errorMessage) {
+        log(`Stopping due to error: ${errorMessage}`);
+      } else {
+        log("Stopping...");
+      }
+      setShouldStop(false);
+      setTravelProgressState((state) => {
+        if (state) {
+          return {
+            ...state,
+            status: errorMessage
+              ? TravelProgressStatus.Error
+              : TravelProgressStatus.Completed,
+            errorMessage,
+          };
+        }
+        return state;
+      });
+      clearInterval(setIntervalId);
+      if (
+        form.travelBackAfterFinish &&
+        (await countriesCache.getCurrentRegionId()) !== initialRegionId
+      ) {
+        log(`Travelling back to initial region ${initialRegionId}...`);
+        try {
+          await travelTo(initialRegionId, form.resourceUsed, countriesCache);
+          log(`Travelled back to initial region ${initialRegionId}`);
+        } catch (e) {
+          error(`Failed to travel back to initial region ${initialRegionId}`);
+          error(e);
+        }
+      }
+      setTravelFormState(AutoTravelFormState.IDLE);
+    };
+
+    const callback = async () => {
+      if (shouldStopRef.current) {
+        await handleStop();
+        return;
+      }
+      try {
+        log(`Travelling to region ${nextTargetRegionId}...`);
+        await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
+        log(`Travelled to region ${nextTargetRegionId}`);
+      } catch (e: any) {
+        error(`Failed to travel to region ${nextTargetRegionId}`);
+        error(e);
+        await handleStop(e.message);
         return;
       }
 
+      const currentTravelledDistanceKm = await getTotalTravelledDistanceKm();
+      const totalTravelledDistanceKm =
+        currentTravelledDistanceKm - initialTravelledDistanceKm;
+      const resourcesSAmountSpentThisTravel =
+        form.resourceUsed === "preferTicket"
+          ? currentTravelRoute.ticketCost
+          : currentTravelRoute.currencyCost;
 
-    }
+      nextTargetRegionId =
+        nextTargetRegionId === currentTravelRoute.regionIdA
+          ? currentTravelRoute.regionIdB
+          : currentTravelRoute.regionIdA;
 
+      setTravelProgressState((state) => {
+        if (state) {
+          return {
+            ...state,
+            travelledDistanceKm: totalTravelledDistanceKm,
+            travelsCompleted: state.travelsCompleted + 1,
+            resourcesSpent: {
+              amount:
+                state.resourcesSpent.amount + resourcesSAmountSpentThisTravel,
+              unit: state.resourcesSpent.unit,
+            },
+          };
+        }
+        return state;
+      });
+      if (totalTravelledDistanceKm >= Number(form.targetDistanceKm)) {
+        await handleStop();
+      }
+    };
 
-
-
-    // callback();
-    // setInterval(callback, TIMER_INTERVAL_MS);
+    await callback();
+    setIntervalId = window.setInterval(callback, TIMER_INTERVAL_MS);
   };
 
   const onStop = () => {
+    log("Stopping manually...");
+    setTravelFormState(AutoTravelFormState.STOPPING);
     setShouldStop(true);
   };
 
   return (
     <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
-      {!isCollapsed && <AutoTravellerPanel onStart={onStart} onStop={log} />}
+      {!isCollapsed && (
+        <AutoTravellerPanel
+          onStart={onStart}
+          onStop={onStop}
+          state={travelFormState}
+        />
+      )}
       {!isCollapsed && travelProgressState && (
         <TravelProgressPanel state={travelProgressState} />
       )}

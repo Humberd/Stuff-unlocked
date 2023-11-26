@@ -11,11 +11,18 @@ declare global {
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
+  state: AutoTravelFormState;
+}
+
+export enum AutoTravelFormState {
+  IDLE,
+  STARTED,
+  STOPPING,
 }
 
 export interface AutoTravelForm {
-  targetDistance: string;
-  resourceUsed: "preferCurrency" | "preferTickets";
+  targetDistanceKm: number;
+  resourceUsed: "preferCurrency" | "preferTicket";
   travelBackAfterFinish: boolean;
 }
 
@@ -23,7 +30,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   props
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
-  const [isStarted, setIsStarted] = React.useState(false);
   const {
     register,
     handleSubmit,
@@ -33,12 +39,10 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   HandleMapEvents(panelRef);
 
   const onStart = (data: AutoTravelForm) => {
-    setIsStarted(true);
     props.onStart(data);
   };
 
   const onStop = () => {
-    setIsStarted(false);
     props.onStop();
   };
 
@@ -51,7 +55,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
             <span>Target distance (km)</span>
             {/* TODO: input of type text that consumes only numbers */}
             <input
-              {...register("targetDistance", { required: true })}
+              {...register("targetDistanceKm", { required: true })}
               className={styles.input}
               type="text"
               defaultValue={1_000}
@@ -64,7 +68,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
               className={styles.select}
             >
               <option value={"preferCurrency"}>Prefer Currency</option>
-              <option value={"preferTickets"}>Prefer Tickets</option>
+              <option value={"preferTicket"}>Prefer Tickets</option>
             </select>
           </label>
           <label className={styles.label}>
@@ -78,12 +82,21 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
           </label>
         </fieldset>
         <section className={styles.actionBar}>
-          {isStarted && (
-            <button className={styles.start} type="button" onClick={onStop}>
+          {props.state !== AutoTravelFormState.IDLE && (
+            <button
+              className={styles.start}
+              type="button"
+              onClick={onStop}
+              disabled={props.state === AutoTravelFormState.STOPPING}
+            >
               Stop
             </button>
           )}
-          <button className={styles.start} type="submit" disabled={isStarted}>
+          <button
+            className={styles.start}
+            type="submit"
+            disabled={props.state !== AutoTravelFormState.IDLE}
+          >
             Start
           </button>
         </section>
@@ -91,4 +104,3 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
     </section>
   );
 };
-

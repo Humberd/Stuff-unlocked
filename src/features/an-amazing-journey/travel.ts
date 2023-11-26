@@ -43,11 +43,12 @@ export function createNewTravelProgressState(
 
 export async function travelTo(
   regionId: string,
+  travelMethod: Travel.Request["travelMethod"],
   countriesCache: CountriesCache
 ) {
   const response = await Travel.sendRequest({
     _token: getCsrfToken(),
-    travelMethod: "preferCurrency",
+    travelMethod: travelMethod,
     battleId: "0",
     inRegionId: regionId,
     toCountryId: findCountryIdFor(
@@ -58,7 +59,6 @@ export async function travelTo(
   if (response.error === 1) {
     throw Error(`Failed to travel to ${regionId}: ${response.message}`);
   }
-  log(`Traveled to ${regionId}`);
 }
 
 export async function getTotalTravelledDistanceKm() {
