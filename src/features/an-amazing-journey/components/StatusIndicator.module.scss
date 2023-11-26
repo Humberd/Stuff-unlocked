@@ -1,6 +1,9 @@
+.statusIndicator {
+    display: flex;
+}
+
 .inProgress {
-    margin-bottom: -9px;
-    color: #4aa9ec;
+    color: #cbdae8;
 
     .spinner {
         transform-origin: center;
@@ -15,11 +18,23 @@
 }
 
 .error {
-    margin-bottom: -9px;
-    color: #a92929;
+    color: #ff6767;
+    animation: pulsate 1.4s ease-out;
+    animation-iteration-count: infinite;
+
+    @keyframes pulsate {
+        0% {
+            transform: scale(1,1);
+        }
+        50% {
+            transform: scale(1.4, 1.4);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
 }
 
 .completed {
-    margin-bottom: -9px;
-    color: #3b9f4e;
+    color: #62df7a;
 }

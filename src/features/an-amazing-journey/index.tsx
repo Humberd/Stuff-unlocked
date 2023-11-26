@@ -2,11 +2,24 @@ import { createFeature } from "../../utils/feature";
 import { error, log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
 import React, { useEffect, useRef, useState } from "react";
-import { AutoTravelForm, AutoTravelFormState, AutoTravellerPanel } from "./components/AutoTravellerPanel";
+import {
+  AutoTravelForm,
+  AutoTravelFormState,
+  AutoTravellerPanel,
+} from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
-import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
-import { createNewTravelProgressState, getTravelInfoTo, TravelInfo, travelTo } from "./travel";
+import {
+  TravelProgressPanel,
+  TravelProgressState,
+  TravelProgressStatus,
+} from "./components/TravelProgressPanel";
+import {
+  createNewTravelProgressState,
+  getTravelInfoTo,
+  TravelInfo,
+  travelTo,
+} from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
 
@@ -31,7 +44,15 @@ const JourneyFeatureComponent = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
-  >();
+  >({
+    status: TravelProgressStatus.Error,
+    resourcesSpent: {
+      amount: 0,
+      unit: "tickets",
+    },
+    travelledDistanceKm: 0,
+    travelsCompleted: 0,
+  });
   const [travelFormState, setTravelFormState] = useState<AutoTravelFormState>(
     AutoTravelFormState.IDLE
   );
@@ -121,12 +142,9 @@ const JourneyFeatureComponent = () => {
         await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
         log(`Travelled to region ${nextTargetRegionId}`);
       } catch (e: any) {
-        throw Error(
-          `Failed to travel to region ${nextTargetRegionId}`,
-          {
-            cause: e,
-          }
-        );
+        throw Error(`Failed to travel to region ${nextTargetRegionId}`, {
+          cause: e,
+        });
       }
 
       const resourcesSAmountSpentThisTravel =
@@ -172,7 +190,7 @@ const JourneyFeatureComponent = () => {
           error(e2);
         }
       }
-    }
+    };
 
     await callback();
     setIntervalId = window.setInterval(callback, TIMER_INTERVAL_MS);

@@ -9,32 +9,43 @@ section.panel {
   width: 189px;
   right: 11.9%;
   top: 58%;
-  padding: 8px 16px;
   pointer-events: auto !important;
   cursor: auto !important;
 }
 
-h2.title {
+header.header {
+  background-color: #5f7280;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 8px;
 
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
+  h2.title {
+    flex: 1;
+    padding: 8px 16px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
-.row {
+.rows {
+  padding: 8px 16px;
+
+  .row {
     display: flex;
     justify-content: space-between;
 
-  .key {
-    font-size: 12px;
-  }
+    .key {
+      font-size: 12px;
+    }
 
-  .value {
-    font-size: 13px;
-    font-weight: 600;
+    .value {
+      font-size: 13px;
+      font-weight: 600;
+    }
   }
 }
 

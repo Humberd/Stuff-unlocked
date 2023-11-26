@@ -19,7 +19,7 @@ export interface TravelProgressState {
 export enum TravelProgressStatus {
   InProgress,
   Completed,
-  Error
+  Error,
 }
 
 export interface TravelResource {
@@ -36,30 +36,31 @@ export const TravelProgressPanel: React.FC<TravelProgressPanelProps> = (
 
   return (
     <section ref={panelRef} className={styles.panel}>
-      <h2 className={styles.title}>
-        <span>Travel Progress</span>
+      <header className={styles.header}>
+        <h2 className={styles.title}>Travel Progress</h2>
         <StatusIndicator status={props.state.status} />
-      </h2>
-      <div className={styles.row}>
-        <span className={styles.key}>Travels</span>
-        <span className={styles.value}>
-          {formatNumber(props.state.travelsCompleted)}
-        </span>
-      </div>
-      <div className={styles.row}>
-        <span className={styles.key}>Distance</span>
-        <span className={styles.value}>
-          {formatNumber(props.state.travelledDistanceKm)} km
-        </span>
-      </div>
-      <div className={styles.row}>
-        <span className={styles.key}>Resources</span>
-        <span className={styles.value}>
-          {formatNumber(props.state.resourcesSpent.amount)}{" "}
-          {props.state.resourcesSpent.unit}
-        </span>
+      </header>
+      <div className={styles.rows}>
+        <div className={styles.row}>
+          <span className={styles.key}>Travels</span>
+          <span className={styles.value}>
+            {formatNumber(props.state.travelsCompleted)}
+          </span>
+        </div>
+        <div className={styles.row}>
+          <span className={styles.key}>Distance</span>
+          <span className={styles.value}>
+            {formatNumber(props.state.travelledDistanceKm)} km
+          </span>
+        </div>
+        <div className={styles.row}>
+          <span className={styles.key}>Resources</span>
+          <span className={styles.value}>
+            {formatNumber(props.state.resourcesSpent.amount)}{" "}
+            {props.state.resourcesSpent.unit}
+          </span>
+        </div>
       </div>
     </section>
   );
 };
-
