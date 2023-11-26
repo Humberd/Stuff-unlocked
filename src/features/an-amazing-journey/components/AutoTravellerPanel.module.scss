@@ -9,14 +9,25 @@
     width: 293px;
     right: 1%;
     top: 24%;
-    padding: 16px;
     pointer-events: auto !important;
     cursor: auto !important;
 }
 
-.title {
-    font-size: 18px;
-    margin-bottom: 16px;
+header.header {
+    background-color: #5f7280;
+    padding: 8px 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    h2.title {
+        font-size: 16px;
+        color: #fff;
+    }
+}
+
+form.form {
+    padding: 16px;
+    display: block;
 }
 
 label.label {

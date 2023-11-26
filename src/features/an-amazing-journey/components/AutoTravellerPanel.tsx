@@ -48,8 +48,10 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
 
   return (
     <section ref={panelRef} className={styles.panel}>
-      <h2 className={styles.title}>Auto Traveller</h2>
-      <form onSubmit={handleSubmit(onStart)}>
+      <header className={styles.header}>
+        <h2 className={styles.title}>Auto Traveller</h2>
+      </header>
+      <form className={styles.form} onSubmit={handleSubmit(onStart)}>
         <fieldset>
           <label className={styles.label}>
             <span>Target distance (km)</span>
