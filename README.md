@@ -41,7 +41,13 @@ which [border you choose](https://store.steampowered.com/points/shop/c/avatar/cl
 
 Basic feature inherited from Zordacz's old version.
 
-![basic-stuff-features.png](assets%2Fbasic-stuff-features.png)![img.png](assets/img.png)
+![basic-stuff-features.png](assets%2Fbasic-stuff-features.png)![img.png](assets/an-amazing-journey-auto-traveller-feature.png)
+
+### Auto Traveller
+
+* Automatically travels to the next region in the journey.
+
+![auto-traveller-feature.png](assets%2Fauto-traveller-feature.png)
 
 ### PowerSpin Auto-Spinner
 
@@ -56,7 +62,7 @@ Basic feature inherited from Zordacz's old version.
 
 * Claim All button to collect all daily challenges.
 
-![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)![img.png](assets/img.png)
+![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)![img.png](assets/an-amazing-journey-auto-traveller-feature.png)
 
 ### Feed comments scroll
 
@@ -76,7 +82,7 @@ It should be similar to `D:\Repositories\Stuff-unlocked\dist\index-dev.user.js`.
 This will install the script in Tampermonkey.
 
 You will have to disable production script, so that only the DEV one is active.
-![img.png](assets/img.png)
+![img.png](assets/an-amazing-journey-auto-traveller-feature.png)
 
 Now everytime you make a change in the code, the erepublik page should refresh automatically.
 
