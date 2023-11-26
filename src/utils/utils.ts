@@ -17,18 +17,6 @@ export function error(...args: any[]) {
     ...args
   );
 }
-/**
- * Wrapped version of `fetch` that logs the output as it's being fetched.
- * It also specifies the full path, because in Greasemonkey, the full path is needed.
- *
- * @param {string} arg
- * @returns {Promise} - the `fetch` promise
- */
-export function logFetch(arg: any) {
-  const url = new URL(arg, window.location.toString());
-  log("fetching", "" + url);
-  return fetch("" + url, { credentials: "include" });
-}
 
 /**
  * Ensure `callback` is called every time window.location changes
