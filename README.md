@@ -41,7 +41,13 @@ which [border you choose](https://store.steampowered.com/points/shop/c/avatar/cl
 
 Basic feature inherited from Zordacz's old version.
 
-![basic-stuff-features.png](assets%2Fbasic-stuff-features.png)![img.png](assets/img.png)
+![basic-stuff-features.png](assets%2Fbasic-stuff-features.png)
+
+### Auto Traveller
+
+* Automatically travels to the next region in the journey.
+
+![img.png](assets/an-amazing-journey-auto-traveller-feature.png)
 
 ### PowerSpin Auto-Spinner
 
