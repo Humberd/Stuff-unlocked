@@ -2,24 +2,11 @@ import { createFeature } from "../../utils/feature";
 import { error, log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  AutoTravelForm,
-  AutoTravelFormState,
-  AutoTravellerPanel,
-} from "./components/AutoTravellerPanel";
+import { AutoTravelForm, AutoTravelFormState, AutoTravellerPanel } from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
-import {
-  TravelProgressPanel,
-  TravelProgressState,
-  TravelProgressStatus,
-} from "./components/TravelProgressPanel";
-import {
-  createNewTravelProgressState,
-  getTravelInfoTo,
-  TravelInfo,
-  travelTo,
-} from "./travel";
+import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
+import { createNewTravelProgressState, executeTravel, TravelInfo, travelTo } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";
@@ -70,7 +57,7 @@ const JourneyFeatureComponent = () => {
     let travelledDistanceKm = 0;
     setTravelProgressState(createNewTravelProgressState(currencyUnit));
 
-    const initialRegionId = await countriesCache.getCurrentRegionId();
+    const initialRegionId = await countriesCache.getCurrentRegionId({skipCache: true});
     let nextTargetRegionId =
       initialRegionId === currentTravelRoute.regionIdA
         ? currentTravelRoute.regionIdB
@@ -83,21 +70,31 @@ const JourneyFeatureComponent = () => {
       } else {
         log("Stopping...");
       }
-      setShouldStop(false);
-      setTravelProgressState((state) => {
-        if (state) {
-          return {
-            ...state,
-            status: errorMessage
-              ? TravelProgressStatus.Error
-              : TravelProgressStatus.Completed,
-            errorMessage,
-          };
-        }
-        return state;
-      });
+      const stopInternalHandler = async () => {
+        setShouldStop(false);
+        setTravelProgressState((state) => {
+          if (state) {
+            return {
+              ...state,
+              status: errorMessage
+                ? TravelProgressStatus.Error
+                : TravelProgressStatus.Completed,
+              errorMessage,
+            };
+          }
+          return state;
+        });
+        // Stop button should be disabled immediately
+        setTravelFormState(AutoTravelFormState.STOPPING);
+
+        // Start button should be enabled after 5 seconds
+        // to prevent spamming the server
+        setTimeout(() => {
+          setTravelFormState(AutoTravelFormState.IDLE);
+        }, TIMER_INTERVAL_MS)
+      };
+
       clearInterval(setIntervalId);
-      setTravelFormState(AutoTravelFormState.IDLE);
       const isInInitialRegion =
         (await countriesCache.getCurrentRegionId({ skipCache: true })) ===
         initialRegionId;
@@ -105,63 +102,23 @@ const JourneyFeatureComponent = () => {
       if (form.travelBackAfterFinish && !isInInitialRegion) {
         log(`Waiting ${TIMER_INTERVAL_MS}ms to travel back...`);
         setTimeout(async () => {
-          log(`Travelling back to initial region ${initialRegionId}...`);
-          try {
-            await travelTo(initialRegionId, form.resourceUsed, countriesCache);
-            log(`Travelled back to initial region ${initialRegionId}`);
-          } catch (e) {
-            throw Error(
-              `Failed to travel back to initial region ${initialRegionId}`,
-              {
-                cause: e,
-              }
-            );
-          }
+          const travelInfo = await executeTravel(initialRegionId, form, countriesCache);
+          updateTravelProgressState(travelInfo);
+          stopInternalHandler();
         }, TIMER_INTERVAL_MS)
+      } else {
+        log("Stopping immediately...");
+        stopInternalHandler();
       }
     };
 
-    const callbackLogic = async () => {
-      if (shouldStopRef.current) {
-        await handleStop();
-        return;
-      }
-      let travelInfo: TravelInfo;
-      try {
-        log(`Getting travel info for region ${nextTargetRegionId}...`);
-        travelInfo = await getTravelInfoTo(nextTargetRegionId);
-        log(`Got travel info for region ${nextTargetRegionId}`, travelInfo);
-      } catch (e: any) {
-        throw Error(
-          `Failed to get travel info for region ${nextTargetRegionId}`,
-          {
-            cause: e,
-          }
-        );
-      }
-
-      try {
-        log(`Travelling to region ${nextTargetRegionId}...`);
-        await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
-        log(`Travelled to region ${nextTargetRegionId}`);
-      } catch (e: any) {
-        throw Error(`Failed to travel to region ${nextTargetRegionId}`, {
-          cause: e,
-        });
-      }
-
-      const resourcesSAmountSpentThisTravel =
+    function updateTravelProgressState(travelInfo: TravelInfo) {
+      const resourcesAmountSpentThisTravel =
         form.resourceUsed === "preferTicket"
           ? travelInfo.ticketCost
           : travelInfo.currencyCost;
 
-      nextTargetRegionId =
-        nextTargetRegionId === currentTravelRoute.regionIdA
-          ? currentTravelRoute.regionIdB
-          : currentTravelRoute.regionIdA;
-
       travelledDistanceKm += travelInfo.distanceKm;
-
       setTravelProgressState((state) => {
         if (state) {
           return {
@@ -170,13 +127,28 @@ const JourneyFeatureComponent = () => {
             travelsCompleted: state.travelsCompleted + 1,
             resourcesSpent: {
               amount:
-                state.resourcesSpent.amount + resourcesSAmountSpentThisTravel,
-              unit: state.resourcesSpent.unit,
-            },
+                state.resourcesSpent.amount + resourcesAmountSpentThisTravel,
+              unit: state.resourcesSpent.unit
+            }
           };
         }
         return state;
       });
+    }
+
+    const callbackLogic = async () => {
+      if (shouldStopRef.current) {
+        await handleStop();
+        return;
+      }
+      let travelInfo = await executeTravel(nextTargetRegionId, form, countriesCache);
+      updateTravelProgressState(travelInfo);
+
+      nextTargetRegionId =
+        nextTargetRegionId === currentTravelRoute.regionIdA
+          ? currentTravelRoute.regionIdB
+          : currentTravelRoute.regionIdA;
+
       if (travelledDistanceKm >= Number(form.targetDistanceKm)) {
         await handleStop();
       }
