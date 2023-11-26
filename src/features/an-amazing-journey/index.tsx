@@ -17,6 +17,8 @@ import {
 import {
   createNewTravelProgressState,
   getTotalTravelledDistanceKm,
+  getTravelInfoTo,
+  TravelInfo,
   travelTo,
 } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
@@ -55,11 +57,11 @@ const JourneyFeatureComponent = () => {
 
   const onStart = async (form: AutoTravelForm) => {
     setTravelFormState(AutoTravelFormState.STARTED);
-    countriesCache.getCountries();
     const currencyUnit =
       form.resourceUsed === "preferCurrency"
         ? getCitizenshipCurrencyName()
         : "tickets";
+    let travelledDistanceKm = 0;
     setTravelProgressState(createNewTravelProgressState(currencyUnit));
 
     const initialTravelledDistanceKm = await getTotalTravelledDistanceKm();
@@ -111,6 +113,18 @@ const JourneyFeatureComponent = () => {
         await handleStop();
         return;
       }
+      let travelInfo: TravelInfo;
+      try {
+        log(`Getting travel info for region ${nextTargetRegionId}...`);
+        travelInfo = await getTravelInfoTo(nextTargetRegionId);
+        log(`Got travel info for region ${nextTargetRegionId}`, travelInfo);
+      } catch (e: any) {
+        error(`Failed to get travel info for region ${nextTargetRegionId}`);
+        error(e);
+        await handleStop(e.message);
+        return;
+      }
+
       try {
         log(`Travelling to region ${nextTargetRegionId}...`);
         await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
@@ -122,24 +136,24 @@ const JourneyFeatureComponent = () => {
         return;
       }
 
-      const currentTravelledDistanceKm = await getTotalTravelledDistanceKm();
-      const totalTravelledDistanceKm =
-        currentTravelledDistanceKm - initialTravelledDistanceKm;
+
       const resourcesSAmountSpentThisTravel =
         form.resourceUsed === "preferTicket"
-          ? currentTravelRoute.ticketCost
-          : currentTravelRoute.currencyCost;
+          ? travelInfo.ticketCost
+          : travelInfo.currencyCost;
 
       nextTargetRegionId =
         nextTargetRegionId === currentTravelRoute.regionIdA
           ? currentTravelRoute.regionIdB
           : currentTravelRoute.regionIdA;
 
+      travelledDistanceKm += travelInfo.distanceKm;
+
       setTravelProgressState((state) => {
         if (state) {
           return {
             ...state,
-            travelledDistanceKm: totalTravelledDistanceKm,
+            travelledDistanceKm: travelledDistanceKm,
             travelsCompleted: state.travelsCompleted + 1,
             resourcesSpent: {
               amount:
@@ -150,7 +164,7 @@ const JourneyFeatureComponent = () => {
         }
         return state;
       });
-      if (totalTravelledDistanceKm >= Number(form.targetDistanceKm)) {
+      if (travelledDistanceKm >= Number(form.targetDistanceKm)) {
         await handleStop();
       }
     };

@@ -4,13 +4,13 @@ export namespace TravelData {
   export interface Request {
     battleId: "0";
     _token: string;
-    regionId: "0";
+    regionId: string | "0";
     holdingId: "0";
   }
 
   export interface Response {
     countries: Record<string, CountryValue>;
-    regions: any[];
+    regions: Record<string, Region>;
     preselectCountryId: boolean;
     preselectRegionId: boolean;
     alreadyInRegion: string;
@@ -99,5 +99,46 @@ export namespace TravelData {
     hasRegionsOccupiedByOthers: boolean;
     hasRegionsFromOthers: boolean;
     regions: number[];
+  }
+
+  export interface Region {
+    id: number;
+    name: string;
+    permalink: string;
+    zoneName: ZoneName;
+    distanceInZones: number;
+    distanceInKm: number;
+    isConquered: boolean;
+    isConqueredFrom: number;
+    isConqueredBy: number;
+    countryId: number;
+    cityId: number;
+    cityName: string;
+    cost: number;
+    ticket: number;
+    ticketAmount: number;
+    canMove: boolean;
+    isAlly: boolean;
+    isDiscounted: boolean;
+  }
+
+  export enum ZoneName {
+    A1 = "A1",
+    A2 = "A2",
+    A3 = "A3",
+    A4 = "A4",
+    A5 = "A5",
+    B1 = "B1",
+    B3 = "B3",
+    B4 = "B4",
+    B5 = "B5",
+    C1 = "C1",
+    C2 = "C2",
+    C3 = "C3",
+    C4 = "C4",
+    C5 = "C5",
+    D2 = "D2",
+    D3 = "D3",
+    D5 = "D5",
   }
 }
