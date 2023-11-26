@@ -5,11 +5,6 @@ import { HandleMapEvents } from "../hooks/HandleMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
 
-declare global {
-  function disableMap(): void;
-  function enableMap(): void;
-}
-
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
@@ -46,11 +41,12 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   } = useForm<AutoTravelForm>({
     defaultValues: formValuesFromStorage,
   });
-  const formValues = watch(); // watch all form values
+  const formValues = watch();
 
+  const stringifiedFormValues = JSON.stringify(formValues);
   useEffect(() => {
     setFormValues(formValues);
-  }, [JSON.stringify(formValues)]);
+  }, [stringifiedFormValues]);
 
   HandleMapEvents(panelRef);
 
