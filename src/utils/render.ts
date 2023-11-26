@@ -18,6 +18,6 @@ export function renderElement(jsxElement: React.JSX.Element) {
         throw Error(`Can't find element to insert after`);
       }
       element.insertAdjacentElement("afterend", div);
-    }
+    },
   };
 }

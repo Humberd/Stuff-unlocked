@@ -1,4 +1,4 @@
-import { log } from './utils';
+import { log } from "./utils";
 
 export interface Feature {
   name: string;
@@ -14,10 +14,12 @@ export function createFeature(feature: Feature): Feature {
   };
 }
 
-const applyExecuteTimeSpent = async (name: string, callback: () => Promise<void> | void) => {
+const applyExecuteTimeSpent = async (
+  name: string,
+  callback: () => Promise<void> | void
+) => {
   const start = Date.now();
   await callback();
   const end = Date.now();
   log(`Time spent executing ${name}: ${end - start}ms`);
 };
-

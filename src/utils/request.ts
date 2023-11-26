@@ -1,6 +1,5 @@
 import { getAuthToken } from "./erep-global-info";
 
-
 export function getCookieHeaders() {
   return {
     cookie: `erpk=${getAuthToken()}`,

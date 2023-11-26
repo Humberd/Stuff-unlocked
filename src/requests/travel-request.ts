@@ -1,4 +1,8 @@
-import { GenericResponseType, getCookieHeaders, objectToWwwFormUrlEncoded } from "../utils/request";
+import {
+  GenericResponseType,
+  getCookieHeaders,
+  objectToWwwFormUrlEncoded,
+} from "../utils/request";
 
 export namespace Travel {
   export interface Request {
