@@ -2,25 +2,11 @@ import { createFeature } from "../../utils/feature";
 import { error, log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  AutoTravelForm,
-  AutoTravelFormState,
-  AutoTravellerPanel,
-} from "./components/AutoTravellerPanel";
+import { AutoTravelForm, AutoTravelFormState, AutoTravellerPanel } from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
-import {
-  TravelProgressPanel,
-  TravelProgressState,
-  TravelProgressStatus,
-} from "./components/TravelProgressPanel";
-import {
-  createNewTravelProgressState,
-  getTotalTravelledDistanceKm,
-  getTravelInfoTo,
-  TravelInfo,
-  travelTo,
-} from "./travel";
+import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
+import { createNewTravelProgressState, getTravelInfoTo, TravelInfo, travelTo } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
 
@@ -64,7 +50,6 @@ const JourneyFeatureComponent = () => {
     let travelledDistanceKm = 0;
     setTravelProgressState(createNewTravelProgressState(currencyUnit));
 
-    const initialTravelledDistanceKm = await getTotalTravelledDistanceKm();
     const initialRegionId = await countriesCache.getCurrentRegionId();
     let nextTargetRegionId =
       initialRegionId === currentTravelRoute.regionIdA
@@ -92,6 +77,7 @@ const JourneyFeatureComponent = () => {
         return state;
       });
       clearInterval(setIntervalId);
+      setTravelFormState(AutoTravelFormState.IDLE);
       if (
         form.travelBackAfterFinish &&
         (await countriesCache.getCurrentRegionId()) !== initialRegionId
@@ -101,14 +87,17 @@ const JourneyFeatureComponent = () => {
           await travelTo(initialRegionId, form.resourceUsed, countriesCache);
           log(`Travelled back to initial region ${initialRegionId}`);
         } catch (e) {
-          error(`Failed to travel back to initial region ${initialRegionId}`);
-          error(e);
+          throw Error(
+            `Failed to travel back to initial region ${initialRegionId}`,
+            {
+              cause: e,
+            }
+          );
         }
       }
-      setTravelFormState(AutoTravelFormState.IDLE);
     };
 
-    const callback = async () => {
+    const callbackLogic = async () => {
       if (shouldStopRef.current) {
         await handleStop();
         return;
@@ -119,10 +108,12 @@ const JourneyFeatureComponent = () => {
         travelInfo = await getTravelInfoTo(nextTargetRegionId);
         log(`Got travel info for region ${nextTargetRegionId}`, travelInfo);
       } catch (e: any) {
-        error(`Failed to get travel info for region ${nextTargetRegionId}`);
-        error(e);
-        await handleStop(e.message);
-        return;
+        throw Error(
+          `Failed to get travel info for region ${nextTargetRegionId}`,
+          {
+            cause: e,
+          }
+        );
       }
 
       try {
@@ -130,12 +121,13 @@ const JourneyFeatureComponent = () => {
         await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
         log(`Travelled to region ${nextTargetRegionId}`);
       } catch (e: any) {
-        error(`Failed to travel to region ${nextTargetRegionId}`);
-        error(e);
-        await handleStop(e.message);
-        return;
+        throw Error(
+          `Failed to travel to region ${nextTargetRegionId}`,
+          {
+            cause: e,
+          }
+        );
       }
-
 
       const resourcesSAmountSpentThisTravel =
         form.resourceUsed === "preferTicket"
@@ -168,6 +160,19 @@ const JourneyFeatureComponent = () => {
         await handleStop();
       }
     };
+
+    const callback = async () => {
+      try {
+        await callbackLogic();
+      } catch (e: any) {
+        error(e);
+        try {
+          await handleStop(e.message);
+        } catch (e2: any) {
+          error(e2);
+        }
+      }
+    }
 
     await callback();
     setIntervalId = window.setInterval(callback, TIMER_INTERVAL_MS);
