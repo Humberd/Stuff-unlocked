@@ -15,8 +15,10 @@ export class CountriesCache {
     return this.countries!;
   }
 
-  public async getCurrentRegionId(): Promise<string> {
-    if (!this.currentRegionId) {
+  public async getCurrentRegionId(
+    flags: { skipCache: boolean } = { skipCache: false }
+  ): Promise<string> {
+    if (flags.skipCache || !this.currentRegionId) {
       await this.fetchCountries();
     }
     return this.currentRegionId!;

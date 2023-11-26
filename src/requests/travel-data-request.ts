@@ -1,8 +1,4 @@
 import { getCookieHeaders, objectToWwwFormUrlEncoded } from "../utils/request";
-import { log } from "../utils/utils";
-
-let triggerErrorOnCount = 3;
-let triggersCount = 0;
 
 export namespace TravelData {
   export interface Request {
@@ -23,20 +19,14 @@ export namespace TravelData {
   }
 
   export async function sendRequest(body: Request): Promise<Response> {
-    triggersCount++;
-    const suffix = (triggersCount % triggerErrorOnCount) === 0 ? "foo" : "";
-    log({triggersCount, triggerErrorOnCount, suffix});
-    const response = fetch(
-      "https://www.erepublik.com/en/main/travelData" + suffix,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-          ...getCookieHeaders(),
-        },
-        body: objectToWwwFormUrlEncoded(body),
-      }
-    );
+    const response = fetch("https://www.erepublik.com/en/main/travelData", {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        ...getCookieHeaders(),
+      },
+      body: objectToWwwFormUrlEncoded(body),
+    });
     return response.then((response) => response.json());
   }
 

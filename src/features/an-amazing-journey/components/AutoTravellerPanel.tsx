@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
 import { useForm } from "react-hook-form";
 import { HandleMapEvents } from "../hooks/HandleMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
+import classNames from "classnames";
 
 declare global {
   function disableMap(): void;
@@ -66,14 +67,37 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
       <header className={styles.header}>
         <h2 className={styles.title}>Auto Traveller</h2>
       </header>
-      <form className={styles.form} onSubmit={handleSubmit(onStart)}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit(onStart)}
+        autoComplete="off"
+      >
         <fieldset>
-          <label className={styles.label}>
+          <label
+            className={styles.label}
+            {...(errors.targetDistanceKm && {
+              "data-tooltip": errors.targetDistanceKm.message,
+            })}
+          >
             <span>Target distance (km)</span>
-            {/* TODO: input of type text that consumes only numbers */}
             <input
-              {...register("targetDistanceKm", { required: true })}
-              className={styles.input}
+              {...register("targetDistanceKm", {
+                required: {
+                  value: true,
+                  message: "Please enter a distance",
+                },
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: "Must be a positive natural number.",
+                },
+                min: {
+                  value: 1,
+                  message: "Must be a positive natural number.",
+                },
+              })}
+              className={classNames(styles.input, {
+                [styles.inputError]: errors.targetDistanceKm,
+              })}
               type="text"
             />
           </label>

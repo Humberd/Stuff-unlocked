@@ -43,7 +43,10 @@ export const AnAmazingJourneyFeature = createFeature({
 });
 
 const JourneyFeatureComponent = () => {
-  const [isCollapsed, setIsCollapsed] = useLocalStorage("AnAmazingJourney.isCollapsed", false);
+  const [isCollapsed, setIsCollapsed] = useLocalStorage(
+    "AnAmazingJourney.isCollapsed",
+    false
+  );
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
@@ -58,6 +61,7 @@ const JourneyFeatureComponent = () => {
   const [errors, setErrors] = useState<Error[]>([]);
 
   const onStart = async (form: AutoTravelForm) => {
+    log("Starting...", form);
     setTravelFormState(AutoTravelFormState.STARTED);
     const currencyUnit =
       form.resourceUsed === "preferCurrency"
@@ -94,22 +98,26 @@ const JourneyFeatureComponent = () => {
       });
       clearInterval(setIntervalId);
       setTravelFormState(AutoTravelFormState.IDLE);
-      if (
-        form.travelBackAfterFinish &&
-        (await countriesCache.getCurrentRegionId()) !== initialRegionId
-      ) {
-        log(`Travelling back to initial region ${initialRegionId}...`);
-        try {
-          await travelTo(initialRegionId, form.resourceUsed, countriesCache);
-          log(`Travelled back to initial region ${initialRegionId}`);
-        } catch (e) {
-          throw Error(
-            `Failed to travel back to initial region ${initialRegionId}`,
-            {
-              cause: e,
-            }
-          );
-        }
+      const isInInitialRegion =
+        (await countriesCache.getCurrentRegionId({ skipCache: true })) ===
+        initialRegionId;
+
+      if (form.travelBackAfterFinish && !isInInitialRegion) {
+        log(`Waiting ${TIMER_INTERVAL_MS}ms to travel back...`);
+        setTimeout(async () => {
+          log(`Travelling back to initial region ${initialRegionId}...`);
+          try {
+            await travelTo(initialRegionId, form.resourceUsed, countriesCache);
+            log(`Travelled back to initial region ${initialRegionId}`);
+          } catch (e) {
+            throw Error(
+              `Failed to travel back to initial region ${initialRegionId}`,
+              {
+                cause: e,
+              }
+            );
+          }
+        }, TIMER_INTERVAL_MS)
       }
     };
 
