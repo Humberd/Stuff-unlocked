@@ -1,6 +1,11 @@
 import { RefObject, useEffect } from "react";
 import { error } from "../../../utils/utils";
 
+declare global {
+  function disableMap(): void;
+  function enableMap(): void;
+}
+
 /**
  * Disable map when mouse is over the panel
  * Enable map when mouse is out of the panel
@@ -32,6 +37,7 @@ export function HandleMapEvents(panelRef: RefObject<HTMLDivElement>) {
       panelRef.current?.removeEventListener("mouseover", disableMapCallback);
       panelRef.current?.removeEventListener("touchstart", disableMapCallback);
       panelRef.current?.removeEventListener("mouseout", enableMapCallback);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       panelRef.current?.removeEventListener("touchend", enableMapCallback);
     };
   }, [panelRef]);

@@ -29,6 +29,7 @@
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@types/react": "18.2.38",
     "@types/react-dom": "18.2.17",
     "cross-env": "7.0.3",

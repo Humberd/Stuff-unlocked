@@ -6,7 +6,7 @@ import { AutoTravelForm, AutoTravelFormState, AutoTravellerPanel } from "./compo
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
-import { createNewTravelProgressState, executeTravel, TravelInfo, travelTo } from "./travel";
+import { createNewTravelProgressState, executeTravel, TravelInfo } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";

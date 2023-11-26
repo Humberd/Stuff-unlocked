@@ -46,6 +46,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   const stringifiedFormValues = JSON.stringify(formValues);
   useEffect(() => {
     setFormValues(formValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stringifiedFormValues]);
 
   HandleMapEvents(panelRef);
