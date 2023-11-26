@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
 import { useForm } from "react-hook-form";
 import { HandleMapEvents } from "../hooks/HandleMapEvents";
+import { useLocalStorage } from "../../../hooks/storage";
 
 declare global {
   function disableMap(): void;
@@ -21,7 +22,7 @@ export enum AutoTravelFormState {
 }
 
 export interface AutoTravelForm {
-  targetDistanceKm: number;
+  targetDistanceKm: string;
   resourceUsed: "preferCurrency" | "preferTicket";
   travelBackAfterFinish: boolean;
 }
@@ -30,11 +31,25 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   props
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [formValuesFromStorage, setFormValues] =
+    useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
+      targetDistanceKm: "1000",
+      resourceUsed: "preferCurrency",
+      travelBackAfterFinish: true,
+    });
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AutoTravelForm>();
+    watch,
+  } = useForm<AutoTravelForm>({
+    defaultValues: formValuesFromStorage,
+  });
+  const formValues = watch(); // watch all form values
+
+  useEffect(() => {
+    setFormValues(formValues);
+  }, [JSON.stringify(formValues)]);
 
   HandleMapEvents(panelRef);
 
@@ -60,7 +75,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
               {...register("targetDistanceKm", { required: true })}
               className={styles.input}
               type="text"
-              defaultValue={1_000}
             />
           </label>
           <label className={styles.label}>
@@ -79,7 +93,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
               {...register("travelBackAfterFinish")}
               className={styles.checkbox}
               type="checkbox"
-              defaultChecked={true}
             />
           </label>
         </fieldset>

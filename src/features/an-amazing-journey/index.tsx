@@ -23,6 +23,7 @@ import {
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteTest } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";
+import { useLocalStorage } from "../../hooks/storage";
 
 const countriesCache = new CountriesCache();
 
@@ -42,7 +43,7 @@ export const AnAmazingJourneyFeature = createFeature({
 });
 
 const JourneyFeatureComponent = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useLocalStorage("AnAmazingJourney.isCollapsed", false);
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
