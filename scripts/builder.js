@@ -1,12 +1,3 @@
-// shx mkdir -p ./dist && shx cp src/userscript-header.js ./dist/index.user.js && shx cat build/static/js/main.js >> ./dist/index.user.js
-
-// 1. Create dist folder if it doesn't exist
-// 2. Create a text buffer with the userscript header
-// 3. Append old-index.user.js to the text buffer
-// 4. Append the main.js to the text buffer
-// 5. Write the text buffer to the index.user.js file
-// 6. Copy the index.user.js file to the dist folder
-
 const fs = require("fs");
 const path = require("path");
 const shx = require("shelljs");
