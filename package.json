@@ -17,6 +17,7 @@
     "build": "react-app-rewired build",
     "build:compose-output":  "npm run build && npm run compose-output",
     "compose-output": "node scripts/compose-output.js",
+    "version-update": "node scripts/version-updater.js",
     "debug-build": "react-app-rewired --inspect-brk=5858 build && npm run compose-output",
   },
   "dependencies": {
