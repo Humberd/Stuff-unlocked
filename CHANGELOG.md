@@ -1,3 +1,14 @@
+# 5.67 (27.11.2023)
+* Fix
+* Fix
+* Fix
+* Fix
+* Update release script to auto build
+* Fix scripts
+* An Amazing Journey Auto Traveller #29 (#32)
+* Fix: Map global scope pollution.
+* Misc: Integrate with React and Typescript (#31)
+
 # 5.66 (15.11.2023)
 * Misc: Automatic version updater script with GH Actions
 * Misc: Auto version updater script
