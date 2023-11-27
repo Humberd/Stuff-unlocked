@@ -1,0 +1,59 @@
+section.panel {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 10001;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);
+  background-color: #812b2b;
+  border-radius: 8px;
+  width: 293px;
+  right: 1%;
+  top: 58%;
+  pointer-events: auto !important;
+  cursor: auto !important;
+  color: #fff;
+  padding: 8px 16px;
+}
+
+.errors {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  max-height: 200px;
+  overflow: auto;
+
+  p.error {
+    font-size: 13px;
+
+    &:first-of-type {
+      padding-right: 16px;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+button.close {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+
+  transition: background-color 0.2s ease-in-out;
+  border-bottom-left-radius: 8px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}

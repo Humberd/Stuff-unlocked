@@ -4,7 +4,7 @@
 // @author		Zordacz, Humberd
 // @version		5.66
 // @match		  https://www.erepublik.com/*
-// @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/dist/index.user.js
-// @run-at		document-start
+// @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
+// @run-at		document-end
 // @grant		  none
 // ==/UserScript==

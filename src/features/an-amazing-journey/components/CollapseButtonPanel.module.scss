@@ -1,0 +1,35 @@
+section.panel {
+  border-radius: 8px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
+  top: 25.1%;
+  right: 2%;
+
+  transition: all 0.2s ease-in-out;
+
+  &.isCollapsed {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);
+  }
+}
+
+button.button {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+
+  //reset button styles
+  border: none;
+  background: none;
+  padding: 4px;
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+
+
+  &.isCollapsed {
+    // rotate 3d 180deg
+    transform: rotate3d(0, 1, 0, 180deg);
+    //transform: rotate(-180deg);
+  }
+}

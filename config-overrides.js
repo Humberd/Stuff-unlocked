@@ -56,10 +56,10 @@ module.exports = function override(config, env) {
     );
     (config.module.rules.find((x) => !!x.oneOf).oneOf || []).forEach((x) => {
         if (
-            x.test &&
-            x.test.constructor === RegExp &&
-            "test.css".match(x.test)
-        ) {
+          x.test &&
+          x.test.constructor === RegExp &&
+          ("test.css".match(x.test) || "test.module.css".match(x.test) || "test.scss".match(x.test) || "test.module.scss".match(x.test)))
+        {
             try {
                 x.use = x.use.filter((y) => !y.loader.includes("css-extract"));
                 x.use.unshift(require.resolve("style-loader"));

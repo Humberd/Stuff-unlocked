@@ -1,0 +1,40 @@
+.statusIndicator {
+    display: flex;
+}
+
+.inProgress {
+    color: #cbdae8;
+
+    .spinner {
+        transform-origin: center;
+        animation: spinner .75s infinite linear;
+    }
+
+    @keyframes spinner {
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+}
+
+.error {
+    color: #ff6767;
+    animation: pulsate 1.4s ease-out;
+    animation-iteration-count: infinite;
+
+    @keyframes pulsate {
+        0% {
+            transform: scale(1,1);
+        }
+        50% {
+            transform: scale(1.4, 1.4);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+}
+
+.completed {
+    color: #62df7a;
+}
