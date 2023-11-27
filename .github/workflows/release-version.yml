@@ -20,6 +20,9 @@ jobs:
         id: release-version
         run: |
           npm run version-updater
+      - name: Compose output
+        run: |
+          npm run compose-output
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         env:
