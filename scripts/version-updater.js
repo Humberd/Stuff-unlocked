@@ -43,8 +43,8 @@ function updateVersionInContributorsJson(newVersion) {
   fs.writeFileSync(path, updatedContributorsJson);
 }
 
-function updateVersionInIndexUserJs(newVersion) {
-  const path = "./src/index.user.js";
+function updateVersionInUserscriptHeaderJs(newVersion) {
+  const path = "./src/userscript-header.js";
   const indexUserJs = fs.readFileSync(path, "utf8");
   const updatedIndexUserJs = indexUserJs.replace(
     /\/\/\s+@version\s+[\d.]+/,
@@ -56,7 +56,7 @@ function updateVersionInIndexUserJs(newVersion) {
 function updateAllVersions(newVersion) {
   updateVersionInPackageJson(newVersion);
   updateVersionInContributorsJson(newVersion);
-  updateVersionInIndexUserJs(newVersion);
+  updateVersionInUserscriptHeaderJs(newVersion);
 }
 
 function getAllCommitsSinceLastBump() {
