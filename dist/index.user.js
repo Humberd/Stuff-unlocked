@@ -4,11 +4,29 @@
 // @author		Zordacz, Humberd
 // @version		5.66
 // @match		  https://www.erepublik.com/*
-// @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/dist/index.user.js
-// @run-at		document-start
+// @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
+// @run-at		document-end
 // @grant		  none
 // ==/UserScript==
-/******/ (() => { // webpackBootstrap
+function getMapObjectFromIframe() {
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+
+      const script = document.createElement("script");
+      script.textContent = `
+        window.getOriginalMap = function() {
+          return Map;
+        };
+      `;
+      iframe.contentDocument.body.appendChild(script);
+
+      return iframe.contentWindow.getOriginalMap();
+    }
+    window.originalMap = getMapObjectFromIframe();
+        // We make sure that the Map object is the original one
+        ((Map) => {
+           /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 680:
@@ -236,7 +254,65 @@ const loadMoreCommentsButton=document.querySelector("a.load-more-comments:not(."
 
 /***/ }),
 
-/***/ 72:
+/***/ 694:
+/***/ ((module, exports) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+  'use strict';
+
+  var hasOwn = {}.hasOwnProperty;
+  var nativeCodeString = '[native code]';
+  function classNames() {
+    var classes = [];
+    for (var i = 0; i < arguments.length; i++) {
+      var arg = arguments[i];
+      if (!arg) continue;
+      var argType = typeof arg;
+      if (argType === 'string' || argType === 'number') {
+        classes.push(arg);
+      } else if (Array.isArray(arg)) {
+        if (arg.length) {
+          var inner = classNames.apply(null, arg);
+          if (inner) {
+            classes.push(inner);
+          }
+        }
+      } else if (argType === 'object') {
+        if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+          classes.push(arg.toString());
+          continue;
+        }
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes.push(key);
+          }
+        }
+      }
+    }
+    return classes.join(' ');
+  }
+  if ( true && module.exports) {
+    classNames.default = classNames;
+    module.exports = classNames;
+  } else if (true) {
+    // register as 'classnames', consistent with npm package name
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+      return classNames;
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+})();
+
+/***/ }),
+
+/***/ 176:
 /***/ ((module) => {
 
 "use strict";
@@ -7496,6 +7572,21 @@ exports.version = "18.2.0-next-9e3b772b8-20220608";
 
 /***/ }),
 
+/***/ 250:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+var __webpack_unused_export__;
+
+
+var m = __webpack_require__(164);
+if (true) {
+  exports.s = m.createRoot;
+  __webpack_unused_export__ = m.hydrateRoot;
+} else { var i; }
+
+/***/ }),
+
 /***/ 164:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -7530,7 +7621,6 @@ if (true) {
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-var __webpack_unused_export__;
 /**
  * @license React
  * react-jsx-runtime.production.min.js
@@ -7572,7 +7662,7 @@ function q(c, a, g) {
     _owner: n.current
   };
 }
-__webpack_unused_export__ = l;
+exports.Fragment = l;
 exports.jsx = q;
 exports.jsxs = q;
 
@@ -8234,52 +8324,6 @@ if (true) {
 
 /***/ }),
 
-/***/ 7:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(72);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40px;
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #09d3ac;
-}
-`, "",{"version":3,"sources":["webpack://./src/App.css"],"names":[],"mappings":"AAAA;IACI,kBAAkB;AACtB;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,yBAAyB;IACzB,iBAAiB;IACjB,aAAa;IACb,sBAAsB;IACtB,mBAAmB;IACnB,uBAAuB;IACvB,6BAA6B;IAC7B,YAAY;AAChB;;AAEA;IACI,cAAc;AAClB","sourcesContent":[".App {\r\n    text-align: center;\r\n}\r\n\r\n.App-logo {\r\n    height: 40px;\r\n}\r\n\r\n.App-header {\r\n    background-color: #282c34;\r\n    min-height: 100px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    justify-content: center;\r\n    font-size: calc(10px + 2vmin);\r\n    color: white;\r\n}\r\n\r\n.App-link {\r\n    color: #09d3ac;\r\n}\r\n"],"sourceRoot":""}]);
-// Exports
-___CSS_LOADER_EXPORT___.locals = {};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ 880:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -8289,7 +8333,7 @@ ___CSS_LOADER_EXPORT___.locals = {};
 /* harmony export */ });
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(72);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
@@ -8299,6 +8343,159 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, ``, "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 71:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.AutoTravellerPanel_panel__DtOqy{box-sizing:border-box;position:absolute;z-index:999;box-shadow:0 0 8px 0 rgba(0,0,0,.18);background-color:#fff;border-radius:8px;height:187px;width:293px;right:1%;top:24%;pointer-events:auto !important;cursor:auto !important}header.AutoTravellerPanel_header__osn5h{background-color:#5f7280;padding:11px 16px;border-top-left-radius:8px;border-top-right-radius:8px}header.AutoTravellerPanel_header__osn5h h2.AutoTravellerPanel_title__cVO6T{font-size:16px;color:#fff}form.AutoTravellerPanel_form__gI6H1{padding:16px;display:block}label.AutoTravellerPanel_label__ZGCJT{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px}input.AutoTravellerPanel_input__GGC1x{width:100px;text-align:center}input.AutoTravellerPanel_input__GGC1x.AutoTravellerPanel_inputError__Lxr4s{border:1px solid red}section.AutoTravellerPanel_actionBar__TCdbo{display:flex;justify-content:flex-end;column-gap:8px}[data-tooltip]{position:relative}[data-tooltip]::after{position:absolute;opacity:1;pointer-events:none;content:attr(data-tooltip);right:0;top:calc(100% + 5px);border-radius:3px;box-shadow:0 0 5px 2px rgba(100,100,100,.6);background-color:#fff;z-index:10;padding:8px;transition:all 150ms cubic-bezier(0.25, 0.8, 0.25, 1);transition-duration:300ms}`, "",{"version":3,"sources":["webpack://./src/features/an-amazing-journey/components/AutoTravellerPanel.module.scss"],"names":[],"mappings":"AAAA,iCACI,qBAAA,CACA,iBAAA,CACA,WAAA,CACA,oCAAA,CACA,qBAAA,CACA,iBAAA,CACA,YAAA,CACA,WAAA,CACA,QAAA,CACA,OAAA,CACA,8BAAA,CACA,sBAAA,CAGJ,wCACI,wBAAA,CACA,iBAAA,CACA,0BAAA,CACA,2BAAA,CAEA,2EACI,cAAA,CACA,UAAA,CAIR,oCACI,YAAA,CACA,aAAA,CAGJ,sCACI,YAAA,CACA,6BAAA,CACA,kBAAA,CACA,cAAA,CACA,iBAAA,CAGJ,sCACI,WAAA,CACA,iBAAA,CAEA,2EACI,oBAAA,CAWR,4CACI,YAAA,CACA,wBAAA,CACA,cAAA,CAOJ,eACI,iBAAA,CAGJ,sBACI,iBAAA,CACA,SAAA,CACA,mBAAA,CACA,0BAAA,CACA,OAAA,CACA,oBAAA,CACA,iBAAA,CACA,2CAAA,CACA,qBAAA,CACA,UAAA,CACA,WAAA,CACA,qDAAA,CAEA,yBAAA","sourcesContent":[".panel {\n    box-sizing: border-box;\n    position: absolute;\n    z-index: 999;\n    box-shadow: 0 0 8px 0 rgba(0,0,0,.18);\n    background-color: #fff;\n    border-radius: 8px;\n    height: 187px;\n    width: 293px;\n    right: 1%;\n    top: 24%;\n    pointer-events: auto !important;\n    cursor: auto !important;\n}\n\nheader.header {\n    background-color: #5f7280;\n    padding: 11px 16px;\n    border-top-left-radius: 8px;\n    border-top-right-radius: 8px;\n\n    h2.title {\n        font-size: 16px;\n        color: #fff;\n    }\n}\n\nform.form {\n    padding: 16px;\n    display: block;\n}\n\nlabel.label {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    font-size: 13px;\n    margin-bottom: 8px;\n}\n\ninput.input {\n    width: 100px;\n    text-align: center;\n\n    &.inputError {\n        border: 1px solid red;\n    }\n}\n\nselect.select {\n}\n\ninput.checkbox{\n\n}\n\nsection.actionBar {\n    display: flex;\n    justify-content: flex-end;\n    column-gap: 8px;\n\n    button.start {\n    }\n\n}\n\n[data-tooltip] {\n    position: relative;\n}\n\n[data-tooltip]::after {\n    position: absolute;\n    opacity: 1;\n    pointer-events: none;\n    content: attr(data-tooltip);\n    right: 0;\n    top: calc(100% + 5px);\n    border-radius: 3px;\n    box-shadow: 0 0 5px 2px rgba(100, 100, 100, 0.6);\n    background-color: #fff;\n    z-index: 10;\n    padding: 8px;\n    transition: all 150ms cubic-bezier(.25, .8, .25, 1);\n\n    transition-duration: 300ms;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"panel": `AutoTravellerPanel_panel__DtOqy`,
+	"header": `AutoTravellerPanel_header__osn5h`,
+	"title": `AutoTravellerPanel_title__cVO6T`,
+	"form": `AutoTravellerPanel_form__gI6H1`,
+	"label": `AutoTravellerPanel_label__ZGCJT`,
+	"input": `AutoTravellerPanel_input__GGC1x`,
+	"inputError": `AutoTravellerPanel_inputError__Lxr4s`,
+	"actionBar": `AutoTravellerPanel_actionBar__TCdbo`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 103:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `section.CollapseButtonPanel_panel__-DTdI{border-radius:8px;background-color:#fff;position:absolute;z-index:1000;top:25.1%;right:2%;transition:all .2s ease-in-out}section.CollapseButtonPanel_panel__-DTdI.CollapseButtonPanel_isCollapsed__i22Jz{box-shadow:0 0 8px 0 rgba(0,0,0,.18)}button.CollapseButtonPanel_button__pC1GN{box-sizing:border-box;width:32px;height:32px;border:none;background:none;padding:4px;cursor:pointer;transition:all .2s ease-in-out}button.CollapseButtonPanel_button__pC1GN.CollapseButtonPanel_isCollapsed__i22Jz{transform:rotate3d(0, 1, 0, 180deg)}`, "",{"version":3,"sources":["webpack://./src/features/an-amazing-journey/components/CollapseButtonPanel.module.scss"],"names":[],"mappings":"AAAA,yCACE,iBAAA,CACA,qBAAA,CACA,iBAAA,CACA,YAAA,CACA,SAAA,CACA,QAAA,CAEA,8BAAA,CAEA,gFACE,oCAAA,CAIJ,yCACE,qBAAA,CACA,UAAA,CACA,WAAA,CAGA,WAAA,CACA,eAAA,CACA,WAAA,CACA,cAAA,CAEA,8BAAA,CAGA,gFAEE,mCAAA","sourcesContent":["section.panel {\n  border-radius: 8px;\n  background-color: #fff;\n  position: absolute;\n  z-index: 1000;\n  top: 25.1%;\n  right: 2%;\n\n  transition: all 0.2s ease-in-out;\n\n  &.isCollapsed {\n    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);\n  }\n}\n\nbutton.button {\n  box-sizing: border-box;\n  width: 32px;\n  height: 32px;\n\n  //reset button styles\n  border: none;\n  background: none;\n  padding: 4px;\n  cursor: pointer;\n\n  transition: all 0.2s ease-in-out;\n\n\n  &.isCollapsed {\n    // rotate 3d 180deg\n    transform: rotate3d(0, 1, 0, 180deg);\n    //transform: rotate(-180deg);\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"panel": `CollapseButtonPanel_panel__-DTdI`,
+	"isCollapsed": `CollapseButtonPanel_isCollapsed__i22Jz`,
+	"button": `CollapseButtonPanel_button__pC1GN`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 978:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `section.ErrorPanel_panel__FZdQT{box-sizing:border-box;position:absolute;z-index:10001;box-shadow:0 0 8px 0 rgba(0,0,0,.18);background-color:#812b2b;border-radius:8px;width:293px;right:1%;top:58%;pointer-events:auto !important;cursor:auto !important;color:#fff;padding:8px 16px}.ErrorPanel_errors__GR7ne{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow:auto}.ErrorPanel_errors__GR7ne p.ErrorPanel_error__XQ3p0{font-size:13px}.ErrorPanel_errors__GR7ne p.ErrorPanel_error__XQ3p0:first-of-type{padding-right:16px}.ErrorPanel_errors__GR7ne p.ErrorPanel_error__XQ3p0:not(:last-of-type){border-bottom:1px solid rgba(255,255,255,.2)}button.ErrorPanel_close__7Jwbw{background:none;border:none;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;position:absolute;top:0;right:0;width:32px;height:32px;transition:background-color .2s ease-in-out;border-bottom-left-radius:8px}button.ErrorPanel_close__7Jwbw:hover{background-color:rgba(255,255,255,.2)}`, "",{"version":3,"sources":["webpack://./src/features/an-amazing-journey/components/ErrorPanel.module.scss"],"names":[],"mappings":"AAAA,gCACE,qBAAA,CACA,iBAAA,CACA,aAAA,CACA,oCAAA,CACA,wBAAA,CACA,iBAAA,CACA,WAAA,CACA,QAAA,CACA,OAAA,CACA,8BAAA,CACA,sBAAA,CACA,UAAA,CACA,gBAAA,CAGF,0BACE,YAAA,CACA,qBAAA,CACA,OAAA,CAEA,gBAAA,CACA,aAAA,CAEA,oDACE,cAAA,CAEA,kEACE,kBAAA,CAGF,uEACE,4CAAA,CAKN,+BACE,eAAA,CACA,WAAA,CACA,SAAA,CACA,YAAA,CACA,kBAAA,CACA,sBAAA,CACA,cAAA,CACA,UAAA,CACA,iBAAA,CACA,KAAA,CACA,OAAA,CACA,UAAA,CACA,WAAA,CAEA,2CAAA,CACA,6BAAA,CAEA,qCACE,qCAAA","sourcesContent":["section.panel {\n  box-sizing: border-box;\n  position: absolute;\n  z-index: 10001;\n  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);\n  background-color: #812b2b;\n  border-radius: 8px;\n  width: 293px;\n  right: 1%;\n  top: 58%;\n  pointer-events: auto !important;\n  cursor: auto !important;\n  color: #fff;\n  padding: 8px 16px;\n}\n\n.errors {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n\n  max-height: 200px;\n  overflow: auto;\n\n  p.error {\n    font-size: 13px;\n\n    &:first-of-type {\n      padding-right: 16px;\n    }\n\n    &:not(:last-of-type) {\n      border-bottom: 1px solid rgba(255, 255, 255, 0.2);\n    }\n  }\n}\n\nbutton.close {\n  background: none;\n  border: none;\n  padding: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: #fff;\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 32px;\n  height: 32px;\n\n  transition: background-color 0.2s ease-in-out;\n  border-bottom-left-radius: 8px;\n\n  &:hover {\n    background-color: rgba(255, 255, 255, 0.2);\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"panel": `ErrorPanel_panel__FZdQT`,
+	"errors": `ErrorPanel_errors__GR7ne`,
+	"error": `ErrorPanel_error__XQ3p0`,
+	"close": `ErrorPanel_close__7Jwbw`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 990:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.StatusIndicator_statusIndicator__EYsLz{display:flex}.StatusIndicator_inProgress__ylTkU{color:#cbdae8}.StatusIndicator_inProgress__ylTkU .StatusIndicator_spinner__ut7ky{transform-origin:center;animation:StatusIndicator_spinner__ut7ky .75s infinite linear}@keyframes StatusIndicator_spinner__ut7ky{100%{transform:rotate(360deg)}}.StatusIndicator_error__F1dwS{color:#ff6767;animation:StatusIndicator_pulsate__u3JCS 1.4s ease-out;animation-iteration-count:infinite}@keyframes StatusIndicator_pulsate__u3JCS{0%{transform:scale(1, 1)}50%{transform:scale(1.4, 1.4)}100%{transform:scale(1, 1)}}.StatusIndicator_completed__36OU9{color:#62df7a}`, "",{"version":3,"sources":["webpack://./src/features/an-amazing-journey/components/StatusIndicator.module.scss"],"names":[],"mappings":"AAAA,wCACI,YAAA,CAGJ,mCACI,aAAA,CAEA,mEACI,uBAAA,CACA,6DAAA,CAGJ,0CACI,KACI,wBAAA,CAAA,CAKZ,8BACI,aAAA,CACA,sDAAA,CACA,kCAAA,CAEA,0CACI,GACI,qBAAA,CAEJ,IACI,yBAAA,CAEJ,KACI,qBAAA,CAAA,CAKZ,kCACI,aAAA","sourcesContent":[".statusIndicator {\n    display: flex;\n}\n\n.inProgress {\n    color: #cbdae8;\n\n    .spinner {\n        transform-origin: center;\n        animation: spinner .75s infinite linear;\n    }\n\n    @keyframes spinner {\n        100% {\n            transform: rotate(360deg)\n        }\n    }\n}\n\n.error {\n    color: #ff6767;\n    animation: pulsate 1.4s ease-out;\n    animation-iteration-count: infinite;\n\n    @keyframes pulsate {\n        0% {\n            transform: scale(1,1);\n        }\n        50% {\n            transform: scale(1.4, 1.4);\n        }\n        100% {\n            transform: scale(1, 1);\n        }\n    }\n}\n\n.completed {\n    color: #62df7a;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"statusIndicator": `StatusIndicator_statusIndicator__EYsLz`,
+	"inProgress": `StatusIndicator_inProgress__ylTkU`,
+	"spinner": `StatusIndicator_spinner__ut7ky`,
+	"error": `StatusIndicator_error__F1dwS`,
+	"pulsate": `StatusIndicator_pulsate__u3JCS`,
+	"completed": `StatusIndicator_completed__36OU9`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 493:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(657);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(176);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `section.TravelProgressPanel_panel__McE4q{box-sizing:border-box;position:absolute;z-index:999;box-shadow:0 0 8px 0 rgba(0,0,0,.18);background-color:#fff;border-radius:8px;height:110px;width:189px;right:11.9%;top:58%;pointer-events:auto !important;cursor:auto !important}header.TravelProgressPanel_header__hwZeU{background-color:#5f7280;border-top-left-radius:8px;border-top-right-radius:8px;display:flex;justify-content:space-between;align-items:center;padding-right:8px}header.TravelProgressPanel_header__hwZeU h2.TravelProgressPanel_title__RHoV9{flex:1 1;padding:8px 16px;color:#fff;font-size:14px;font-weight:500}.TravelProgressPanel_rows__I8BES{padding:8px 16px}.TravelProgressPanel_rows__I8BES .TravelProgressPanel_row__fJduM{display:flex;justify-content:space-between}.TravelProgressPanel_rows__I8BES .TravelProgressPanel_row__fJduM .TravelProgressPanel_key__N1yGr{font-size:12px}.TravelProgressPanel_rows__I8BES .TravelProgressPanel_row__fJduM .TravelProgressPanel_value__z3\\+ro{font-size:13px;font-weight:600}`, "",{"version":3,"sources":["webpack://./src/features/an-amazing-journey/components/TravelProgressPanel.module.scss"],"names":[],"mappings":"AAAA,yCACE,qBAAA,CACA,iBAAA,CACA,WAAA,CACA,oCAAA,CACA,qBAAA,CACA,iBAAA,CACA,YAAA,CACA,WAAA,CACA,WAAA,CACA,OAAA,CACA,8BAAA,CACA,sBAAA,CAGF,yCACE,wBAAA,CACA,0BAAA,CACA,2BAAA,CACA,YAAA,CACA,6BAAA,CACA,kBAAA,CACA,iBAAA,CAEA,6EACE,QAAA,CACA,gBAAA,CACA,UAAA,CACA,cAAA,CACA,eAAA,CAIJ,iCACE,gBAAA,CAEA,iEACE,YAAA,CACA,6BAAA,CAEA,iGACE,cAAA,CAGF,oGACE,cAAA,CACA,eAAA","sourcesContent":["section.panel {\n  box-sizing: border-box;\n  position: absolute;\n  z-index: 999;\n  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);\n  background-color: #fff;\n  border-radius: 8px;\n  height: 110px;\n  width: 189px;\n  right: 11.9%;\n  top: 58%;\n  pointer-events: auto !important;\n  cursor: auto !important;\n}\n\nheader.header {\n  background-color: #5f7280;\n  border-top-left-radius: 8px;\n  border-top-right-radius: 8px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-right: 8px;\n\n  h2.title {\n    flex: 1;\n    padding: 8px 16px;\n    color: #fff;\n    font-size: 14px;\n    font-weight: 500;\n  }\n}\n\n.rows {\n  padding: 8px 16px;\n\n  .row {\n    display: flex;\n    justify-content: space-between;\n\n    .key {\n      font-size: 12px;\n    }\n\n    .value {\n      font-size: 13px;\n      font-weight: 600;\n    }\n  }\n}\n\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"panel": `TravelProgressPanel_panel__McE4q`,
+	"header": `TravelProgressPanel_header__hwZeU`,
+	"title": `TravelProgressPanel_title__RHoV9`,
+	"rows": `TravelProgressPanel_rows__I8BES`,
+	"row": `TravelProgressPanel_row__fJduM`,
+	"key": `TravelProgressPanel_key__N1yGr`,
+	"value": `TravelProgressPanel_value__z3+ro`
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
@@ -8626,8 +8823,6 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 
-// EXTERNAL MODULE: ./node_modules/react-dom/index.js
-var react_dom = __webpack_require__(164);
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(701);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -8678,18 +8873,12 @@ var update = injectStylesIntoStyleTag_default()(cjs_js_src/* default */.Z, optio
        /* harmony default export */ const src = (cjs_js_src/* default */.Z && cjs_js_src/* default */.Z.locals ? cjs_js_src/* default */.Z.locals : undefined);
 
 ;// CONCATENATED MODULE: ./src/utils/utils.ts
-/**
+const APP_NAME="Stuff Unlocked";/**
  * Wrapped console.log function.
  *
  * @export
  * @param {*} args
- */function log(){for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}console.log("%cUserscript (React Mode):","color: purple; font-weight: bold",...args);}/**
- * Wrapped version of `fetch` that logs the output as it's being fetched.
- * It also specifies the full path, because in Greasemonkey, the full path is needed.
- *
- * @param {string} arg
- * @returns {Promise} - the `fetch` promise
- */function logFetch(arg){const url=new URL(arg,window.location.toString());log("fetching",""+url);return fetch(""+url,{credentials:"include"});}/**
+ */function log(){for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}console.log("%c".concat(APP_NAME,":"),"color: purple; font-weight: bold",...args);}function error(){for(var _len2=arguments.length,args=new Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2];}console.log("%c".concat(APP_NAME," [ERROR]:"),"color: red; font-weight: bold; border-bottom: 1px solid red;",...args);}/**
  * Ensure `callback` is called every time window.location changes
  * Code derived from https://stackoverflow.com/questions/3522090/event-when-window-location-href-changes
  *
@@ -8705,9 +8894,21 @@ let oldHref=window.location.href;const body=document.querySelector("body");const
  */async function awaitElement(selector){const MAX_TRIES=60;let tries=0;return new Promise((resolve,reject)=>{function probe(){tries++;return document.querySelector(selector);}function delayedProbe(){if(tries>=MAX_TRIES){log("Can't find element with selector",selector);reject();return;}const elm=probe();if(elm){resolve(elm);return;}window.setTimeout(delayedProbe,250);}delayedProbe();});}
 // EXTERNAL MODULE: ./src/old-index.user.js
 var old_index_user = __webpack_require__(680);
-// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./node_modules/source-map-loader/dist/cjs.js!./src/App.css
-var App = __webpack_require__(7);
-;// CONCATENATED MODULE: ./src/App.css
+;// CONCATENATED MODULE: ./src/utils/feature.ts
+function createFeature(feature){return{...feature,execute:async()=>applyExecuteTimeSpent(feature.name,feature.execute)};}const applyExecuteTimeSpent=async(name,callback)=>{const start=Date.now();await callback();const end=Date.now();log("Time spent executing ".concat(name,": ").concat(end-start,"ms"));};
+;// CONCATENATED MODULE: ./src/utils/erep-global-info.ts
+function getCitizenshipCurrencyName(){return erepublik.citizen.citizenshipCurrencyName;}function getCurrentRegionId(){return String(erepublik.citizen.residence.regionId);}function getAuthToken(){return erepublik.settings.pomelo.authToken;}function getCsrfToken(){return SERVER_DATA.csrfToken;}
+;// CONCATENATED MODULE: ./src/utils/request.ts
+function getCookieHeaders(){return{cookie:"erpk=".concat(getAuthToken())};}function objectToWwwFormUrlEncoded(obj){const searchParams=new URLSearchParams();Object.keys(obj).forEach(key=>{searchParams.append(key,obj[key]);});return searchParams.toString();}
+;// CONCATENATED MODULE: ./src/requests/travel-data-request.ts
+let TravelData;(function(_TravelData){async function sendRequest(body){const response=fetch("https://www.erepublik.com/en/main/travelData",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded",...getCookieHeaders()},body:objectToWwwFormUrlEncoded(body)});return response.then(response=>response.json());}_TravelData.sendRequest=sendRequest;let ZoneName=/*#__PURE__*/function(ZoneName){ZoneName["A1"]="A1";ZoneName["A2"]="A2";ZoneName["A3"]="A3";ZoneName["A4"]="A4";ZoneName["A5"]="A5";ZoneName["B1"]="B1";ZoneName["B3"]="B3";ZoneName["B4"]="B4";ZoneName["B5"]="B5";ZoneName["C1"]="C1";ZoneName["C2"]="C2";ZoneName["C3"]="C3";ZoneName["C4"]="C4";ZoneName["C5"]="C5";ZoneName["D2"]="D2";ZoneName["D3"]="D3";ZoneName["D5"]="D5";return ZoneName;}({});_TravelData.ZoneName=ZoneName;})(TravelData||(TravelData={}));
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/countries-cache.ts
+class CountriesCache{constructor(){this.countries=void 0;this.currentRegionId=void 0;}async getCountries(){if(!this.countries){await this.fetchCountries();}return this.countries;}async getCurrentRegionId(){let flags=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{skipCache:false};if(flags.skipCache||!this.currentRegionId){await this.fetchCountries();}return this.currentRegionId;}updateCurrentRegionId(regionId){this.currentRegionId=regionId;}async fetchCountries(){const response=await TravelData.sendRequest({battleId:"0",_token:await getCsrfToken(),regionId:"0",holdingId:"0"});this.updateCurrentRegionId(String(response.citizen.region.id));this.countries=response.countries;}}
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(791);
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/an-amazing-journey/components/AutoTravellerPanel.module.scss
+var AutoTravellerPanel_module = __webpack_require__(71);
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/AutoTravellerPanel.module.scss
 
       
       
@@ -8719,39 +8920,2507 @@ var App = __webpack_require__(7);
       
       
 
-var App_options = {};
+var AutoTravellerPanel_module_options = {};
 
-App_options.styleTagTransform = (styleTagTransform_default());
-App_options.setAttributes = (setAttributesWithoutAttributes_default());
+AutoTravellerPanel_module_options.styleTagTransform = (styleTagTransform_default());
+AutoTravellerPanel_module_options.setAttributes = (setAttributesWithoutAttributes_default());
 
-      App_options.insert = insertBySelector_default().bind(null, "head");
+      AutoTravellerPanel_module_options.insert = insertBySelector_default().bind(null, "head");
     
-App_options.domAPI = (styleDomAPI_default());
-App_options.insertStyleElement = (insertStyleElement_default());
+AutoTravellerPanel_module_options.domAPI = (styleDomAPI_default());
+AutoTravellerPanel_module_options.insertStyleElement = (insertStyleElement_default());
 
-var App_update = injectStylesIntoStyleTag_default()(App/* default */.Z, App_options);
-
-
+var AutoTravellerPanel_module_update = injectStylesIntoStyleTag_default()(AutoTravellerPanel_module/* default */.Z, AutoTravellerPanel_module_options);
 
 
-       /* harmony default export */ const src_App = (App/* default */.Z && App/* default */.Z.locals ? App/* default */.Z.locals : undefined);
 
+
+       /* harmony default export */ const components_AutoTravellerPanel_module = (AutoTravellerPanel_module/* default */.Z && AutoTravellerPanel_module/* default */.Z.locals ? AutoTravellerPanel_module/* default */.Z.locals : undefined);
+
+;// CONCATENATED MODULE: ./node_modules/react-hook-form/dist/index.esm.mjs
+
+var isCheckBoxInput = element => element.type === 'checkbox';
+var isDateObject = value => value instanceof Date;
+var isNullOrUndefined = value => value == null;
+const isObjectType = value => typeof value === 'object';
+var isObject = value => !isNullOrUndefined(value) && !Array.isArray(value) && isObjectType(value) && !isDateObject(value);
+var getEventValue = event => isObject(event) && event.target ? isCheckBoxInput(event.target) ? event.target.checked : event.target.value : event;
+var getNodeParentName = name => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
+var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
+var isPlainObject = tempObject => {
+  const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
+  return isObject(prototypeCopy) && prototypeCopy.hasOwnProperty('isPrototypeOf');
+};
+var isWeb = typeof window !== 'undefined' && typeof window.HTMLElement !== 'undefined' && typeof document !== 'undefined';
+function cloneObject(data) {
+  let copy;
+  const isArray = Array.isArray(data);
+  if (data instanceof Date) {
+    copy = new Date(data);
+  } else if (data instanceof Set) {
+    copy = new Set(data);
+  } else if (!(isWeb && (data instanceof Blob || data instanceof FileList)) && (isArray || isObject(data))) {
+    copy = isArray ? [] : {};
+    if (!isArray && !isPlainObject(data)) {
+      copy = data;
+    } else {
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          copy[key] = cloneObject(data[key]);
+        }
+      }
+    }
+  } else {
+    return data;
+  }
+  return copy;
+}
+var compact = value => Array.isArray(value) ? value.filter(Boolean) : [];
+var isUndefined = val => val === undefined;
+var get = (obj, path, defaultValue) => {
+  if (!path || !isObject(obj)) {
+    return defaultValue;
+  }
+  const result = compact(path.split(/[,[\].]+?/)).reduce((result, key) => isNullOrUndefined(result) ? result : result[key], obj);
+  return isUndefined(result) || result === obj ? isUndefined(obj[path]) ? defaultValue : obj[path] : result;
+};
+var isBoolean = value => typeof value === 'boolean';
+const EVENTS = {
+  BLUR: 'blur',
+  FOCUS_OUT: 'focusout',
+  CHANGE: 'change'
+};
+const VALIDATION_MODE = {
+  onBlur: 'onBlur',
+  onChange: 'onChange',
+  onSubmit: 'onSubmit',
+  onTouched: 'onTouched',
+  all: 'all'
+};
+const INPUT_VALIDATION_RULES = {
+  max: 'max',
+  min: 'min',
+  maxLength: 'maxLength',
+  minLength: 'minLength',
+  pattern: 'pattern',
+  required: 'required',
+  validate: 'validate'
+};
+const HookFormContext = react.createContext(null);
+/**
+ * This custom hook allows you to access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop. To be used with {@link FormProvider}.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
+ *
+ * @returns return all useForm methods
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const methods = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   return (
+ *     <FormProvider {...methods} >
+ *       <form onSubmit={methods.handleSubmit(onSubmit)}>
+ *         <NestedInput />
+ *         <input type="submit" />
+ *       </form>
+ *     </FormProvider>
+ *   );
+ * }
+ *
+ *  function NestedInput() {
+ *   const { register } = useFormContext(); // retrieve all hook methods
+ *   return <input {...register("test")} />;
+ * }
+ * ```
+ */
+const useFormContext = () => React.useContext(HookFormContext);
+/**
+ * A provider component that propagates the `useForm` methods to all children components via [React Context](https://reactjs.org/docs/context.html) API. To be used with {@link useFormContext}.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
+ *
+ * @param props - all useForm methods
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const methods = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   return (
+ *     <FormProvider {...methods} >
+ *       <form onSubmit={methods.handleSubmit(onSubmit)}>
+ *         <NestedInput />
+ *         <input type="submit" />
+ *       </form>
+ *     </FormProvider>
+ *   );
+ * }
+ *
+ *  function NestedInput() {
+ *   const { register } = useFormContext(); // retrieve all hook methods
+ *   return <input {...register("test")} />;
+ * }
+ * ```
+ */
+const FormProvider = props => {
+  const {
+    children,
+    ...data
+  } = props;
+  return React.createElement(HookFormContext.Provider, {
+    value: data
+  }, children);
+};
+var getProxyFormState = function (formState, control, localProxyFormState) {
+  let isRoot = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+  const result = {
+    defaultValues: control._defaultValues
+  };
+  for (const key in formState) {
+    Object.defineProperty(result, key, {
+      get: () => {
+        const _key = key;
+        if (control._proxyFormState[_key] !== VALIDATION_MODE.all) {
+          control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
+        }
+        localProxyFormState && (localProxyFormState[_key] = true);
+        return formState[_key];
+      }
+    });
+  }
+  return result;
+};
+var isEmptyObject = value => isObject(value) && !Object.keys(value).length;
+var shouldRenderFormState = (formStateData, _proxyFormState, updateFormState, isRoot) => {
+  updateFormState(formStateData);
+  const {
+    name,
+    ...formState
+  } = formStateData;
+  return isEmptyObject(formState) || Object.keys(formState).length >= Object.keys(_proxyFormState).length || Object.keys(formState).find(key => _proxyFormState[key] === (!isRoot || VALIDATION_MODE.all));
+};
+var convertToArrayPayload = value => Array.isArray(value) ? value : [value];
+var shouldSubscribeByName = (name, signalName, exact) => !name || !signalName || name === signalName || convertToArrayPayload(name).some(currentName => currentName && (exact ? currentName === signalName : currentName.startsWith(signalName) || signalName.startsWith(currentName)));
+function useSubscribe(props) {
+  const _props = react.useRef(props);
+  _props.current = props;
+  react.useEffect(() => {
+    const subscription = !props.disabled && _props.current.subject && _props.current.subject.subscribe({
+      next: _props.current.next
+    });
+    return () => {
+      subscription && subscription.unsubscribe();
+    };
+  }, [props.disabled]);
+}
+
+/**
+ * This custom hook allows you to subscribe to each form state, and isolate the re-render at the custom hook level. It has its scope in terms of form state subscription, so it would not affect other useFormState and useForm. Using this hook can reduce the re-render impact on large and complex form application.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformstate) • [Demo](https://codesandbox.io/s/useformstate-75xly)
+ *
+ * @param props - include options on specify fields to subscribe. {@link UseFormStateReturn}
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { register, handleSubmit, control } = useForm({
+ *     defaultValues: {
+ *     firstName: "firstName"
+ *   }});
+ *   const { dirtyFields } = useFormState({
+ *     control
+ *   });
+ *   const onSubmit = (data) => console.log(data);
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit(onSubmit)}>
+ *       <input {...register("firstName")} placeholder="First Name" />
+ *       {dirtyFields.firstName && <p>Field is dirty.</p>}
+ *       <input type="submit" />
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+function useFormState(props) {
+  const methods = useFormContext();
+  const {
+    control = methods.control,
+    disabled,
+    name,
+    exact
+  } = props || {};
+  const [formState, updateFormState] = React.useState(control._formState);
+  const _mounted = React.useRef(true);
+  const _localProxyFormState = React.useRef({
+    isDirty: false,
+    isLoading: false,
+    dirtyFields: false,
+    touchedFields: false,
+    isValidating: false,
+    isValid: false,
+    errors: false
+  });
+  const _name = React.useRef(name);
+  _name.current = name;
+  useSubscribe({
+    disabled,
+    next: value => _mounted.current && shouldSubscribeByName(_name.current, value.name, exact) && shouldRenderFormState(value, _localProxyFormState.current, control._updateFormState) && updateFormState({
+      ...control._formState,
+      ...value
+    }),
+    subject: control._subjects.state
+  });
+  React.useEffect(() => {
+    _mounted.current = true;
+    _localProxyFormState.current.isValid && control._updateValid(true);
+    return () => {
+      _mounted.current = false;
+    };
+  }, [control]);
+  return getProxyFormState(formState, control, _localProxyFormState.current, false);
+}
+var isString = value => typeof value === 'string';
+var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
+  if (isString(names)) {
+    isGlobal && _names.watch.add(names);
+    return get(formValues, names, defaultValue);
+  }
+  if (Array.isArray(names)) {
+    return names.map(fieldName => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
+  }
+  isGlobal && (_names.watchAll = true);
+  return formValues;
+};
+
+/**
+ * Custom hook to subscribe to field change and isolate re-rendering at the component level.
+ *
+ * @remarks
+ *
+ * [API](https://react-hook-form.com/docs/usewatch) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-usewatch-h9i5e)
+ *
+ * @example
+ * ```tsx
+ * const { control } = useForm();
+ * const values = useWatch({
+ *   name: "fieldName"
+ *   control,
+ * })
+ * ```
+ */
+function useWatch(props) {
+  const methods = useFormContext();
+  const {
+    control = methods.control,
+    name,
+    defaultValue,
+    disabled,
+    exact
+  } = props || {};
+  const _name = React.useRef(name);
+  _name.current = name;
+  useSubscribe({
+    disabled,
+    subject: control._subjects.values,
+    next: formState => {
+      if (shouldSubscribeByName(_name.current, formState.name, exact)) {
+        updateValue(cloneObject(generateWatchOutput(_name.current, control._names, formState.values || control._formValues, false, defaultValue)));
+      }
+    }
+  });
+  const [value, updateValue] = React.useState(control._getWatch(name, defaultValue));
+  React.useEffect(() => control._removeUnmounted());
+  return value;
+}
+var isKey = value => /^\w*$/.test(value);
+var stringToPath = input => compact(input.replace(/["|']|\]/g, '').split(/\.|\[/));
+function set(object, path, value) {
+  let index = -1;
+  const tempPath = isKey(path) ? [path] : stringToPath(path);
+  const length = tempPath.length;
+  const lastIndex = length - 1;
+  while (++index < length) {
+    const key = tempPath[index];
+    let newValue = value;
+    if (index !== lastIndex) {
+      const objValue = object[key];
+      newValue = isObject(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index + 1]) ? [] : {};
+    }
+    object[key] = newValue;
+    object = object[key];
+  }
+  return object;
+}
+
+/**
+ * Custom hook to work with controlled component, this function provide you with both form and field level state. Re-render is isolated at the hook level.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/usecontroller) • [Demo](https://codesandbox.io/s/usecontroller-0o8px)
+ *
+ * @param props - the path name to the form field value, and validation rules.
+ *
+ * @returns field properties, field and form state. {@link UseControllerReturn}
+ *
+ * @example
+ * ```tsx
+ * function Input(props) {
+ *   const { field, fieldState, formState } = useController(props);
+ *   return (
+ *     <div>
+ *       <input {...field} placeholder={props.name} />
+ *       <p>{fieldState.isTouched && "Touched"}</p>
+ *       <p>{formState.isSubmitted ? "submitted" : ""}</p>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
+function useController(props) {
+  const methods = useFormContext();
+  const {
+    name,
+    disabled,
+    control = methods.control,
+    shouldUnregister
+  } = props;
+  const isArrayField = isNameInFieldArray(control._names.array, name);
+  const value = useWatch({
+    control,
+    name,
+    defaultValue: get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)),
+    exact: true
+  });
+  const formState = useFormState({
+    control,
+    name
+  });
+  const _registerProps = React.useRef(control.register(name, {
+    ...props.rules,
+    value
+  }));
+  _registerProps.current = control.register(name, props.rules);
+  React.useEffect(() => {
+    const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
+    const updateMounted = (name, value) => {
+      const field = get(control._fields, name);
+      if (field) {
+        field._f.mount = value;
+      }
+    };
+    updateMounted(name, true);
+    if (_shouldUnregisterField) {
+      const value = cloneObject(get(control._options.defaultValues, name));
+      set(control._defaultValues, name, value);
+      if (isUndefined(get(control._formValues, name))) {
+        set(control._formValues, name, value);
+      }
+    }
+    return () => {
+      (isArrayField ? _shouldUnregisterField && !control._state.action : _shouldUnregisterField) ? control.unregister(name) : updateMounted(name, false);
+    };
+  }, [name, control, isArrayField, shouldUnregister]);
+  React.useEffect(() => {
+    if (get(control._fields, name)) {
+      control._updateDisabledField({
+        disabled,
+        fields: control._fields,
+        name,
+        value: get(control._fields, name)._f.value
+      });
+    }
+  }, [disabled, name, control]);
+  return {
+    field: {
+      name,
+      value,
+      ...(isBoolean(disabled) || isBoolean(formState.disabled) ? {
+        disabled: formState.disabled || disabled
+      } : {}),
+      onChange: React.useCallback(event => _registerProps.current.onChange({
+        target: {
+          value: getEventValue(event),
+          name: name
+        },
+        type: EVENTS.CHANGE
+      }), [name]),
+      onBlur: React.useCallback(() => _registerProps.current.onBlur({
+        target: {
+          value: get(control._formValues, name),
+          name: name
+        },
+        type: EVENTS.BLUR
+      }), [name, control]),
+      ref: elm => {
+        const field = get(control._fields, name);
+        if (field && elm) {
+          field._f.ref = {
+            focus: () => elm.focus(),
+            select: () => elm.select(),
+            setCustomValidity: message => elm.setCustomValidity(message),
+            reportValidity: () => elm.reportValidity()
+          };
+        }
+      }
+    },
+    formState,
+    fieldState: Object.defineProperties({}, {
+      invalid: {
+        enumerable: true,
+        get: () => !!get(formState.errors, name)
+      },
+      isDirty: {
+        enumerable: true,
+        get: () => !!get(formState.dirtyFields, name)
+      },
+      isTouched: {
+        enumerable: true,
+        get: () => !!get(formState.touchedFields, name)
+      },
+      error: {
+        enumerable: true,
+        get: () => get(formState.errors, name)
+      }
+    })
+  };
+}
+
+/**
+ * Component based on `useController` hook to work with controlled component.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/usecontroller/controller) • [Demo](https://codesandbox.io/s/react-hook-form-v6-controller-ts-jwyzw) • [Video](https://www.youtube.com/watch?v=N2UNk_UCVyA)
+ *
+ * @param props - the path name to the form field value, and validation rules.
+ *
+ * @returns provide field handler functions, field and form state.
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { control } = useForm<FormValues>({
+ *     defaultValues: {
+ *       test: ""
+ *     }
+ *   });
+ *
+ *   return (
+ *     <form>
+ *       <Controller
+ *         control={control}
+ *         name="test"
+ *         render={({ field: { onChange, onBlur, value, ref }, formState, fieldState }) => (
+ *           <>
+ *             <input
+ *               onChange={onChange} // send value to hook form
+ *               onBlur={onBlur} // notify when input is touched
+ *               value={value} // return updated value
+ *               ref={ref} // set ref for focus management
+ *             />
+ *             <p>{formState.isSubmitted ? "submitted" : ""}</p>
+ *             <p>{fieldState.isTouched ? "touched" : ""}</p>
+ *           </>
+ *         )}
+ *       />
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+const Controller = props => props.render(useController(props));
+const POST_REQUEST = 'post';
+/**
+ * Form component to manage submission.
+ *
+ * @param props - to setup submission detail. {@link FormProps}
+ *
+ * @returns form component or headless render prop.
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { control, formState: { errors } } = useForm();
+ *
+ *   return (
+ *     <Form action="/api" control={control}>
+ *       <input {...register("name")} />
+ *       <p>{errors?.root?.server && 'Server error'}</p>
+ *       <button>Submit</button>
+ *     </Form>
+ *   );
+ * }
+ * ```
+ */
+function Form(props) {
+  const methods = useFormContext();
+  const [mounted, setMounted] = React.useState(false);
+  const {
+    control = methods.control,
+    onSubmit,
+    children,
+    action,
+    method = POST_REQUEST,
+    headers,
+    encType,
+    onError,
+    render,
+    onSuccess,
+    validateStatus,
+    ...rest
+  } = props;
+  const submit = async event => {
+    let hasError = false;
+    let type = '';
+    await control.handleSubmit(async data => {
+      const formData = new FormData();
+      let formDataJson = '';
+      try {
+        formDataJson = JSON.stringify(data);
+      } catch (_a) {}
+      for (const name of control._names.mount) {
+        formData.append(name, get(data, name));
+      }
+      if (onSubmit) {
+        await onSubmit({
+          data,
+          event,
+          method,
+          formData,
+          formDataJson
+        });
+      }
+      if (action) {
+        try {
+          const shouldStringifySubmissionData = [headers && headers['Content-Type'], encType].some(value => value && value.includes('json'));
+          const response = await fetch(action, {
+            method,
+            headers: {
+              ...headers,
+              ...(encType ? {
+                'Content-Type': encType
+              } : {})
+            },
+            body: shouldStringifySubmissionData ? formDataJson : formData
+          });
+          if (response && (validateStatus ? !validateStatus(response.status) : response.status < 200 || response.status >= 300)) {
+            hasError = true;
+            onError && onError({
+              response
+            });
+            type = String(response.status);
+          } else {
+            onSuccess && onSuccess({
+              response
+            });
+          }
+        } catch (error) {
+          hasError = true;
+          onError && onError({
+            error
+          });
+        }
+      }
+    })(event);
+    if (hasError && props.control) {
+      props.control._subjects.state.next({
+        isSubmitSuccessful: false
+      });
+      props.control.setError('root.server', {
+        type
+      });
+    }
+  };
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+  return render ? React.createElement(React.Fragment, null, render({
+    submit
+  })) : React.createElement("form", {
+    noValidate: mounted,
+    action: action,
+    method: method,
+    encType: encType,
+    onSubmit: submit,
+    ...rest
+  }, children);
+}
+var appendErrors = (name, validateAllFieldCriteria, errors, type, message) => validateAllFieldCriteria ? {
+  ...errors[name],
+  types: {
+    ...(errors[name] && errors[name].types ? errors[name].types : {}),
+    [type]: message || true
+  }
+} : {};
+var generateId = () => {
+  const d = typeof performance === 'undefined' ? Date.now() : performance.now() * 1000;
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16 + d) % 16 | 0;
+    return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+  });
+};
+var getFocusFieldName = function (name, index) {
+  let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  return options.shouldFocus || isUndefined(options.shouldFocus) ? options.focusName || "".concat(name, ".").concat(isUndefined(options.focusIndex) ? index : options.focusIndex, ".") : '';
+};
+var getValidationModes = mode => ({
+  isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
+  isOnBlur: mode === VALIDATION_MODE.onBlur,
+  isOnChange: mode === VALIDATION_MODE.onChange,
+  isOnAll: mode === VALIDATION_MODE.all,
+  isOnTouch: mode === VALIDATION_MODE.onTouched
+});
+var isWatched = (name, _names, isBlurEvent) => !isBlurEvent && (_names.watchAll || _names.watch.has(name) || [..._names.watch].some(watchName => name.startsWith(watchName) && /^\.\w+/.test(name.slice(watchName.length))));
+const iterateFieldsByAction = (fields, action, fieldsNames, abortEarly) => {
+  for (const key of fieldsNames || Object.keys(fields)) {
+    const field = get(fields, key);
+    if (field) {
+      const {
+        _f,
+        ...currentField
+      } = field;
+      if (_f) {
+        if (_f.refs && _f.refs[0] && action(_f.refs[0], key) && !abortEarly) {
+          break;
+        } else if (_f.ref && action(_f.ref, _f.name) && !abortEarly) {
+          break;
+        }
+      } else if (isObject(currentField)) {
+        iterateFieldsByAction(currentField, action);
+      }
+    }
+  }
+};
+var updateFieldArrayRootError = (errors, error, name) => {
+  const fieldArrayErrors = compact(get(errors, name));
+  set(fieldArrayErrors, 'root', error[name]);
+  set(errors, name, fieldArrayErrors);
+  return errors;
+};
+var isFileInput = element => element.type === 'file';
+var isFunction = value => typeof value === 'function';
+var isHTMLElement = value => {
+  if (!isWeb) {
+    return false;
+  }
+  const owner = value ? value.ownerDocument : 0;
+  return value instanceof (owner && owner.defaultView ? owner.defaultView.HTMLElement : HTMLElement);
+};
+var isMessage = value => isString(value);
+var isRadioInput = element => element.type === 'radio';
+var isRegex = value => value instanceof RegExp;
+const defaultResult = {
+  value: false,
+  isValid: false
+};
+const validResult = {
+  value: true,
+  isValid: true
+};
+var getCheckboxValue = options => {
+  if (Array.isArray(options)) {
+    if (options.length > 1) {
+      const values = options.filter(option => option && option.checked && !option.disabled).map(option => option.value);
+      return {
+        value: values,
+        isValid: !!values.length
+      };
+    }
+    return options[0].checked && !options[0].disabled ?
+    // @ts-expect-error expected to work in the browser
+    options[0].attributes && !isUndefined(options[0].attributes.value) ? isUndefined(options[0].value) || options[0].value === '' ? validResult : {
+      value: options[0].value,
+      isValid: true
+    } : validResult : defaultResult;
+  }
+  return defaultResult;
+};
+const defaultReturn = {
+  isValid: false,
+  value: null
+};
+var getRadioValue = options => Array.isArray(options) ? options.reduce((previous, option) => option && option.checked && !option.disabled ? {
+  isValid: true,
+  value: option.value
+} : previous, defaultReturn) : defaultReturn;
+function getValidateError(result, ref) {
+  let type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'validate';
+  if (isMessage(result) || Array.isArray(result) && result.every(isMessage) || isBoolean(result) && !result) {
+    return {
+      type,
+      message: isMessage(result) ? result : '',
+      ref
+    };
+  }
+}
+var getValueAndMessage = validationData => isObject(validationData) && !isRegex(validationData) ? validationData : {
+  value: validationData,
+  message: ''
+};
+var validateField = async (field, formValues, validateAllFieldCriteria, shouldUseNativeValidation, isFieldArray) => {
+  const {
+    ref,
+    refs,
+    required,
+    maxLength,
+    minLength,
+    min,
+    max,
+    pattern,
+    validate,
+    name,
+    valueAsNumber,
+    mount,
+    disabled
+  } = field._f;
+  const inputValue = get(formValues, name);
+  if (!mount || disabled) {
+    return {};
+  }
+  const inputRef = refs ? refs[0] : ref;
+  const setCustomValidity = message => {
+    if (shouldUseNativeValidation && inputRef.reportValidity) {
+      inputRef.setCustomValidity(isBoolean(message) ? '' : message || '');
+      inputRef.reportValidity();
+    }
+  };
+  const error = {};
+  const isRadio = isRadioInput(ref);
+  const isCheckBox = isCheckBoxInput(ref);
+  const isRadioOrCheckbox = isRadio || isCheckBox;
+  const isEmpty = (valueAsNumber || isFileInput(ref)) && isUndefined(ref.value) && isUndefined(inputValue) || isHTMLElement(ref) && ref.value === '' || inputValue === '' || Array.isArray(inputValue) && !inputValue.length;
+  const appendErrorsCurry = appendErrors.bind(null, name, validateAllFieldCriteria, error);
+  const getMinMaxMessage = function (exceedMax, maxLengthMessage, minLengthMessage) {
+    let maxType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : INPUT_VALIDATION_RULES.maxLength;
+    let minType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : INPUT_VALIDATION_RULES.minLength;
+    const message = exceedMax ? maxLengthMessage : minLengthMessage;
+    error[name] = {
+      type: exceedMax ? maxType : minType,
+      message,
+      ref,
+      ...appendErrorsCurry(exceedMax ? maxType : minType, message)
+    };
+  };
+  if (isFieldArray ? !Array.isArray(inputValue) || !inputValue.length : required && (!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue)) || isBoolean(inputValue) && !inputValue || isCheckBox && !getCheckboxValue(refs).isValid || isRadio && !getRadioValue(refs).isValid)) {
+    const {
+      value,
+      message
+    } = isMessage(required) ? {
+      value: !!required,
+      message: required
+    } : getValueAndMessage(required);
+    if (value) {
+      error[name] = {
+        type: INPUT_VALIDATION_RULES.required,
+        message,
+        ref: inputRef,
+        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message)
+      };
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(message);
+        return error;
+      }
+    }
+  }
+  if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+    let exceedMax;
+    let exceedMin;
+    const maxOutput = getValueAndMessage(max);
+    const minOutput = getValueAndMessage(min);
+    if (!isNullOrUndefined(inputValue) && !isNaN(inputValue)) {
+      const valueNumber = ref.valueAsNumber || (inputValue ? +inputValue : inputValue);
+      if (!isNullOrUndefined(maxOutput.value)) {
+        exceedMax = valueNumber > maxOutput.value;
+      }
+      if (!isNullOrUndefined(minOutput.value)) {
+        exceedMin = valueNumber < minOutput.value;
+      }
+    } else {
+      const valueDate = ref.valueAsDate || new Date(inputValue);
+      const convertTimeToDate = time => new Date(new Date().toDateString() + ' ' + time);
+      const isTime = ref.type == 'time';
+      const isWeek = ref.type == 'week';
+      if (isString(maxOutput.value) && inputValue) {
+        exceedMax = isTime ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value) : isWeek ? inputValue > maxOutput.value : valueDate > new Date(maxOutput.value);
+      }
+      if (isString(minOutput.value) && inputValue) {
+        exceedMin = isTime ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value) : isWeek ? inputValue < minOutput.value : valueDate < new Date(minOutput.value);
+      }
+    }
+    if (exceedMax || exceedMin) {
+      getMinMaxMessage(!!exceedMax, maxOutput.message, minOutput.message, INPUT_VALIDATION_RULES.max, INPUT_VALIDATION_RULES.min);
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(error[name].message);
+        return error;
+      }
+    }
+  }
+  if ((maxLength || minLength) && !isEmpty && (isString(inputValue) || isFieldArray && Array.isArray(inputValue))) {
+    const maxLengthOutput = getValueAndMessage(maxLength);
+    const minLengthOutput = getValueAndMessage(minLength);
+    const exceedMax = !isNullOrUndefined(maxLengthOutput.value) && inputValue.length > +maxLengthOutput.value;
+    const exceedMin = !isNullOrUndefined(minLengthOutput.value) && inputValue.length < +minLengthOutput.value;
+    if (exceedMax || exceedMin) {
+      getMinMaxMessage(exceedMax, maxLengthOutput.message, minLengthOutput.message);
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(error[name].message);
+        return error;
+      }
+    }
+  }
+  if (pattern && !isEmpty && isString(inputValue)) {
+    const {
+      value: patternValue,
+      message
+    } = getValueAndMessage(pattern);
+    if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+      error[name] = {
+        type: INPUT_VALIDATION_RULES.pattern,
+        message,
+        ref,
+        ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message)
+      };
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(message);
+        return error;
+      }
+    }
+  }
+  if (validate) {
+    if (isFunction(validate)) {
+      const result = await validate(inputValue, formValues);
+      const validateError = getValidateError(result, inputRef);
+      if (validateError) {
+        error[name] = {
+          ...validateError,
+          ...appendErrorsCurry(INPUT_VALIDATION_RULES.validate, validateError.message)
+        };
+        if (!validateAllFieldCriteria) {
+          setCustomValidity(validateError.message);
+          return error;
+        }
+      }
+    } else if (isObject(validate)) {
+      let validationResult = {};
+      for (const key in validate) {
+        if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
+          break;
+        }
+        const validateError = getValidateError(await validate[key](inputValue, formValues), inputRef, key);
+        if (validateError) {
+          validationResult = {
+            ...validateError,
+            ...appendErrorsCurry(key, validateError.message)
+          };
+          setCustomValidity(validateError.message);
+          if (validateAllFieldCriteria) {
+            error[name] = validationResult;
+          }
+        }
+      }
+      if (!isEmptyObject(validationResult)) {
+        error[name] = {
+          ref: inputRef,
+          ...validationResult
+        };
+        if (!validateAllFieldCriteria) {
+          return error;
+        }
+      }
+    }
+  }
+  setCustomValidity(true);
+  return error;
+};
+function append(data, value) {
+  return [...data, ...convertToArrayPayload(value)];
+}
+var fillEmptyArray = value => Array.isArray(value) ? value.map(() => undefined) : undefined;
+function insert(data, index, value) {
+  return [...data.slice(0, index), ...convertToArrayPayload(value), ...data.slice(index)];
+}
+var moveArrayAt = (data, from, to) => {
+  if (!Array.isArray(data)) {
+    return [];
+  }
+  if (isUndefined(data[to])) {
+    data[to] = undefined;
+  }
+  data.splice(to, 0, data.splice(from, 1)[0]);
+  return data;
+};
+function prepend(data, value) {
+  return [...convertToArrayPayload(value), ...convertToArrayPayload(data)];
+}
+function removeAtIndexes(data, indexes) {
+  let i = 0;
+  const temp = [...data];
+  for (const index of indexes) {
+    temp.splice(index - i, 1);
+    i++;
+  }
+  return compact(temp).length ? temp : [];
+}
+var removeArrayAt = (data, index) => isUndefined(index) ? [] : removeAtIndexes(data, convertToArrayPayload(index).sort((a, b) => a - b));
+var swapArrayAt = (data, indexA, indexB) => {
+  data[indexA] = [data[indexB], data[indexB] = data[indexA]][0];
+};
+function baseGet(object, updatePath) {
+  const length = updatePath.slice(0, -1).length;
+  let index = 0;
+  while (index < length) {
+    object = isUndefined(object) ? index++ : object[updatePath[index++]];
+  }
+  return object;
+}
+function isEmptyArray(obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && !isUndefined(obj[key])) {
+      return false;
+    }
+  }
+  return true;
+}
+function unset(object, path) {
+  const paths = Array.isArray(path) ? path : isKey(path) ? [path] : stringToPath(path);
+  const childObject = paths.length === 1 ? object : baseGet(object, paths);
+  const index = paths.length - 1;
+  const key = paths[index];
+  if (childObject) {
+    delete childObject[key];
+  }
+  if (index !== 0 && (isObject(childObject) && isEmptyObject(childObject) || Array.isArray(childObject) && isEmptyArray(childObject))) {
+    unset(object, paths.slice(0, -1));
+  }
+  return object;
+}
+var updateAt = (fieldValues, index, value) => {
+  fieldValues[index] = value;
+  return fieldValues;
+};
+
+/**
+ * A custom hook that exposes convenient methods to perform operations with a list of dynamic inputs that need to be appended, updated, removed etc. • [Demo](https://codesandbox.io/s/react-hook-form-usefieldarray-ssugn) • [Video](https://youtu.be/4MrbfGSFY2A)
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/usefieldarray) • [Demo](https://codesandbox.io/s/react-hook-form-usefieldarray-ssugn)
+ *
+ * @param props - useFieldArray props
+ *
+ * @returns methods - functions to manipulate with the Field Arrays (dynamic inputs) {@link UseFieldArrayReturn}
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { register, control, handleSubmit, reset, trigger, setError } = useForm({
+ *     defaultValues: {
+ *       test: []
+ *     }
+ *   });
+ *   const { fields, append } = useFieldArray({
+ *     control,
+ *     name: "test"
+ *   });
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit(data => console.log(data))}>
+ *       {fields.map((item, index) => (
+ *          <input key={item.id} {...register(`test.${index}.firstName`)}  />
+ *       ))}
+ *       <button type="button" onClick={() => append({ firstName: "bill" })}>
+ *         append
+ *       </button>
+ *       <input type="submit" />
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+function useFieldArray(props) {
+  const methods = useFormContext();
+  const {
+    control = methods.control,
+    name,
+    keyName = 'id',
+    shouldUnregister
+  } = props;
+  const [fields, setFields] = React.useState(control._getFieldArray(name));
+  const ids = React.useRef(control._getFieldArray(name).map(generateId));
+  const _fieldIds = React.useRef(fields);
+  const _name = React.useRef(name);
+  const _actioned = React.useRef(false);
+  _name.current = name;
+  _fieldIds.current = fields;
+  control._names.array.add(name);
+  props.rules && control.register(name, props.rules);
+  useSubscribe({
+    next: _ref => {
+      let {
+        values,
+        name: fieldArrayName
+      } = _ref;
+      if (fieldArrayName === _name.current || !fieldArrayName) {
+        const fieldValues = get(values, _name.current);
+        if (Array.isArray(fieldValues)) {
+          setFields(fieldValues);
+          ids.current = fieldValues.map(generateId);
+        }
+      }
+    },
+    subject: control._subjects.array
+  });
+  const updateValues = React.useCallback(updatedFieldArrayValues => {
+    _actioned.current = true;
+    control._updateFieldArray(name, updatedFieldArrayValues);
+  }, [control, name]);
+  const append$1 = (value, options) => {
+    const appendValue = convertToArrayPayload(cloneObject(value));
+    const updatedFieldArrayValues = append(control._getFieldArray(name), appendValue);
+    control._names.focus = getFocusFieldName(name, updatedFieldArrayValues.length - 1, options);
+    ids.current = append(ids.current, appendValue.map(generateId));
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, append, {
+      argA: fillEmptyArray(value)
+    });
+  };
+  const prepend$1 = (value, options) => {
+    const prependValue = convertToArrayPayload(cloneObject(value));
+    const updatedFieldArrayValues = prepend(control._getFieldArray(name), prependValue);
+    control._names.focus = getFocusFieldName(name, 0, options);
+    ids.current = prepend(ids.current, prependValue.map(generateId));
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, prepend, {
+      argA: fillEmptyArray(value)
+    });
+  };
+  const remove = index => {
+    const updatedFieldArrayValues = removeArrayAt(control._getFieldArray(name), index);
+    ids.current = removeArrayAt(ids.current, index);
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, removeArrayAt, {
+      argA: index
+    });
+  };
+  const insert$1 = (index, value, options) => {
+    const insertValue = convertToArrayPayload(cloneObject(value));
+    const updatedFieldArrayValues = insert(control._getFieldArray(name), index, insertValue);
+    control._names.focus = getFocusFieldName(name, index, options);
+    ids.current = insert(ids.current, index, insertValue.map(generateId));
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, insert, {
+      argA: index,
+      argB: fillEmptyArray(value)
+    });
+  };
+  const swap = (indexA, indexB) => {
+    const updatedFieldArrayValues = control._getFieldArray(name);
+    swapArrayAt(updatedFieldArrayValues, indexA, indexB);
+    swapArrayAt(ids.current, indexA, indexB);
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, swapArrayAt, {
+      argA: indexA,
+      argB: indexB
+    }, false);
+  };
+  const move = (from, to) => {
+    const updatedFieldArrayValues = control._getFieldArray(name);
+    moveArrayAt(updatedFieldArrayValues, from, to);
+    moveArrayAt(ids.current, from, to);
+    updateValues(updatedFieldArrayValues);
+    setFields(updatedFieldArrayValues);
+    control._updateFieldArray(name, updatedFieldArrayValues, moveArrayAt, {
+      argA: from,
+      argB: to
+    }, false);
+  };
+  const update = (index, value) => {
+    const updateValue = cloneObject(value);
+    const updatedFieldArrayValues = updateAt(control._getFieldArray(name), index, updateValue);
+    ids.current = [...updatedFieldArrayValues].map((item, i) => !item || i === index ? generateId() : ids.current[i]);
+    updateValues(updatedFieldArrayValues);
+    setFields([...updatedFieldArrayValues]);
+    control._updateFieldArray(name, updatedFieldArrayValues, updateAt, {
+      argA: index,
+      argB: updateValue
+    }, true, false);
+  };
+  const replace = value => {
+    const updatedFieldArrayValues = convertToArrayPayload(cloneObject(value));
+    ids.current = updatedFieldArrayValues.map(generateId);
+    updateValues([...updatedFieldArrayValues]);
+    setFields([...updatedFieldArrayValues]);
+    control._updateFieldArray(name, [...updatedFieldArrayValues], data => data, {}, true, false);
+  };
+  React.useEffect(() => {
+    control._state.action = false;
+    isWatched(name, control._names) && control._subjects.state.next({
+      ...control._formState
+    });
+    if (_actioned.current && (!getValidationModes(control._options.mode).isOnSubmit || control._formState.isSubmitted)) {
+      if (control._options.resolver) {
+        control._executeSchema([name]).then(result => {
+          const error = get(result.errors, name);
+          const existingError = get(control._formState.errors, name);
+          if (existingError ? !error && existingError.type || error && (existingError.type !== error.type || existingError.message !== error.message) : error && error.type) {
+            error ? set(control._formState.errors, name, error) : unset(control._formState.errors, name);
+            control._subjects.state.next({
+              errors: control._formState.errors
+            });
+          }
+        });
+      } else {
+        const field = get(control._fields, name);
+        if (field && field._f) {
+          validateField(field, control._formValues, control._options.criteriaMode === VALIDATION_MODE.all, control._options.shouldUseNativeValidation, true).then(error => !isEmptyObject(error) && control._subjects.state.next({
+            errors: updateFieldArrayRootError(control._formState.errors, error, name)
+          }));
+        }
+      }
+    }
+    control._subjects.values.next({
+      name,
+      values: {
+        ...control._formValues
+      }
+    });
+    control._names.focus && iterateFieldsByAction(control._fields, (ref, key) => {
+      if (control._names.focus && key.startsWith(control._names.focus) && ref.focus) {
+        ref.focus();
+        return 1;
+      }
+      return;
+    });
+    control._names.focus = '';
+    control._updateValid();
+    _actioned.current = false;
+  }, [fields, name, control]);
+  React.useEffect(() => {
+    !get(control._formValues, name) && control._updateFieldArray(name);
+    return () => {
+      (control._options.shouldUnregister || shouldUnregister) && control.unregister(name);
+    };
+  }, [name, control, keyName, shouldUnregister]);
+  return {
+    swap: React.useCallback(swap, [updateValues, name, control]),
+    move: React.useCallback(move, [updateValues, name, control]),
+    prepend: React.useCallback(prepend$1, [updateValues, name, control]),
+    append: React.useCallback(append$1, [updateValues, name, control]),
+    remove: React.useCallback(remove, [updateValues, name, control]),
+    insert: React.useCallback(insert$1, [updateValues, name, control]),
+    update: React.useCallback(update, [updateValues, name, control]),
+    replace: React.useCallback(replace, [updateValues, name, control]),
+    fields: React.useMemo(() => fields.map((field, index) => ({
+      ...field,
+      [keyName]: ids.current[index] || generateId()
+    })), [fields, keyName])
+  };
+}
+function createSubject() {
+  let _observers = [];
+  const next = value => {
+    for (const observer of _observers) {
+      observer.next && observer.next(value);
+    }
+  };
+  const subscribe = observer => {
+    _observers.push(observer);
+    return {
+      unsubscribe: () => {
+        _observers = _observers.filter(o => o !== observer);
+      }
+    };
+  };
+  const unsubscribe = () => {
+    _observers = [];
+  };
+  return {
+    get observers() {
+      return _observers;
+    },
+    next,
+    subscribe,
+    unsubscribe
+  };
+}
+var isPrimitive = value => isNullOrUndefined(value) || !isObjectType(value);
+function deepEqual(object1, object2) {
+  if (isPrimitive(object1) || isPrimitive(object2)) {
+    return object1 === object2;
+  }
+  if (isDateObject(object1) && isDateObject(object2)) {
+    return object1.getTime() === object2.getTime();
+  }
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    const val1 = object1[key];
+    if (!keys2.includes(key)) {
+      return false;
+    }
+    if (key !== 'ref') {
+      const val2 = object2[key];
+      if (isDateObject(val1) && isDateObject(val2) || isObject(val1) && isObject(val2) || Array.isArray(val1) && Array.isArray(val2) ? !deepEqual(val1, val2) : val1 !== val2) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+var isMultipleSelect = element => element.type === "select-multiple";
+var isRadioOrCheckbox = ref => isRadioInput(ref) || isCheckBoxInput(ref);
+var live = ref => isHTMLElement(ref) && ref.isConnected;
+var objectHasFunction = data => {
+  for (const key in data) {
+    if (isFunction(data[key])) {
+      return true;
+    }
+  }
+  return false;
+};
+function markFieldsDirty(data) {
+  let fields = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  const isParentNodeArray = Array.isArray(data);
+  if (isObject(data) || isParentNodeArray) {
+    for (const key in data) {
+      if (Array.isArray(data[key]) || isObject(data[key]) && !objectHasFunction(data[key])) {
+        fields[key] = Array.isArray(data[key]) ? [] : {};
+        markFieldsDirty(data[key], fields[key]);
+      } else if (!isNullOrUndefined(data[key])) {
+        fields[key] = true;
+      }
+    }
+  }
+  return fields;
+}
+function getDirtyFieldsFromDefaultValues(data, formValues, dirtyFieldsFromValues) {
+  const isParentNodeArray = Array.isArray(data);
+  if (isObject(data) || isParentNodeArray) {
+    for (const key in data) {
+      if (Array.isArray(data[key]) || isObject(data[key]) && !objectHasFunction(data[key])) {
+        if (isUndefined(formValues) || isPrimitive(dirtyFieldsFromValues[key])) {
+          dirtyFieldsFromValues[key] = Array.isArray(data[key]) ? markFieldsDirty(data[key], []) : {
+            ...markFieldsDirty(data[key])
+          };
+        } else {
+          getDirtyFieldsFromDefaultValues(data[key], isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
+        }
+      } else {
+        dirtyFieldsFromValues[key] = !deepEqual(data[key], formValues[key]);
+      }
+    }
+  }
+  return dirtyFieldsFromValues;
+}
+var getDirtyFields = (defaultValues, formValues) => getDirtyFieldsFromDefaultValues(defaultValues, formValues, markFieldsDirty(formValues));
+var getFieldValueAs = (value, _ref2) => {
+  let {
+    valueAsNumber,
+    valueAsDate,
+    setValueAs
+  } = _ref2;
+  return isUndefined(value) ? value : valueAsNumber ? value === '' ? NaN : value ? +value : value : valueAsDate && isString(value) ? new Date(value) : setValueAs ? setValueAs(value) : value;
+};
+function getFieldValue(_f) {
+  const ref = _f.ref;
+  if (_f.refs ? _f.refs.every(ref => ref.disabled) : ref.disabled) {
+    return;
+  }
+  if (isFileInput(ref)) {
+    return ref.files;
+  }
+  if (isRadioInput(ref)) {
+    return getRadioValue(_f.refs).value;
+  }
+  if (isMultipleSelect(ref)) {
+    return [...ref.selectedOptions].map(_ref3 => {
+      let {
+        value
+      } = _ref3;
+      return value;
+    });
+  }
+  if (isCheckBoxInput(ref)) {
+    return getCheckboxValue(_f.refs).value;
+  }
+  return getFieldValueAs(isUndefined(ref.value) ? _f.ref.value : ref.value, _f);
+}
+var getResolverOptions = (fieldsNames, _fields, criteriaMode, shouldUseNativeValidation) => {
+  const fields = {};
+  for (const name of fieldsNames) {
+    const field = get(_fields, name);
+    field && set(fields, name, field._f);
+  }
+  return {
+    criteriaMode,
+    names: [...fieldsNames],
+    fields,
+    shouldUseNativeValidation
+  };
+};
+var getRuleValue = rule => isUndefined(rule) ? rule : isRegex(rule) ? rule.source : isObject(rule) ? isRegex(rule.value) ? rule.value.source : rule.value : rule;
+var hasValidation = options => options.mount && (options.required || options.min || options.max || options.maxLength || options.minLength || options.pattern || options.validate);
+function schemaErrorLookup(errors, _fields, name) {
+  const error = get(errors, name);
+  if (error || isKey(name)) {
+    return {
+      error,
+      name
+    };
+  }
+  const names = name.split('.');
+  while (names.length) {
+    const fieldName = names.join('.');
+    const field = get(_fields, fieldName);
+    const foundError = get(errors, fieldName);
+    if (field && !Array.isArray(field) && name !== fieldName) {
+      return {
+        name
+      };
+    }
+    if (foundError && foundError.type) {
+      return {
+        name: fieldName,
+        error: foundError
+      };
+    }
+    names.pop();
+  }
+  return {
+    name
+  };
+}
+var skipValidation = (isBlurEvent, isTouched, isSubmitted, reValidateMode, mode) => {
+  if (mode.isOnAll) {
+    return false;
+  } else if (!isSubmitted && mode.isOnTouch) {
+    return !(isTouched || isBlurEvent);
+  } else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+    return !isBlurEvent;
+  } else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+    return isBlurEvent;
+  }
+  return true;
+};
+var unsetEmptyArray = (ref, name) => !compact(get(ref, name)).length && unset(ref, name);
+const defaultOptions = {
+  mode: VALIDATION_MODE.onSubmit,
+  reValidateMode: VALIDATION_MODE.onChange,
+  shouldFocusError: true
+};
+function createFormControl() {
+  let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let flushRootRender = arguments.length > 1 ? arguments[1] : undefined;
+  let _options = {
+    ...defaultOptions,
+    ...props
+  };
+  let _formState = {
+    submitCount: 0,
+    isDirty: false,
+    isLoading: isFunction(_options.defaultValues),
+    isValidating: false,
+    isSubmitted: false,
+    isSubmitting: false,
+    isSubmitSuccessful: false,
+    isValid: false,
+    touchedFields: {},
+    dirtyFields: {},
+    errors: {},
+    disabled: false
+  };
+  let _fields = {};
+  let _defaultValues = isObject(_options.defaultValues) || isObject(_options.values) ? cloneObject(_options.defaultValues || _options.values) || {} : {};
+  let _formValues = _options.shouldUnregister ? {} : cloneObject(_defaultValues);
+  let _state = {
+    action: false,
+    mount: false,
+    watch: false
+  };
+  let _names = {
+    mount: new Set(),
+    unMount: new Set(),
+    array: new Set(),
+    watch: new Set()
+  };
+  let delayErrorCallback;
+  let timer = 0;
+  const _proxyFormState = {
+    isDirty: false,
+    dirtyFields: false,
+    touchedFields: false,
+    isValidating: false,
+    isValid: false,
+    errors: false
+  };
+  const _subjects = {
+    values: createSubject(),
+    array: createSubject(),
+    state: createSubject()
+  };
+  const shouldCaptureDirtyFields = props.resetOptions && props.resetOptions.keepDirtyValues;
+  const validationModeBeforeSubmit = getValidationModes(_options.mode);
+  const validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+  const shouldDisplayAllAssociatedErrors = _options.criteriaMode === VALIDATION_MODE.all;
+  const debounce = callback => wait => {
+    clearTimeout(timer);
+    timer = setTimeout(callback, wait);
+  };
+  const _updateValid = async shouldUpdateValid => {
+    if (_proxyFormState.isValid || shouldUpdateValid) {
+      const isValid = _options.resolver ? isEmptyObject((await _executeSchema()).errors) : await executeBuiltInValidation(_fields, true);
+      if (isValid !== _formState.isValid) {
+        _subjects.state.next({
+          isValid
+        });
+      }
+    }
+  };
+  const _updateIsValidating = value => _proxyFormState.isValidating && _subjects.state.next({
+    isValidating: value
+  });
+  const _updateFieldArray = function (name) {
+    let values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    let method = arguments.length > 2 ? arguments[2] : undefined;
+    let args = arguments.length > 3 ? arguments[3] : undefined;
+    let shouldSetValues = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+    let shouldUpdateFieldsAndState = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+    if (args && method) {
+      _state.action = true;
+      if (shouldUpdateFieldsAndState && Array.isArray(get(_fields, name))) {
+        const fieldValues = method(get(_fields, name), args.argA, args.argB);
+        shouldSetValues && set(_fields, name, fieldValues);
+      }
+      if (shouldUpdateFieldsAndState && Array.isArray(get(_formState.errors, name))) {
+        const errors = method(get(_formState.errors, name), args.argA, args.argB);
+        shouldSetValues && set(_formState.errors, name, errors);
+        unsetEmptyArray(_formState.errors, name);
+      }
+      if (_proxyFormState.touchedFields && shouldUpdateFieldsAndState && Array.isArray(get(_formState.touchedFields, name))) {
+        const touchedFields = method(get(_formState.touchedFields, name), args.argA, args.argB);
+        shouldSetValues && set(_formState.touchedFields, name, touchedFields);
+      }
+      if (_proxyFormState.dirtyFields) {
+        _formState.dirtyFields = getDirtyFields(_defaultValues, _formValues);
+      }
+      _subjects.state.next({
+        name,
+        isDirty: _getDirty(name, values),
+        dirtyFields: _formState.dirtyFields,
+        errors: _formState.errors,
+        isValid: _formState.isValid
+      });
+    } else {
+      set(_formValues, name, values);
+    }
+  };
+  const updateErrors = (name, error) => {
+    set(_formState.errors, name, error);
+    _subjects.state.next({
+      errors: _formState.errors
+    });
+  };
+  const updateValidAndValue = (name, shouldSkipSetValueAs, value, ref) => {
+    const field = get(_fields, name);
+    if (field) {
+      const defaultValue = get(_formValues, name, isUndefined(value) ? get(_defaultValues, name) : value);
+      isUndefined(defaultValue) || ref && ref.defaultChecked || shouldSkipSetValueAs ? set(_formValues, name, shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f)) : setFieldValue(name, defaultValue);
+      _state.mount && _updateValid();
+    }
+  };
+  const updateTouchAndDirty = (name, fieldValue, isBlurEvent, shouldDirty, shouldRender) => {
+    let shouldUpdateField = false;
+    let isPreviousDirty = false;
+    const output = {
+      name
+    };
+    if (!isBlurEvent || shouldDirty) {
+      if (_proxyFormState.isDirty) {
+        isPreviousDirty = _formState.isDirty;
+        _formState.isDirty = output.isDirty = _getDirty();
+        shouldUpdateField = isPreviousDirty !== output.isDirty;
+      }
+      const isCurrentFieldPristine = deepEqual(get(_defaultValues, name), fieldValue);
+      isPreviousDirty = get(_formState.dirtyFields, name);
+      isCurrentFieldPristine ? unset(_formState.dirtyFields, name) : set(_formState.dirtyFields, name, true);
+      output.dirtyFields = _formState.dirtyFields;
+      shouldUpdateField = shouldUpdateField || _proxyFormState.dirtyFields && isPreviousDirty !== !isCurrentFieldPristine;
+    }
+    if (isBlurEvent) {
+      const isPreviousFieldTouched = get(_formState.touchedFields, name);
+      if (!isPreviousFieldTouched) {
+        set(_formState.touchedFields, name, isBlurEvent);
+        output.touchedFields = _formState.touchedFields;
+        shouldUpdateField = shouldUpdateField || _proxyFormState.touchedFields && isPreviousFieldTouched !== isBlurEvent;
+      }
+    }
+    shouldUpdateField && shouldRender && _subjects.state.next(output);
+    return shouldUpdateField ? output : {};
+  };
+  const shouldRenderByError = (name, isValid, error, fieldState) => {
+    const previousFieldError = get(_formState.errors, name);
+    const shouldUpdateValid = _proxyFormState.isValid && isBoolean(isValid) && _formState.isValid !== isValid;
+    if (props.delayError && error) {
+      delayErrorCallback = debounce(() => updateErrors(name, error));
+      delayErrorCallback(props.delayError);
+    } else {
+      clearTimeout(timer);
+      delayErrorCallback = null;
+      error ? set(_formState.errors, name, error) : unset(_formState.errors, name);
+    }
+    if ((error ? !deepEqual(previousFieldError, error) : previousFieldError) || !isEmptyObject(fieldState) || shouldUpdateValid) {
+      const updatedFormState = {
+        ...fieldState,
+        ...(shouldUpdateValid && isBoolean(isValid) ? {
+          isValid
+        } : {}),
+        errors: _formState.errors,
+        name
+      };
+      _formState = {
+        ..._formState,
+        ...updatedFormState
+      };
+      _subjects.state.next(updatedFormState);
+    }
+    _updateIsValidating(false);
+  };
+  const _executeSchema = async name => _options.resolver(_formValues, _options.context, getResolverOptions(name || _names.mount, _fields, _options.criteriaMode, _options.shouldUseNativeValidation));
+  const executeSchemaAndUpdateState = async names => {
+    const {
+      errors
+    } = await _executeSchema(names);
+    if (names) {
+      for (const name of names) {
+        const error = get(errors, name);
+        error ? set(_formState.errors, name, error) : unset(_formState.errors, name);
+      }
+    } else {
+      _formState.errors = errors;
+    }
+    return errors;
+  };
+  const executeBuiltInValidation = async function (fields, shouldOnlyCheckValid) {
+    let context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+      valid: true
+    };
+    for (const name in fields) {
+      const field = fields[name];
+      if (field) {
+        const {
+          _f,
+          ...fieldValue
+        } = field;
+        if (_f) {
+          const isFieldArrayRoot = _names.array.has(_f.name);
+          const fieldError = await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation && !shouldOnlyCheckValid, isFieldArrayRoot);
+          if (fieldError[_f.name]) {
+            context.valid = false;
+            if (shouldOnlyCheckValid) {
+              break;
+            }
+          }
+          !shouldOnlyCheckValid && (get(fieldError, _f.name) ? isFieldArrayRoot ? updateFieldArrayRootError(_formState.errors, fieldError, _f.name) : set(_formState.errors, _f.name, fieldError[_f.name]) : unset(_formState.errors, _f.name));
+        }
+        fieldValue && (await executeBuiltInValidation(fieldValue, shouldOnlyCheckValid, context));
+      }
+    }
+    return context.valid;
+  };
+  const _removeUnmounted = () => {
+    for (const name of _names.unMount) {
+      const field = get(_fields, name);
+      field && (field._f.refs ? field._f.refs.every(ref => !live(ref)) : !live(field._f.ref)) && unregister(name);
+    }
+    _names.unMount = new Set();
+  };
+  const _getDirty = (name, data) => (name && data && set(_formValues, name, data), !deepEqual(getValues(), _defaultValues));
+  const _getWatch = (names, defaultValue, isGlobal) => generateWatchOutput(names, _names, {
+    ...(_state.mount ? _formValues : isUndefined(defaultValue) ? _defaultValues : isString(names) ? {
+      [names]: defaultValue
+    } : defaultValue)
+  }, isGlobal, defaultValue);
+  const _getFieldArray = name => compact(get(_state.mount ? _formValues : _defaultValues, name, props.shouldUnregister ? get(_defaultValues, name, []) : []));
+  const setFieldValue = function (name, value) {
+    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    const field = get(_fields, name);
+    let fieldValue = value;
+    if (field) {
+      const fieldReference = field._f;
+      if (fieldReference) {
+        !fieldReference.disabled && set(_formValues, name, getFieldValueAs(value, fieldReference));
+        fieldValue = isHTMLElement(fieldReference.ref) && isNullOrUndefined(value) ? '' : value;
+        if (isMultipleSelect(fieldReference.ref)) {
+          [...fieldReference.ref.options].forEach(optionRef => optionRef.selected = fieldValue.includes(optionRef.value));
+        } else if (fieldReference.refs) {
+          if (isCheckBoxInput(fieldReference.ref)) {
+            fieldReference.refs.length > 1 ? fieldReference.refs.forEach(checkboxRef => (!checkboxRef.defaultChecked || !checkboxRef.disabled) && (checkboxRef.checked = Array.isArray(fieldValue) ? !!fieldValue.find(data => data === checkboxRef.value) : fieldValue === checkboxRef.value)) : fieldReference.refs[0] && (fieldReference.refs[0].checked = !!fieldValue);
+          } else {
+            fieldReference.refs.forEach(radioRef => radioRef.checked = radioRef.value === fieldValue);
+          }
+        } else if (isFileInput(fieldReference.ref)) {
+          fieldReference.ref.value = '';
+        } else {
+          fieldReference.ref.value = fieldValue;
+          if (!fieldReference.ref.type) {
+            _subjects.values.next({
+              name,
+              values: {
+                ..._formValues
+              }
+            });
+          }
+        }
+      }
+    }
+    (options.shouldDirty || options.shouldTouch) && updateTouchAndDirty(name, fieldValue, options.shouldTouch, options.shouldDirty, true);
+    options.shouldValidate && trigger(name);
+  };
+  const setValues = (name, value, options) => {
+    for (const fieldKey in value) {
+      const fieldValue = value[fieldKey];
+      const fieldName = "".concat(name, ".").concat(fieldKey);
+      const field = get(_fields, fieldName);
+      (_names.array.has(name) || !isPrimitive(fieldValue) || field && !field._f) && !isDateObject(fieldValue) ? setValues(fieldName, fieldValue, options) : setFieldValue(fieldName, fieldValue, options);
+    }
+  };
+  const setValue = function (name, value) {
+    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    const field = get(_fields, name);
+    const isFieldArray = _names.array.has(name);
+    const cloneValue = cloneObject(value);
+    set(_formValues, name, cloneValue);
+    if (isFieldArray) {
+      _subjects.array.next({
+        name,
+        values: {
+          ..._formValues
+        }
+      });
+      if ((_proxyFormState.isDirty || _proxyFormState.dirtyFields) && options.shouldDirty) {
+        _subjects.state.next({
+          name,
+          dirtyFields: getDirtyFields(_defaultValues, _formValues),
+          isDirty: _getDirty(name, cloneValue)
+        });
+      }
+    } else {
+      field && !field._f && !isNullOrUndefined(cloneValue) ? setValues(name, cloneValue, options) : setFieldValue(name, cloneValue, options);
+    }
+    isWatched(name, _names) && _subjects.state.next({
+      ..._formState
+    });
+    _subjects.values.next({
+      name,
+      values: {
+        ..._formValues
+      }
+    });
+    !_state.mount && flushRootRender();
+  };
+  const onChange = async event => {
+    const target = event.target;
+    let name = target.name;
+    let isFieldValueUpdated = true;
+    const field = get(_fields, name);
+    const getCurrentFieldValue = () => target.type ? getFieldValue(field._f) : getEventValue(event);
+    const _updateIsFieldValueUpdated = fieldValue => {
+      isFieldValueUpdated = Number.isNaN(fieldValue) || fieldValue === get(_formValues, name, fieldValue);
+    };
+    if (field) {
+      let error;
+      let isValid;
+      const fieldValue = getCurrentFieldValue();
+      const isBlurEvent = event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
+      const shouldSkipValidation = !hasValidation(field._f) && !_options.resolver && !get(_formState.errors, name) && !field._f.deps || skipValidation(isBlurEvent, get(_formState.touchedFields, name), _formState.isSubmitted, validationModeAfterSubmit, validationModeBeforeSubmit);
+      const watched = isWatched(name, _names, isBlurEvent);
+      set(_formValues, name, fieldValue);
+      if (isBlurEvent) {
+        field._f.onBlur && field._f.onBlur(event);
+        delayErrorCallback && delayErrorCallback(0);
+      } else if (field._f.onChange) {
+        field._f.onChange(event);
+      }
+      const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent, false);
+      const shouldRender = !isEmptyObject(fieldState) || watched;
+      !isBlurEvent && _subjects.values.next({
+        name,
+        type: event.type,
+        values: {
+          ..._formValues
+        }
+      });
+      if (shouldSkipValidation) {
+        _proxyFormState.isValid && _updateValid();
+        return shouldRender && _subjects.state.next({
+          name,
+          ...(watched ? {} : fieldState)
+        });
+      }
+      !isBlurEvent && watched && _subjects.state.next({
+        ..._formState
+      });
+      _updateIsValidating(true);
+      if (_options.resolver) {
+        const {
+          errors
+        } = await _executeSchema([name]);
+        _updateIsFieldValueUpdated(fieldValue);
+        if (isFieldValueUpdated) {
+          const previousErrorLookupResult = schemaErrorLookup(_formState.errors, _fields, name);
+          const errorLookupResult = schemaErrorLookup(errors, _fields, previousErrorLookupResult.name || name);
+          error = errorLookupResult.error;
+          name = errorLookupResult.name;
+          isValid = isEmptyObject(errors);
+        }
+      } else {
+        error = (await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation))[name];
+        _updateIsFieldValueUpdated(fieldValue);
+        if (isFieldValueUpdated) {
+          if (error) {
+            isValid = false;
+          } else if (_proxyFormState.isValid) {
+            isValid = await executeBuiltInValidation(_fields, true);
+          }
+        }
+      }
+      if (isFieldValueUpdated) {
+        field._f.deps && trigger(field._f.deps);
+        shouldRenderByError(name, isValid, error, fieldState);
+      }
+    }
+  };
+  const _focusInput = (ref, key) => {
+    if (get(_formState.errors, key) && ref.focus) {
+      ref.focus();
+      return 1;
+    }
+    return;
+  };
+  const trigger = async function (name) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    let isValid;
+    let validationResult;
+    const fieldNames = convertToArrayPayload(name);
+    _updateIsValidating(true);
+    if (_options.resolver) {
+      const errors = await executeSchemaAndUpdateState(isUndefined(name) ? name : fieldNames);
+      isValid = isEmptyObject(errors);
+      validationResult = name ? !fieldNames.some(name => get(errors, name)) : isValid;
+    } else if (name) {
+      validationResult = (await Promise.all(fieldNames.map(async fieldName => {
+        const field = get(_fields, fieldName);
+        return await executeBuiltInValidation(field && field._f ? {
+          [fieldName]: field
+        } : field);
+      }))).every(Boolean);
+      !(!validationResult && !_formState.isValid) && _updateValid();
+    } else {
+      validationResult = isValid = await executeBuiltInValidation(_fields);
+    }
+    _subjects.state.next({
+      ...(!isString(name) || _proxyFormState.isValid && isValid !== _formState.isValid ? {} : {
+        name
+      }),
+      ...(_options.resolver || !name ? {
+        isValid
+      } : {}),
+      errors: _formState.errors,
+      isValidating: false
+    });
+    options.shouldFocus && !validationResult && iterateFieldsByAction(_fields, _focusInput, name ? fieldNames : _names.mount);
+    return validationResult;
+  };
+  const getValues = fieldNames => {
+    const values = {
+      ..._defaultValues,
+      ...(_state.mount ? _formValues : {})
+    };
+    return isUndefined(fieldNames) ? values : isString(fieldNames) ? get(values, fieldNames) : fieldNames.map(name => get(values, name));
+  };
+  const getFieldState = (name, formState) => ({
+    invalid: !!get((formState || _formState).errors, name),
+    isDirty: !!get((formState || _formState).dirtyFields, name),
+    isTouched: !!get((formState || _formState).touchedFields, name),
+    error: get((formState || _formState).errors, name)
+  });
+  const clearErrors = name => {
+    name && convertToArrayPayload(name).forEach(inputName => unset(_formState.errors, inputName));
+    _subjects.state.next({
+      errors: name ? _formState.errors : {}
+    });
+  };
+  const setError = (name, error, options) => {
+    const ref = (get(_fields, name, {
+      _f: {}
+    })._f || {}).ref;
+    set(_formState.errors, name, {
+      ...error,
+      ref
+    });
+    _subjects.state.next({
+      name,
+      errors: _formState.errors,
+      isValid: false
+    });
+    options && options.shouldFocus && ref && ref.focus && ref.focus();
+  };
+  const watch = (name, defaultValue) => isFunction(name) ? _subjects.values.subscribe({
+    next: payload => name(_getWatch(undefined, defaultValue), payload)
+  }) : _getWatch(name, defaultValue, true);
+  const unregister = function (name) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    for (const fieldName of name ? convertToArrayPayload(name) : _names.mount) {
+      _names.mount.delete(fieldName);
+      _names.array.delete(fieldName);
+      if (!options.keepValue) {
+        unset(_fields, fieldName);
+        unset(_formValues, fieldName);
+      }
+      !options.keepError && unset(_formState.errors, fieldName);
+      !options.keepDirty && unset(_formState.dirtyFields, fieldName);
+      !options.keepTouched && unset(_formState.touchedFields, fieldName);
+      !_options.shouldUnregister && !options.keepDefaultValue && unset(_defaultValues, fieldName);
+    }
+    _subjects.values.next({
+      values: {
+        ..._formValues
+      }
+    });
+    _subjects.state.next({
+      ..._formState,
+      ...(!options.keepDirty ? {} : {
+        isDirty: _getDirty()
+      })
+    });
+    !options.keepIsValid && _updateValid();
+  };
+  const _updateDisabledField = _ref4 => {
+    let {
+      disabled,
+      name,
+      field,
+      fields,
+      value
+    } = _ref4;
+    if (isBoolean(disabled)) {
+      const inputValue = disabled ? undefined : isUndefined(value) ? getFieldValue(field ? field._f : get(fields, name)._f) : value;
+      set(_formValues, name, inputValue);
+      updateTouchAndDirty(name, inputValue, false, false, true);
+    }
+  };
+  const register = function (name) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    let field = get(_fields, name);
+    const disabledIsDefined = isBoolean(options.disabled);
+    set(_fields, name, {
+      ...(field || {}),
+      _f: {
+        ...(field && field._f ? field._f : {
+          ref: {
+            name
+          }
+        }),
+        name,
+        mount: true,
+        ...options
+      }
+    });
+    _names.mount.add(name);
+    if (field) {
+      _updateDisabledField({
+        field,
+        disabled: options.disabled,
+        name
+      });
+    } else {
+      updateValidAndValue(name, true, options.value);
+    }
+    return {
+      ...(disabledIsDefined ? {
+        disabled: options.disabled
+      } : {}),
+      ...(_options.progressive ? {
+        required: !!options.required,
+        min: getRuleValue(options.min),
+        max: getRuleValue(options.max),
+        minLength: getRuleValue(options.minLength),
+        maxLength: getRuleValue(options.maxLength),
+        pattern: getRuleValue(options.pattern)
+      } : {}),
+      name,
+      onChange,
+      onBlur: onChange,
+      ref: ref => {
+        if (ref) {
+          register(name, options);
+          field = get(_fields, name);
+          const fieldRef = isUndefined(ref.value) ? ref.querySelectorAll ? ref.querySelectorAll('input,select,textarea')[0] || ref : ref : ref;
+          const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+          const refs = field._f.refs || [];
+          if (radioOrCheckbox ? refs.find(option => option === fieldRef) : fieldRef === field._f.ref) {
+            return;
+          }
+          set(_fields, name, {
+            _f: {
+              ...field._f,
+              ...(radioOrCheckbox ? {
+                refs: [...refs.filter(live), fieldRef, ...(Array.isArray(get(_defaultValues, name)) ? [{}] : [])],
+                ref: {
+                  type: fieldRef.type,
+                  name
+                }
+              } : {
+                ref: fieldRef
+              })
+            }
+          });
+          updateValidAndValue(name, false, undefined, fieldRef);
+        } else {
+          field = get(_fields, name, {});
+          if (field._f) {
+            field._f.mount = false;
+          }
+          (_options.shouldUnregister || options.shouldUnregister) && !(isNameInFieldArray(_names.array, name) && _state.action) && _names.unMount.add(name);
+        }
+      }
+    };
+  };
+  const _focusError = () => _options.shouldFocusError && iterateFieldsByAction(_fields, _focusInput, _names.mount);
+  const _disableForm = disabled => {
+    if (isBoolean(disabled)) {
+      _subjects.state.next({
+        disabled
+      });
+      iterateFieldsByAction(_fields, ref => {
+        ref.disabled = disabled;
+      }, 0, false);
+    }
+  };
+  const handleSubmit = (onValid, onInvalid) => async e => {
+    if (e) {
+      e.preventDefault && e.preventDefault();
+      e.persist && e.persist();
+    }
+    let fieldValues = cloneObject(_formValues);
+    _subjects.state.next({
+      isSubmitting: true
+    });
+    if (_options.resolver) {
+      const {
+        errors,
+        values
+      } = await _executeSchema();
+      _formState.errors = errors;
+      fieldValues = values;
+    } else {
+      await executeBuiltInValidation(_fields);
+    }
+    unset(_formState.errors, 'root');
+    if (isEmptyObject(_formState.errors)) {
+      _subjects.state.next({
+        errors: {}
+      });
+      await onValid(fieldValues, e);
+    } else {
+      if (onInvalid) {
+        await onInvalid({
+          ..._formState.errors
+        }, e);
+      }
+      _focusError();
+      setTimeout(_focusError);
+    }
+    _subjects.state.next({
+      isSubmitted: true,
+      isSubmitting: false,
+      isSubmitSuccessful: isEmptyObject(_formState.errors),
+      submitCount: _formState.submitCount + 1,
+      errors: _formState.errors
+    });
+  };
+  const resetField = function (name) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    if (get(_fields, name)) {
+      if (isUndefined(options.defaultValue)) {
+        setValue(name, get(_defaultValues, name));
+      } else {
+        setValue(name, options.defaultValue);
+        set(_defaultValues, name, options.defaultValue);
+      }
+      if (!options.keepTouched) {
+        unset(_formState.touchedFields, name);
+      }
+      if (!options.keepDirty) {
+        unset(_formState.dirtyFields, name);
+        _formState.isDirty = options.defaultValue ? _getDirty(name, get(_defaultValues, name)) : _getDirty();
+      }
+      if (!options.keepError) {
+        unset(_formState.errors, name);
+        _proxyFormState.isValid && _updateValid();
+      }
+      _subjects.state.next({
+        ..._formState
+      });
+    }
+  };
+  const _reset = function (formValues) {
+    let keepStateOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    const updatedValues = formValues ? cloneObject(formValues) : _defaultValues;
+    const cloneUpdatedValues = cloneObject(updatedValues);
+    const values = formValues && !isEmptyObject(formValues) ? cloneUpdatedValues : _defaultValues;
+    if (!keepStateOptions.keepDefaultValues) {
+      _defaultValues = updatedValues;
+    }
+    if (!keepStateOptions.keepValues) {
+      if (keepStateOptions.keepDirtyValues || shouldCaptureDirtyFields) {
+        for (const fieldName of _names.mount) {
+          get(_formState.dirtyFields, fieldName) ? set(values, fieldName, get(_formValues, fieldName)) : setValue(fieldName, get(values, fieldName));
+        }
+      } else {
+        if (isWeb && isUndefined(formValues)) {
+          for (const name of _names.mount) {
+            const field = get(_fields, name);
+            if (field && field._f) {
+              const fieldReference = Array.isArray(field._f.refs) ? field._f.refs[0] : field._f.ref;
+              if (isHTMLElement(fieldReference)) {
+                const form = fieldReference.closest('form');
+                if (form) {
+                  form.reset();
+                  break;
+                }
+              }
+            }
+          }
+        }
+        _fields = {};
+      }
+      _formValues = props.shouldUnregister ? keepStateOptions.keepDefaultValues ? cloneObject(_defaultValues) : {} : cloneObject(values);
+      _subjects.array.next({
+        values: {
+          ...values
+        }
+      });
+      _subjects.values.next({
+        values: {
+          ...values
+        }
+      });
+    }
+    _names = {
+      mount: new Set(),
+      unMount: new Set(),
+      array: new Set(),
+      watch: new Set(),
+      watchAll: false,
+      focus: ''
+    };
+    !_state.mount && flushRootRender();
+    _state.mount = !_proxyFormState.isValid || !!keepStateOptions.keepIsValid;
+    _state.watch = !!props.shouldUnregister;
+    _subjects.state.next({
+      submitCount: keepStateOptions.keepSubmitCount ? _formState.submitCount : 0,
+      isDirty: keepStateOptions.keepDirty ? _formState.isDirty : !!(keepStateOptions.keepDefaultValues && !deepEqual(formValues, _defaultValues)),
+      isSubmitted: keepStateOptions.keepIsSubmitted ? _formState.isSubmitted : false,
+      dirtyFields: keepStateOptions.keepDirtyValues ? _formState.dirtyFields : keepStateOptions.keepDefaultValues && formValues ? getDirtyFields(_defaultValues, formValues) : {},
+      touchedFields: keepStateOptions.keepTouched ? _formState.touchedFields : {},
+      errors: keepStateOptions.keepErrors ? _formState.errors : {},
+      isSubmitSuccessful: keepStateOptions.keepIsSubmitSuccessful ? _formState.isSubmitSuccessful : false,
+      isSubmitting: false
+    });
+  };
+  const reset = (formValues, keepStateOptions) => _reset(isFunction(formValues) ? formValues(_formValues) : formValues, keepStateOptions);
+  const setFocus = function (name) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    const field = get(_fields, name);
+    const fieldReference = field && field._f;
+    if (fieldReference) {
+      const fieldRef = fieldReference.refs ? fieldReference.refs[0] : fieldReference.ref;
+      if (fieldRef.focus) {
+        fieldRef.focus();
+        options.shouldSelect && fieldRef.select();
+      }
+    }
+  };
+  const _updateFormState = updatedFormState => {
+    _formState = {
+      ..._formState,
+      ...updatedFormState
+    };
+  };
+  const _resetDefaultValues = () => isFunction(_options.defaultValues) && _options.defaultValues().then(values => {
+    reset(values, _options.resetOptions);
+    _subjects.state.next({
+      isLoading: false
+    });
+  });
+  return {
+    control: {
+      register,
+      unregister,
+      getFieldState,
+      handleSubmit,
+      setError,
+      _executeSchema,
+      _getWatch,
+      _getDirty,
+      _updateValid,
+      _removeUnmounted,
+      _updateFieldArray,
+      _updateDisabledField,
+      _getFieldArray,
+      _reset,
+      _resetDefaultValues,
+      _updateFormState,
+      _disableForm,
+      _subjects,
+      _proxyFormState,
+      get _fields() {
+        return _fields;
+      },
+      get _formValues() {
+        return _formValues;
+      },
+      get _state() {
+        return _state;
+      },
+      set _state(value) {
+        _state = value;
+      },
+      get _defaultValues() {
+        return _defaultValues;
+      },
+      get _names() {
+        return _names;
+      },
+      set _names(value) {
+        _names = value;
+      },
+      get _formState() {
+        return _formState;
+      },
+      set _formState(value) {
+        _formState = value;
+      },
+      get _options() {
+        return _options;
+      },
+      set _options(value) {
+        _options = {
+          ..._options,
+          ...value
+        };
+      }
+    },
+    trigger,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    reset,
+    resetField,
+    clearErrors,
+    unregister,
+    setError,
+    setFocus,
+    getFieldState
+  };
+}
+
+/**
+ * Custom hook to manage the entire form.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useform) • [Demo](https://codesandbox.io/s/react-hook-form-get-started-ts-5ksmm) • [Video](https://www.youtube.com/watch?v=RkXv4AXXC_4)
+ *
+ * @param props - form configuration and validation parameters.
+ *
+ * @returns methods - individual functions to manage the form state. {@link UseFormReturn}
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   console.log(watch("example"));
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit(onSubmit)}>
+ *       <input defaultValue="test" {...register("example")} />
+ *       <input {...register("exampleRequired", { required: true })} />
+ *       {errors.exampleRequired && <span>This field is required</span>}
+ *       <button>Submit</button>
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+function useForm() {
+  let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  const _formControl = react.useRef();
+  const _values = react.useRef();
+  const [formState, updateFormState] = react.useState({
+    isDirty: false,
+    isValidating: false,
+    isLoading: isFunction(props.defaultValues),
+    isSubmitted: false,
+    isSubmitting: false,
+    isSubmitSuccessful: false,
+    isValid: false,
+    submitCount: 0,
+    dirtyFields: {},
+    touchedFields: {},
+    errors: {},
+    disabled: false,
+    defaultValues: isFunction(props.defaultValues) ? undefined : props.defaultValues
+  });
+  if (!_formControl.current) {
+    _formControl.current = {
+      ...createFormControl(props, () => updateFormState(formState => ({
+        ...formState
+      }))),
+      formState
+    };
+  }
+  const control = _formControl.current.control;
+  control._options = props;
+  useSubscribe({
+    subject: control._subjects.state,
+    next: value => {
+      if (shouldRenderFormState(value, control._proxyFormState, control._updateFormState, true)) {
+        updateFormState({
+          ...control._formState
+        });
+      }
+    }
+  });
+  react.useEffect(() => control._disableForm(props.disabled), [control, props.disabled]);
+  react.useEffect(() => {
+    if (control._proxyFormState.isDirty) {
+      const isDirty = control._getDirty();
+      if (isDirty !== formState.isDirty) {
+        control._subjects.state.next({
+          isDirty
+        });
+      }
+    }
+  }, [control, formState.isDirty]);
+  react.useEffect(() => {
+    if (props.values && !deepEqual(props.values, _values.current)) {
+      control._reset(props.values, control._options.resetOptions);
+      _values.current = props.values;
+    } else {
+      control._resetDefaultValues();
+    }
+  }, [props.values, control]);
+  react.useEffect(() => {
+    if (!control._state.mount) {
+      control._updateValid();
+      control._state.mount = true;
+    }
+    if (control._state.watch) {
+      control._state.watch = false;
+      control._subjects.state.next({
+        ...control._formState
+      });
+    }
+    control._removeUnmounted();
+  });
+  _formControl.current.formState = getProxyFormState(formState, control);
+  return _formControl.current;
+}
+
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/hooks/HandleMapEvents.tsx
+/**
+ * Disable map when mouse is over the panel
+ * Enable map when mouse is out of the panel
+ */function HandleMapEvents(panelRef){(0,react.useEffect)(()=>{var _panelRef$current,_panelRef$current2,_panelRef$current3,_panelRef$current4;const disableMapCallback=()=>{try{disableMap();}catch(e){error(e);}};(_panelRef$current=panelRef.current)===null||_panelRef$current===void 0?void 0:_panelRef$current.addEventListener("mouseover",disableMapCallback);(_panelRef$current2=panelRef.current)===null||_panelRef$current2===void 0?void 0:_panelRef$current2.addEventListener("touchstart",disableMapCallback);const enableMapCallback=()=>{try{enableMap();}catch(e){error(e);}};(_panelRef$current3=panelRef.current)===null||_panelRef$current3===void 0?void 0:_panelRef$current3.addEventListener("mouseout",enableMapCallback);(_panelRef$current4=panelRef.current)===null||_panelRef$current4===void 0?void 0:_panelRef$current4.addEventListener("touchend",enableMapCallback);return()=>{var _panelRef$current5,_panelRef$current6,_panelRef$current7,_panelRef$current8;(_panelRef$current5=panelRef.current)===null||_panelRef$current5===void 0?void 0:_panelRef$current5.removeEventListener("mouseover",disableMapCallback);(_panelRef$current6=panelRef.current)===null||_panelRef$current6===void 0?void 0:_panelRef$current6.removeEventListener("touchstart",disableMapCallback);(_panelRef$current7=panelRef.current)===null||_panelRef$current7===void 0?void 0:_panelRef$current7.removeEventListener("mouseout",enableMapCallback);// eslint-disable-next-line react-hooks/exhaustive-deps
+(_panelRef$current8=panelRef.current)===null||_panelRef$current8===void 0?void 0:_panelRef$current8.removeEventListener("touchend",enableMapCallback);};},[panelRef]);}
+;// CONCATENATED MODULE: ./src/hooks/storage.ts
+// a hook to preserve state in a localstorage and get it at init
+const STORAGE_PREFIX="STUFF_UNLOCKED.";const useLocalStorage=(key,initialValue)=>{const[value,setValue]=(0,react.useState)(()=>{const item=window.localStorage.getItem(STORAGE_PREFIX+key);if(item){return JSON.parse(item);}return initialValue;});(0,react.useEffect)(()=>{window.localStorage.setItem(STORAGE_PREFIX+key,JSON.stringify(value));},[key,value]);return[value,setValue];};
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__(694);
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
 var jsx_runtime = __webpack_require__(184);
-;// CONCATENATED MODULE: ./src/App.tsx
-function App_App(){return/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"App",children:/*#__PURE__*/(0,jsx_runtime.jsxs)("header",{className:"App-header",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("p",{children:["Edit ",/*#__PURE__*/(0,jsx_runtime.jsx)("code",{children:"src/App.js"})," and save. Then, refresh the page."]}),/*#__PURE__*/(0,jsx_runtime.jsx)("a",{className:"App-link",href:"https://reactjs.org",target:"_blank",rel:"noopener noreferrer",children:"Learn React"})]})});}
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/AutoTravellerPanel.tsx
+let AutoTravelFormState=/*#__PURE__*/function(AutoTravelFormState){AutoTravelFormState[AutoTravelFormState["IDLE"]=0]="IDLE";AutoTravelFormState[AutoTravelFormState["STARTED"]=1]="STARTED";AutoTravelFormState[AutoTravelFormState["STOPPING"]=2]="STOPPING";return AutoTravelFormState;}({});const AutoTravellerPanel=props=>{const panelRef=(0,react.useRef)(null);const[formValuesFromStorage,setFormValues]=useLocalStorage("AnAmazingJourney.autoTravellerForm",{targetDistanceKm:"1000",resourceUsed:"preferCurrency",travelBackAfterFinish:true});const{register,handleSubmit,formState:{errors},watch}=useForm({defaultValues:formValuesFromStorage});const formValues=watch();const stringifiedFormValues=JSON.stringify(formValues);(0,react.useEffect)(()=>{setFormValues(formValues);// eslint-disable-next-line react-hooks/exhaustive-deps
+},[stringifiedFormValues]);HandleMapEvents(panelRef);const onStart=data=>{props.onStart(data);};const onStop=()=>{props.onStop();};return/*#__PURE__*/(0,jsx_runtime.jsxs)("section",{ref:panelRef,className:components_AutoTravellerPanel_module.panel,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("header",{className:components_AutoTravellerPanel_module.header,children:/*#__PURE__*/(0,jsx_runtime.jsx)("h2",{className:components_AutoTravellerPanel_module.title,children:"Auto Traveller"})}),/*#__PURE__*/(0,jsx_runtime.jsxs)("form",{className:components_AutoTravellerPanel_module.form,onSubmit:handleSubmit(onStart),autoComplete:"off",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("fieldset",{children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("label",{className:components_AutoTravellerPanel_module.label,...(errors.targetDistanceKm&&{"data-tooltip":errors.targetDistanceKm.message}),children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:"Target distance (km)"}),/*#__PURE__*/(0,jsx_runtime.jsx)("input",{...register("targetDistanceKm",{required:{value:true,message:"Please enter a distance"},pattern:{value:/^[0-9]*$/,message:"Must be a positive natural number."},min:{value:1,message:"Must be a positive natural number."}}),className:classnames_default()(components_AutoTravellerPanel_module.input,{[components_AutoTravellerPanel_module.inputError]:errors.targetDistanceKm}),type:"text"})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("label",{className:components_AutoTravellerPanel_module.label,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:"Resource Used"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("select",{...register("resourceUsed",{required:true}),className:components_AutoTravellerPanel_module.select,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("option",{value:"preferCurrency",children:"Prefer Currency"}),/*#__PURE__*/(0,jsx_runtime.jsx)("option",{value:"preferTicket",children:"Prefer Tickets"})]})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("label",{className:components_AutoTravellerPanel_module.label,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:"Travel back after finish"}),/*#__PURE__*/(0,jsx_runtime.jsx)("input",{...register("travelBackAfterFinish"),className:components_AutoTravellerPanel_module.checkbox,type:"checkbox"})]})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("section",{className:components_AutoTravellerPanel_module.actionBar,children:[props.state!==AutoTravelFormState.IDLE&&/*#__PURE__*/(0,jsx_runtime.jsx)("button",{className:components_AutoTravellerPanel_module.start,type:"button",onClick:onStop,disabled:props.state===AutoTravelFormState.STOPPING,children:"Stop"}),/*#__PURE__*/(0,jsx_runtime.jsx)("button",{className:components_AutoTravellerPanel_module.start,type:"submit",disabled:props.state!==AutoTravelFormState.IDLE,children:"Start"})]})]})]});};
+// EXTERNAL MODULE: ./node_modules/react-dom/client.js
+var client = __webpack_require__(250);
+;// CONCATENATED MODULE: ./src/utils/render.ts
+function renderElement(jsxElement){const div=document.createElement("div");const root=(0,client/* createRoot */.s)(div);root.render(jsxElement);return{before:element=>{if(!element){throw Error("Can't find element to insert before");}element.insertAdjacentElement("beforebegin",div);},after:element=>{if(!element){throw Error("Can't find element to insert after");}element.insertAdjacentElement("afterend",div);}};}
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/an-amazing-journey/components/CollapseButtonPanel.module.scss
+var CollapseButtonPanel_module = __webpack_require__(103);
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/CollapseButtonPanel.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var CollapseButtonPanel_module_options = {};
+
+CollapseButtonPanel_module_options.styleTagTransform = (styleTagTransform_default());
+CollapseButtonPanel_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      CollapseButtonPanel_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+CollapseButtonPanel_module_options.domAPI = (styleDomAPI_default());
+CollapseButtonPanel_module_options.insertStyleElement = (insertStyleElement_default());
+
+var CollapseButtonPanel_module_update = injectStylesIntoStyleTag_default()(CollapseButtonPanel_module/* default */.Z, CollapseButtonPanel_module_options);
+
+
+
+
+       /* harmony default export */ const components_CollapseButtonPanel_module = (CollapseButtonPanel_module/* default */.Z && CollapseButtonPanel_module/* default */.Z.locals ? CollapseButtonPanel_module/* default */.Z.locals : undefined);
+
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/CollapseButtonPanel.tsx
+const CollapseButtonPanel=props=>{const panelRef=(0,react.useRef)(null);HandleMapEvents(panelRef);return/*#__PURE__*/(0,jsx_runtime.jsx)("section",{ref:panelRef,className:classnames_default()(components_CollapseButtonPanel_module.panel,{[components_CollapseButtonPanel_module.isCollapsed]:props.isCollapsed}),children:/*#__PURE__*/(0,jsx_runtime.jsx)("button",{className:classnames_default()(components_CollapseButtonPanel_module.button,{[components_CollapseButtonPanel_module.isCollapsed]:props.isCollapsed}),onClick:()=>props.onClick(!props.isCollapsed),title:props.isCollapsed?"Expand Auto Traveller":"Collapse Auto Traveller",children:/*#__PURE__*/(0,jsx_runtime.jsx)("svg",{fill:"#000000",viewBox:"0 0 24 24",xmlns:"http://www.w3.org/2000/svg",children:/*#__PURE__*/(0,jsx_runtime.jsx)("path",{d:"M15.2928932,12 L12.1464466,8.85355339 C11.9511845,8.65829124 11.9511845,8.34170876 12.1464466,8.14644661 C12.3417088,7.95118446 12.6582912,7.95118446 12.8535534,8.14644661 L16.8535534,12.1464466 C17.0488155,12.3417088 17.0488155,12.6582912 16.8535534,12.8535534 L12.8535534,16.8535534 C12.6582912,17.0488155 12.3417088,17.0488155 12.1464466,16.8535534 C11.9511845,16.6582912 11.9511845,16.3417088 12.1464466,16.1464466 L15.2928932,13 L4.5,13 C4.22385763,13 4,12.7761424 4,12.5 C4,12.2238576 4.22385763,12 4.5,12 L15.2928932,12 Z M19,5.5 C19,5.22385763 19.2238576,5 19.5,5 C19.7761424,5 20,5.22385763 20,5.5 L20,19.5 C20,19.7761424 19.7761424,20 19.5,20 C19.2238576,20 19,19.7761424 19,19.5 L19,5.5 Z"})})})});};
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/an-amazing-journey/components/TravelProgressPanel.module.scss
+var TravelProgressPanel_module = __webpack_require__(493);
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/TravelProgressPanel.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var TravelProgressPanel_module_options = {};
+
+TravelProgressPanel_module_options.styleTagTransform = (styleTagTransform_default());
+TravelProgressPanel_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      TravelProgressPanel_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+TravelProgressPanel_module_options.domAPI = (styleDomAPI_default());
+TravelProgressPanel_module_options.insertStyleElement = (insertStyleElement_default());
+
+var TravelProgressPanel_module_update = injectStylesIntoStyleTag_default()(TravelProgressPanel_module/* default */.Z, TravelProgressPanel_module_options);
+
+
+
+
+       /* harmony default export */ const components_TravelProgressPanel_module = (TravelProgressPanel_module/* default */.Z && TravelProgressPanel_module/* default */.Z.locals ? TravelProgressPanel_module/* default */.Z.locals : undefined);
+
+;// CONCATENATED MODULE: ./src/utils/format.ts
+function formatNumber(number){return number.toLocaleString("en-US");}function formatStringNumberToInt(value){const string=String(value);return parseInt(string);}
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/an-amazing-journey/components/StatusIndicator.module.scss
+var StatusIndicator_module = __webpack_require__(990);
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/StatusIndicator.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var StatusIndicator_module_options = {};
+
+StatusIndicator_module_options.styleTagTransform = (styleTagTransform_default());
+StatusIndicator_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      StatusIndicator_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+StatusIndicator_module_options.domAPI = (styleDomAPI_default());
+StatusIndicator_module_options.insertStyleElement = (insertStyleElement_default());
+
+var StatusIndicator_module_update = injectStylesIntoStyleTag_default()(StatusIndicator_module/* default */.Z, StatusIndicator_module_options);
+
+
+
+
+       /* harmony default export */ const components_StatusIndicator_module = (StatusIndicator_module/* default */.Z && StatusIndicator_module/* default */.Z.locals ? StatusIndicator_module/* default */.Z.locals : undefined);
+
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/StatusIndicator.tsx
+const StatusIndicator=props=>{return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_StatusIndicator_module.statusIndicator,children:[props.status===TravelProgressStatus.InProgress&&/*#__PURE__*/(0,jsx_runtime.jsxs)("svg",{width:"24",height:"24",viewBox:"0 0 24 24",xmlns:"http://www.w3.org/2000/svg",className:components_StatusIndicator_module.inProgress,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("path",{d:"M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z",fill:"currentColor",opacity:".25"}),/*#__PURE__*/(0,jsx_runtime.jsx)("path",{d:"M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z",fill:"currentColor",className:components_StatusIndicator_module.spinner})]}),props.status===TravelProgressStatus.Completed&&/*#__PURE__*/(0,jsx_runtime.jsx)("svg",{height:"24",width:"24",viewBox:"0 -960 960 960",xmlns:"http://www.w3.org/2000/svg",className:components_StatusIndicator_module.completed,children:/*#__PURE__*/(0,jsx_runtime.jsx)("path",{fill:"currentColor",d:"m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"})}),props.status===TravelProgressStatus.Error&&/*#__PURE__*/(0,jsx_runtime.jsx)("svg",{height:"24",width:"24",viewBox:"0 -960 960 960",xmlns:"http://www.w3.org/2000/svg",className:components_StatusIndicator_module.error,children:/*#__PURE__*/(0,jsx_runtime.jsx)("path",{fill:"currentColor",d:"M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"})})]});};
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/TravelProgressPanel.tsx
+let TravelProgressStatus=/*#__PURE__*/function(TravelProgressStatus){TravelProgressStatus[TravelProgressStatus["InProgress"]=0]="InProgress";TravelProgressStatus[TravelProgressStatus["Completed"]=1]="Completed";TravelProgressStatus[TravelProgressStatus["Error"]=2]="Error";return TravelProgressStatus;}({});const TravelProgressPanel=props=>{const panelRef=(0,react.useRef)(null);HandleMapEvents(panelRef);return/*#__PURE__*/(0,jsx_runtime.jsxs)("section",{ref:panelRef,className:components_TravelProgressPanel_module.panel,children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("header",{className:components_TravelProgressPanel_module.header,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("h2",{className:components_TravelProgressPanel_module.title,children:"Travel Progress"}),/*#__PURE__*/(0,jsx_runtime.jsx)(StatusIndicator,{status:props.state.status})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_TravelProgressPanel_module.rows,children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_TravelProgressPanel_module.row,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{className:components_TravelProgressPanel_module.key,children:"Travels"}),/*#__PURE__*/(0,jsx_runtime.jsx)("span",{className:components_TravelProgressPanel_module.value,children:formatNumber(props.state.travelsCompleted)})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_TravelProgressPanel_module.row,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{className:components_TravelProgressPanel_module.key,children:"Distance"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("span",{className:components_TravelProgressPanel_module.value,children:[formatNumber(props.state.travelledDistanceKm)," km"]})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_TravelProgressPanel_module.row,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{className:components_TravelProgressPanel_module.key,children:"Resources"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("span",{className:components_TravelProgressPanel_module.value,children:[formatNumber(props.state.resourcesSpent.amount)," ",props.state.resourcesSpent.unit]})]})]})]});};
+;// CONCATENATED MODULE: ./src/requests/travel-request.ts
+let Travel;(function(_Travel){async function sendRequest(body){const response=fetch("https://www.erepublik.com/en/main/travel",{method:"POST",headers:{"content-type":"application/x-www-form-urlencoded",...getCookieHeaders()},body:objectToWwwFormUrlEncoded(body)});return response.then(response=>response.json());}_Travel.sendRequest=sendRequest;})(Travel||(Travel={}));
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/regions.ts
+const MazuriaRegionId="423";const MazoviaRegionId="424";const travelRouteTest={regionIdA:MazuriaRegionId,regionIdB:MazoviaRegionId};const WellingtonRegionId="714";const CastillaYLeonRegionId="173";const travelRouteMain={regionIdA:CastillaYLeonRegionId,regionIdB:WellingtonRegionId};function findCountryIdFor(regionId,countries){var _Object$values$find;const countryId=(_Object$values$find=Object.values(countries).find(country=>{const currentRegions=country.currentRegions;if(typeof currentRegions==="number"){return currentRegions===Number(regionId);}if(typeof currentRegions==="string"){return currentRegions.split(",").includes(regionId);}return false;}))===null||_Object$values$find===void 0?void 0:_Object$values$find.id;if(!countryId){throw new Error("Cannot find countryId for regionId ".concat(regionId));}return String(countryId);}
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/travel.ts
+function createNewTravelProgressState(unit){return{status:TravelProgressStatus.InProgress,travelledDistanceKm:0,travelsCompleted:0,resourcesSpent:{amount:0,unit:unit}};}async function executeTravel(nextTargetRegionId,form,countriesCache){let travelInfo;try{log("Getting travel info for region ".concat(nextTargetRegionId,"..."));travelInfo=await getTravelInfoTo(nextTargetRegionId);log("Got travel info for region ".concat(nextTargetRegionId),travelInfo);}catch(e){throw Error("Failed to get travel info for region ".concat(nextTargetRegionId),{cause:e});}try{log("Travelling to region ".concat(nextTargetRegionId,"..."));await travelTo(nextTargetRegionId,form.resourceUsed,countriesCache);log("Travelled to region ".concat(nextTargetRegionId));}catch(e){throw Error("Failed to travel to region ".concat(nextTargetRegionId),{cause:e});}return travelInfo;}async function getTravelInfoTo(regionId){const response=await TravelData.sendRequest({_token:getCsrfToken(),battleId:"0",regionId:regionId,holdingId:"0"});return{distanceKm:response.regions[regionId].distanceInKm,currencyCost:response.regions[regionId].cost,ticketCost:response.regions[regionId].ticketAmount};}async function travelTo(regionId,travelMethod,countriesCache){const response=await Travel.sendRequest({_token:getCsrfToken(),travelMethod:travelMethod,battleId:"0",inRegionId:regionId,toCountryId:findCountryIdFor(regionId,await countriesCache.getCountries())});if(response.error===1){throw Error("Failed to travel to ".concat(regionId,": ").concat(response.message));}}
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/an-amazing-journey/components/ErrorPanel.module.scss
+var ErrorPanel_module = __webpack_require__(978);
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/ErrorPanel.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var ErrorPanel_module_options = {};
+
+ErrorPanel_module_options.styleTagTransform = (styleTagTransform_default());
+ErrorPanel_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      ErrorPanel_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+ErrorPanel_module_options.domAPI = (styleDomAPI_default());
+ErrorPanel_module_options.insertStyleElement = (insertStyleElement_default());
+
+var ErrorPanel_module_update = injectStylesIntoStyleTag_default()(ErrorPanel_module/* default */.Z, ErrorPanel_module_options);
+
+
+
+
+       /* harmony default export */ const components_ErrorPanel_module = (ErrorPanel_module/* default */.Z && ErrorPanel_module/* default */.Z.locals ? ErrorPanel_module/* default */.Z.locals : undefined);
+
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/components/ErrorPanel.tsx
+const ErrorPanel=props=>{const panelRef=(0,react.useRef)(null);HandleMapEvents(panelRef);return/*#__PURE__*/(0,jsx_runtime.jsxs)("section",{ref:panelRef,className:components_ErrorPanel_module.panel,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_ErrorPanel_module.errors,children:props.errors.map((error,index)=>{var _error$cause;return/*#__PURE__*/(0,jsx_runtime.jsxs)("p",{className:components_ErrorPanel_module.error,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:error.toString()}),(error.cause||null)&&/*#__PURE__*/(0,jsx_runtime.jsxs)("span",{children:[/*#__PURE__*/(0,jsx_runtime.jsx)("br",{}),"Caused by: ",(_error$cause=error.cause)===null||_error$cause===void 0?void 0:_error$cause.toString()]})]},index);})}),/*#__PURE__*/(0,jsx_runtime.jsx)("button",{className:components_ErrorPanel_module.close,title:"Dismiss",onClick:props.onClose,children:/*#__PURE__*/(0,jsx_runtime.jsx)("svg",{width:"24",height:"24",viewBox:"0 -960 960 960",xmlns:"http://www.w3.org/2000/svg",children:/*#__PURE__*/(0,jsx_runtime.jsx)("path",{fill:"currentColor",d:"m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"})})})]});};
+;// CONCATENATED MODULE: ./src/features/an-amazing-journey/index.tsx
+const countriesCache=new CountriesCache();const TIMER_INTERVAL_MS=5000;const currentTravelRoute=travelRouteTest;const AnAmazingJourneyFeature=createFeature({name:"An Amazing Journey",description:"An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",canExecute:url=>url.includes("/main/anniversaryQuest"),execute:async()=>{renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(JourneyFeatureComponent,{})).before(document.querySelector("#cityInfoTopPopup"));}});const JourneyFeatureComponent=()=>{const[isCollapsed,setIsCollapsed]=useLocalStorage("AnAmazingJourney.isCollapsed",false);const[travelProgressState,setTravelProgressState]=(0,react.useState)();const[travelFormState,setTravelFormState]=(0,react.useState)(AutoTravelFormState.IDLE);const[shouldStop,setShouldStop]=(0,react.useState)(false);const shouldStopRef=(0,react.useRef)(shouldStop);(0,react.useEffect)(()=>{shouldStopRef.current=shouldStop;},[shouldStop]);const[errors,setErrors]=(0,react.useState)([]);const onStart=async form=>{log("Starting...",form);setTravelFormState(AutoTravelFormState.STARTED);const currencyUnit=form.resourceUsed==="preferCurrency"?getCitizenshipCurrencyName():"tickets";let travelledDistanceKm=0;setTravelProgressState(createNewTravelProgressState(currencyUnit));const initialRegionId=await countriesCache.getCurrentRegionId({skipCache:true});let nextTargetRegionId=initialRegionId===currentTravelRoute.regionIdA?currentTravelRoute.regionIdB:currentTravelRoute.regionIdA;let setIntervalId;const handleStop=async errorMessage=>{if(errorMessage){log("Stopping due to error: ".concat(errorMessage));}else{log("Stopping...");}const stopInternalHandler=async()=>{setShouldStop(false);setTravelProgressState(state=>{if(state){return{...state,status:errorMessage?TravelProgressStatus.Error:TravelProgressStatus.Completed,errorMessage};}return state;});// Stop button should be disabled immediately
+setTravelFormState(AutoTravelFormState.STOPPING);// Start button should be enabled after 5 seconds
+// to prevent spamming the server
+setTimeout(()=>{setTravelFormState(AutoTravelFormState.IDLE);},TIMER_INTERVAL_MS);};clearInterval(setIntervalId);const isInInitialRegion=(await countriesCache.getCurrentRegionId({skipCache:true}))===initialRegionId;if(form.travelBackAfterFinish&&!isInInitialRegion){log("Waiting ".concat(TIMER_INTERVAL_MS,"ms to travel back..."));setTimeout(async()=>{const travelInfo=await executeTravel(initialRegionId,form,countriesCache);updateTravelProgressState(travelInfo);stopInternalHandler();},TIMER_INTERVAL_MS);}else{log("Stopping immediately...");stopInternalHandler();}};function updateTravelProgressState(travelInfo){const resourcesAmountSpentThisTravel=form.resourceUsed==="preferTicket"?travelInfo.ticketCost:travelInfo.currencyCost;travelledDistanceKm+=travelInfo.distanceKm;setTravelProgressState(state=>{if(state){return{...state,travelledDistanceKm:travelledDistanceKm,travelsCompleted:state.travelsCompleted+1,resourcesSpent:{amount:state.resourcesSpent.amount+resourcesAmountSpentThisTravel,unit:state.resourcesSpent.unit}};}return state;});}const callbackLogic=async()=>{if(shouldStopRef.current){await handleStop();return;}let travelInfo=await executeTravel(nextTargetRegionId,form,countriesCache);updateTravelProgressState(travelInfo);nextTargetRegionId=nextTargetRegionId===currentTravelRoute.regionIdA?currentTravelRoute.regionIdB:currentTravelRoute.regionIdA;if(travelledDistanceKm>=Number(form.targetDistanceKm)){await handleStop();}};const callback=async()=>{try{await callbackLogic();}catch(e){setErrors(errors=>[...errors,e]);error(e);try{await handleStop(e.message);}catch(e2){setErrors(errors=>[...errors,e2]);error(e2);}}};await callback();setIntervalId=window.setInterval(callback,TIMER_INTERVAL_MS);};const onStop=()=>{log("Stopping manually...");setTravelFormState(AutoTravelFormState.STOPPING);setShouldStop(true);};const onErrorClose=()=>{setErrors([]);};return/*#__PURE__*/(0,jsx_runtime.jsxs)(jsx_runtime.Fragment,{children:[/*#__PURE__*/(0,jsx_runtime.jsx)(CollapseButtonPanel,{isCollapsed:isCollapsed,onClick:setIsCollapsed}),!isCollapsed&&/*#__PURE__*/(0,jsx_runtime.jsx)(AutoTravellerPanel,{onStart:onStart,onStop:onStop,state:travelFormState}),!isCollapsed&&travelProgressState&&/*#__PURE__*/(0,jsx_runtime.jsx)(TravelProgressPanel,{state:travelProgressState}),errors.length>0&&/*#__PURE__*/(0,jsx_runtime.jsx)(ErrorPanel,{onClose:onErrorClose,errors:errors})]});};
 ;// CONCATENATED MODULE: ./src/index.tsx
-log("React script has successfully started");// Do required initial work. Gets called every time the URL changes,
-// so that elements can be re-inserted as a user navigates a page with
-// different routes.
-async function main(){// Find <body/>. This can be any element. We wait until
-// the page has loaded enough for that element to exist.
-const body=await awaitElement("body");const container=document.createElement("div");body.prepend(container);react_dom.render(/*#__PURE__*/(0,jsx_runtime.jsx)(App_App,{}),container);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',watchForUrlChange);}else{watchForUrlChange();}function watchForUrlChange(){// Call `main()` every time the page URL changes, including on first load.
-addLocationChangeCallback(()=>{// Greasemonkey doesn't bubble errors up to the main console,
+log("React script has successfully started");const features=[AnAmazingJourneyFeature];async function onUrlChange(){log("Testing ".concat(features.length," features"));let executedWithSuccess=0;for(const feature of features){if(feature.canExecute(window.location.href)){try{await feature.execute();executedWithSuccess++;}catch(e){error("Feature ".concat(feature.name," failed to execute"));error(e);}}}log("Executed ".concat(executedWithSuccess,"/").concat(features.length," features"));}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",watchForUrlChange);}else{watchForUrlChange();}function watchForUrlChange(){// Call `onUrlChange()` every time the page URL changes, including on first load.
+addLocationChangeCallback(()=>{// Greasemonkey doesn't bubble errors up to the onUrlChange console,
 // so we have to catch them manually and log them
-main().catch(e=>{log(e);});});}
+onUrlChange().catch(e=>{log(e);});});}
 })();
 
 /******/ })()
 ;
 //# sourceMappingURL=main.js.map
+        })(window.originalMap)
