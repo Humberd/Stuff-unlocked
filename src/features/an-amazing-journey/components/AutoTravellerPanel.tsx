@@ -29,8 +29,8 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   const panelRef = useRef<HTMLDivElement>(null);
   const [formValuesFromStorage, setFormValues] =
     useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
-      targetDistanceKm: "1000",
-      resourceUsed: "preferCurrency",
+      targetDistanceKm: "100000",
+      resourceUsed: "preferTicket",
       travelBackAfterFinish: true,
     });
   const {
