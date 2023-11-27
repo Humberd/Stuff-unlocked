@@ -2,7 +2,7 @@
 /* eslint-disable */
 // const CONTRIBUTORS_URL =
 //   "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/dev/src/contributors.json";
-const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/dist/contributors.json"
+const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json"
 !(function () {
   /** @type {!Array} */
   var afterRequestCallbacks = [];
