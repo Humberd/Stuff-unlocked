@@ -1,3 +1,7 @@
+# 5.68 (27.11.2023)
+* Fix: Default auto traveller values
+* Fix: travel route
+
 # 5.67 (27.11.2023)
 * Misc: Auto build and release workflow (#33)
 * An Amazing Journey Auto Traveller #29 (#32)
