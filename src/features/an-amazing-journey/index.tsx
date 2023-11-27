@@ -8,14 +8,14 @@ import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
 import { createNewTravelProgressState, executeTravel, TravelInfo } from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
-import { travelRouteTest } from "./regions";
+import { travelRouteMain } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
 
 const countriesCache = new CountriesCache();
 
 const TIMER_INTERVAL_MS = 5_000;
-const currentTravelRoute = travelRouteTest;
+const currentTravelRoute = travelRouteMain;
 
 export const AnAmazingJourneyFeature = createFeature({
   name: "An Amazing Journey",
