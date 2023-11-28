@@ -35,9 +35,10 @@ async function main() {
   window.originalMap = getMapObjectFromIframe();
   script.text = `
         // We make sure that the Map object is the original one
-        ((Map) => {
+        ((Map, GM_info) => {
+           window.GM_info = undefined;
            ${text}
-        })(window.originalMap)
+        })(window.originalMap, window.GM_info)
     `;
   head.appendChild(script);
   log("Got Dev script");
