@@ -1,3 +1,8 @@
+# 5.69 (30.11.2023)
+* Fix: Regression features not working
+* Fix: Global scope variable pollution
+* Fix: Contributors url
+
 # 5.68 (27.11.2023)
 * Fix: Default auto traveller values
 * Fix: travel route
