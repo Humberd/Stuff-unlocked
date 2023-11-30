@@ -40,7 +40,7 @@ function assignWindowOriginalMap() {
     function getMapObjectFromIframe() {
       const iframe = document.createElement("iframe");
       iframe.style.display = "none";
-      document.body.appendChild(iframe);
+      document.head.appendChild(iframe);
 
       const script = document.createElement("script");
       script.textContent = \`
