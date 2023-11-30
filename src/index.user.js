@@ -2,16 +2,16 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.68
+// @version		5.69
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
-// @run-at		document-end
+// @run-at		document-start
 // @grant		  none
 // ==/UserScript==
 function getMapObjectFromIframe() {
       const iframe = document.createElement("iframe");
       iframe.style.display = "none";
-      document.body.appendChild(iframe);
+      document.head.appendChild(iframe);
 
       const script = document.createElement("script");
       script.textContent = `
@@ -35,7 +35,7 @@ function getMapObjectFromIframe() {
 // ********** OLD INDEX START **********
 /* eslint-disable */ // const CONTRIBUTORS_URL =
 //   "https://raw.githubusercontent.com/Humberd/Stuff-unlocked/dev/src/contributors.json";
-const CONTRIBUTORS_URL="https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/dist/contributors.json";!function(){/** @type {!Array} */var afterRequestCallbacks=[];/** @type {function(this:XMLHttpRequest, (ArrayBuffer|ArrayBufferView|Blob|Document|FormData|null|string)=): undefined} */var oldSend=XMLHttpRequest.prototype.send;/**
+const CONTRIBUTORS_URL="https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/contributors.json";!function(){/** @type {!Array} */var afterRequestCallbacks=[];/** @type {function(this:XMLHttpRequest, (ArrayBuffer|ArrayBufferView|Blob|Document|FormData|null|string)=): undefined} */var oldSend=XMLHttpRequest.prototype.send;/**
    * @param {(ArrayBuffer|ArrayBufferView|Blob|Document|FormData|null|string)=} p0
    * @return {undefined}
    */XMLHttpRequest.prototype.send=function(){this.addEventListener("load",function(){/** @type {*} */var text="{"==this.responseText.trim()[0]?JSON.parse(this.responseText):this.responseText;setTimeout(()=>{for(let requestCallback of afterRequestCallbacks){requestCallback(text,this.responseURL);}},200);});oldSend.apply(this,arguments);};// Evaluate the script after the page has loaded.
