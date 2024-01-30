@@ -2,13 +2,23 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.69
+// @version		5.70
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
 // @grant		  none
 // ==/UserScript==
-function getMapObjectFromIframe() {
+if (document.head) {
+  execute();
+} else {
+  // work-around for https://github.com/greasemonkey/greasemonkey/issues/2996
+  var obs = new MutationObserver(function () {
+    if (document.head) { obs.disconnect(); execute(); }
+  });
+  obs.observe(document, {childList: true, subtree: true});
+}
+function execute() {
+  function getMapObjectFromIframe() {
       const iframe = document.createElement("iframe");
       iframe.style.display = "none";
       document.head.appendChild(iframe);
@@ -24,9 +34,9 @@ function getMapObjectFromIframe() {
       return iframe.contentWindow.getOriginalMap();
     }
     window.originalMap = getMapObjectFromIframe();
-        // We make sure that the Map object is the original one
-        ((Map) => {
-           /******/ (() => { // webpackBootstrap
+  // We make sure that the Map object is the original one
+  ((Map) => {
+     /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 680:
@@ -173,7 +183,7 @@ if(SERVER_DATA.sessionValidation){}else{hookUpFeedCommentsScroll();hookUpPowerSp
                  */function fn(type,a,b){return(b?'<a href="/'+side+"/economy/marketplace#"+targ+"/"+type+"/"+a+'">':"<div>")+'<img src="//www.erepublik.net/images/icons/industry/'+type+"/q"+a+'.png">'+(b?"</a>":"</div>");}/**
                  * @param {!Event} elements
                  * @return {undefined}
-                 */function init(elements){if(!elements.target.querySelectorAll("a").length){var string=elements.target.getElementsByTagName("img")[0].src.split("industry/")[1].split("/")[0];/** @type {string} */var buffer="";/** @type {number} */var context=1;for(;context<(string<3?8:string<5?6:2);context++){/** @type {string} */buffer=buffer+fn(string,context,1);}elements.target.insertAdjacentHTML("beforeEnd",3==string?buffer:buffer+fn(1==string?7:2==string?12:4==string?17:24,1,1));if(location.href.includes("economy/marketplace")){elements.target.querySelectorAll("a").forEach(e=>{return e.addEventListener("click",()=>{return setTimeout(()=>{return location.reload();},200);});});}}}append("#marketMenu div,#marketMenu div:hover a{display:inline-block}#marketMenu{position:absolute;top:30px;right:2px}#marketMenu *{width:27px;height:27px}#marketMenu div{line-height:0}#marketMenu a{display:none;float:left;clear:both;background:RGBA(131,183,11,.8);border-radius:5px}#marketMenu a:hover{background:#FB7E3D}#marketMenu img{margin-bottom:-5px}");/** @type {string} */var ret="";var targ=params[item.hasResidence&&params.regionLocationId!=item.regionId?"countryLocationId":"country"];/** @type {number} */var r=1;for(;r<6;r++){/** @type {string} */ret=ret+fn(1==r?1:2==r?2:3==r?23:4==r?3:4,1==r?1:2==r?7:3==r?1:4==r?5:1);}expect("#newMenu",types=>{return types.insertAdjacentHTML("beforeEnd",'<div id="marketMenu">'+ret+"</div>");});expect("#marketMenu",e=>{return e.querySelectorAll("div").forEach($this=>{return $this.addEventListener("mouseenter",init);});});}(),data.popupBlocker||function(){/**
+                 */function init(elements){if(!elements.target.querySelectorAll("a").length){var string=elements.target.getElementsByTagName("img")[0].src.split("industry/")[1].split("/")[0];/** @type {string} */var buffer="";/** @type {number} */var context=1;for(;context<(string<3?8:6);context++){/** @type {string} */buffer=buffer+fn(string,context,1);}elements.target.insertAdjacentHTML("beforeEnd",3==string?buffer:buffer+fn(1==string?7:2==string?12:4==string?17:24,1,1));if(location.href.includes("economy/marketplace")){elements.target.querySelectorAll("a").forEach(e=>{return e.addEventListener("click",()=>{return setTimeout(()=>{return location.reload();},200);});});}}}append("#marketMenu div,#marketMenu div:hover a{display:inline-block}#marketMenu{position:absolute;top:30px;right:2px}#marketMenu *{width:27px;height:27px}#marketMenu div{line-height:0}#marketMenu a{display:none;float:left;clear:both;background:RGBA(131,183,11,.8);border-radius:5px}#marketMenu a:hover{background:#FB7E3D}#marketMenu img{margin-bottom:-5px}");/** @type {string} */var ret="";var targ=params[item.hasResidence&&params.regionLocationId!=item.regionId?"countryLocationId":"country"];/** @type {number} */var r=1;for(;r<6;r++){/** @type {string} */ret=ret+fn(1==r?1:2==r?2:3==r?23:4==r?3:4,1==r?1:2==r?7:3==r?1:4==r?5:1);}expect("#newMenu",types=>{return types.insertAdjacentHTML("beforeEnd",'<div id="marketMenu">'+ret+"</div>");});expect("#marketMenu",e=>{return e.querySelectorAll("div").forEach($this=>{return $this.addEventListener("mouseenter",init);});});}(),data.popupBlocker||function(){/**
                  * @return {undefined}
                  */function toDateInputStr(){/** @type {number} */localStorage["promoPopupTimestamp_"+playdate.getFullYear()+"-"+playdate.getMonth()+"-"+playdate.getDate()]=9999999999999;}/** @type {!Date} */var playdate=new Date();toDateInputStr();playdate.setDate(playdate.getDate()+1);toDateInputStr();}(),data.closeTPnotifications||done("citizenNotifications",function(){/** @type {number} */var idx_last=0;var $scope=angular.element("#SideNotificationController").scope();for(let e of $scope.notifications){if(e.iconURL&&e.iconURL.includes("atriot")){idx_last++;}}for(;idx_last>0;){if($scope.notifications.active.iconURL.includes("atriot")){$scope.closeNotif();/** @type {number} */idx_last=idx_last-1;}else{$scope.goNext();}}})),data.showStats||path||(append("#NoKills{cursor:pointer;font:700 11px/14px arial;float:left;width:145px;margin:6px 3px 0}#NoKills strong{color:#666}#NoKills span{color:#3c8fa7;float:right}"),expect(".user_finances",table=>{return table.insertAdjacentHTML("afterEnd",'<div id="NoKills">'+(result[0]||result[1]?"<strong>Kills | PP:</strong><span>"+resolve(result[0])+" | "+resolve(result[1])+"</span>":"")+(result[2]?"<br><strong>Ground:</strong><span>"+resolve(result[2])+"</span>":"")+(result[3]?"<br><strong>Air:</strong><span>"+resolve(result[3])+"</span>":"")+"</div>");}),expect("#NoKills",connect=>{return connect.addEventListener("click",resetTodayStats);})),toTop&&(destinationUnitName||/military\/campaigns|\/citizen\/profile|donate-items|\/economy\/marketplace|economy\/myCompanies/.test(location.href))&&!data.displayStorage&&test("/"+side+"/economy/inventory-items/",function(selectedHostFolder){if(!data.displayStorage&&(!le||le&&location.href.includes("citizen/profile/"+name))){(function(item){/**
                          * @param {!Object} scope
@@ -11422,5 +11432,6 @@ onUrlChange().catch(e=>{log(e);});});}
 
 /******/ })()
 ;
-//# sourceMappingURL=main.js.map
-        })(window.originalMap)
+//# sourceMappingURL=main.js.map;
+  })(window.originalMap);
+}
