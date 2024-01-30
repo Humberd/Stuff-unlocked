@@ -1,3 +1,6 @@
+# 5.70 (30.01.2024)
+* Fix: missing document.head in Chrome
+
 # 5.69 (30.11.2023)
 * Fix: Regression features not working
 * Fix: Global scope variable pollution

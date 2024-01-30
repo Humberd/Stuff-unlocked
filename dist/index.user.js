@@ -2,13 +2,23 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.69
+// @version		5.70
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
 // @grant		  none
 // ==/UserScript==
-function getMapObjectFromIframe() {
+if (document.head) {
+  execute();
+} else {
+  // work-around for https://github.com/greasemonkey/greasemonkey/issues/2996
+  var obs = new MutationObserver(function () {
+    if (document.head) { obs.disconnect(); execute(); }
+  });
+  obs.observe(document, {childList: true, subtree: true});
+}
+function execute() {
+  function getMapObjectFromIframe() {
       const iframe = document.createElement("iframe");
       iframe.style.display = "none";
       document.head.appendChild(iframe);
@@ -24,9 +34,9 @@ function getMapObjectFromIframe() {
       return iframe.contentWindow.getOriginalMap();
     }
     window.originalMap = getMapObjectFromIframe();
-        // We make sure that the Map object is the original one
-        ((Map) => {
-           /******/ (() => { // webpackBootstrap
+  // We make sure that the Map object is the original one
+  ((Map) => {
+     /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 680:
@@ -11422,5 +11432,6 @@ onUrlChange().catch(e=>{log(e);});});}
 
 /******/ })()
 ;
-//# sourceMappingURL=main.js.map
-        })(window.originalMap)
+//# sourceMappingURL=main.js.map;
+  })(window.originalMap);
+}
