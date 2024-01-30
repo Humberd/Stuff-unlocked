@@ -1562,7 +1562,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                     var context = 1;
                     for (
                         ;
-                        context < (string < 3 ? 8 : string < 5 ? 6 : 2);
+                        context < (string < 3 ? 8 : 6);
                         context++
                     ) {
                       /** @type {string} */
