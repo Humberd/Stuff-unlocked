@@ -13,11 +13,22 @@ async function main() {
   );
   // language=JavaScript
   const mainWrappedScript = `
-        ${assignWindowOriginalMap()}
-        // We make sure that the Map object is the original one
-        ((Map) => {
-           ${main}
-        })(window.originalMap)
+if (document.head) {
+  execute();
+} else {
+  // work-around for https://github.com/greasemonkey/greasemonkey/issues/2996
+  var obs = new MutationObserver(function () {
+    if (document.head) { obs.disconnect(); execute(); }
+  });
+  obs.observe(document, {childList: true, subtree: true});
+}
+function execute() {
+  ${assignWindowOriginalMap()}
+  // We make sure that the Map object is the original one
+  ((Map) => {
+     ${main};
+  })(window.originalMap);
+}
   `.trim();
   const buffer = header + mainWrappedScript;
   shx.mkdir("-p", "../dist");
