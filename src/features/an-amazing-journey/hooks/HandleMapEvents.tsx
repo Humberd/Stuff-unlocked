@@ -10,7 +10,7 @@ declare global {
  * Disable map when mouse is over the panel
  * Enable map when mouse is out of the panel
  */
-export function HandleMapEvents(panelRef: RefObject<HTMLDivElement>) {
+export function HandleMapEvents(panelRef: RefObject<HTMLDivElement | null>) {
   useEffect(() => {
     const disableMapCallback = () => {
       try {
