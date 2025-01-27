@@ -82,7 +82,8 @@ It should be similar to `D:\Repositories\Stuff-unlocked\dist\index-dev.user.js`.
 This will install the script in Tampermonkey.
 
 You will have to disable production script, so that only the DEV one is active.
-![img.png](assets/img.png)
+
+![tampermankey-dev-enable.png](assets/tampermankey-dev-enable.png)
 
 Now everytime you make a change in the code, the erepublik page should refresh automatically.
 
