@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git+https://github.com/Humberd/Stuff-unlocked.git"
   },
+  "engines": {
+    "node": ">=22.13.0 <23.0.0"
+  },
   "author": "Humberd",
   "license": "MIT",
   "bugs": {
