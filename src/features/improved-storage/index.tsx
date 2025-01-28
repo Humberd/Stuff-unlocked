@@ -25,8 +25,9 @@ export const ImprovedStorage = createFeature({
      */
     document.body.classList.add("su-improved-storage");
 
-    applyMaxItemsOnSellOffer();
+    // order matters here
     displayTotalPriceOnSellOffer();
+    applyMaxItemsOnSellOffer();
   },
 });
 
@@ -71,6 +72,10 @@ async function applyMaxItemsOnSellOffer() {
     },
     "before",
   );
+  
+  // Autofill Food Q1
+  // @ts-ignore
+  sellItemsController.onProductChange(1,1)
 }
 
 function displayTotalPriceOnSellOffer() {
