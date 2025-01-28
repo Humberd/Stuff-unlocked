@@ -2,12 +2,15 @@ import "./index.css";
 import { addLocationChangeCallback, error, log } from "./utils/utils";
 import "./old-index.user.js";
 import { AnAmazingJourneyFeature } from "./features/an-amazing-journey";
+import { Analytics } from "./analytics/posthog";
 
 log("React script has successfully started");
 
 const features = [AnAmazingJourneyFeature];
 
 async function onUrlChange() {
+  Analytics.init();
+  
   log(`Testing ${features.length} features`);
   let executedWithSuccess = 0;
   for (const feature of features) {
