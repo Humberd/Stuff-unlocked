@@ -9,12 +9,13 @@ import {
   createTotalLabelRootElement,
   TotalLabel,
 } from "./components/TotalLabel";
-import { renderElementWithRoot } from "../../utils/render";
+import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { ExternalProperty } from "../../hooks/external-property";
 import ItemGroup = InventoryJsonData.ItemGroups;
 import Item = InventoryJsonData.Item;
 import { retry } from "../../utils/time";
 import { AnchorHTMLAttributes } from "react";
+import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -30,6 +31,7 @@ export const ImprovedStorage = createFeature({
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
     autoOpenSellTab();
+    makeSectionsToggleable();
   },
 });
 
@@ -130,4 +132,17 @@ function buildItemsCache(itemGroups: ItemGroup[]): Map<string, Item> {
     }
   }
   return itemsCache;
+}
+
+function makeSectionsToggleable() {
+  const inventoryItems  = document.querySelectorAll<HTMLDivElement>("#inventoryItems > div")
+  
+  inventoryItems.forEach((item) => {
+    // We care only about the ng-repeat sections
+    if (!item.getAttribute("ng-repeat")) {
+      return;
+    }
+    renderElement(<ItemsSectionToggle sectionId={item.id} />)
+      .after(item.querySelector(".section_separator > .top_left > div") as HTMLDivElement);
+  })
 }
