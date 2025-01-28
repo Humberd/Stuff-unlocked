@@ -11,11 +11,10 @@ import {
 } from "./components/TotalLabel";
 import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { ExternalProperty } from "../../hooks/external-property";
+import { retry } from "../../utils/time";
+import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import ItemGroup = InventoryJsonData.ItemGroups;
 import Item = InventoryJsonData.Item;
-import { retry } from "../../utils/time";
-import { AnchorHTMLAttributes } from "react";
-import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -27,9 +26,10 @@ export const ImprovedStorage = createFeature({
      */
     document.body.classList.add("su-improved-storage");
 
-    // order matters here
+    // order matters start
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
+    // order matters end
     autoOpenSellTab();
     makeSectionsToggleable();
   },
@@ -76,10 +76,10 @@ async function applyMaxItemsOnSellOffer() {
     },
     "before",
   );
-  
+
   // Autofill Food Q1
   // @ts-ignore
-  sellItemsController.onProductChange(1,1)
+  sellItemsController.onProductChange(1, 1);
 }
 
 function displayTotalPriceOnSellOffer() {
@@ -107,7 +107,8 @@ function displayTotalPriceOnSellOffer() {
 
 async function autoOpenSellTab() {
   await retry(() => {
-    const sellTab = document.querySelector<HTMLAnchorElement>("#inventory_sell");
+    const sellTab =
+      document.querySelector<HTMLAnchorElement>("#inventory_sell");
     if (!sellTab) {
       throw new Error("Sell tab not found");
     }
@@ -135,14 +136,24 @@ function buildItemsCache(itemGroups: ItemGroup[]): Map<string, Item> {
 }
 
 function makeSectionsToggleable() {
-  const inventoryItems  = document.querySelectorAll<HTMLDivElement>("#inventoryItems > div")
-  
+  const inventoryItems = document.querySelectorAll<HTMLDivElement>(
+    "#inventoryItems > div",
+  );
+
   inventoryItems.forEach((item) => {
     // We care only about the ng-repeat sections
     if (!item.getAttribute("ng-repeat")) {
       return;
     }
-    renderElement(<ItemsSectionToggle sectionId={item.id} />)
-      .after(item.querySelector(".section_separator > .top_left > div") as HTMLDivElement);
-  })
+
+    const isOpened = item.id !== "assembly";
+
+    renderElement(
+      <ItemsSectionToggle sectionId={item.id} initialIsOpened={isOpened} />,
+    ).after(
+      item.querySelector(
+        ".section_separator > .top_left > div",
+      ) as HTMLDivElement,
+    );
+  });
 }

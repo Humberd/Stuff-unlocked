@@ -4,12 +4,13 @@ import { ensure, log } from "../../../utils/utils";
 
 interface ItemsSectionToggleProps {
   sectionId: string;
+  initialIsOpened?: boolean;
 }
 
 export const ItemsSectionToggle: React.FC<ItemsSectionToggleProps> = (
   props,
 ) => {
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(props.initialIsOpened ?? true);
 
   useEffect(() => {
     const section = ensure(document.getElementById(props.sectionId));
