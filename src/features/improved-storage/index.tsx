@@ -1,12 +1,18 @@
 import { createFeature } from "../../utils/feature";
 import "./StaticStyles.scss";
-import ItemGroup = InventoryJsonData.ItemGroups;
 import {
   getAngularjsControllerScope,
   wrapAngularjsCallback,
 } from "../../angularjs-utils";
-import Item = InventoryJsonData.Item;
 import { log } from "../../utils/utils";
+import {
+  createTotalLabelRootElement,
+  TotalLabel,
+  TotalLabelProps,
+} from "./components/TotalLabel";
+import ItemGroup = InventoryJsonData.ItemGroups;
+import Item = InventoryJsonData.Item;
+import { renderElement, renderElementWithRoot } from "../../utils/render";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -22,9 +28,21 @@ export const ImprovedStorage = createFeature({
   },
 });
 
+interface SellItemsController {
+  inputs: {
+    countryLicense: unknown;
+    pricePerUnit: number | null;
+    quantity: number | null;
+    selectedCountry: number | null;
+    selectedIndustry: number | string | null;
+    selectedQuality: number | string | null;
+  };
+}
+
 function applyMaxItemsOnSellOffer() {
-  const storageController = getAngularjsControllerScope<any>("StorageController");
-  const sellItemsController = getAngularjsControllerScope<any>(
+  const storageController =
+    getAngularjsControllerScope<any>("StorageController");
+  const sellItemsController = getAngularjsControllerScope<SellItemsController>(
     "ErpkSellItemsController",
   );
 
@@ -32,13 +50,20 @@ function applyMaxItemsOnSellOffer() {
     storageController,
     sellItemsController,
   });
-  
+
   const itemsCache = buildItemsCache(storageController.inventory.items);
+
+  console.log(document.querySelector("#sell_offers th.offers_quantity>input"));
+
+  renderElementWithRoot(
+    <TotalLabel total={0} />,
+    createTotalLabelRootElement(),
+  ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
 
   wrapAngularjsCallback(
     sellItemsController,
     "onProductChange",
-    function (this: any, industryId: number, quality: number) {
+    function (this: SellItemsController, industryId: number, quality: number) {
       const item = itemsCache.get(`${industryId}_${quality}`);
       if (!item) {
         log(`Item not found in cache: ${industryId}_${quality}`, itemsCache);
@@ -46,6 +71,7 @@ function applyMaxItemsOnSellOffer() {
       }
 
       this.inputs.quantity = item.amountForSale ?? 1;
+      const total = this.inputs.quantity * (this.inputs.pricePerUnit ?? 0);
     },
     "before",
   );
@@ -58,12 +84,12 @@ function buildItemsCache(itemGroups: ItemGroup[]): Map<string, Item> {
       if (!item.id) {
         continue;
       }
-      
+
       let id = item.id;
       if (id.startsWith("raw_")) {
         id = id.replace("raw_", "");
       }
-      
+
       itemsCache.set(id, item);
     }
   }

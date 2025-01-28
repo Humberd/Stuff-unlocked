@@ -77,10 +77,18 @@ $size: 60px;
         }
     }
     
+    // General padding
     .storage_section_wrapper {
         padding: 8px 16px;
         .filters {
             margin: 0;
+        }
+    }
+    
+    // Total sell price
+    #sell_price {
+        .offers_quantity {
+            position: relative;
         }
     }
 }
