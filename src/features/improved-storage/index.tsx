@@ -14,6 +14,7 @@ import { ExternalProperty } from "../../hooks/external-property";
 import ItemGroup = InventoryJsonData.ItemGroups;
 import Item = InventoryJsonData.Item;
 import { retry } from "../../utils/time";
+import { AnchorHTMLAttributes } from "react";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -28,6 +29,7 @@ export const ImprovedStorage = createFeature({
     // order matters here
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
+    autoOpenSellTab();
   },
 });
 
@@ -99,6 +101,16 @@ function displayTotalPriceOnSellOffer() {
     },
     "after",
   );
+}
+
+async function autoOpenSellTab() {
+  await retry(() => {
+    const sellTab = document.querySelector<HTMLAnchorElement>("#inventory_sell");
+    if (!sellTab) {
+      throw new Error("Sell tab not found");
+    }
+    sellTab.click();
+  });
 }
 
 function buildItemsCache(itemGroups: ItemGroup[]): Map<string, Item> {
