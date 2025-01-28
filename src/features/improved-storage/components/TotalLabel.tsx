@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TotalLabel.module.scss";
+import { ExternalProperty } from "../../../hooks/external-property";
 
 export interface TotalLabelProps {
-  total: number;
+  total: ExternalProperty<number>
 }
 
 export function createTotalLabelRootElement() {
@@ -13,10 +14,15 @@ export function createTotalLabelRootElement() {
 }
 
 export const TotalLabel = (props: TotalLabelProps) => {
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    props.total.onValueChange(setTotal);
+  }, []);
+  
   return (
     <>
       <span>Total:</span>
-      <span>{props.total}</span>
+      <span>{total}</span>
     </>
   );
 };

@@ -8,11 +8,12 @@ import { log } from "../../utils/utils";
 import {
   createTotalLabelRootElement,
   TotalLabel,
-  TotalLabelProps,
 } from "./components/TotalLabel";
+import { renderElementWithRoot } from "../../utils/render";
+import { ExternalProperty } from "../../hooks/external-property";
 import ItemGroup = InventoryJsonData.ItemGroups;
 import Item = InventoryJsonData.Item;
-import { renderElement, renderElementWithRoot } from "../../utils/render";
+import { retry } from "../../utils/time";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -25,6 +26,7 @@ export const ImprovedStorage = createFeature({
     document.body.classList.add("su-improved-storage");
 
     applyMaxItemsOnSellOffer();
+    displayTotalPriceOnSellOffer();
   },
 });
 
@@ -39,7 +41,7 @@ interface SellItemsController {
   };
 }
 
-function applyMaxItemsOnSellOffer() {
+async function applyMaxItemsOnSellOffer() {
   const storageController =
     getAngularjsControllerScope<any>("StorageController");
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
@@ -51,14 +53,9 @@ function applyMaxItemsOnSellOffer() {
     sellItemsController,
   });
 
-  const itemsCache = buildItemsCache(storageController.inventory.items);
-
-  console.log(document.querySelector("#sell_offers th.offers_quantity>input"));
-
-  renderElementWithRoot(
-    <TotalLabel total={0} />,
-    createTotalLabelRootElement(),
-  ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
+  const itemsCache = await retry(() =>
+    buildItemsCache(storageController.inventory.items),
+  );
 
   wrapAngularjsCallback(
     sellItemsController,
@@ -71,9 +68,31 @@ function applyMaxItemsOnSellOffer() {
       }
 
       this.inputs.quantity = item.amountForSale ?? 1;
-      const total = this.inputs.quantity * (this.inputs.pricePerUnit ?? 0);
     },
     "before",
+  );
+}
+
+function displayTotalPriceOnSellOffer() {
+  const sellItemsController = getAngularjsControllerScope<SellItemsController>(
+    "ErpkSellItemsController",
+  );
+
+  const totalProperty = new ExternalProperty<number>(0);
+  renderElementWithRoot(
+    <TotalLabel total={totalProperty} />,
+    createTotalLabelRootElement(),
+  ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
+
+  wrapAngularjsCallback(
+    sellItemsController,
+    "onProductChange",
+    function (this: SellItemsController) {
+      const total =
+        (this.inputs.quantity ?? 0) * (this.inputs.pricePerUnit ?? 0);
+      totalProperty.update(total);
+    },
+    "after",
   );
 }
 
