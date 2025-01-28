@@ -17,6 +17,8 @@ jobs:
         run: |
           npm ci
       - name: Build
+        env:
+          REACT_APP_PUBLIC_POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
         run: |
           npm run build
       - name: Release Version
