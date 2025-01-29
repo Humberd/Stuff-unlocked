@@ -56,10 +56,10 @@ async function applyMaxItemsOnSellOffer() {
     "ErpkSellItemsController",
   );
 
-  console.log({
-    storageController,
-    sellItemsController,
-  });
+  // console.log({
+  //   storageController,
+  //   sellItemsController,
+  // });
 
   const itemsCache = await retry(() =>
     buildItemsCache(storageController.inventory.items),
