@@ -19,8 +19,6 @@ export namespace InventoryJson {
     return response.then((response) => response.json());
   }
 
-  // It's the full response from the inventory endpoint
-// /en/economy/inventory-json
   export interface ItemGroup {
     id: string;
     title: string;

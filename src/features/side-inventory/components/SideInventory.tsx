@@ -1,0 +1,37 @@
+import React from "react";
+import styles from "./SideInventory.module.scss";
+import { InventoryJson } from "../../../requests/inventory-json-data-request";
+import Item = InventoryJson.Item;
+import classNames from "classnames";
+
+interface SideInventoryProps {
+  items: Item[];
+}
+
+export function createSideInventoryRootElement() {
+  const rootElement = document.createElement("div");
+  rootElement.classList.add(styles.SideInventoryRoot);
+
+  return rootElement;
+}
+
+export const SideInventory: React.FC<SideInventoryProps> = (props) => {
+  return (
+    <div className={styles.SideInventory}>
+      {props.items.map((item) => {
+        return (
+          <div key={item.id} className={styles.Item} title={item.name}>
+            <img className={styles.Img} src={item.icon} alt={item.name} />
+            <div
+              className={classNames(styles.Text, {
+                [styles.IsActive]: item.attributes?.active,
+              })}
+            >
+              {item.amountDisplay}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};

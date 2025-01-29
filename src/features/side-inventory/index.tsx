@@ -1,15 +1,34 @@
 import { createFeature } from "../../utils/feature";
 import { InventoryJson } from "../../requests/inventory-json-data-request";
+import { renderElementWithRoot } from "../../utils/render";
+import {
+  createSideInventoryRootElement,
+  SideInventory,
+} from "./components/SideInventory";
 
+const typesToSkip = new Set([
+  "currency",
+  "vehicle_blueprint",
+  // "booster"
+]);
 
-export const SideInventory = createFeature({
+export const SideInventoryFeature = createFeature({
   name: "Side Inventory",
   // Everywhere apart from the storage page itself
   canExecute: (url) => !url.includes("/main/inventory"),
   execute: async () => {
+    const response = await InventoryJson.sendRequest({});
+    const items = response.flatMap((group) => group.items);
 
-    const response = await InventoryJson.sendRequest({})
-    console.log(response)
-    
+    const filteredItems = items
+      .filter((item) => item.type && !typesToSkip.has(item.type))
+      .filter((item) => !item.attributes?.inProduction);
+    console.log("items: ", items);
+    console.log("filteredItems: ", filteredItems);
+
+    renderElementWithRoot(
+      <SideInventory items={filteredItems} />,
+      createSideInventoryRootElement(),
+    ).after(document.querySelector("#container"));
   },
 });

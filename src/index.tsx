@@ -4,11 +4,11 @@ import "./old-index.user.js";
 import { AnAmazingJourneyFeature } from "./features/an-amazing-journey";
 import { Analytics } from "./analytics/posthog";
 import { ImprovedStorage } from "./features/improved-storage";
-import { SideInventory } from "./features/side-inventory";
+import { SideInventoryFeature } from "./features/side-inventory";
 
 log("React script has successfully started");
 
-const features = [AnAmazingJourneyFeature, ImprovedStorage, SideInventory];
+const features = [AnAmazingJourneyFeature, ImprovedStorage, SideInventoryFeature];
 
 async function onUrlChange() {
   Analytics.init();

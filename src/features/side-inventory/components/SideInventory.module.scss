@@ -1,0 +1,38 @@
+.SideInventoryRoot {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.SideInventory {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100vh;
+    
+    .Item {
+        width: 39px;
+        display: flex;
+        flex-direction: column;
+
+        .Img {
+            height: 39px;
+            width: 100%;
+            background: linear-gradient(#eef1ec, #d5decf)
+        }
+
+        .Text {
+            font: 700 10px/13px arial;
+            color: #fff;
+            width: 100%;
+            background: #83b70b;
+            text-align: center;
+            cursor: default;
+            
+            &.IsActive {
+                background: #c34141;
+            }
+        }
+    }
+    
+}
