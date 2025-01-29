@@ -13,9 +13,10 @@ import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { ExternalProperty } from "../../hooks/external-property";
 import { retry } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
-import ItemGroup = InventoryJsonData.ItemGroups;
-import Item = InventoryJsonData.Item;
+import ItemGroup = InventoryJson.ItemGroup;
+import Item = InventoryJson.Item;
 import { TotalFood } from "./components/TotalFood";
+import { InventoryJson } from "../../requests/inventory-json-data-request";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
