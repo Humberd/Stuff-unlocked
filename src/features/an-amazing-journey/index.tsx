@@ -21,7 +21,7 @@ export const AnAmazingJourneyFeature = createFeature({
   name: "An Amazing Journey",
   description:
     "An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",
-  canExecute: (url) => url.includes("/main/anniversaryQuest"),
+  canExecute: (url) => url.href.includes("/main/anniversaryQuest"),
   execute: async () => {
     renderElement(<JourneyFeatureComponent />).before(
       document.querySelector("#cityInfoTopPopup")

@@ -20,7 +20,7 @@ import Item = InventoryJson.Item;
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
-  canExecute: (url) => url.includes("/main/inventory"),
+  canExecute: (url) => url.href.includes("/main/inventory"),
   execute: async () => {
     /**
      * All the styles are loaded and applied immediately for all the views.

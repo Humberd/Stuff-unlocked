@@ -5,10 +5,16 @@ import { AnAmazingJourneyFeature } from "./features/an-amazing-journey";
 import { Analytics } from "./analytics/posthog";
 import { ImprovedStorage } from "./features/improved-storage";
 import { SideInventoryFeature } from "./features/side-inventory";
+import { MainPageFeature } from "./features/main-page";
 
 log("React script has successfully started");
 
-const features = [AnAmazingJourneyFeature, ImprovedStorage, SideInventoryFeature];
+const features = [
+  AnAmazingJourneyFeature,
+  ImprovedStorage,
+  SideInventoryFeature,
+  MainPageFeature,
+];
 
 async function onUrlChange() {
   Analytics.init();
@@ -16,7 +22,7 @@ async function onUrlChange() {
   log(`Testing ${features.length} features`);
   let executedWithSuccess = 0;
   for (const feature of features) {
-    if (feature.canExecute(window.location.href)) {
+    if (feature.canExecute(window.location)) {
       try {
         await feature.execute();
         executedWithSuccess++;
