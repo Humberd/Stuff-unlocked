@@ -23,8 +23,6 @@ export const SideInventoryFeature = createFeature({
     const filteredItems = items
       .filter((item) => item.type && !typesToSkip.has(item.type))
       .filter((item) => !item.attributes?.inProduction);
-    console.log("items: ", items);
-    console.log("filteredItems: ", filteredItems);
 
     renderElementWithRoot(
       <SideInventory items={filteredItems} />,
