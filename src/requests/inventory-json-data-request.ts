@@ -1,8 +1,25 @@
-namespace InventoryJsonData {
+import { getCookieHeaders } from "../utils/request";
 
-  // It's the full response from the inventory endpoint
-// /en/economy/inventory-json
-  export interface ItemGroups {
+export namespace InventoryJson {
+  export interface Request {}
+
+  export type Response = ItemGroup[];
+  
+  export function sendRequest(request: Request): Promise<Response> {
+    const response = fetch(
+      "https://www.erepublik.com/en/main/inventory-json",
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          ...getCookieHeaders(),
+        },
+      }
+    );
+    return response.then((response) => response.json());
+  }
+
+  export interface ItemGroup {
     id: string;
     title: string;
     items: Item[];
