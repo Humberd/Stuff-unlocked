@@ -14,7 +14,7 @@ export function error(...args: any[]) {
   console.log(
     `%c${APP_NAME} [ERROR]:`,
     "color: red; font-weight: bold; border-bottom: 1px solid red;",
-    ...args
+    ...args,
   );
 }
 
@@ -75,4 +75,13 @@ export async function awaitElement(selector: string): Promise<HTMLElement> {
 
     delayedProbe();
   });
+}
+
+export function ensure<T>(thing: T | null | undefined, message?: string): T {
+  if (!thing) {
+    const msg = message || `Expected a value, got ${thing}`;
+    throw new Error(msg);
+  }
+
+  return thing;
 }

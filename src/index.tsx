@@ -3,10 +3,11 @@ import { addLocationChangeCallback, error, log } from "./utils/utils";
 import "./old-index.user.js";
 import { AnAmazingJourneyFeature } from "./features/an-amazing-journey";
 import { Analytics } from "./analytics/posthog";
+import { ImprovedStorage } from "./features/improved-storage";
 
 log("React script has successfully started");
 
-const features = [AnAmazingJourneyFeature];
+const features = [AnAmazingJourneyFeature, ImprovedStorage];
 
 async function onUrlChange() {
   Analytics.init();

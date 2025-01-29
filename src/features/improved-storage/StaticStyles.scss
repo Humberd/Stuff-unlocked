@@ -1,0 +1,94 @@
+$size: 60px;
+
+.su-improved-storage {
+    // Items List in the storage
+    ul.item_plate_wrapper {
+        gap: 5px;
+        
+        li.empty_plate {
+            display: none;
+        }
+
+        li.item_plate.small_plate {
+            width: $size;
+            margin: 0;
+            transform: none;
+            
+            &:before {
+                content: none;
+            }
+
+            .item_plate_inner {
+                width: $size;
+                height: $size;
+            }
+
+            .item_plate_ellipse {
+                width: 100%;
+                height: 100%;
+            }
+
+            .item_plate_bottom_gradient {
+                width: 100%;
+                height: 100%;
+            }
+            .item_plate_expiration {
+                .hourglass_wrapper {
+                    width: 15px;
+                    height: 15px;
+                    img {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+            }
+            
+            .item_plate_clock {
+                width: 15px;
+                height: 15px;
+            }
+            
+            .item_plate_timer_total {
+                width: auto;
+                font-size: 0.6rem;
+                padding: 2px 12px 2px 18px;
+            }
+            
+            .item_plate_value {
+                box-sizing: border-box;
+                width: 100%;
+                height: unset;
+                padding: 2px 0;
+                font-size: 0.6rem;
+
+                img {
+                    height: 12px;
+                }
+            }
+
+            .item_plate_amount {
+                box-sizing: border-box;
+                width: 100%;
+                height: unset;
+                padding: 2px 4px;
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+        }
+    }
+    
+    // General padding
+    .storage_section_wrapper {
+        padding: 8px 16px;
+        .filters {
+            margin: 0;
+        }
+    }
+    
+    // Total sell price
+    #sell_price {
+        .offers_quantity {
+            position: relative;
+        }
+    }
+}
