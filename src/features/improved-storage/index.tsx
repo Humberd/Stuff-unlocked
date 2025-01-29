@@ -15,6 +15,7 @@ import { retry } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import ItemGroup = InventoryJsonData.ItemGroups;
 import Item = InventoryJsonData.Item;
+import { TotalFood } from "./components/TotalFood";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
@@ -30,8 +31,10 @@ export const ImprovedStorage = createFeature({
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
     // order matters end
+
     autoOpenSellTab();
     makeSectionsToggleable();
+    displayTotalFood();
   },
 });
 
@@ -156,4 +159,35 @@ function makeSectionsToggleable() {
       ) as HTMLDivElement,
     );
   });
+}
+
+async function displayTotalFood() {
+  const storageController =
+    getAngularjsControllerScope<any>("StorageController");
+
+  let totalFoodEnergy = 0;
+  await retry(() => {
+    totalFoodEnergy = 0;
+    storageController.inventory.items.forEach((group: any) => {
+      group.items.forEach((item: any) => {
+        if (item.type === "food") {
+          // For some reason the energy string ("+2") has some weird bytes around it
+          // bytes: [ 226, 129, 160, 43, 50, 226, 129, 160 ], where 43 is "+" and 50 is "2"
+          // the regex below removes these bytes, so that it can be nicely parsed to a number
+          const energyWithoutHiddenSpaces = item.attributes.energy.replace(
+            /[\u2060]/g,
+            "",
+          );
+          totalFoodEnergy +=
+            (item.attributes.storage ?? 0) * energyWithoutHiddenSpaces;
+        }
+      });
+    });
+  });
+
+  renderElement(<TotalFood totalEnergy={totalFoodEnergy} />).before(
+    document.querySelector(
+      "#mainStorage >.section_separator > .top_right > .used_storage_wrapper",
+    ),
+  );
 }

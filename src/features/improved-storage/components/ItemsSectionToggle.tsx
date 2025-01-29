@@ -15,7 +15,6 @@ export const ItemsSectionToggle: React.FC<ItemsSectionToggleProps> = (
   useEffect(() => {
     const section = ensure(document.getElementById(props.sectionId));
     const sectionWrapper = ensure(section.querySelector(".storage_section_wrapper"));
-    console.log(sectionWrapper);
     if (isOpened) {
       sectionWrapper.classList.remove(styles.Hidden);
     } else {
