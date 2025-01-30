@@ -3,7 +3,7 @@ import { log } from "./utils";
 export interface Feature {
   name: string;
   description?: string;
-  canExecute: (url: string) => boolean;
+  canExecute: (url: Location) => boolean;
   execute: () => Promise<void> | void;
 }
 

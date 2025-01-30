@@ -15,7 +15,7 @@ const typesToSkip = new Set([
 export const SideInventoryFeature = createFeature({
   name: "Side Inventory",
   // Everywhere apart from the storage page itself
-  canExecute: (url) => !url.includes("/main/inventory"),
+  canExecute: (url) => !url.href.includes("/main/inventory"),
   execute: async () => {
     const response = await InventoryJson.sendRequest({});
     const items = response.flatMap((group) => group.items);
