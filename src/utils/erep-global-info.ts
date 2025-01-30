@@ -1,5 +1,6 @@
 declare const erepublik: any;
 declare const SERVER_DATA: any;
+declare const Environment: any;
 
 export function getCitizenshipCurrencyName(): string {
   return erepublik.citizen.citizenshipCurrencyName;
@@ -15,4 +16,8 @@ export function getAuthToken() {
 
 export function getCsrfToken() {
   return SERVER_DATA.csrfToken;
+}
+
+export function isOnHomepage(): boolean {
+  return Environment.isOnHomepage;
 }

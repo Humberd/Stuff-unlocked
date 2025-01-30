@@ -1,0 +1,35 @@
+.StorageInfo {
+    margin-left: 4px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.MainRow {
+    display: inline-flex;
+}
+
+.MainText {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+    font-weight: 700;
+}
+
+.SecondaryText {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+.SupportingRow {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+    margin-left: 30px;
+    margin-top: 4px;
+}
+
+.Image {
+    height: 14px;
+    margin-right: 4px;
+}
