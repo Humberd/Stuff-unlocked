@@ -20,3 +20,12 @@ export async function retry<T>(
     }
   }
 }
+
+export async function countTimeSpent<T>(
+  callback: () => T,
+): Promise<{ result: T; timeSpent: number }> {
+  const start = Date.now();
+  const result = await callback();
+  const end = Date.now();
+  return { result, timeSpent: end - start };
+}

@@ -6,6 +6,8 @@ import { Analytics } from "./analytics/posthog";
 import { ImprovedStorage } from "./features/improved-storage";
 import { SideInventoryFeature } from "./features/side-inventory";
 import { MainPageFeature } from "./features/main-page";
+import { countTimeSpent } from "./utils/time";
+import { formatNumber } from "./utils/format";
 
 log("React script has successfully started");
 
@@ -19,20 +21,34 @@ const features = [
 async function onUrlChange() {
   Analytics.init();
 
-  log(`Testing ${features.length} features`);
+  log(`Found ${features.length} features. Executing...`);
   let executedWithSuccess = 0;
-  for (const feature of features) {
-    if (feature.canExecute(window.location)) {
-      try {
-        await feature.execute();
-        executedWithSuccess++;
-      } catch (e) {
-        error(`Feature ${feature.name} failed to execute`);
-        error(e);
-      }
+  const promises = features.map(async (feature, index) => {
+    const counterString = `[${index + 1}/${features.length}]`;
+
+    if (!feature.canExecute(window.location)) {
+      log(
+        `${counterString} [SKIP] [${feature.name}] cannot execute on this page`,
+      );
+      return;
     }
-  }
-  log(`Executed ${executedWithSuccess}/${features.length} features`);
+    try {
+      log(`${counterString} [${feature.name}] executing...`);
+      const { timeSpent } = await countTimeSpent(() => feature.execute());
+      log(
+        `${counterString} [${feature.name}] executed successfully in ${formatNumber(timeSpent)}ms`,
+      );
+      executedWithSuccess++;
+    } catch (e) {
+      error(`Feature ${feature.name} failed to execute`);
+      error(e);
+    }
+  });
+
+  const {timeSpent} = await countTimeSpent(() => Promise.all(promises));
+  log(
+    `[SUCCESS] ${executedWithSuccess}/${features.length} features started successfully in ${formatNumber(timeSpent)}ms`,
+  );
 }
 
 if (document.readyState === "loading") {
