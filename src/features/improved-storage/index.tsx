@@ -17,10 +17,12 @@ import { TotalFood } from "./components/TotalFood";
 import { InventoryJson } from "../../requests/inventory-json-data-request";
 import ItemGroup = InventoryJson.ItemGroup;
 import Item = InventoryJson.Item;
+import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
 
 export const ImprovedStorage = createFeature({
   name: "Improved Storage",
   canExecute: (url) => url.href.includes("/main/inventory"),
+  isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
   execute: async () => {
     /**
      * All the styles are loaded and applied immediately for all the views.

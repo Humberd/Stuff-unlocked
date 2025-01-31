@@ -32,6 +32,13 @@ async function onUrlChange() {
       );
       return;
     }
+    if (feature.isSettingEnabled && !feature.isSettingEnabled()) {
+      log(
+        `${counterString} [SKIP] [${feature.name}] is disabled in settings`,
+      );
+      return;
+    }
+    
     try {
       log(`${counterString} [${feature.name}] executing...`);
       const { timeSpent } = await countTimeSpent(() => feature.execute());
