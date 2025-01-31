@@ -17,6 +17,8 @@ export const Analytics = {
     posthog.init(key, {
       api_host: "https://eu.i.posthog.com",
       person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+      capture_pageview: false,
+      capture_pageleave: "if_capture_pageview",
     });
     isInitialized = true;
   },

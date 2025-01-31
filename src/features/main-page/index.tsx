@@ -17,7 +17,6 @@ async function storageInfo() {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const selectors = ".used_storage_wrapper .used_storage";
-  console.log(doc);
   const currencyAmount = doc.querySelector(selectors);
   if (!currencyAmount) {
     console.error(`Element with selector '${selectors}' not found`);
