@@ -27,11 +27,28 @@ export const Analytics = {
   postFeaturesExecutedEvent: (event: FeaturesExecutedEvent) => {
     posthog.capture("features_executed", {
       ...event,
-      citizenId: getCitizenId(),
-      stuffVersion: getStuffVersion(),
+      ...defaultProperties(),
+    });
+  },
+  postVipClaimSuccessEvent: () => {
+    posthog.capture("vip_claim_success", {
+      ...defaultProperties(),
+    });
+  },
+  postVipClaimErrorEvent: (error: string) => {
+    posthog.capture("vip_claim_error", {
+      ...defaultProperties(),
+      error,
     });
   }
 };
+
+function defaultProperties() {
+  return {
+    citizenId: getCitizenId(),
+    stuffVersion: getStuffVersion(),
+  };
+}
 
 interface FeaturesExecutedEvent {
   features: Record<string, FeatureExecutionStatus>;

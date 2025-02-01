@@ -4,6 +4,8 @@ import { formatNumber } from "../../../utils/format";
 import { Button } from "../../../common-components/button/Button";
 import { VipClaim } from "../../../requests/vip-claim-request";
 import { getCsrfToken } from "../../../utils/erep-global-info";
+import { log } from "../../../utils/utils";
+import { Analytics } from "../../../analytics/posthog";
 
 interface VipStatusProps {
   level: number;
@@ -21,10 +23,12 @@ export const VipStatus: React.FC<VipStatusProps> = (props) => {
       _token: getCsrfToken(),
     });
     if (response.error) {
-      console.error("Failed to claim VIP points", response.message);
+      log("Failed to claim VIP points", response.message);
+      Analytics.postVipClaimErrorEvent(response.message);
       setClaimStatus(response.message);
       return;
     }
+    Analytics.postVipClaimSuccessEvent();
     setClaimStatus("✔️ Claimed");
   };
 
