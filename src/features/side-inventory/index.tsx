@@ -14,6 +14,7 @@ const typesToSkip = new Set([
 ]);
 
 export const SideInventoryFeature = createFeature({
+  id: "side_inventory",
   name: "Side Inventory",
   // Everywhere apart from the storage page itself
   canExecute: (url) => !url.href.includes("/main/inventory"),

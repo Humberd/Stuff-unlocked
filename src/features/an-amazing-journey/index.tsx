@@ -18,6 +18,7 @@ const TIMER_INTERVAL_MS = 5_000;
 const currentTravelRoute = travelRouteMain;
 
 export const AnAmazingJourneyFeature = createFeature({
+  id: "amazing_journey",
   name: "An Amazing Journey",
   description:
     "An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",

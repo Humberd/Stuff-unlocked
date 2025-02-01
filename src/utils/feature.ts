@@ -1,4 +1,5 @@
 export interface Feature {
+  id: string;
   name: string;
   description?: string;
   canExecute: (url: Location) => boolean;

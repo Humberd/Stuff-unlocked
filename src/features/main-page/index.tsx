@@ -5,6 +5,7 @@ import { StorageInfo } from "./components/StorageInfo";
 import { InventoryHtml } from "../../requests/inventory-html-request";
 
 export const MainPageFeature = createFeature({
+  id: "main_page",
   name: "Main Page",
   canExecute: (url) => isOnHomepage(),
   execute: async () => {

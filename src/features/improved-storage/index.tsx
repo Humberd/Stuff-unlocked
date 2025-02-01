@@ -20,6 +20,7 @@ import Item = InventoryJson.Item;
 import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
 
 export const ImprovedStorage = createFeature({
+  id: "improved_storage",
   name: "Improved Storage",
   canExecute: (url) => url.href.includes("/main/inventory"),
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),

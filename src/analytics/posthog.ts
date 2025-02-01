@@ -1,5 +1,6 @@
 import posthog from "posthog-js";
 import { log } from "../utils/utils";
+import { getCitizenId, getStuffVersion } from "../utils/erep-global-info";
 
 let isInitialized = false;
 
@@ -22,4 +23,23 @@ export const Analytics = {
     });
     isInitialized = true;
   },
+  postFeaturesExecutedEvent: (event: FeaturesExecutedEvent) => {
+    posthog.capture("features_executed", {
+      ...event,
+      citizenId: getCitizenId(),
+      stuffVersion: getStuffVersion(),
+    });
+  }
 };
+
+interface FeaturesExecutedEvent {
+  features: Record<string, FeatureExecutionStatus>;
+  totalTimeSpentMs: number;
+}
+
+export interface FeatureExecutionStatus {
+  timeSpentMs?: number;
+  success?: boolean;
+  error?: string;
+  skipped?: string;
+}
