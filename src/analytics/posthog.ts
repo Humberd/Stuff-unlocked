@@ -40,6 +40,11 @@ export const Analytics = {
       ...defaultProperties(),
       error,
     });
+  },
+  postWcCalculatorOpenedEvent: () => {
+    posthog.capture("wc_calculator_opened", {
+      ...defaultProperties(),
+    });
   }
 };
 

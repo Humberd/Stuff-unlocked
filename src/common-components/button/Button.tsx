@@ -32,6 +32,7 @@ export interface LinkButtonProps {
   size?: "small" | "medium" | "large";
   href: string;
   target?: "_blank" | "_self";
+  onClick?: () => void;
 }
 
 export const LinkButton: React.FC<LinkButtonProps> = (props) => {
@@ -46,6 +47,7 @@ export const LinkButton: React.FC<LinkButtonProps> = (props) => {
       })}
       href={props.href}
       target={props.target}
+      onClick={props.onClick}
     >
       {props.children}
     </a>
