@@ -9,7 +9,7 @@ export const MainPageFeature = createFeature({
   name: "Main Page",
   canExecute: (url) => isOnHomepage(),
   execute: async () => {
-    storageInfo();
+    await storageInfo();
   },
 });
 
