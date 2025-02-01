@@ -2851,12 +2851,12 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                 });
                                 expect("#Total_net", (dashboardPanel) => {
                                   return (dashboardPanel.innerHTML =
-                                      '<strong style="top:39px;left:611px">Total Net</strong>');
+                                      '<strong style="top:39px;left:478px">Total Net</strong>');
                                 });
                               }
 
                               append(
-                                  "#Total_netF,.Total_net,.offer_price{text-align:right}#Total_netF span,.Total_net span,.offer_price span{margin-right:1px;font-size:11px}#Total_net *{position:absolute}tfoot tr{background:#f7fcff}#totalFoodHP{float:right;margin:5px 30px 0;color:#656565}#inventory_overview #sell_offers table td:last-child{padding-left:0}#inventory_overview #sell_offers table .delete_offer{opacity:1}"
+                                  "#Total_net {width: 100px}#Total_netF,.Total_net,.offer_price{text-align:right}#Total_netF span,.Total_net span,.offer_price span{margin-right:1px;font-size:11px}#Total_net *{position:absolute}tfoot tr{background:#f7fcff}#totalFoodHP{float:right;margin:5px 30px 0;color:#656565}#inventory_overview #sell_offers table td:last-child{padding-left:0}#inventory_overview #sell_offers table .delete_offer{opacity:1}"
                               );
                               data.goldPrice = data.goldPrice || {};
                               if (data.goldPrice.date != now) {
