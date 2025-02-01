@@ -1,3 +1,14 @@
+# 5.72 (01.02.2025)
+* Fix: disable autocapture in analytics
+* Fix: Formatting in market offers in a storage
+* Fix: Omit displaying old total net value in the storage marget
+* Fix: Displaying total value of products
+* Fix: Execute angular callback in angular scope
+* Fix: Move Total net label to the left in the storage
+* Fix: Storage feature not waiting for the view to load
+* Fix: Market sell tab only opens it when it's closed
+* Fix: Remove old total food in inventory
+
 # 5.71 (01.02.2025)
 * Fix: Linter warnings
 * Misc: Add analytics call when features stop executing
