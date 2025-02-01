@@ -3,7 +3,7 @@ import "./StaticStyles.scss";
 import {
   executeInAngularScope,
   getAngularjsControllerScope,
-  wrapAngularjsCallback
+  wrapAngularjsCallback,
 } from "../../angularjs-utils";
 import { log } from "../../utils/utils";
 import {
@@ -12,7 +12,7 @@ import {
 } from "./components/TotalLabel";
 import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { ExternalProperty } from "../../hooks/external-property";
-import { retry, retryNullish } from "../../utils/time";
+import { retry, retryNullish, waitFor } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import { TotalFood } from "./components/TotalFood";
 import { InventoryJson } from "../../requests/inventory-json-data-request";
@@ -27,7 +27,7 @@ export const ImprovedStorage = createFeature({
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
   execute: async () => {
     // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
-    await retryNullish(() => document.querySelector("#mainStorage"), 20, 100);
+    await retryNullish(() => document.querySelector("#mainStorage"), "Main storage not found",20, 100);
     /**
      * All the styles are loaded and applied immediately for all the views.
      * Adding this class make these static styles scoped, so that they only apply to this view.
@@ -37,7 +37,12 @@ export const ImprovedStorage = createFeature({
     makeSectionsToggleable();
     displayTotalFood();
 
-    await retryNullish(() => document.querySelector("#sell_offers .offers_product"), 20, 100);
+    await retryNullish(
+      () => document.querySelector("#sell_offers .offers_product"),
+      "Sell offers not found",
+      20,
+      100,
+    );
     // order matters start
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
@@ -65,10 +70,10 @@ async function applyMaxItemsOnSellOffer() {
     "ErpkSellItemsController",
   );
 
-  // console.log({
-  //   storageController,
-  //   sellItemsController,
-  // });
+  console.log({
+    storageController,
+    sellItemsController,
+  });
 
   const itemsCache = await retry(() =>
     buildItemsCache(storageController.inventory.items),
@@ -96,7 +101,7 @@ async function applyMaxItemsOnSellOffer() {
   });
 }
 
-function displayTotalPriceOnSellOffer() {
+async function displayTotalPriceOnSellOffer() {
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
     "ErpkSellItemsController",
   );
@@ -107,16 +112,46 @@ function displayTotalPriceOnSellOffer() {
     createTotalLabelRootElement(),
   ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
 
+  const offersQuantityInput = await retryNullish(() =>
+    document.querySelector<HTMLInputElement>(
+      "#sell_offers .offers_quantity input",
+    ),
+    "Offers quantity input not found",
+  );
+  const pricePerUnitInput = await retryNullish(() =>
+    document.querySelector<HTMLInputElement>(
+      "#sell_offers .offers_price input",
+    ),
+    "Price per unit input not found",
+  );
+
+  offersQuantityInput.addEventListener("input", updateTotalPrice);
+  pricePerUnitInput.addEventListener("input", updateTotalPrice);
+
+  function updateTotalPrice() {
+    const total =
+      Number(offersQuantityInput?.value ?? 0) *
+      Number(pricePerUnitInput?.value ?? 0);
+    console.log(
+      offersQuantityInput?.value,
+      pricePerUnitInput?.value,
+    );
+    console.log("Total price", total);
+    totalProperty.update(total);
+  }
+
   wrapAngularjsCallback(
     sellItemsController,
     "onProductChange",
     function (this: SellItemsController) {
-      const total =
-        (this.inputs.quantity ?? 0) * (this.inputs.pricePerUnit ?? 0);
-      totalProperty.update(total);
+      updateTotalPrice();
     },
     "after",
   );
+  
+  waitFor(1).then(() => {
+    updateTotalPrice();
+  });
 }
 
 async function autoOpenSellTab() {

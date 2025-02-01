@@ -26,6 +26,7 @@ export async function retry<T>(
 
 export async function retryNullish<T>(
   callback: () => T | null | undefined,
+  message: string = "Nullish value",
   maxRetries: number = 3,
   retryDelayMs: number = 300,
 ): Promise<T> {
@@ -37,10 +38,10 @@ export async function retryNullish<T>(
     }
 
     if (retries >= maxRetries) {
-      throw new Error("Retries exceeded");
+      throw new Error(`Retries exceeded ${message}`);
     }
     retries++;
-    log("Retrying...");
+    log(`${retries}/${maxRetries} Retrying... ${message}`);
     await waitFor(retryDelayMs);
   }
 }
