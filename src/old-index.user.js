@@ -2865,19 +2865,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                 });
                               }
 
-                              /**
-                               * @return {undefined}
-                               */
-                              function renderTotalFoodHp() {
-                                /** @type {string} */
-                                document.getElementById(
-                                    "totalFoodHP"
-                                ).innerHTML =
-                                    "Total food: " +
-                                    resolve(path[0] + path[1]) +
-                                    "HP";
-                              }
-
                               append(
                                   "#Total_netF,.Total_net,.offer_price{text-align:right}#Total_netF span,.Total_net span,.offer_price span{margin-right:1px;font-size:11px}#Total_net *{position:absolute}tfoot tr{background:#f7fcff}#totalFoodHP{float:right;margin:5px 30px 0;color:#656565}#inventory_overview #sell_offers table td:last-child{padding-left:0}#inventory_overview #sell_offers table .delete_offer{opacity:1}"
                               );
@@ -3058,7 +3045,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                               : 20);
                                     }
                                   });
-                                  renderTotalFoodHp();
                                   /** @type {string} */
                                   document.getElementById(
                                       "Total_netF"
