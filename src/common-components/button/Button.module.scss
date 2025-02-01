@@ -1,0 +1,27 @@
+.Button {
+    background-color: #868686;
+    color: #fff;
+    border-radius: 2px;
+    outline: 0;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+    font-weight: 700;
+    border: 0;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 4px 8px;
+    
+    &:not(:disabled) {
+        background-color: #4d93bc;
+        box-shadow: 0 2px 2px 1px rgba(0,0,0,.25),0 2px 0 0 #4991bb,0 0 7px 3px rgba(0,0,0,.1) inset;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: #5c9cc2;
+        }
+        
+        &:active {
+            color: rgba(255,255,255,.7);
+            box-shadow: 0 2px 3px 1px rgba(0,0,0,.4) inset;
+        }
+    }
+}
