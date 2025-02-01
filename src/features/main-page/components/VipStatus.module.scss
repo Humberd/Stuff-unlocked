@@ -1,0 +1,39 @@
+.VipStatus {
+    margin-top: 4px;
+    margin-left: 8px;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.MainRow {
+    display: inline-flex;
+}
+
+.MainText {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+    font-weight: 700;
+}
+
+.SecondaryText {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+.SupportingRow {
+    font-size: 11px;
+    color: #5a5a5a;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+    margin-top: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.Image {
+    height: 14px;
+    margin-right: 10px;
+}
