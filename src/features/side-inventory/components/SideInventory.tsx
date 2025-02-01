@@ -26,6 +26,7 @@ export const SideInventory: React.FC<SideInventoryProps> = (props) => {
             <div
               className={classNames(styles.Text, {
                 [styles.IsActive]: item.attributes?.active,
+                [styles.IsTemporary]: item.attributes?.temporary,
               })}
             >
               {item.amountDisplay}
