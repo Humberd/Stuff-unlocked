@@ -35,7 +35,23 @@
             &.IsTemporary {
                 background: #bf8807;
             }
+            &.ExpiresSoon {
+                animation: blink 2s infinite;
+                animation-timing-function: steps(1, end);
+            }
         }
     }
-    
+}
+
+// animation of blinking background
+@keyframes blink {
+    0% {
+        background: #d10000;
+    }
+    50% {
+        background: #bf8807;
+    }
+    100% {
+        background: #d10000;
+    }
 }
