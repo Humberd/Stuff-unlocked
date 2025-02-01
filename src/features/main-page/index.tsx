@@ -1,21 +1,41 @@
 import { createFeature } from "../../utils/feature";
 import { isOnHomepage } from "../../utils/erep-global-info";
-import { renderElement } from "../../utils/render";
+import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { StorageInfo } from "./components/StorageInfo";
 import { InventoryHtml } from "../../requests/inventory-html-request";
 import { VipShopHtml } from "../../requests/vip-shop-html-request";
 import { VipStatus } from "./components/VipStatus";
 import { ensure } from "../../utils/utils";
+import {
+  createWeeklyChallengeCalculatorButtonRootElement,
+  WeeklyChallengeCalculatorButton,
+} from "./components/WeeklyChallengeCalculatorButton";
+import { retryNullish } from "../../utils/time";
 
 export const MainPageFeature = createFeature({
   id: "main_page",
   name: "Main Page",
   canExecute: (url) => isOnHomepage(),
   execute: async () => {
+    await weeklyChallengeCalculator();
     await vipInfo();
     await storageInfo();
   },
 });
+
+async function weeklyChallengeCalculator() {
+  await retryNullish(
+    () => document.querySelector("#weeklyChallenge"),
+    "Can't find weekly challenge section",
+    40,
+    50,
+  );
+
+  renderElementWithRoot(
+    <WeeklyChallengeCalculatorButton />,
+    createWeeklyChallengeCalculatorButtonRootElement(),
+  ).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));
+}
 
 async function vipInfo() {
   const html = await VipShopHtml.sendRequest({});
