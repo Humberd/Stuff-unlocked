@@ -40,3 +40,8 @@ export function wrapAngularjsCallback(
     }
   };
 }
+
+export function executeInAngularScope(callback: () => void) {
+  const scope = angular.element(document.body).scope();
+  scope.$apply(callback);
+}

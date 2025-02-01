@@ -1,8 +1,9 @@
 import { createFeature } from "../../utils/feature";
 import "./StaticStyles.scss";
 import {
+  executeInAngularScope,
   getAngularjsControllerScope,
-  wrapAngularjsCallback,
+  wrapAngularjsCallback
 } from "../../angularjs-utils";
 import { log } from "../../utils/utils";
 import {
@@ -33,14 +34,16 @@ export const ImprovedStorage = createFeature({
      */
     document.body.classList.add("su-improved-storage");
 
+    makeSectionsToggleable();
+    displayTotalFood();
+
+    await retryNullish(() => document.querySelector("#sell_offers .offers_product"), 20, 100);
     // order matters start
     displayTotalPriceOnSellOffer();
     applyMaxItemsOnSellOffer();
     // order matters end
 
     autoOpenSellTab();
-    makeSectionsToggleable();
-    displayTotalFood();
   },
 });
 
@@ -87,8 +90,10 @@ async function applyMaxItemsOnSellOffer() {
   );
 
   // Autofill Food Q1
-  // @ts-ignore
-  sellItemsController.onProductChange(1, 1);
+  executeInAngularScope(() => {
+    // @ts-ignore
+    sellItemsController.onProductChange(1, 1);
+  });
 }
 
 function displayTotalPriceOnSellOffer() {

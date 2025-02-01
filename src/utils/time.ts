@@ -18,6 +18,7 @@ export async function retry<T>(
         throw error;
       }
       retries++;
+      log("Retrying...");
       await waitFor(retryDelayMs);
     }
   }
