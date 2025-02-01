@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styles from "./VipStatus.module.scss";
 import { formatNumber } from "../../../utils/format";
 import { Button } from "../../../common-components/button/Button";
-import { waitFor } from "../../../utils/time";
+import { VipClaim } from "../../../requests/vip-claim-request";
+import { getCsrfToken } from "../../../utils/erep-global-info";
 
 interface VipStatusProps {
   level: number;
@@ -12,27 +13,27 @@ interface VipStatusProps {
 }
 
 export const VipStatus: React.FC<VipStatusProps> = (props) => {
-  const [isClaimingLoading, setIsClaimingLoading] = useState(false);
-  const [isClaimedByButton, setIsClaimedByButton] = useState(false);
+  const [claimStatus, setClaimStatus] = useState<string | null>(null);
 
   const handleClaim = async () => {
-    setIsClaimingLoading(true);
-    await waitFor(2000);
-    setIsClaimedByButton(true);
-    // await VipClaim.sendRequest({});
-    setIsClaimingLoading(false);
+    setClaimStatus("Claiming...")
+    const response = await VipClaim.sendRequest({
+      _token: getCsrfToken(),
+    });
+    if (response.error) {
+      console.error("Failed to claim VIP points", response.message);
+      setClaimStatus("Error");
+      return;
+    }
+    setClaimStatus("✔️ Claimed");
   };
 
   function renderClaimButton() {
     if (props.isClaimed) {
       return;
     }
-    if (isClaimedByButton) {
-      return <Button disabled>✔️ Claimed</Button>;
-    }
-
-    if (isClaimingLoading) {
-      return <Button disabled>Claiming...</Button>;
+    if (claimStatus) {
+      return <Button disabled>{claimStatus}</Button>;
     }
 
     return <Button onClick={handleClaim}>Claim VIP Points</Button>;

@@ -36,14 +36,14 @@ async function vipInfo() {
       .textContent?.trim()
       ?.replace(",", ""),
   );
-  // const isClaimed = doc.querySelector("#vip_claimed.disabled") !== null;
+  const isClaimed = doc.querySelector("#vip_claimed.disabled") !== null;
 
   renderElement(
     <VipStatus
       level={vipLevel}
       currentPoints={vipPoints}
       totalPoints={nextVipPoints}
-      isClaimed={false}
+      isClaimed={isClaimed}
     />,
   ).after(document.querySelector(".sidebar .currency_amount"));
 }
