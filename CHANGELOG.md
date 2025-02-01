@@ -1,3 +1,20 @@
+# 5.71 (01.02.2025)
+* Fix: Linter warnings
+* Misc: Add analytics call when features stop executing
+* Fix: Add space in the storage details
+* Feat: Put new features behind legacy settings panel
+* Misc: Improve logging when the app starts
+* Misc: Prevent sending events on page views
+* Feat: Display storage info on the main page (#49)
+* Fix: Make side inventory stick when scrolling
+* Feat: Side inventory (#48)
+* Fix: bring back Merc and FF medals counter in the wars page
+* Feat: Storage page (#46)
+* Misc: Update github action workflow to provide posthog key
+* Misc: Add Posthog analytics
+* Misc: fix broken link in README
+* Misc: Specify exact node versions
+
 # 5.70 (30.01.2024)
 * Feat: Display all air weapons in the top right corner
 * Fix: missing document.head in Chrome
