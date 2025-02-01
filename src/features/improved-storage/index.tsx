@@ -119,6 +119,9 @@ async function autoOpenSellTab() {
     if (!sellTab) {
       throw new Error("Sell tab not found");
     }
+    if (sellTab.classList.contains("down")) {
+      return;
+    }
     sellTab.click();
   });
 }
