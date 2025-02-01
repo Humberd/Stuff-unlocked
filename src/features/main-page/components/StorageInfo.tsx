@@ -23,7 +23,7 @@ export const StorageInfo: React.FC<StorageInfoProps> = (props) => {
         </div>
       </div>
       <div className={styles.SupportingRow}>
-        {formatNumber(props.current)}/{formatNumber(props.total)}
+        {formatNumber(props.current)} / {formatNumber(props.total)}
       </div>
     </div>
   );
