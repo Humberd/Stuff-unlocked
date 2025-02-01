@@ -17,6 +17,7 @@ export const WeeklyChallengeCalculatorButton: React.FC<
   return (
     <LinkButton
       href={"https://humberd.github.io/Weekly-Challenge-Calculator"}
+      size={"small"}
       target="_blank"
     >
       ⭐ WC calculator
