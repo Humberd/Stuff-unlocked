@@ -22,7 +22,7 @@ export const VipStatus: React.FC<VipStatusProps> = (props) => {
     });
     if (response.error) {
       console.error("Failed to claim VIP points", response.message);
-      setClaimStatus("Error");
+      setClaimStatus(response.message);
       return;
     }
     setClaimStatus("✔️ Claimed");
