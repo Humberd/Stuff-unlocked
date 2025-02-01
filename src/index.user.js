@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.72
+// @version		5.73
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -185,7 +185,7 @@ if(SERVER_DATA.sessionValidation){}else{hookUpFeedCommentsScroll();hookUpPowerSp
                  */function toDateInputStr(){/** @type {number} */localStorage["promoPopupTimestamp_"+playdate.getFullYear()+"-"+playdate.getMonth()+"-"+playdate.getDate()]=9999999999999;}/** @type {!Date} */var playdate=new Date();toDateInputStr();playdate.setDate(playdate.getDate()+1);toDateInputStr();}(),data.closeTPnotifications||done("citizenNotifications",function(){/** @type {number} */var idx_last=0;var $scope=angular.element("#SideNotificationController").scope();for(let e of $scope.notifications){if(e.iconURL&&e.iconURL.includes("atriot")){idx_last++;}}for(;idx_last>0;){if($scope.notifications.active.iconURL.includes("atriot")){$scope.closeNotif();/** @type {number} */idx_last=idx_last-1;}else{$scope.goNext();}}})),data.showStats||path||(append("#NoKills{cursor:pointer;font:700 11px/14px arial;float:left;width:145px;margin:6px 3px 0}#NoKills strong{color:#666}#NoKills span{color:#3c8fa7;float:right}"),expect(".user_finances",table=>{return table.insertAdjacentHTML("afterEnd",'<div id="NoKills">'+(result[0]||result[1]?"<strong>Kills | PP:</strong><span>"+resolve(result[0])+" | "+resolve(result[1])+"</span>":"")+(result[2]?"<br><strong>Ground:</strong><span>"+resolve(result[2])+"</span>":"")+(result[3]?"<br><strong>Air:</strong><span>"+resolve(result[3])+"</span>":"")+"</div>");}),expect("#NoKills",connect=>{return connect.addEventListener("click",resetTodayStats);})),toTop&&(destinationUnitName||/military\/campaigns|\/citizen\/profile|donate-items|\/economy\/marketplace|economy\/myCompanies/.test(location.href))&&!data.displayStorage&&destinationUnitName){test("/"+side+"/military/campaignsJson/list",function(sortie){battleListingScope={campaigns:{initialList:sortie.battles},requestTime:sortie.time};if(!data.epicSensor&&toTop){(function(){/**
                        * @param {number} b
                        * @return {undefined}
-                       */function success(b){$(battleListingScope.campaigns.initialList,function(i,marker){/** @type {!Array} */var a=[];/** @type {number} */var startDate=0;if(marker.is_dict||marker.is_lib||$(marker.div,function(moz,options){var endDate=options.epic;if((hasDate||options.div==date||options.div>10)&&!options.end&&0===options.terrain&&endDate&&endDate>=startDate){startDate=endDate;/** @type {!Array} */a=[endDate,moz];}}),a[0]==b){return n=true,document.getElementById("menu3").insertAdjacentHTML("beforeEnd",'<a id="epicLink" division="'+a[1]+'" href="/'+side+"/military/battlefield/"+i+'" style="position:absolute;top:8px;left:225px;width:30px;background:none"><img src="/images/modules/misc/'+(b>1?"epic_battles_icon":"full_scale_battle")+'.png" style="width:30px"></a>'),document.getElementById("epicLink").addEventListener("click",function(){event.preventDefault();value(this.href.split("battlefield/")[1],this.getAttribute("division"));}),document.title=(b>1?"EPIC BATTLE":"FULL SCALE")+" DETECTED",false;}});}/** @type {boolean} */var n=false;success(2);if(!n){success(1);}})();}});done("weekly-challenge-data",function(){append("#WCSimulator{position:absolute;right:10px;top:1px;font:700 11px/14px arial;text-shadow:0 0 2px #000;color:#fff;padding:0 3px;background:#83b70b;border-radius:1px}#WCSimulator:hover{background:#fb7e3d}");expect("#weeklyChallenge",types=>{return types.insertAdjacentHTML("beforeEnd",'<a href="https://humberd.github.io/Weekly-Challenge-Calculator" target="_blank" id="WCSimulator">⭐ WC calculator</a>');});if(expect(".get_milestone_reward").length&&!expect(".collectAll").length){expect(".player_layer",types=>{return types.insertAdjacentHTML("beforeEnd",'<a href="javascript:" class="std_global_btn collectAll blueColor floatRight iconBtn" style="top:-33px;"><img src="//www.erepublik.net/images/modules/weekly_challenge/collect-all.png" alt="Get all rewards"></a>');});expect(".collectAll",e=>{return e.addEventListener("click",function(){angular.element("#weeklyChallenge").scope().getAllReward();e.remove();});});}});if(!data.hideMedals){append("#citizenFeed .postsWrapper .postContainer.autoPost{display:none}");done("wall-post/retrieve",function(){if(expect(".postContainer:not(.autoPost)").length<5){expect(".previousposts")[0].click();}});}}else{if(chans){battleListingScope=angular.element("#ListCampaignsController").scope();if(toTop){if(!data.compactWarsPage){append("#header{position:sticky;top:0;z-index:9;background:#fff}.war_card{width:236px!important;height: 214px!important;margin:0!important}.black_bar{width:100%!important}#ListCampaignsController br{display:none}.timer{bottom:17px!important;color:#fff!important;pointer-events:none}.card_bottom{height:16px!important}.fight_btn{bottom:0!important}.fight_btn img{display:none!important}.country_name{max-width:120px!important}.fight{bottom:23px}.hexagons{height:115px!important}.campaign{visibility:hidden}");}if(!data.replaceWaitingwithCountdown){setInterval(function(){var startTime=battleListingScope.campaigns.requestTime;expect(".timer:not(.countdownAdded)",function(col){col.classList.add("countdownAdded");/** @type {number} */var result=angular.element(col).scope().campaign.start-startTime;if(result>0){cb(col,result,selfContext=>{return selfContext.textContent="00h:00m";});}});},500);}if(!data.mercFF){link();}}}else{if(ms){if(append("#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}"),localStorage.hasMaverick=SERVER_DATA.canSwitchDivisions,afterRequestCallbacks.push(function(data,url){if(!(!/fight-shoo|deploy-bomb/.test(url)||data.error||"ENEMY_KILLED"!=data.message&&"OK"!=data.message&&!data.data)){checkKillProgress(data);}}),setTimeout(function(){pomelo.on("onDeployFinished",data=>{return checkKillProgress(data,true);});},2e3),data.battlefield||function(){/**
+                       */function success(b){$(battleListingScope.campaigns.initialList,function(i,marker){/** @type {!Array} */var a=[];/** @type {number} */var startDate=0;if(marker.is_dict||marker.is_lib||$(marker.div,function(moz,options){var endDate=options.epic;if((hasDate||options.div==date||options.div>10)&&!options.end&&0===options.terrain&&endDate&&endDate>=startDate){startDate=endDate;/** @type {!Array} */a=[endDate,moz];}}),a[0]==b){return n=true,document.getElementById("menu3").insertAdjacentHTML("beforeEnd",'<a id="epicLink" division="'+a[1]+'" href="/'+side+"/military/battlefield/"+i+'" style="position:absolute;top:8px;left:225px;width:30px;background:none"><img src="/images/modules/misc/'+(b>1?"epic_battles_icon":"full_scale_battle")+'.png" style="width:30px"></a>'),document.getElementById("epicLink").addEventListener("click",function(){event.preventDefault();value(this.href.split("battlefield/")[1],this.getAttribute("division"));}),document.title=(b>1?"EPIC BATTLE":"FULL SCALE")+" DETECTED",false;}});}/** @type {boolean} */var n=false;success(2);if(!n){success(1);}})();}});done("weekly-challenge-data",function(){if(expect(".get_milestone_reward").length&&!expect(".collectAll").length){expect(".player_layer",types=>{return types.insertAdjacentHTML("beforeEnd",'<a href="javascript:" class="std_global_btn collectAll blueColor floatRight iconBtn" style="top:-33px;"><img src="//www.erepublik.net/images/modules/weekly_challenge/collect-all.png" alt="Get all rewards"></a>');});expect(".collectAll",e=>{return e.addEventListener("click",function(){angular.element("#weeklyChallenge").scope().getAllReward();e.remove();});});}});if(!data.hideMedals){append("#citizenFeed .postsWrapper .postContainer.autoPost{display:none}");done("wall-post/retrieve",function(){if(expect(".postContainer:not(.autoPost)").length<5){expect(".previousposts")[0].click();}});}}else{if(chans){battleListingScope=angular.element("#ListCampaignsController").scope();if(toTop){if(!data.compactWarsPage){append("#header{position:sticky;top:0;z-index:9;background:#fff}.war_card{width:236px!important;height: 214px!important;margin:0!important}.black_bar{width:100%!important}#ListCampaignsController br{display:none}.timer{bottom:17px!important;color:#fff!important;pointer-events:none}.card_bottom{height:16px!important}.fight_btn{bottom:0!important}.fight_btn img{display:none!important}.country_name{max-width:120px!important}.fight{bottom:23px}.hexagons{height:115px!important}.campaign{visibility:hidden}");}if(!data.replaceWaitingwithCountdown){setInterval(function(){var startTime=battleListingScope.campaigns.requestTime;expect(".timer:not(.countdownAdded)",function(col){col.classList.add("countdownAdded");/** @type {number} */var result=angular.element(col).scope().campaign.start-startTime;if(result>0){cb(col,result,selfContext=>{return selfContext.textContent="00h:00m";});}});},500);}if(!data.mercFF){link();}}}else{if(ms){if(append("#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}"),localStorage.hasMaverick=SERVER_DATA.canSwitchDivisions,afterRequestCallbacks.push(function(data,url){if(!(!/fight-shoo|deploy-bomb/.test(url)||data.error||"ENEMY_KILLED"!=data.message&&"OK"!=data.message&&!data.data)){checkKillProgress(data);}}),setTimeout(function(){pomelo.on("onDeployFinished",data=>{return checkKillProgress(data,true);});},2e3),data.battlefield||function(){/**
                        * @return {undefined}
                        */function render(){callback("/"+side+"/military/battle-console",{battleId:ms,zoneId:SERVER_DATA.zoneId,action:"battleConsole",_token:csrfToken},function(data){p.textContent=data.division[currentDivision-1].epicBattleProgress;if(100==p.textContent||SERVER_DATA.points.defender>=1800||SERVER_DATA.points.attacker>=1800){p.click();}});}/**
                        * @return {undefined}
@@ -10510,6 +10510,35 @@ ___CSS_LOADER_EXPORT___.locals = {};
 
 /***/ }),
 
+/***/ 112:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(135);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(981);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.Button_Button__WNwIJ{background-color:#868686;color:#fff;border-radius:2px;outline:0;text-shadow:0 -1px 0 rgba(0,0,0,.3);font-weight:700;border:0;font-family:Arial,Helvetica,sans-serif}.Button_Button__WNwIJ.Button_Small__kvnfk{font-size:10px;padding:2px 8px}.Button_Button__WNwIJ.Button_Medium__gLC5s{font-size:12px;padding:4px 8px}.Button_Button__WNwIJ.Button_Large__HiPEY{font-size:14px;padding:6px 12px}.Button_Button__WNwIJ:not(:disabled){background-color:#4d93bc;box-shadow:0 2px 2px 1px rgba(0,0,0,.25),0 2px 0 0 #4991bb,0 0 7px 3px rgba(0,0,0,.1) inset;cursor:pointer}.Button_Button__WNwIJ:not(:disabled):hover{background-color:#5c9cc2}.Button_Button__WNwIJ:not(:disabled):active{color:hsla(0,0%,100%,.7);box-shadow:0 2px 3px 1px rgba(0,0,0,.4) inset}`, "",{"version":3,"sources":["webpack://./src/common-components/button/Button.module.scss"],"names":[],"mappings":"AAAA,sBACI,wBAAA,CACA,UAAA,CACA,iBAAA,CACA,SAAA,CACA,mCAAA,CACA,eAAA,CACA,QAAA,CACA,sCAAA,CAEA,0CACI,cAAA,CACA,eAAA,CAGJ,2CACI,cAAA,CACA,eAAA,CAGJ,0CACI,cAAA,CACA,gBAAA,CAGJ,qCACI,wBAAA,CACA,2FAAA,CACA,cAAA,CAEA,2CACI,wBAAA,CAGJ,4CACI,wBAAA,CACA,6CAAA","sourcesContent":[".Button {\n    background-color: #868686;\n    color: #fff;\n    border-radius: 2px;\n    outline: 0;\n    text-shadow: 0 -1px 0 rgba(0,0,0,.3);\n    font-weight: 700;\n    border: 0;\n    font-family: Arial, Helvetica, sans-serif;\n    \n    &.Small {\n        font-size: 10px;\n        padding: 2px 8px;\n    }\n    \n    &.Medium {\n        font-size: 12px;\n        padding: 4px 8px;\n    }\n    \n    &.Large {\n        font-size: 14px;\n        padding: 6px 12px;\n    }\n    \n    &:not(:disabled) {\n        background-color: #4d93bc;\n        box-shadow: 0 2px 2px 1px rgba(0,0,0,.25),0 2px 0 0 #4991bb,0 0 7px 3px rgba(0,0,0,.1) inset;\n        cursor: pointer;\n        \n        &:hover {\n            background-color: #5c9cc2;\n        }\n        \n        &:active {\n            color: rgba(255,255,255,.7);\n            box-shadow: 0 2px 3px 1px rgba(0,0,0,.4) inset;\n        }\n    }\n}"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"Button": `Button_Button__WNwIJ`,
+	"Small": `Button_Small__kvnfk`,
+	"Medium": `Button_Medium__gLC5s`,
+	"Large": `Button_Large__HiPEY`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ 200:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -10775,6 +10804,63 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 /***/ }),
 
+/***/ 828:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(135);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(981);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.VipStatus_VipStatus__mNiv3{margin-top:4px;margin-left:8px;display:inline-flex;flex-direction:column;width:100%}.VipStatus_MainRow__Jo\\+RG{display:inline-flex}.VipStatus_MainText__xSX6v{font-size:11px;color:#5a5a5a;text-shadow:0 1px 0 hsla(0,0%,100%,.9);font-weight:700}.VipStatus_SecondaryText__Sa8zl{font-size:11px;color:#5a5a5a;text-shadow:0 1px 0 hsla(0,0%,100%,.9)}.VipStatus_SupportingRow__MP6VU{font-size:11px;color:#5a5a5a;text-shadow:0 1px 0 hsla(0,0%,100%,.9);margin-top:4px;width:100%;display:flex;justify-content:center}.VipStatus_Image__9IwEZ{height:14px;margin-right:10px}`, "",{"version":3,"sources":["webpack://./src/features/main-page/components/VipStatus.module.scss"],"names":[],"mappings":"AAAA,4BACI,cAAA,CACA,eAAA,CACA,mBAAA,CACA,qBAAA,CACA,UAAA,CAGJ,2BACI,mBAAA,CAGJ,2BACI,cAAA,CACA,aAAA,CACA,sCAAA,CACA,eAAA,CAGJ,gCACI,cAAA,CACA,aAAA,CACA,sCAAA,CAGJ,gCACI,cAAA,CACA,aAAA,CACA,sCAAA,CACA,cAAA,CACA,UAAA,CACA,YAAA,CACA,sBAAA,CAGJ,wBACI,WAAA,CACA,iBAAA","sourcesContent":[".VipStatus {\n    margin-top: 4px;\n    margin-left: 8px;\n    display: inline-flex;\n    flex-direction: column;\n    width: 100%;\n}\n\n.MainRow {\n    display: inline-flex;\n}\n\n.MainText {\n    font-size: 11px;\n    color: #5a5a5a;\n    text-shadow: 0 1px 0 rgba(255,255,255,.9);\n    font-weight: 700;\n}\n\n.SecondaryText {\n    font-size: 11px;\n    color: #5a5a5a;\n    text-shadow: 0 1px 0 rgba(255,255,255,.9);\n}\n\n.SupportingRow {\n    font-size: 11px;\n    color: #5a5a5a;\n    text-shadow: 0 1px 0 rgba(255,255,255,.9);\n    margin-top: 4px;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n}\n\n.Image {\n    height: 14px;\n    margin-right: 10px;\n}"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"VipStatus": `VipStatus_VipStatus__mNiv3`,
+	"MainRow": `VipStatus_MainRow__Jo+RG`,
+	"MainText": `VipStatus_MainText__xSX6v`,
+	"SecondaryText": `VipStatus_SecondaryText__Sa8zl`,
+	"SupportingRow": `VipStatus_SupportingRow__MP6VU`,
+	"Image": `VipStatus_Image__9IwEZ`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 815:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(135);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(981);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.WeeklyChallengeCalculatorButton_RootElement__qj0Vu{position:absolute;top:2px;left:343px}`, "",{"version":3,"sources":["webpack://./src/features/main-page/components/WeeklyChallengeCalculatorButton.module.scss"],"names":[],"mappings":"AAAA,oDACI,iBAAA,CACA,OAAA,CACA,UAAA","sourcesContent":[".RootElement {\n    position: absolute;\n    top: 2px;\n    left: 343px;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"RootElement": `WeeklyChallengeCalculatorButton_RootElement__qj0Vu`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ 281:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -10791,7 +10877,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.SideInventory_SideInventoryRoot__DlPUi{position:fixed;top:0;left:0}.SideInventory_SideInventory__cYFof{display:flex;flex-direction:column;flex-wrap:wrap;height:100vh}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN{width:39px;display:flex;flex-direction:column}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Img__GDNZJ{height:39px;width:100%;background:linear-gradient(#eef1ec, #d5decf)}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH{font:700 10px/13px arial;color:#fff;width:100%;background:#83b70b;text-align:center;cursor:default}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH.SideInventory_IsActive__S4Ir1{background:#c34141}`, "",{"version":3,"sources":["webpack://./src/features/side-inventory/components/SideInventory.module.scss"],"names":[],"mappings":"AAAA,wCACI,cAAA,CACA,KAAA,CACA,MAAA,CAGJ,oCACI,YAAA,CACA,qBAAA,CACA,cAAA,CACA,YAAA,CAEA,+DACI,UAAA,CACA,YAAA,CACA,qBAAA,CAEA,yFACI,WAAA,CACA,UAAA,CACA,4CAAA,CAGJ,0FACI,wBAAA,CACA,UAAA,CACA,UAAA,CACA,kBAAA,CACA,iBAAA,CACA,cAAA,CAEA,wHACI,kBAAA","sourcesContent":[".SideInventoryRoot {\n    position: fixed;\n    top: 0;\n    left: 0;\n}\n\n.SideInventory {\n    display: flex;\n    flex-direction: column;\n    flex-wrap: wrap;\n    height: 100vh;\n    \n    .Item {\n        width: 39px;\n        display: flex;\n        flex-direction: column;\n\n        .Img {\n            height: 39px;\n            width: 100%;\n            background: linear-gradient(#eef1ec, #d5decf)\n        }\n\n        .Text {\n            font: 700 10px/13px arial;\n            color: #fff;\n            width: 100%;\n            background: #83b70b;\n            text-align: center;\n            cursor: default;\n            \n            &.IsActive {\n                background: #c34141;\n            }\n        }\n    }\n    \n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, `.SideInventory_SideInventoryRoot__DlPUi{position:fixed;top:0;left:0}.SideInventory_SideInventory__cYFof{display:flex;flex-direction:column;flex-wrap:wrap;height:100vh}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN{width:39px;display:flex;flex-direction:column}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Img__GDNZJ{height:39px;width:100%;background:linear-gradient(#eef1ec, #d5decf)}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH{font:700 10px/13px arial;color:#fff;width:100%;background:#83b70b;text-align:center;cursor:default}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH.SideInventory_IsActive__S4Ir1{background:#c34141}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH.SideInventory_IsTemporary__Kupxx{background:#bf8807}.SideInventory_SideInventory__cYFof .SideInventory_Item__1BEaN .SideInventory_Text__pw3XH.SideInventory_ExpiresSoon__3PVpR{animation:SideInventory_blink__2xKQM 2s infinite;animation-timing-function:steps(1, end)}@keyframes SideInventory_blink__2xKQM{0%{background:#d10000}50%{background:#bf8807}100%{background:#d10000}}`, "",{"version":3,"sources":["webpack://./src/features/side-inventory/components/SideInventory.module.scss"],"names":[],"mappings":"AAAA,wCACI,cAAA,CACA,KAAA,CACA,MAAA,CAGJ,oCACI,YAAA,CACA,qBAAA,CACA,cAAA,CACA,YAAA,CAEA,+DACI,UAAA,CACA,YAAA,CACA,qBAAA,CAEA,yFACI,WAAA,CACA,UAAA,CACA,4CAAA,CAGJ,0FACI,wBAAA,CACA,UAAA,CACA,UAAA,CACA,kBAAA,CACA,iBAAA,CACA,cAAA,CAEA,wHACI,kBAAA,CAEJ,2HACI,kBAAA,CAEJ,2HACI,gDAAA,CACA,uCAAA,CAOhB,sCACI,GACI,kBAAA,CAEJ,IACI,kBAAA,CAEJ,KACI,kBAAA,CAAA","sourcesContent":[".SideInventoryRoot {\n    position: fixed;\n    top: 0;\n    left: 0;\n}\n\n.SideInventory {\n    display: flex;\n    flex-direction: column;\n    flex-wrap: wrap;\n    height: 100vh;\n    \n    .Item {\n        width: 39px;\n        display: flex;\n        flex-direction: column;\n\n        .Img {\n            height: 39px;\n            width: 100%;\n            background: linear-gradient(#eef1ec, #d5decf)\n        }\n\n        .Text {\n            font: 700 10px/13px arial;\n            color: #fff;\n            width: 100%;\n            background: #83b70b;\n            text-align: center;\n            cursor: default;\n            \n            &.IsActive {\n                background: #c34141;\n            }\n            &.IsTemporary {\n                background: #bf8807;\n            }\n            &.ExpiresSoon {\n                animation: blink 2s infinite;\n                animation-timing-function: steps(1, end);\n            }\n        }\n    }\n}\n\n// animation of blinking background\n@keyframes blink {\n    0% {\n        background: #d10000;\n    }\n    50% {\n        background: #bf8807;\n    }\n    100% {\n        background: #d10000;\n    }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"SideInventoryRoot": `SideInventory_SideInventoryRoot__DlPUi`,
@@ -10799,7 +10885,10 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"Item": `SideInventory_Item__1BEaN`,
 	"Img": `SideInventory_Img__GDNZJ`,
 	"Text": `SideInventory_Text__pw3XH`,
-	"IsActive": `SideInventory_IsActive__S4Ir1`
+	"IsActive": `SideInventory_IsActive__S4Ir1`,
+	"IsTemporary": `SideInventory_IsTemporary__Kupxx`,
+	"ExpiresSoon": `SideInventory_ExpiresSoon__3PVpR`,
+	"blink": `SideInventory_blink__2xKQM`
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19646,7 +19735,7 @@ var wo,
 
 ;// ./src/analytics/posthog.ts
 let isInitialized=false;const Analytics={init:()=>{if(isInitialized){return;}const key="phc_dsyjMkyBUgnCpPLfXiU83mSkdBs7MR8KQZGijxrtvkA";if(!key){log("PostHog key not found, skipping analytics initialization");return;}So.init(key,{api_host:"https://eu.i.posthog.com",person_profiles:"identified_only",// or 'always' to create profiles for anonymous users as well
-capture_pageview:false,capture_pageleave:"if_capture_pageview",autocapture:false});isInitialized=true;},postFeaturesExecutedEvent:event=>{So.capture("features_executed",_objectSpread2(_objectSpread2({},event),{},{citizenId:getCitizenId(),stuffVersion:getStuffVersion()}));}};
+capture_pageview:false,capture_pageleave:"if_capture_pageview",autocapture:false});isInitialized=true;},postFeaturesExecutedEvent:event=>{So.capture("features_executed",_objectSpread2(_objectSpread2({},event),defaultProperties()));},postVipClaimSuccessEvent:()=>{So.capture("vip_claim_success",_objectSpread2({},defaultProperties()));},postVipClaimErrorEvent:error=>{So.capture("vip_claim_error",_objectSpread2(_objectSpread2({},defaultProperties()),{},{error}));},postWcCalculatorOpenedEvent:()=>{So.capture("wc_calculator_opened",_objectSpread2({},defaultProperties()));}};function defaultProperties(){return{citizenId:getCitizenId(),stuffVersion:getStuffVersion()};}
 // EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[7].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[7].use[4]!./src/features/improved-storage/StaticStyles.scss
 var StaticStyles = __webpack_require__(515);
 ;// ./src/features/improved-storage/StaticStyles.scss
@@ -19833,7 +19922,8 @@ var SideInventory_module_update = injectStylesIntoStyleTag_default()(SideInvento
        /* harmony default export */ const components_SideInventory_module = (SideInventory_module/* default */.A && SideInventory_module/* default */.A.locals ? SideInventory_module/* default */.A.locals : undefined);
 
 ;// ./src/features/side-inventory/components/SideInventory.tsx
-function createSideInventoryRootElement(){const rootElement=document.createElement("div");rootElement.classList.add(components_SideInventory_module.SideInventoryRoot);return rootElement;}const SideInventory=props=>{return/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_SideInventory_module.SideInventory,children:props.items.map(item=>{var _item$attributes;return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_SideInventory_module.Item,title:item.name,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_SideInventory_module.Img,src:item.icon,alt:item.name}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:classnames_default()(components_SideInventory_module.Text,{[components_SideInventory_module.IsActive]:(_item$attributes=item.attributes)===null||_item$attributes===void 0?void 0:_item$attributes.active}),children:item.amountDisplay})]},item.id);})});};
+function createSideInventoryRootElement(){const rootElement=document.createElement("div");rootElement.classList.add(components_SideInventory_module.SideInventoryRoot);return rootElement;}const SideInventory=props=>{return/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_SideInventory_module.SideInventory,children:props.items.map(item=>{var _item$attributes$temp,_item$attributes,_item$attributes$temp2,_item$attributes2,_item$attributes3,_item$attributes4;const isExpiringSoon=((_item$attributes$temp=(_item$attributes=item.attributes)===null||_item$attributes===void 0?void 0:(_item$attributes$temp2=_item$attributes.temporary)===null||_item$attributes$temp2===void 0?void 0:_item$attributes$temp2.expiresIn)!==null&&_item$attributes$temp!==void 0?_item$attributes$temp:Infinity)<60*60*24;// 1 day
+let tooltip="".concat((_item$attributes2=item.attributes)!==null&&_item$attributes2!==void 0&&_item$attributes2.duration?"[".concat(item.attributes.duration,"] "):"").concat(item.name);if(isExpiringSoon){tooltip+="\nExpires in less then 1 day!!!";}return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_SideInventory_module.Item,title:tooltip,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_SideInventory_module.Img,src:item.icon,alt:item.name}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:classnames_default()(components_SideInventory_module.Text,{[components_SideInventory_module.IsActive]:(_item$attributes3=item.attributes)===null||_item$attributes3===void 0?void 0:_item$attributes3.active,[components_SideInventory_module.IsTemporary]:(_item$attributes4=item.attributes)===null||_item$attributes4===void 0?void 0:_item$attributes4.temporary,[components_SideInventory_module.ExpiresSoon]:isExpiringSoon}),children:item.amountDisplay})]},item.id);})});};
 ;// ./src/features/side-inventory/index.tsx
 const typesToSkip=new Set(["currency","vehicle_blueprint"// "booster"
 ]);const SideInventoryFeature=createFeature({id:"side_inventory",name:"Side Inventory",// Everywhere apart from the storage page itself
@@ -19873,12 +19963,115 @@ var StorageInfo_module_update = injectStylesIntoStyleTag_default()(StorageInfo_m
 const StorageInfo=props=>{return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_StorageInfo_module.StorageInfo,children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_StorageInfo_module.MainRow,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_StorageInfo_module.Image,src:"https://www.erepublik.com/images/modules/manager/storage_build_icon.png",alt:"Storage"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("strong",{className:components_StorageInfo_module.MainText,children:[formatNumber(props.free)," "]}),/*#__PURE__*/(0,jsx_runtime.jsx)("span",{className:components_StorageInfo_module.SecondaryText,children:"FREE"})]})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_StorageInfo_module.SupportingRow,children:[formatNumber(props.current)," / ",formatNumber(props.total)]})]});};
 ;// ./src/requests/inventory-html-request.ts
 let InventoryHtml;(function(_InventoryHtml){function sendRequest(request){const response=fetch("https://www.erepublik.com/en/main/inventory",{method:"GET",headers:_objectSpread2({"content-type":"text/html"},getCookieHeaders())});return response.then(response=>response.text());}_InventoryHtml.sendRequest=sendRequest;})(InventoryHtml||(InventoryHtml={}));
+;// ./src/requests/vip-shop-html-request.ts
+let VipShopHtml;(function(_VipShopHtml){function sendRequest(request){const response=fetch("https://www.erepublik.com/en/main/vip-shop",{method:"GET",headers:_objectSpread2({"content-type":"text/html"},getCookieHeaders())});return response.then(response=>response.text());}_VipShopHtml.sendRequest=sendRequest;})(VipShopHtml||(VipShopHtml={}));
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/main-page/components/VipStatus.module.scss
+var VipStatus_module = __webpack_require__(828);
+;// ./src/features/main-page/components/VipStatus.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var VipStatus_module_options = {};
+
+VipStatus_module_options.styleTagTransform = (styleTagTransform_default());
+VipStatus_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      VipStatus_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+VipStatus_module_options.domAPI = (styleDomAPI_default());
+VipStatus_module_options.insertStyleElement = (insertStyleElement_default());
+
+var VipStatus_module_update = injectStylesIntoStyleTag_default()(VipStatus_module/* default */.A, VipStatus_module_options);
+
+
+
+
+       /* harmony default export */ const components_VipStatus_module = (VipStatus_module/* default */.A && VipStatus_module/* default */.A.locals ? VipStatus_module/* default */.A.locals : undefined);
+
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/common-components/button/Button.module.scss
+var Button_module = __webpack_require__(112);
+;// ./src/common-components/button/Button.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var Button_module_options = {};
+
+Button_module_options.styleTagTransform = (styleTagTransform_default());
+Button_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      Button_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+Button_module_options.domAPI = (styleDomAPI_default());
+Button_module_options.insertStyleElement = (insertStyleElement_default());
+
+var Button_module_update = injectStylesIntoStyleTag_default()(Button_module/* default */.A, Button_module_options);
+
+
+
+
+       /* harmony default export */ const button_Button_module = (Button_module/* default */.A && Button_module/* default */.A.locals ? Button_module/* default */.A.locals : undefined);
+
+;// ./src/common-components/button/Button.tsx
+const Button=props=>{const size=props.size||"medium";return/*#__PURE__*/(0,jsx_runtime.jsx)("button",{className:classnames_default()(button_Button_module.Button,{[button_Button_module.Small]:size==="small",[button_Button_module.Medium]:size==="medium",[button_Button_module.Large]:size==="large"}),disabled:props.disabled,onClick:props.onClick,children:props.children});};const LinkButton=props=>{const size=props.size||"medium";return/*#__PURE__*/(0,jsx_runtime.jsx)("a",{className:classnames_default()(button_Button_module.Button,{[button_Button_module.Small]:size==="small",[button_Button_module.Medium]:size==="medium",[button_Button_module.Large]:size==="large"}),href:props.href,target:props.target,onClick:props.onClick,children:props.children});};
+;// ./src/requests/vip-claim-request.ts
+let VipClaim;(function(_VipClaim){async function sendRequest(body){const response=fetch("https://www.erepublik.com/en/main/vip-claim",{method:"POST",headers:_objectSpread2({"content-type":"application/x-www-form-urlencoded"},getCookieHeaders()),body:objectToWwwFormUrlEncoded(body)});return response.then(response=>response.json());}_VipClaim.sendRequest=sendRequest;})(VipClaim||(VipClaim={}));
+;// ./src/features/main-page/components/VipStatus.tsx
+const VipStatus=props=>{const[claimStatus,setClaimStatus]=(0,react.useState)(null);const handleClaim=async()=>{setClaimStatus("Claiming...");const response=await VipClaim.sendRequest({_token:getCsrfToken()});if(response.error){log("Failed to claim VIP points",response.message);Analytics.postVipClaimErrorEvent(response.message);setClaimStatus(response.message);return;}Analytics.postVipClaimSuccessEvent();setClaimStatus("✔️ Claimed");};function renderClaimButton(){if(props.isClaimed){return;}if(claimStatus){return/*#__PURE__*/(0,jsx_runtime.jsx)(Button,{disabled:true,children:claimStatus});}return/*#__PURE__*/(0,jsx_runtime.jsx)(Button,{onClick:handleClaim,children:"Claim VIP Points"});}return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_VipStatus_module.VipStatus,children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_VipStatus_module.MainRow,title:"VIP Level ".concat(props.level),children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_VipStatus_module.Image,src:"https://www.erepublik.net/images/top_customers/vip_icon.png",alt:"Vip status"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("strong",{className:components_VipStatus_module.MainText,children:[formatNumber(props.currentPoints)," /"," ",formatNumber(props.totalPoints)]})]}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_VipStatus_module.SupportingRow,children:renderClaimButton()})]});};
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/main-page/components/WeeklyChallengeCalculatorButton.module.scss
+var WeeklyChallengeCalculatorButton_module = __webpack_require__(815);
+;// ./src/features/main-page/components/WeeklyChallengeCalculatorButton.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var WeeklyChallengeCalculatorButton_module_options = {};
+
+WeeklyChallengeCalculatorButton_module_options.styleTagTransform = (styleTagTransform_default());
+WeeklyChallengeCalculatorButton_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      WeeklyChallengeCalculatorButton_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+WeeklyChallengeCalculatorButton_module_options.domAPI = (styleDomAPI_default());
+WeeklyChallengeCalculatorButton_module_options.insertStyleElement = (insertStyleElement_default());
+
+var WeeklyChallengeCalculatorButton_module_update = injectStylesIntoStyleTag_default()(WeeklyChallengeCalculatorButton_module/* default */.A, WeeklyChallengeCalculatorButton_module_options);
+
+
+
+
+       /* harmony default export */ const components_WeeklyChallengeCalculatorButton_module = (WeeklyChallengeCalculatorButton_module/* default */.A && WeeklyChallengeCalculatorButton_module/* default */.A.locals ? WeeklyChallengeCalculatorButton_module/* default */.A.locals : undefined);
+
+;// ./src/features/main-page/components/WeeklyChallengeCalculatorButton.tsx
+function createWeeklyChallengeCalculatorButtonRootElement(){const rootElement=document.createElement("p");rootElement.classList.add(components_WeeklyChallengeCalculatorButton_module.RootElement);return rootElement;}const WeeklyChallengeCalculatorButton=()=>{const onClick=()=>{Analytics.postWcCalculatorOpenedEvent();};return/*#__PURE__*/(0,jsx_runtime.jsx)(LinkButton,{href:"https://humberd.github.io/Weekly-Challenge-Calculator",size:"small",target:"_blank",onClick:onClick,children:"\u2B50 WC calculator"});};
 ;// ./src/features/main-page/index.tsx
-const MainPageFeature=createFeature({id:"main_page",name:"Main Page",canExecute:url=>isOnHomepage(),execute:async()=>{storageInfo();}});async function storageInfo(){const html=await InventoryHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const selectors=".used_storage_wrapper .used_storage";const currencyAmount=doc.querySelector(selectors);if(!currencyAmount){console.error("Element with selector '".concat(selectors,"' not found"));return;}const originalTitle="title";const rawValues=currencyAmount.getAttribute(originalTitle);if(!rawValues){console.error("Element with selector '".concat(selectors,"' has no ").concat(originalTitle," attribute"));return;}const{current,total}=parseValues(rawValues);const free=total-current;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(StorageInfo,{current:current,total:total,free:free})).after(document.querySelector(".sidebar .currency_amount"));}/**
+const MainPageFeature=createFeature({id:"main_page",name:"Main Page",canExecute:url=>isOnHomepage(),execute:async()=>{await weeklyChallengeCalculator();await vipInfo();await storageInfo();}});async function weeklyChallengeCalculator(){await retryNullish(()=>document.querySelector("#weeklyChallenge"),"Can't find weekly challenge section",40,50);renderElementWithRoot(/*#__PURE__*/(0,jsx_runtime.jsx)(WeeklyChallengeCalculatorButton,{}),createWeeklyChallengeCalculatorButtonRootElement()).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));}async function vipInfo(){var _ensure$textContent,_ensure$textContent$t,_ensure$textContent2,_ensure$textContent2$,_ensure$textContent3,_ensure$textContent3$;const html=await VipShopHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const vipLevel=Number((_ensure$textContent=ensure(doc.querySelector("#vip_level")).textContent)===null||_ensure$textContent===void 0?void 0:(_ensure$textContent$t=_ensure$textContent.trim())===null||_ensure$textContent$t===void 0?void 0:_ensure$textContent$t.replace(",",""));const vipPoints=Number((_ensure$textContent2=ensure(doc.querySelector("#vip_points")).textContent)===null||_ensure$textContent2===void 0?void 0:(_ensure$textContent2$=_ensure$textContent2.trim())===null||_ensure$textContent2$===void 0?void 0:_ensure$textContent2$.replace(",",""));const nextVipPoints=Number((_ensure$textContent3=ensure(doc.querySelector("#next_threshold")).textContent)===null||_ensure$textContent3===void 0?void 0:(_ensure$textContent3$=_ensure$textContent3.trim())===null||_ensure$textContent3$===void 0?void 0:_ensure$textContent3$.replace(",",""));const isClaimed=doc.querySelector("#vip_claimed.disabled")!==null;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(VipStatus,{level:vipLevel,currentPoints:vipPoints,totalPoints:nextVipPoints,isClaimed:isClaimed})).after(document.querySelector(".sidebar .currency_amount"));}async function storageInfo(){const html=await InventoryHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const selectors=".used_storage_wrapper .used_storage";const currencyAmount=doc.querySelector(selectors);if(!currencyAmount){console.error("Element with selector '".concat(selectors,"' not found"));return;}const originalTitle="title";const rawValues=currencyAmount.getAttribute(originalTitle);if(!rawValues){console.error("Element with selector '".concat(selectors,"' has no ").concat(originalTitle," attribute"));return;}const{current,total}=parseValues(rawValues);const free=total-current;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(StorageInfo,{current:current,total:total,free:free})).after(document.querySelector(".sidebar .currency_amount"));}/**
  * Converts a string like "1,234 / 5,678" to an object with current and total properties
  */function parseValues(input){// Split the input by '/' and trim whitespace from each part
-const[currentStr,totalStr]=input.split('/').map(part=>part.trim());// Helper function to remove commas and convert to a number
-const toNumber=str=>{return Number(str.replace(/,/g,''));// Remove commas and convert to number
+const[currentStr,totalStr]=input.split("/").map(part=>part.trim());// Helper function to remove commas and convert to a number
+const toNumber=str=>{return Number(str.replace(/,/g,""));// Remove commas and convert to number
 };return{current:toNumber(currentStr),total:toNumber(totalStr)};}
 ;// ./src/index.tsx
 log("React script has successfully started");const features=[AnAmazingJourneyFeature,ImprovedStorage,SideInventoryFeature,MainPageFeature];async function onUrlChange(){Analytics.init();log("Found ".concat(features.length," features. Executing..."));let executedWithSuccess=0;const executionStatuses={};const promises=features.map(async(feature,index)=>{const counterString="[".concat(index+1,"/").concat(features.length,"]");if(!feature.canExecute(window.location)){log("".concat(counterString," [SKIP] [").concat(feature.name,"] cannot execute on this page"));executionStatuses[feature.id]={skipped:"Disabled on this page"};return;}if(feature.isSettingEnabled&&!feature.isSettingEnabled()){log("".concat(counterString," [SKIP] [").concat(feature.name,"] is disabled in settings"));executionStatuses[feature.id]={skipped:"Disabled in settings"};return;}try{log("".concat(counterString," [").concat(feature.name,"] executing..."));const{timeSpent}=await countTimeSpent(()=>feature.execute());log("".concat(counterString," [").concat(feature.name,"] executed successfully in ").concat(formatNumber(timeSpent),"ms"));executedWithSuccess++;executionStatuses[feature.id]={success:true,timeSpentMs:timeSpent};}catch(e){var _e$toString;error("Feature ".concat(feature.name," failed to execute"));error(e);executionStatuses[feature.id]={success:false,error:(_e$toString=e===null||e===void 0?void 0:e.toString())!==null&&_e$toString!==void 0?_e$toString:"Unknown error"};}});const{timeSpent}=await countTimeSpent(()=>Promise.all(promises));log("[SUCCESS] ".concat(executedWithSuccess,"/").concat(features.length," features started successfully in ").concat(formatNumber(timeSpent),"ms"));Analytics.postFeaturesExecutedEvent({features:executionStatuses,totalTimeSpentMs:timeSpent});}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",watchForUrlChange);}else{watchForUrlChange();}function watchForUrlChange(){// Call `onUrlChange()` every time the page URL changes, including on first load.
