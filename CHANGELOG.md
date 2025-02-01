@@ -1,3 +1,12 @@
+# 5.73 (01.02.2025)
+* Feat: Add Weekly Challenge Calculator button (#53)
+* Feat: Add blinking color for items expiring in 1 day in side inventory
+* Misc: Add analytics event on vip claim button
+* Feat: Claim VIP points from the main page (#52)
+* Feat: Mark temporary items with a yellowish background in the side inventory
+* Feat: Display item duration in a side panel tooltip
+* Fix: Main page not counting time properly
+
 # 5.72 (01.02.2025)
 * Fix: disable autocapture in analytics
 * Fix: Formatting in market offers in a storage
