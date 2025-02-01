@@ -24,7 +24,7 @@ export const MainPageFeature = createFeature({
 });
 
 async function weeklyChallengeCalculator() {
-  retryNullish(
+  await retryNullish(
     () => document.querySelector("#weeklyChallenge"),
     "Can't find weekly challenge section",
     40,
