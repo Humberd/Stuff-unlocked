@@ -2851,17 +2851,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                                 });
                                 expect("#Total_net", (dashboardPanel) => {
                                   return (dashboardPanel.innerHTML =
-                                      '<strong style="top:39px;left:611px">Total Net</strong><isZordacz style="top:46px;right:250px">' +
-                                      resolve(baseNumber.toFixed(2)) +
-                                      " " +
-                                      params.currency +
-                                      '</isZordacz><small style="top:70px;right:250px;left:auto;width:auto">' +
-                                      resolve(
-                                          (
-                                              baseNumber / data.goldPrice.price
-                                          ).toFixed(2)
-                                      ) +
-                                      " g</small>");
+                                      '<strong style="top:39px;left:611px">Total Net</strong>');
                                 });
                               }
 
