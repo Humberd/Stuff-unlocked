@@ -19,8 +19,9 @@ export const SideInventory: React.FC<SideInventoryProps> = (props) => {
   return (
     <div className={styles.SideInventory}>
       {props.items.map((item) => {
+        const tooltip = `${item.attributes?.duration ? `[${item.attributes.duration}] `: ""}${item.name}`
         return (
-          <div key={item.id} className={styles.Item} title={item.name}>
+          <div key={item.id} className={styles.Item} title={tooltip}>
             <img className={styles.Img} src={item.icon} alt={item.name} />
             <div
               className={classNames(styles.Text, {
