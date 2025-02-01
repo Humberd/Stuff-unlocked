@@ -19,7 +19,7 @@ export const TotalLabel = (props: TotalLabelProps) => {
   const [total, setTotal] = useState(0);
   useEffect(() => {
     props.total.onValueChange(setTotal);
-  }, []);
+  }, [props.total]);
 
   return (
     <>

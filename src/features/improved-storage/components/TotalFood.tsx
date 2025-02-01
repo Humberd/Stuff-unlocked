@@ -13,7 +13,7 @@ export const TotalFood: React.FC<TotalFoodProps> = (props) => {
         <img
           className={styles.FoodIcon}
           src="https://www.erepublik.net/images/icons/industry/1/q1.png"
-          alt="Food image"
+          alt="Food"
         />
         <span className={styles.EnergyValue}>
           {formatNumber(props.totalEnergy)} HP

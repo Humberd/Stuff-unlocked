@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ItemsSectionToggle.module.scss";
-import { ensure, log } from "../../../utils/utils";
+import { ensure } from "../../../utils/utils";
 
 interface ItemsSectionToggleProps {
   sectionId: string;
@@ -14,15 +14,16 @@ export const ItemsSectionToggle: React.FC<ItemsSectionToggleProps> = (
 
   useEffect(() => {
     const section = ensure(document.getElementById(props.sectionId));
-    const sectionWrapper = ensure(section.querySelector(".storage_section_wrapper"));
+    const sectionWrapper = ensure(
+      section.querySelector(".storage_section_wrapper"),
+    );
     if (isOpened) {
       sectionWrapper.classList.remove(styles.Hidden);
     } else {
       sectionWrapper.classList.add(styles.Hidden);
     }
-    
   }, [isOpened, props.sectionId]);
-  
+
   return (
     <button
       className={styles.sectionToggle}
