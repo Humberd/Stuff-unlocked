@@ -1789,15 +1789,6 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                 }
             );
             done("weekly-challenge-data", function () {
-              append(
-                  "#WCSimulator{position:absolute;right:10px;top:1px;font:700 11px/14px arial;text-shadow:0 0 2px #000;color:#fff;padding:0 3px;background:#83b70b;border-radius:1px}#WCSimulator:hover{background:#fb7e3d}"
-              );
-              expect("#weeklyChallenge", (types) => {
-                return types.insertAdjacentHTML(
-                    "beforeEnd",
-                    '<a href="https://humberd.github.io/Weekly-Challenge-Calculator" target="_blank" id="WCSimulator">⭐ WC calculator</a>'
-                );
-              });
               if (
                   expect(".get_milestone_reward").length &&
                   !expect(".collectAll").length

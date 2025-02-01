@@ -1,0 +1,23 @@
+.RootElement {
+    position: absolute;
+    top: 2px;
+    left: 343px;
+}
+
+.Button {
+    position: absolute;
+    right: 10px;
+    top: 1px;
+    font: 700 11px/14px arial;
+    text-shadow: 0 0 2px #000;
+    color: #fff;
+    padding: 0 3px;
+    background: #83b70b;
+    border-radius: 1px;
+    white-space: nowrap;
+    
+
+    &:hover {
+        background: #fb7e3d
+    }
+}
