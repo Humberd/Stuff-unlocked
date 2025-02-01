@@ -1,3 +1,5 @@
+import { log } from "./utils";
+
 export async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -18,6 +20,27 @@ export async function retry<T>(
       retries++;
       await waitFor(retryDelayMs);
     }
+  }
+}
+
+export async function retryNullish<T>(
+  callback: () => T | null | undefined,
+  maxRetries: number = 3,
+  retryDelayMs: number = 300,
+): Promise<T> {
+  let retries = 0;
+  while (true) {
+    const result = callback();
+    if (result) {
+      return result;
+    }
+
+    if (retries >= maxRetries) {
+      throw new Error("Retries exceeded");
+    }
+    retries++;
+    log("Retrying...");
+    await waitFor(retryDelayMs);
   }
 }
 

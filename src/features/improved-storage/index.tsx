@@ -11,7 +11,7 @@ import {
 } from "./components/TotalLabel";
 import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { ExternalProperty } from "../../hooks/external-property";
-import { retry } from "../../utils/time";
+import { retry, retryNullish } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import { TotalFood } from "./components/TotalFood";
 import { InventoryJson } from "../../requests/inventory-json-data-request";
@@ -25,6 +25,8 @@ export const ImprovedStorage = createFeature({
   canExecute: (url) => url.href.includes("/main/inventory"),
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
   execute: async () => {
+    // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
+    await retryNullish(() => document.querySelector("#mainStorage"), 20, 100);
     /**
      * All the styles are loaded and applied immediately for all the views.
      * Adding this class make these static styles scoped, so that they only apply to this view.
