@@ -2,7 +2,7 @@
 // @name		  eRepublik Stuff++ Unlocked
 // @description An unlocked version of stuff++ (https://docs.google.com/spreadsheets/d/1nal62cgC7lUmrur6NRzlPVU3uxtE59WGV9-bZcPoIw8/edit#gid=0), that for some reason didn't want to run after Zordacz ban.
 // @author		Zordacz, Humberd
-// @version		5.73
+// @version		5.74
 // @match		  https://www.erepublik.com/*
 // @updateUrl https://raw.githubusercontent.com/Humberd/Stuff-unlocked/master/src/index.user.js
 // @run-at		document-start
@@ -10861,6 +10861,32 @@ ___CSS_LOADER_EXPORT___.locals = {
 
 /***/ }),
 
+/***/ 448:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(135);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(981);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.ItemTooltip_ItemTooltip__iYI7s{position:absolute}`, "",{"version":3,"sources":["webpack://./src/features/side-inventory/components/ItemTooltip.module.scss"],"names":[],"mappings":"AAAA,gCACI,iBAAA","sourcesContent":[".ItemTooltip {\n    position: absolute;\n}"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"ItemTooltip": `ItemTooltip_ItemTooltip__iYI7s`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ 281:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -11426,7 +11452,7 @@ function _objectSpread2(e) {
 ;// ./src/utils/feature.ts
 function createFeature(feature){return _objectSpread2({},feature);}
 ;// ./src/utils/erep-global-info.ts
-function getCitizenshipCurrencyName(){return erepublik.citizen.citizenshipCurrencyName;}function getCurrentRegionId(){return String(erepublik.citizen.residence.regionId);}function getAuthToken(){return erepublik.settings.pomelo.authToken;}function getCsrfToken(){return SERVER_DATA.csrfToken;}function isOnHomepage(){return Environment.isOnHomepage;}function getCitizenId(){var _erepublik,_erepublik$citizen;return(_erepublik=erepublik)===null||_erepublik===void 0?void 0:(_erepublik$citizen=_erepublik.citizen)===null||_erepublik$citizen===void 0?void 0:_erepublik$citizen.citizenId;}function getStuffVersion(){return GM_info.script.version;}
+function getCitizenshipCurrencyName(){return erepublik.citizen.citizenshipCurrencyName;}function getCurrentRegionId(){return String(erepublik.citizen.residence.regionId);}function getAuthToken(){return erepublik.settings.pomelo.authToken;}function getCsrfToken(){return SERVER_DATA.csrfToken;}function isOnHomepage(){return Environment.isOnHomepage;}function getCitizenId(){var _erepublik,_erepublik$citizen;return(_erepublik=erepublik)===null||_erepublik===void 0?void 0:(_erepublik$citizen=_erepublik.citizen)===null||_erepublik$citizen===void 0?void 0:_erepublik$citizen.citizenId;}function getStuffVersion(){return GM_info.script.version;}function getCookielessHost(){return erepublik.settings.cookielessHost;}
 ;// ./src/utils/request.ts
 function getCookieHeaders(){return{cookie:"erpk=".concat(getAuthToken())};}function objectToWwwFormUrlEncoded(obj){const searchParams=new URLSearchParams();Object.keys(obj).forEach(key=>{searchParams.append(key,obj[key]);});return searchParams.toString();}
 ;// ./src/requests/travel-data-request.ts
@@ -19921,9 +19947,47 @@ var SideInventory_module_update = injectStylesIntoStyleTag_default()(SideInvento
 
        /* harmony default export */ const components_SideInventory_module = (SideInventory_module/* default */.A && SideInventory_module/* default */.A.locals ? SideInventory_module/* default */.A.locals : undefined);
 
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[1].oneOf[8].use[3]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[8].use[4]!./src/features/side-inventory/components/ItemTooltip.module.scss
+var ItemTooltip_module = __webpack_require__(448);
+;// ./src/features/side-inventory/components/ItemTooltip.module.scss
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var ItemTooltip_module_options = {};
+
+ItemTooltip_module_options.styleTagTransform = (styleTagTransform_default());
+ItemTooltip_module_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      ItemTooltip_module_options.insert = insertBySelector_default().bind(null, "head");
+    
+ItemTooltip_module_options.domAPI = (styleDomAPI_default());
+ItemTooltip_module_options.insertStyleElement = (insertStyleElement_default());
+
+var ItemTooltip_module_update = injectStylesIntoStyleTag_default()(ItemTooltip_module/* default */.A, ItemTooltip_module_options);
+
+
+
+
+       /* harmony default export */ const components_ItemTooltip_module = (ItemTooltip_module/* default */.A && ItemTooltip_module/* default */.A.locals ? ItemTooltip_module/* default */.A.locals : undefined);
+
+;// ./src/features/side-inventory/components/ItemTooltip.tsx
+const ItemTooltip=_ref=>{var _item$attributes,_item$tooltip,_item$tooltip2;let{tooltip,settings,item}=_ref;if(!tooltip.show)return null;const renderAttributeIcon=type=>{switch(type){case"durability":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/shield_icon.svg");case"partial":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/round_icon.svg");case"productionProgress":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/under_production_icon.svg");case"energyPool":case"energyPerKill":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/energy_filled_icon.svg");case"energyRecovery":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/residence_info_icon.svg");case"overtimePoints":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/budget_icon.svg");case"storage":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/storage_icon.svg");case"quantity":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/quantity_icon.svg");case"duration":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/early_battle.svg");case"firepowerGnd":case"firepowerAir":case"battleDamageAir":case"battleDamageGnd":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/damage_icon.svg");case"speed":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/damage_bonuses.svg");case"prestigePoints":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/prestige_icon.svg");case"energy":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/energy_filled_icon.svg");case"distance":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/switch_icon.svg");case"militaryRankAir":case"militaryRankGnd":case"battleInfluenceAir":case"battleInfluenceGnd":case"battleDamage":return"//".concat(settings.cookielessHost,"/images/icons_svg/items/damage_rank.svg");default:return null;}};const shouldRenderAttribute=attribute=>{return attribute.type!=="currencyId"&&attribute.type!=="damage"&&attribute.type.indexOf("_")===-1&&attribute.type!=="boxKey";};return/*#__PURE__*/(0,jsx_runtime.jsx)("div",{id:"inventoryTooltip",className:components_ItemTooltip_module.ItemTooltip,style:{left:tooltip.position.x,top:tooltip.position.y},children:/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"item_plate_tooltip",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"tooltip_header ".concat(item.rarity),children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"item_icon",children:[((_item$attributes=item.attributes)===null||_item$attributes===void 0?void 0:_item$attributes.inProduction)&&/*#__PURE__*/(0,jsx_runtime.jsx)("img",{src:"//".concat(settings.cookielessHost,"/images/icons_svg/storage/under_production_plate_icon.svg"),alt:"",className:"under_production_icon"}),/*#__PURE__*/(0,jsx_runtime.jsx)("img",{src:item.icon,alt:"",className:"item_icon_img"})]}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"item_name",children:item.name}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"item_rarity",children:item.rarity})]}),((_item$tooltip=item.tooltip)===null||_item$tooltip===void 0?void 0:_item$tooltip.attributes)&&/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"tooltip_attributes",children:item.tooltip.attributes.map((attribute,index)=>{if(!shouldRenderAttribute(attribute))return null;const iconUrl=renderAttributeIcon(attribute.type);return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"item_attribute",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"left_part",children:[iconUrl&&/*#__PURE__*/(0,jsx_runtime.jsx)("img",{src:iconUrl,alt:""}),/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:attribute.text})]}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"right_part",children:/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:attribute.value})})]},index);})}),item.description&&/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"tooltip_description",children:/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:item.description})}),((_item$tooltip2=item.tooltip)===null||_item$tooltip2===void 0?void 0:_item$tooltip2.info)&&/*#__PURE__*/(0,jsx_runtime.jsx)(jsx_runtime.Fragment,{children:item.tooltip.info.map((info,index)=>/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"tooltip_info ".concat(info.type),children:/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:info.text})},index))})]})});};
 ;// ./src/features/side-inventory/components/SideInventory.tsx
-function createSideInventoryRootElement(){const rootElement=document.createElement("div");rootElement.classList.add(components_SideInventory_module.SideInventoryRoot);return rootElement;}const SideInventory=props=>{return/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_SideInventory_module.SideInventory,children:props.items.map(item=>{var _item$attributes$temp,_item$attributes,_item$attributes$temp2,_item$attributes2,_item$attributes3,_item$attributes4;const isExpiringSoon=((_item$attributes$temp=(_item$attributes=item.attributes)===null||_item$attributes===void 0?void 0:(_item$attributes$temp2=_item$attributes.temporary)===null||_item$attributes$temp2===void 0?void 0:_item$attributes$temp2.expiresIn)!==null&&_item$attributes$temp!==void 0?_item$attributes$temp:Infinity)<60*60*24;// 1 day
-let tooltip="".concat((_item$attributes2=item.attributes)!==null&&_item$attributes2!==void 0&&_item$attributes2.duration?"[".concat(item.attributes.duration,"] "):"").concat(item.name);if(isExpiringSoon){tooltip+="\nExpires in less then 1 day!!!";}return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_SideInventory_module.Item,title:tooltip,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_SideInventory_module.Img,src:item.icon,alt:item.name}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:classnames_default()(components_SideInventory_module.Text,{[components_SideInventory_module.IsActive]:(_item$attributes3=item.attributes)===null||_item$attributes3===void 0?void 0:_item$attributes3.active,[components_SideInventory_module.IsTemporary]:(_item$attributes4=item.attributes)===null||_item$attributes4===void 0?void 0:_item$attributes4.temporary,[components_SideInventory_module.ExpiresSoon]:isExpiringSoon}),children:item.amountDisplay})]},item.id);})});};
+function createSideInventoryRootElement(){const rootElement=document.createElement("div");rootElement.classList.add(components_SideInventory_module.SideInventoryRoot);return rootElement;}const SideInventory=props=>{const[tooltipPosition,setTooltipPosition]=(0,react.useState)(null);const[tooltipItem,setTooltipItem]=(0,react.useState)(null);const handleMouseEnter=event=>{const rect=event.currentTarget.getBoundingClientRect();const{innerWidth:windowWidth,innerHeight:windowHeight}=window;// Initial position
+let x=rect.left+rect.width;let y=rect.top;// Tooltip dimensions
+const tooltipWidth=200;const tooltipHeight=350;// Adjust x if it goes beyond the viewport
+if(x+tooltipWidth>windowWidth){x=windowWidth-tooltipWidth;}// Adjust y similarly
+if(y+tooltipHeight>windowHeight){y=windowHeight-tooltipHeight;}// Also, make sure x and y don't go negative
+if(x<0){x=0;}if(y<0){y=0;}setTooltipPosition({x,y});};function handleMouseLeave(){setTooltipPosition(null);setTooltipItem(null);}return/*#__PURE__*/(0,jsx_runtime.jsxs)(jsx_runtime.Fragment,{children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:components_SideInventory_module.SideInventory,children:props.items.map(item=>{var _item$attributes$temp,_item$attributes,_item$attributes$temp2,_item$attributes2,_item$attributes3;const isExpiringSoon=((_item$attributes$temp=(_item$attributes=item.attributes)===null||_item$attributes===void 0?void 0:(_item$attributes$temp2=_item$attributes.temporary)===null||_item$attributes$temp2===void 0?void 0:_item$attributes$temp2.expiresIn)!==null&&_item$attributes$temp!==void 0?_item$attributes$temp:Infinity)<60*60*24;// 1 day
+return/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:components_SideInventory_module.Item,onMouseEnter:event=>{handleMouseEnter(event);setTooltipItem(item);},onMouseLeave:handleMouseLeave,children:[/*#__PURE__*/(0,jsx_runtime.jsx)("img",{className:components_SideInventory_module.Img,src:item.icon,alt:item.name}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:classnames_default()(components_SideInventory_module.Text,{[components_SideInventory_module.IsActive]:(_item$attributes2=item.attributes)===null||_item$attributes2===void 0?void 0:_item$attributes2.active,[components_SideInventory_module.IsTemporary]:(_item$attributes3=item.attributes)===null||_item$attributes3===void 0?void 0:_item$attributes3.temporary,[components_SideInventory_module.ExpiresSoon]:isExpiringSoon}),children:item.amountDisplay})]},item.id);})}),tooltipPosition&&tooltipItem&&/*#__PURE__*/(0,jsx_runtime.jsx)(ItemTooltip,{tooltip:{show:true,position:tooltipPosition},item:tooltipItem,settings:{cookielessHost:getCookielessHost()}})]});};
 ;// ./src/features/side-inventory/index.tsx
 const typesToSkip=new Set(["currency","vehicle_blueprint"// "booster"
 ]);const SideInventoryFeature=createFeature({id:"side_inventory",name:"Side Inventory",// Everywhere apart from the storage page itself
@@ -20067,7 +20131,7 @@ var WeeklyChallengeCalculatorButton_module_update = injectStylesIntoStyleTag_def
 ;// ./src/features/main-page/components/WeeklyChallengeCalculatorButton.tsx
 function createWeeklyChallengeCalculatorButtonRootElement(){const rootElement=document.createElement("p");rootElement.classList.add(components_WeeklyChallengeCalculatorButton_module.RootElement);return rootElement;}const WeeklyChallengeCalculatorButton=()=>{const onClick=()=>{Analytics.postWcCalculatorOpenedEvent();};return/*#__PURE__*/(0,jsx_runtime.jsx)(LinkButton,{href:"https://humberd.github.io/Weekly-Challenge-Calculator",size:"small",target:"_blank",onClick:onClick,children:"\u2B50 WC calculator"});};
 ;// ./src/features/main-page/index.tsx
-const MainPageFeature=createFeature({id:"main_page",name:"Main Page",canExecute:url=>isOnHomepage(),execute:async()=>{await weeklyChallengeCalculator();await vipInfo();await storageInfo();}});async function weeklyChallengeCalculator(){await retryNullish(()=>document.querySelector("#weeklyChallenge"),"Can't find weekly challenge section",40,50);renderElementWithRoot(/*#__PURE__*/(0,jsx_runtime.jsx)(WeeklyChallengeCalculatorButton,{}),createWeeklyChallengeCalculatorButtonRootElement()).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));}async function vipInfo(){var _ensure$textContent,_ensure$textContent$t,_ensure$textContent2,_ensure$textContent2$,_ensure$textContent3,_ensure$textContent3$;const html=await VipShopHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const vipLevel=Number((_ensure$textContent=ensure(doc.querySelector("#vip_level")).textContent)===null||_ensure$textContent===void 0?void 0:(_ensure$textContent$t=_ensure$textContent.trim())===null||_ensure$textContent$t===void 0?void 0:_ensure$textContent$t.replace(",",""));const vipPoints=Number((_ensure$textContent2=ensure(doc.querySelector("#vip_points")).textContent)===null||_ensure$textContent2===void 0?void 0:(_ensure$textContent2$=_ensure$textContent2.trim())===null||_ensure$textContent2$===void 0?void 0:_ensure$textContent2$.replace(",",""));const nextVipPoints=Number((_ensure$textContent3=ensure(doc.querySelector("#next_threshold")).textContent)===null||_ensure$textContent3===void 0?void 0:(_ensure$textContent3$=_ensure$textContent3.trim())===null||_ensure$textContent3$===void 0?void 0:_ensure$textContent3$.replace(",",""));const isClaimed=doc.querySelector("#vip_claimed.disabled")!==null;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(VipStatus,{level:vipLevel,currentPoints:vipPoints,totalPoints:nextVipPoints,isClaimed:isClaimed})).after(document.querySelector(".sidebar .currency_amount"));}async function storageInfo(){const html=await InventoryHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const selectors=".used_storage_wrapper .used_storage";const currencyAmount=doc.querySelector(selectors);if(!currencyAmount){console.error("Element with selector '".concat(selectors,"' not found"));return;}const originalTitle="title";const rawValues=currencyAmount.getAttribute(originalTitle);if(!rawValues){console.error("Element with selector '".concat(selectors,"' has no ").concat(originalTitle," attribute"));return;}const{current,total}=parseValues(rawValues);const free=total-current;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(StorageInfo,{current:current,total:total,free:free})).after(document.querySelector(".sidebar .currency_amount"));}/**
+const MainPageFeature=createFeature({id:"main_page",name:"Main Page",canExecute:url=>isOnHomepage(),execute:async()=>{await weeklyChallengeCalculator();await vipInfo();await storageInfo();}});async function weeklyChallengeCalculator(){await retryNullish(()=>document.querySelector("#weeklyChallenge"),"Can't find weekly challenge section",40,50);renderElementWithRoot(/*#__PURE__*/(0,jsx_runtime.jsx)(WeeklyChallengeCalculatorButton,{}),createWeeklyChallengeCalculatorButtonRootElement()).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));}async function vipInfo(){var _ensure$textContent,_ensure$textContent$t,_ensure$textContent2,_ensure$textContent2$,_ensure$textContent3,_ensure$textContent3$;const html=await VipShopHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const vipLevel=Number((_ensure$textContent=ensure(doc.querySelector("#vip_level")).textContent)===null||_ensure$textContent===void 0?void 0:(_ensure$textContent$t=_ensure$textContent.trim())===null||_ensure$textContent$t===void 0?void 0:_ensure$textContent$t.replace(",",""));const vipPoints=Number((_ensure$textContent2=ensure(doc.querySelector("#vip_points")).textContent)===null||_ensure$textContent2===void 0?void 0:(_ensure$textContent2$=_ensure$textContent2.trim())===null||_ensure$textContent2$===void 0?void 0:_ensure$textContent2$.replace(",",""));const nextVipPoints=Number((_ensure$textContent3=ensure(doc.querySelector("#next_threshold")).textContent)===null||_ensure$textContent3===void 0?void 0:(_ensure$textContent3$=_ensure$textContent3.trim())===null||_ensure$textContent3$===void 0?void 0:_ensure$textContent3$.replace(",",""));const isClaimed=doc.querySelector("#claimDailyVIPPoints[style='display:none']")!==null;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(VipStatus,{level:vipLevel,currentPoints:vipPoints,totalPoints:nextVipPoints,isClaimed:isClaimed})).after(document.querySelector(".sidebar .currency_amount"));}async function storageInfo(){const html=await InventoryHtml.sendRequest({});const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");const selectors=".used_storage_wrapper .used_storage";const currencyAmount=doc.querySelector(selectors);if(!currencyAmount){console.error("Element with selector '".concat(selectors,"' not found"));return;}const originalTitle="title";const rawValues=currencyAmount.getAttribute(originalTitle);if(!rawValues){console.error("Element with selector '".concat(selectors,"' has no ").concat(originalTitle," attribute"));return;}const{current,total}=parseValues(rawValues);const free=total-current;renderElement(/*#__PURE__*/(0,jsx_runtime.jsx)(StorageInfo,{current:current,total:total,free:free})).after(document.querySelector(".sidebar .currency_amount"));}/**
  * Converts a string like "1,234 / 5,678" to an object with current and total properties
  */function parseValues(input){// Split the input by '/' and trim whitespace from each part
 const[currentStr,totalStr]=input.split("/").map(part=>part.trim());// Helper function to remove commas and convert to a number
