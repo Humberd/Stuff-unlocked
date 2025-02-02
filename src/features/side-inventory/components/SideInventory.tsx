@@ -66,15 +66,10 @@ export const SideInventory: React.FC<SideInventoryProps> = (props) => {
         {props.items.map((item) => {
           const isExpiringSoon =
             (item.attributes?.temporary?.expiresIn ?? Infinity) < 60 * 60 * 24; // 1 day
-          let tooltip = `${item.attributes?.duration ? `[${item.attributes.duration}] ` : ""}${item.name}`;
-          if (isExpiringSoon) {
-            tooltip += `\nExpires in less then 1 day!!!`;
-          }
           return (
             <div
               key={item.id}
               className={styles.Item}
-              title={tooltip}
               onMouseEnter={(event) => {
                 handleMouseEnter(event);
                 setTooltipItem(item);
