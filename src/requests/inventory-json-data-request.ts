@@ -33,7 +33,7 @@ export namespace InventoryJson {
     quality?: number | null;
     icon?: string;
     attributes?: ItemAttributes;
-    tooltip?: ComponentTooltip;
+    tooltip?: ItemTooltipInfo;
     description?: null | string;
     amount?: number;
     amountDisplay?: string;
@@ -134,7 +134,7 @@ export namespace InventoryJson {
     quality: number | null;
     icon: string;
     attributes: ComponentAttributes;
-    tooltip: ComponentTooltip | null;
+    tooltip: ItemTooltipInfo | null;
     description: Description;
     amount: number;
     amountDisplay: string;
@@ -157,7 +157,7 @@ export namespace InventoryJson {
 
   export type Rarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
 
-  export interface ComponentTooltip {
+  export interface ItemTooltipInfo {
     attributes: PurpleAttribute[];
     info: Info[] | null;
     help: null;
