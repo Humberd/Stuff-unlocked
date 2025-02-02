@@ -56,7 +56,7 @@ async function vipInfo() {
       .textContent?.trim()
       ?.replace(",", ""),
   );
-  const isClaimed = doc.querySelector("#vip_claimed.disabled") !== null;
+  const isClaimed = doc.querySelector("#claimDailyVIPPoints[style='display:none']") !== null;
 
   renderElement(
     <VipStatus
