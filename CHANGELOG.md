@@ -1,3 +1,8 @@
+# 5.74 (02.02.2025)
+* Fix: Claiming VIP Points in the main page
+* Fix: Remove old item tooltip from the side inventory
+* Feat: Add newer item tooltip in the side inventory
+
 # 5.73 (01.02.2025)
 * Feat: Add Weekly Challenge Calculator button (#53)
 * Feat: Add blinking color for items expiring in 1 day in side inventory
