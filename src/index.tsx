@@ -8,6 +8,7 @@ import { SideInventoryFeature } from "./features/side-inventory";
 import { MainPageFeature } from "./features/main-page";
 import { countTimeSpent } from "./utils/time";
 import { formatNumber } from "./utils/format";
+import { TabTitleFeature } from "./features/tab-title";
 
 log("React script has successfully started");
 
@@ -16,6 +17,7 @@ const features = [
   ImprovedStorage,
   SideInventoryFeature,
   MainPageFeature,
+  TabTitleFeature,
 ];
 
 async function onUrlChange() {
@@ -33,14 +35,14 @@ async function onUrlChange() {
       );
       executionStatuses[feature.id] = {
         skipped: "Disabled on this page",
-      }
+      };
       return;
     }
     if (feature.isSettingEnabled && !feature.isSettingEnabled()) {
       log(`${counterString} [SKIP] [${feature.name}] is disabled in settings`);
       executionStatuses[feature.id] = {
         skipped: "Disabled in settings",
-      }
+      };
       return;
     }
 
@@ -54,14 +56,14 @@ async function onUrlChange() {
       executionStatuses[feature.id] = {
         success: true,
         timeSpentMs: timeSpent,
-      }
+      };
     } catch (e) {
       error(`Feature ${feature.name} failed to execute`);
       error(e);
       executionStatuses[feature.id] = {
         success: false,
         error: e?.toString() ?? "Unknown error",
-      }
+      };
     }
   });
 
