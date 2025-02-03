@@ -1852,7 +1852,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
               if (ms) {
                 if (
                     (append(
-                        "#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.country_avatar,.region_name_background{pointer-events:none}"
+                        "#battleConsole li isZordacz,#battleConsole li div,#battleConsole li i,.player_name a,.region_name_background{pointer-events:none}"
                     ),
                         (localStorage.hasMaverick = SERVER_DATA.canSwitchDivisions),
                         afterRequestCallbacks.push(function (data, url) {
