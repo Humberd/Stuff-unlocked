@@ -961,9 +961,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
                     "beforeEnd",
                     " (" +
                     order +
-                    ')<a href="//erepbox.ru/content/profile/profile.php?id=' +
-                    find +
-                    '"><img id="erepboxStats" src="//erepbox.ru/images/logo.png" title="Click for more stats"></a><a id="erepDE" href="//erepublik.tools/en/society/citizen/' +
+                    ')<a id="erepDE" href="//erepublik.tools/en/society/citizen/' +
                     find +
                     '" title="Click for more stats">eRepublik<span>.tools</span></a>'
                 );
