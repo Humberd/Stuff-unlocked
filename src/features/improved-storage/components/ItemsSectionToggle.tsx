@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./ItemsSectionToggle.module.scss";
 import { ensure } from "../../../utils/utils";
+import { useLocalStorage } from "../../../hooks/storage";
 
 interface ItemsSectionToggleProps {
   sectionId: string;
@@ -10,7 +11,10 @@ interface ItemsSectionToggleProps {
 export const ItemsSectionToggle: React.FC<ItemsSectionToggleProps> = (
   props,
 ) => {
-  const [isOpened, setIsOpened] = useState(props.initialIsOpened ?? true);
+  const [isOpened, setIsOpened] = useLocalStorage(
+    `inventory-section-${props.sectionId}-opened`,
+    props.initialIsOpened ?? true
+  );
 
   useEffect(() => {
     const section = ensure(document.getElementById(props.sectionId));
