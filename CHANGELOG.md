@@ -1,3 +1,10 @@
+# 5.75 (24.08.2025)
+* Remove dead erepbox.ru links
+* Preserve storage section open/close state
+* misc: Donation add
+* Feat: Dynamically change tab title
+* Fix: Make country flag clickable on a battlefield
+
 # 5.74 (02.02.2025)
 * Fix: Claiming VIP Points in the main page
 * Fix: Remove old item tooltip from the side inventory
