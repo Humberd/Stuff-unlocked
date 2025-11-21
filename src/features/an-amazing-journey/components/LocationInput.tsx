@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./LocationSelectionPanel.module.scss";
-import classNames from "classnames";
 import { TravelData } from "../../../requests/travel-data-request";
 import { getCsrfToken } from "../../../utils/erep-global-info";
 
@@ -11,10 +10,6 @@ interface LocationInputProps {
   selectedRegionId: string;
   onCountryChange: (countryId: string) => void;
   onRegionChange: (regionId: string) => void;
-  countryError?: string;
-  regionError?: string;
-  registerCountry: any;
-  registerRegion: any;
 }
 
 export const LocationInput: React.FC<LocationInputProps> = (props) => {
@@ -52,22 +47,12 @@ export const LocationInput: React.FC<LocationInputProps> = (props) => {
   return (
     <div className={styles.locationGroup}>
       <h3 className={styles.locationTitle}>{props.title}</h3>
-      <label
-        className={styles.label}
-        {...(props.countryError && {
-          "data-tooltip": props.countryError,
-        })}
-      >
+      <label className={styles.label}>
         <span>Country</span>
         <select
-          {...props.registerCountry}
-          className={classNames(styles.select, {
-            [styles.inputError]: props.countryError,
-          })}
-          onChange={(e) => {
-            props.registerCountry.onChange(e);
-            props.onCountryChange(e.target.value);
-          }}
+          className={styles.select}
+          value={props.selectedCountryId}
+          onChange={(e) => props.onCountryChange(e.target.value)}
         >
           <option value="">Please select a country</option>
           {Object.values(props.countries)
@@ -79,23 +64,13 @@ export const LocationInput: React.FC<LocationInputProps> = (props) => {
             ))}
         </select>
       </label>
-      <label
-        className={styles.label}
-        {...(props.regionError && {
-          "data-tooltip": props.regionError,
-        })}
-      >
+      <label className={styles.label}>
         <span>Region</span>
         <select
-          {...props.registerRegion}
-          className={classNames(styles.select, {
-            [styles.inputError]: props.regionError,
-          })}
+          className={styles.select}
+          value={props.selectedRegionId}
           disabled={regions.length === 0 || isLoadingRegions}
-          onChange={(e) => {
-            props.registerRegion.onChange(e);
-            props.onRegionChange(e.target.value);
-          }}
+          onChange={(e) => props.onRegionChange(e.target.value)}
         >
           <option value="">
             {isLoadingRegions ? "Loading regions..." : "Please select a region"}

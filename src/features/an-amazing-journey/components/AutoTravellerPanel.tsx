@@ -26,6 +26,14 @@ export interface AutoTravelForm {
   targetDistanceKm: string;
   resourceUsed: "preferCurrency" | "preferTicket";
   travelBackAfterFinish: boolean;
+  locationA: {
+    countryId: string;
+    regionId: string;
+  };
+  locationB: {
+    countryId: string;
+    regionId: string;
+  };
 }
 
 export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
@@ -41,12 +49,21 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
       targetDistanceKm: "1000000",
       resourceUsed: "preferTicket",
       travelBackAfterFinish: true,
+      locationA: {
+        countryId: "15", // Spain
+        regionId: "173", // Castilla Y Leon
+      },
+      locationB: {
+        countryId: "84", // New Zealand
+        regionId: "714", // Wellington
+      },
     });
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<AutoTravelForm>({
     defaultValues: formValuesFromStorage,
   });
@@ -73,8 +90,15 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
       {!isLocationPanelCollapsed && (
         <LocationSelectionPanel
           countries={props.countries}
-          defaultValues={props.locationSelection}
-          onChange={props.onLocationChange}
+          locationSelection={{
+            locationA: formValues.locationA,
+            locationB: formValues.locationB,
+          }}
+          onChange={(locationData) => {
+            setValue("locationA", locationData.locationA);
+            setValue("locationB", locationData.locationB);
+            props.onLocationChange(locationData);
+          }}
         />
       )}
       <section ref={panelRef} className={styles.panel}>
