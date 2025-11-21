@@ -9,6 +9,8 @@ interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
   state: AutoTravelFormState;
+  isLocationPanelCollapsed: boolean;
+  onToggleLocationPanel: () => void;
 }
 
 export enum AutoTravelFormState {
@@ -29,7 +31,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   const panelRef = useRef<HTMLDivElement>(null);
   const [formValuesFromStorage, setFormValues] =
     useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
-      targetDistanceKm: "100000",
+      targetDistanceKm: "1000000",
       resourceUsed: "preferTicket",
       travelBackAfterFinish: true,
     });
@@ -118,6 +120,15 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
           </label>
         </fieldset>
         <section className={styles.actionBar}>
+          <button
+            className={classNames(styles.locationToggle, {
+              [styles.locationToggleActive]: !props.isLocationPanelCollapsed,
+            })}
+            onClick={props.onToggleLocationPanel}
+            type="button"
+          >
+            Update locations
+          </button>
           {props.state !== AutoTravelFormState.IDLE && (
             <button
               className={styles.start}

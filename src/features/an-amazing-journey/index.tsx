@@ -7,15 +7,15 @@ import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
 import { createNewTravelProgressState, executeTravel, TravelInfo } from "./travel";
-import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
-import { travelRouteMain } from "./regions";
+import { getCitizenshipCurrencyName, getCsrfToken } from "../../utils/erep-global-info";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
+import { TravelData } from "../../requests/travel-data-request";
+import { LocationSelection, LocationSelectionPanel } from "./components/LocationSelectionPanel";
 
 const countriesCache = new CountriesCache();
 
 const TIMER_INTERVAL_MS = 5_000;
-const currentTravelRoute = travelRouteMain;
 
 export const AnAmazingJourneyFeature = createFeature({
   id: "amazing_journey",
@@ -35,6 +35,10 @@ const JourneyFeatureComponent = () => {
     "AnAmazingJourney.isCollapsed",
     false
   );
+  const [isLocationPanelCollapsed, setIsLocationPanelCollapsed] = useLocalStorage(
+    "AnAmazingJourney.isLocationPanelCollapsed",
+    false
+  );
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
@@ -47,9 +51,57 @@ const JourneyFeatureComponent = () => {
     shouldStopRef.current = shouldStop;
   }, [shouldStop]);
   const [errors, setErrors] = useState<Error[]>([]);
+  const [countries, setCountries] = useState<Record<string, TravelData.CountryValue>>({});
+  const [regions, setRegions] = useState<Record<string, TravelData.Region>>({});
+  const [locationSelection, setLocationSelection] = useLocalStorage<LocationSelection>(
+    "AnAmazingJourney.locationSelection",
+    {
+      locationA: {
+        countryId: "",
+        regionId: "",
+      },
+      locationB: {
+        countryId: "",
+        regionId: "",
+      },
+    }
+  );
+  
+  // Fetch countries and regions data on mount
+  useEffect(() => {
+    const fetchTravelData = async () => {
+      try {
+        const travelDataCountries = await countriesCache.getCountries();
+        setCountries(travelDataCountries);
+        
+        // Fetch regions data by making a travel data request
+        const travelData = await TravelData.sendRequest({
+          battleId: "0",
+          _token: getCsrfToken(),
+          regionId: "0",
+          holdingId: "0",
+        });
+        setRegions(travelData.regions);
+      } catch (e: any) {
+        error("Failed to fetch travel data", e);
+        setErrors((errors) => [...errors, e]);
+      }
+    };
+    fetchTravelData();
+  }, []);
 
   const onStart = async (form: AutoTravelForm) => {
     log("Starting...", form);
+    
+    // Validate that locations are selected
+    if (!locationSelection.locationA?.regionId || !locationSelection.locationB?.regionId) {
+      setErrors((errors) => [
+        ...errors,
+        new Error("Please select both Location A and Location B"),
+      ]);
+      return;
+    }
+    
     setTravelFormState(AutoTravelFormState.STARTED);
     const currencyUnit =
       form.resourceUsed === "preferCurrency"
@@ -60,9 +112,9 @@ const JourneyFeatureComponent = () => {
 
     const initialRegionId = await countriesCache.getCurrentRegionId({skipCache: true});
     let nextTargetRegionId =
-      initialRegionId === currentTravelRoute.regionIdA
-        ? currentTravelRoute.regionIdB
-        : currentTravelRoute.regionIdA;
+      initialRegionId === locationSelection.locationA.regionId
+        ? locationSelection.locationB.regionId
+        : locationSelection.locationA.regionId;
     let setIntervalId: number;
 
     const handleStop = async (errorMessage?: string) => {
@@ -146,9 +198,9 @@ const JourneyFeatureComponent = () => {
       updateTravelProgressState(travelInfo);
 
       nextTargetRegionId =
-        nextTargetRegionId === currentTravelRoute.regionIdA
-          ? currentTravelRoute.regionIdB
-          : currentTravelRoute.regionIdA;
+        nextTargetRegionId === locationSelection.locationA.regionId
+          ? locationSelection.locationB.regionId
+          : locationSelection.locationA.regionId;
 
       if (travelledDistanceKm >= Number(form.targetDistanceKm)) {
         await handleStop();
@@ -187,11 +239,20 @@ const JourneyFeatureComponent = () => {
   return (
     <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
+      <LocationSelectionPanel
+        countries={countries}
+        regions={regions}
+        defaultValues={locationSelection}
+        onChange={setLocationSelection}
+        isCollapsed={isLocationPanelCollapsed}
+      />
       {!isCollapsed && (
         <AutoTravellerPanel
           onStart={onStart}
           onStop={onStop}
           state={travelFormState}
+          isLocationPanelCollapsed={isLocationPanelCollapsed}
+          onToggleLocationPanel={() => setIsLocationPanelCollapsed(!isLocationPanelCollapsed)}
         />
       )}
       {!isCollapsed && travelProgressState && (
