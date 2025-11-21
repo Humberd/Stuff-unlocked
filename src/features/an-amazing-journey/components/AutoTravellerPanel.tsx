@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
 import { useForm } from "react-hook-form";
 import { HandleMapEvents } from "../hooks/HandleMapEvents";
@@ -6,12 +6,15 @@ import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
 import { TravelData } from "../../../requests/travel-data-request";
 import { LocationSelectionPanel } from "./LocationSelectionPanel";
+import { CountriesCache } from "../countries-cache";
+import { error, log } from "../../../utils/utils";
+
+const countriesCache = new CountriesCache();
 
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
   state: AutoTravelFormState;
-  countries: Record<string, TravelData.CountryValue>;
 }
 
 export enum AutoTravelFormState {
@@ -38,10 +41,25 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   props
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [countries, setCountries] = useState<Record<string, TravelData.CountryValue>>({});
   const [isLocationPanelCollapsed, setIsLocationPanelCollapsed] = useLocalStorage(
     "AnAmazingJourney.isLocationPanelCollapsed",
     false
   );
+  
+  // Fetch countries data on mount
+  useEffect(() => {
+    const fetchTravelData = async () => {
+      try {
+        const travelDataCountries = await countriesCache.getCountries();
+        setCountries(travelDataCountries);
+        log("Loaded countries:", Object.keys(travelDataCountries).length);
+      } catch (e: any) {
+        error("Failed to fetch travel data", e);
+      }
+    };
+    fetchTravelData();
+  }, []);
   const [formValuesFromStorage, setFormValues] =
     useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
       targetDistanceKm: "1000000",
@@ -87,7 +105,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
     <>
       {!isLocationPanelCollapsed && (
         <LocationSelectionPanel
-          countries={props.countries}
+          countries={countries}
           locationSelection={{
             locationA: formValues.locationA,
             locationB: formValues.locationB,

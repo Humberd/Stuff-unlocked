@@ -10,7 +10,6 @@ import { createNewTravelProgressState, executeTravel, TravelInfo } from "./trave
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
-import { TravelData } from "../../requests/travel-data-request";
 
 const countriesCache = new CountriesCache();
 
@@ -46,22 +45,6 @@ const JourneyFeatureComponent = () => {
     shouldStopRef.current = shouldStop;
   }, [shouldStop]);
   const [errors, setErrors] = useState<Error[]>([]);
-  const [countries, setCountries] = useState<Record<string, TravelData.CountryValue>>({});
-  
-  // Fetch countries data on mount
-  useEffect(() => {
-    const fetchTravelData = async () => {
-      try {
-        const travelDataCountries = await countriesCache.getCountries();
-        setCountries(travelDataCountries);
-        log("Loaded countries:", Object.keys(travelDataCountries).length);
-      } catch (e: any) {
-        error("Failed to fetch travel data", e);
-        setErrors((errors) => [...errors, e]);
-      }
-    };
-    fetchTravelData();
-  }, []);
 
   const onStart = async (form: AutoTravelForm) => {
     log("Starting...", form);
@@ -217,7 +200,6 @@ const JourneyFeatureComponent = () => {
           onStart={onStart}
           onStop={onStop}
           state={travelFormState}
-          countries={countries}
         />
       )}
       {!isCollapsed && travelProgressState && (
