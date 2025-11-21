@@ -21,22 +21,24 @@ export interface LocationSelection {
   };
 }
 
+const DEFAULT_LOCATIONS = Object.freeze({
+  locationA: {
+    countryId: "15", // Spain
+    regionId: "173", // Castilla Y Leon
+  },
+  locationB: {
+    countryId: "84", // New Zealand
+    regionId: "714", // Wellington
+  },
+});
+
 export const LocationSelectionPanel: React.FC<LocationSelectionPanelProps> = (
   props
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
 
   const handleReset = () => {
-    props.onChange({
-      locationA: {
-        countryId: "15", // Spain
-        regionId: "173", // Castilla Y Leon
-      },
-      locationB: {
-        countryId: "84", // New Zealand
-        regionId: "714", // Wellington
-      },
-    });
+    props.onChange(DEFAULT_LOCATIONS);
   };
 
   HandleMapEvents(panelRef);
