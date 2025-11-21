@@ -4,13 +4,16 @@ import { useForm } from "react-hook-form";
 import { HandleMapEvents } from "../hooks/HandleMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
+import { TravelData } from "../../../requests/travel-data-request";
+import { LocationSelection, LocationSelectionPanel } from "./LocationSelectionPanel";
 
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
   state: AutoTravelFormState;
-  isLocationPanelCollapsed: boolean;
-  onToggleLocationPanel: () => void;
+  countries: Record<string, TravelData.CountryValue>;
+  locationSelection: LocationSelection;
+  onLocationChange: (data: LocationSelection) => void;
 }
 
 export enum AutoTravelFormState {
@@ -29,6 +32,10 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   props
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [isLocationPanelCollapsed, setIsLocationPanelCollapsed] = useLocalStorage(
+    "AnAmazingJourney.isLocationPanelCollapsed",
+    false
+  );
   const [formValuesFromStorage, setFormValues] =
     useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
       targetDistanceKm: "1000000",
@@ -62,15 +69,23 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   };
 
   return (
-    <section ref={panelRef} className={styles.panel}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>Auto Traveller</h2>
-      </header>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit(onStart)}
-        autoComplete="off"
-      >
+    <>
+      {!isLocationPanelCollapsed && (
+        <LocationSelectionPanel
+          countries={props.countries}
+          defaultValues={props.locationSelection}
+          onChange={props.onLocationChange}
+        />
+      )}
+      <section ref={panelRef} className={styles.panel}>
+        <header className={styles.header}>
+          <h2 className={styles.title}>Auto Traveller</h2>
+        </header>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit(onStart)}
+          autoComplete="off"
+        >
         <fieldset>
           <label
             className={styles.label}
@@ -122,9 +137,9 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
         <section className={styles.actionBar}>
           <button
             className={classNames(styles.locationToggle, {
-              [styles.locationToggleActive]: !props.isLocationPanelCollapsed,
+              [styles.locationToggleActive]: !isLocationPanelCollapsed,
             })}
-            onClick={props.onToggleLocationPanel}
+            onClick={() => setIsLocationPanelCollapsed(!isLocationPanelCollapsed)}
             type="button"
           >
             Update locations
@@ -149,5 +164,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
         </section>
       </form>
     </section>
+    </>
   );
 };

@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { HandleMapEvents } from "../hooks/HandleMapEvents";
 import classNames from "classnames";
 import { TravelData } from "../../../requests/travel-data-request";
+import { getCsrfToken } from "../../../utils/erep-global-info";
 
 interface LocationSelectionPanelProps {
   countries: Record<string, TravelData.CountryValue>;
-  regions: Record<string, TravelData.Region>;
   defaultValues: LocationSelection;
   onChange: (data: LocationSelection) => void;
-  isCollapsed: boolean;
 }
 
 export interface LocationSelection {
@@ -50,57 +49,81 @@ export const LocationSelectionPanel: React.FC<LocationSelectionPanelProps> = (
   const selectedCountryB = formValues.locationB?.countryId;
 
   useEffect(() => {
-    if (selectedCountryA && props.countries[selectedCountryA]) {
-      const country = props.countries[selectedCountryA];
-      const availableRegions = Object.values(props.regions).filter(
-        (region) => region.countryId === country.id
-      );
-      setRegionsForLocationA(availableRegions);
+    const fetchRegions = async () => {
+      if (selectedCountryA && props.countries[selectedCountryA]) {
+        try {
+          const response = await TravelData.sendRequest({
+            check: "getCountryRegions",
+            countryId: selectedCountryA,
+            _token: getCsrfToken(),
+            holdingId: "0",
+            regionId: "0",
+          });
+          const availableRegions = Object.values(response.regions);
+          console.log('LocationA - Selected country:', selectedCountryA, 'Available regions:', availableRegions.length);
+          setRegionsForLocationA(availableRegions);
 
-      // If current region is not in the new list, reset it
-      if (
-        formValues.locationA?.regionId &&
-        !availableRegions.find(
-          (r) => String(r.id) === formValues.locationA.regionId
-        )
-      ) {
-        setValue("locationA.regionId", "");
+          // If current region is not in the new list, reset it
+          if (
+            formValues.locationA?.regionId &&
+            !availableRegions.find(
+              (r) => String(r.id) === formValues.locationA.regionId
+            )
+          ) {
+            setValue("locationA.regionId", "");
+          }
+        } catch (error) {
+          console.error('Failed to fetch regions for country', selectedCountryA, error);
+          setRegionsForLocationA([]);
+        }
+      } else {
+        setRegionsForLocationA([]);
       }
-    } else {
-      setRegionsForLocationA([]);
-    }
+    };
+    fetchRegions();
   }, [
     selectedCountryA,
     props.countries,
-    props.regions,
     formValues.locationA?.regionId,
     setValue,
   ]);
 
   useEffect(() => {
-    if (selectedCountryB && props.countries[selectedCountryB]) {
-      const country = props.countries[selectedCountryB];
-      const availableRegions = Object.values(props.regions).filter(
-        (region) => region.countryId === country.id
-      );
-      setRegionsForLocationB(availableRegions);
+    const fetchRegions = async () => {
+      if (selectedCountryB && props.countries[selectedCountryB]) {
+        try {
+          const response = await TravelData.sendRequest({
+            check: "getCountryRegions",
+            countryId: selectedCountryB,
+            _token: getCsrfToken(),
+            holdingId: "0",
+            regionId: "0",
+          });
+          const availableRegions = Object.values(response.regions);
+          console.log('LocationB - Selected country:', selectedCountryB, 'Available regions:', availableRegions.length);
+          setRegionsForLocationB(availableRegions);
 
-      // If current region is not in the new list, reset it
-      if (
-        formValues.locationB?.regionId &&
-        !availableRegions.find(
-          (r) => String(r.id) === formValues.locationB.regionId
-        )
-      ) {
-        setValue("locationB.regionId", "");
+          // If current region is not in the new list, reset it
+          if (
+            formValues.locationB?.regionId &&
+            !availableRegions.find(
+              (r) => String(r.id) === formValues.locationB.regionId
+            )
+          ) {
+            setValue("locationB.regionId", "");
+          }
+        } catch (error) {
+          console.error('Failed to fetch regions for country', selectedCountryB, error);
+          setRegionsForLocationB([]);
+        }
+      } else {
+        setRegionsForLocationB([]);
       }
-    } else {
-      setRegionsForLocationB([]);
-    }
+    };
+    fetchRegions();
   }, [
     selectedCountryB,
     props.countries,
-    props.regions,
     formValues.locationB?.regionId,
     setValue,
   ]);
@@ -113,10 +136,6 @@ export const LocationSelectionPanel: React.FC<LocationSelectionPanelProps> = (
   }, [stringifiedFormValues]);
 
   HandleMapEvents(panelRef);
-
-  if (props.isCollapsed) {
-    return null;
-  }
 
   return (
     <section ref={panelRef} className={styles.panel}>

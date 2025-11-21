@@ -7,11 +7,11 @@ import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
 import { createNewTravelProgressState, executeTravel, TravelInfo } from "./travel";
-import { getCitizenshipCurrencyName, getCsrfToken } from "../../utils/erep-global-info";
+import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
 import { TravelData } from "../../requests/travel-data-request";
-import { LocationSelection, LocationSelectionPanel } from "./components/LocationSelectionPanel";
+import { LocationSelection } from "./components/LocationSelectionPanel";
 
 const countriesCache = new CountriesCache();
 
@@ -35,10 +35,6 @@ const JourneyFeatureComponent = () => {
     "AnAmazingJourney.isCollapsed",
     false
   );
-  const [isLocationPanelCollapsed, setIsLocationPanelCollapsed] = useLocalStorage(
-    "AnAmazingJourney.isLocationPanelCollapsed",
-    false
-  );
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
@@ -52,7 +48,6 @@ const JourneyFeatureComponent = () => {
   }, [shouldStop]);
   const [errors, setErrors] = useState<Error[]>([]);
   const [countries, setCountries] = useState<Record<string, TravelData.CountryValue>>({});
-  const [regions, setRegions] = useState<Record<string, TravelData.Region>>({});
   const [locationSelection, setLocationSelection] = useLocalStorage<LocationSelection>(
     "AnAmazingJourney.locationSelection",
     {
@@ -67,21 +62,13 @@ const JourneyFeatureComponent = () => {
     }
   );
   
-  // Fetch countries and regions data on mount
+  // Fetch countries data on mount
   useEffect(() => {
     const fetchTravelData = async () => {
       try {
         const travelDataCountries = await countriesCache.getCountries();
         setCountries(travelDataCountries);
-        
-        // Fetch regions data by making a travel data request
-        const travelData = await TravelData.sendRequest({
-          battleId: "0",
-          _token: getCsrfToken(),
-          regionId: "0",
-          holdingId: "0",
-        });
-        setRegions(travelData.regions);
+        log("Loaded countries:", Object.keys(travelDataCountries).length);
       } catch (e: any) {
         error("Failed to fetch travel data", e);
         setErrors((errors) => [...errors, e]);
@@ -239,20 +226,14 @@ const JourneyFeatureComponent = () => {
   return (
     <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
-      <LocationSelectionPanel
-        countries={countries}
-        regions={regions}
-        defaultValues={locationSelection}
-        onChange={setLocationSelection}
-        isCollapsed={isLocationPanelCollapsed}
-      />
       {!isCollapsed && (
         <AutoTravellerPanel
           onStart={onStart}
           onStop={onStop}
           state={travelFormState}
-          isLocationPanelCollapsed={isLocationPanelCollapsed}
-          onToggleLocationPanel={() => setIsLocationPanelCollapsed(!isLocationPanelCollapsed)}
+          countries={countries}
+          locationSelection={locationSelection}
+          onLocationChange={setLocationSelection}
         />
       )}
       {!isCollapsed && travelProgressState && (
