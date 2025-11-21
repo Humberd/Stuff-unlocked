@@ -5,15 +5,13 @@ import { HandleMapEvents } from "../hooks/HandleMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
 import { TravelData } from "../../../requests/travel-data-request";
-import { LocationSelection, LocationSelectionPanel } from "./LocationSelectionPanel";
+import { LocationSelectionPanel } from "./LocationSelectionPanel";
 
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
   state: AutoTravelFormState;
   countries: Record<string, TravelData.CountryValue>;
-  locationSelection: LocationSelection;
-  onLocationChange: (data: LocationSelection) => void;
 }
 
 export enum AutoTravelFormState {
@@ -97,7 +95,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
           onChange={(locationData) => {
             setValue("locationA", locationData.locationA);
             setValue("locationB", locationData.locationB);
-            props.onLocationChange(locationData);
           }}
         />
       )}

@@ -11,7 +11,6 @@ import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
 import { TravelData } from "../../requests/travel-data-request";
-import { LocationSelection } from "./components/LocationSelectionPanel";
 
 const countriesCache = new CountriesCache();
 
@@ -48,19 +47,6 @@ const JourneyFeatureComponent = () => {
   }, [shouldStop]);
   const [errors, setErrors] = useState<Error[]>([]);
   const [countries, setCountries] = useState<Record<string, TravelData.CountryValue>>({});
-  const [locationSelection, setLocationSelection] = useLocalStorage<LocationSelection>(
-    "AnAmazingJourney.locationSelection",
-    {
-      locationA: {
-        countryId: "",
-        regionId: "",
-      },
-      locationB: {
-        countryId: "",
-        regionId: "",
-      },
-    }
-  );
   
   // Fetch countries data on mount
   useEffect(() => {
@@ -81,7 +67,7 @@ const JourneyFeatureComponent = () => {
     log("Starting...", form);
     
     // Validate that locations are selected
-    if (!locationSelection.locationA?.regionId || !locationSelection.locationB?.regionId) {
+    if (!form.locationA?.regionId || !form.locationB?.regionId) {
       setErrors((errors) => [
         ...errors,
         new Error("Please select both Location A and Location B"),
@@ -99,9 +85,9 @@ const JourneyFeatureComponent = () => {
 
     const initialRegionId = await countriesCache.getCurrentRegionId({skipCache: true});
     let nextTargetRegionId =
-      initialRegionId === locationSelection.locationA.regionId
-        ? locationSelection.locationB.regionId
-        : locationSelection.locationA.regionId;
+      initialRegionId === form.locationA.regionId
+        ? form.locationB.regionId
+        : form.locationA.regionId;
     let setIntervalId: number;
 
     const handleStop = async (errorMessage?: string) => {
@@ -185,9 +171,9 @@ const JourneyFeatureComponent = () => {
       updateTravelProgressState(travelInfo);
 
       nextTargetRegionId =
-        nextTargetRegionId === locationSelection.locationA.regionId
-          ? locationSelection.locationB.regionId
-          : locationSelection.locationA.regionId;
+        nextTargetRegionId === form.locationA.regionId
+          ? form.locationB.regionId
+          : form.locationA.regionId;
 
       if (travelledDistanceKm >= Number(form.targetDistanceKm)) {
         await handleStop();
@@ -232,8 +218,6 @@ const JourneyFeatureComponent = () => {
           onStop={onStop}
           state={travelFormState}
           countries={countries}
-          locationSelection={locationSelection}
-          onLocationChange={setLocationSelection}
         />
       )}
       {!isCollapsed && travelProgressState && (
