@@ -1,12 +1,22 @@
 import { getCookieHeaders, objectToWwwFormUrlEncoded } from "../utils/request";
 
 export namespace TravelData {
-  export interface Request {
+  export interface BaseRequest {
     battleId: "0";
     _token: string;
     regionId: string | "0";
     holdingId: "0";
   }
+
+  export interface CountryRegionsRequest {
+    check: "getCountryRegions";
+    countryId: string;
+    _token: string;
+    holdingId: "0";
+    regionId: "0";
+  }
+
+  export type Request = BaseRequest | CountryRegionsRequest;
 
   export interface Response {
     countries: Record<string, CountryValue>;
