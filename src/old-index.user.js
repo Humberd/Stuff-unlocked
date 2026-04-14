@@ -1110,6 +1110,7 @@ const CONTRIBUTORS_URL = "https://raw.githubusercontent.com/Humberd/Stuff-unlock
         hookUpPowerSpin();
         hookUpDailyChallengeAutoCollect();
         hookUpDonatorBadges(data.unlocked);
+        load();
         document.body.insertAdjacentHTML(
             "beforeEnd",
             '<div id="stuffTipsy"></div>'
