@@ -67,7 +67,7 @@ async function applyMaxItemsOnSellOffer() {
   const storageController =
     getAngularjsControllerScope<any>("StorageController");
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
-    "ErpkSellItemsController",
+    "SellItemsController",
   );
 
   console.log({
@@ -103,7 +103,7 @@ async function applyMaxItemsOnSellOffer() {
 
 async function displayTotalPriceOnSellOffer() {
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
-    "ErpkSellItemsController",
+    "SellItemsController",
   );
 
   const totalProperty = new ExternalProperty<number>(0);
