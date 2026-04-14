@@ -85,7 +85,7 @@ async function outputVersionToGithubAction(newVersion, changes) {
   }
   await installDependencies();
 
-  const core = require("@actions/core");
+  const core = await import("@actions/core");
   core.setOutput("newVersion", newVersion);
   core.setOutput("changes", "* " + changes.join("\n* "));
 }
