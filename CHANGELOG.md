@@ -1,3 +1,13 @@
+# 5.76 (14.04.2026)
+* Misc: fix actions runner
+* Misc: Add type definitions for SCSS and CSS modules
+* Misc: Add types/node
+* Misc: Update package versions
+* Misc: Update node version
+* Fix: script failing on the storage page
+* Fix: broken player tooltip
+* Misc: Update node version
+
 # 5.75 (24.08.2025)
 * Misc: Remove dead erepbox.ru links
 * Feat: Preserve storage section open/close state
