@@ -25,27 +25,27 @@
   },
   "dependencies": {
     "classnames": "2.5.1",
-    "posthog-js": "1.211.0",
-    "react": "19.0.0",
+    "posthog-js": "1.368.1",
+    "react": "19.2.5",
     "react-app-rewired": "2.2.1",
-    "react-dom": "19.0.0",
-    "react-hook-form": "7.54.2",
+    "react-dom": "19.2.5",
+    "react-hook-form": "7.72.1",
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
-    "@types/shelljs": "0.8.15",
-    "cross-env": "7.0.3",
-    "prettier": "3.4.2",
-    "sass": "1.83.4",
-    "shelljs": "0.8.5",
-    "shx": "0.3.4",
-    "typescript": "5.7.3"
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/shelljs": "0.10.0",
+    "cross-env": "10.1.0",
+    "prettier": "3.8.2",
+    "sass": "1.99.0",
+    "shelljs": "0.10.0",
+    "shx": "0.4.0",
+    "typescript": "6.0.2"
   },
   "overrides": {
-    "typescript": "5.7.3"
+    "typescript": "6.0.2"
   },
   "eslintConfig": {
     "extends": "react-app"
