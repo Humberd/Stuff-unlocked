@@ -21,7 +21,9 @@
     "build:compose-output": "npm run build && npm run compose-output",
     "compose-output": "node scripts/compose-output.js",
     "version-updater": "node scripts/version-updater.js",
-    "debug-build": "react-app-rewired --inspect-brk=5858 build && npm run compose-output"
+    "debug-build": "react-app-rewired --inspect-brk=5858 build && npm run compose-output",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "classnames": "2.5.1",

@@ -1,2 +1,8 @@
 .idea
 node_modules
+build
+dist
+package-lock.json
+CHANGELOG.md
+# Generated userscript bundle
+src/index.user.js
