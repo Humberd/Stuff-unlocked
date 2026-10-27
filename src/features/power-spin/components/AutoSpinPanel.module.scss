@@ -1,0 +1,42 @@
+.Panel {
+  position: absolute;
+  top: 280px;
+  right: -130px;
+  width: 130px;
+  box-sizing: border-box;
+  background-color: #fff;
+  padding: 8px;
+}
+
+.Label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 8px;
+
+  &.Checkbox {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+}
+
+.Input {
+  max-width: 80px;
+  text-align: right;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Message {
+  margin-top: 6px;
+  text-align: right;
+  font-size: 11px;
+
+  &.Error {
+    color: #d33;
+  }
+}

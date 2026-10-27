@@ -10,6 +10,7 @@ import { countTimeSpent } from "./utils/time";
 import { formatNumber } from "./utils/format";
 import { TabTitleFeature } from "./features/tab-title";
 import { FeedCommentsScrollFeature } from "./features/feed-comments-scroll";
+import { PowerSpinFeature } from "./features/power-spin";
 
 log("React script has successfully started");
 
@@ -20,6 +21,7 @@ const features = [
   MainPageFeature,
   TabTitleFeature,
   FeedCommentsScrollFeature,
+  PowerSpinFeature,
 ];
 
 async function onUrlChange() {
