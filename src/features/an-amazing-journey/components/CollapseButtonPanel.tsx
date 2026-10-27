@@ -1,6 +1,6 @@
 import styles from "./CollapseButtonPanel.module.scss";
 import classNames from "classnames";
-import { HandleMapEvents } from "../hooks/HandleMapEvents";
+import { useMapEvents } from "../hooks/useMapEvents";
 import { useRef } from "react";
 
 interface CollapseButtonPanelProps {
@@ -13,7 +13,7 @@ export const CollapseButtonPanel: React.FC<CollapseButtonPanelProps> = (
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
 
-  HandleMapEvents(panelRef);
+  useMapEvents(panelRef);
 
   return (
     <section

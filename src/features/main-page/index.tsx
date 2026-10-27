@@ -15,7 +15,7 @@ import { retryNullish } from "../../utils/time";
 export const MainPageFeature = createFeature({
   id: "main_page",
   name: "Main Page",
-  canExecute: (url) => isOnHomepage(),
+  canExecute: () => isOnHomepage(),
   execute: async () => {
     await weeklyChallengeCalculator();
     await vipInfo();

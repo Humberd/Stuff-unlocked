@@ -1,5 +1,5 @@
 import { createFeature } from "../../utils/feature";
-import { error, log } from "../../utils/utils";
+import { error, log, toError } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -77,7 +77,7 @@ const JourneyFeatureComponent = () => {
       initialRegionId === currentTravelRoute.regionIdA
         ? currentTravelRoute.regionIdB
         : currentTravelRoute.regionIdA;
-    let setIntervalId: number;
+    let setIntervalId: number | undefined = undefined;
 
     const handleStop = async (errorMessage?: string) => {
       if (errorMessage) {
@@ -160,7 +160,7 @@ const JourneyFeatureComponent = () => {
         await handleStop();
         return;
       }
-      let travelInfo = await executeTravel(
+      const travelInfo = await executeTravel(
         nextTargetRegionId,
         form,
         countriesCache,
@@ -180,14 +180,16 @@ const JourneyFeatureComponent = () => {
     const callback = async () => {
       try {
         await callbackLogic();
-      } catch (e: any) {
-        setErrors((errors) => [...errors, e]);
-        error(e);
+      } catch (e) {
+        const err = toError(e);
+        setErrors((errors) => [...errors, err]);
+        error(err);
         try {
-          await handleStop(e.message);
-        } catch (e2: any) {
-          setErrors((errors) => [...errors, e2]);
-          error(e2);
+          await handleStop(err.message);
+        } catch (e2) {
+          const err2 = toError(e2);
+          setErrors((errors) => [...errors, err2]);
+          error(err2);
         }
       }
     };

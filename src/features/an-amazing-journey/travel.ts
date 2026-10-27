@@ -34,7 +34,7 @@ export async function executeTravel(
     log(`Getting travel info for region ${nextTargetRegionId}...`);
     travelInfo = await getTravelInfoTo(nextTargetRegionId);
     log(`Got travel info for region ${nextTargetRegionId}`, travelInfo);
-  } catch (e: any) {
+  } catch (e) {
     throw Error(`Failed to get travel info for region ${nextTargetRegionId}`, {
       cause: e,
     });
@@ -44,7 +44,7 @@ export async function executeTravel(
     log(`Travelling to region ${nextTargetRegionId}...`);
     await travelTo(nextTargetRegionId, form.resourceUsed, countriesCache);
     log(`Travelled to region ${nextTargetRegionId}`);
-  } catch (e: any) {
+  } catch (e) {
     throw Error(`Failed to travel to region ${nextTargetRegionId}`, {
       cause: e,
     });

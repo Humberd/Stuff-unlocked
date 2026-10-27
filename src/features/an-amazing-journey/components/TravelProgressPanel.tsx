@@ -1,6 +1,6 @@
 import styles from "./TravelProgressPanel.module.scss";
 import { useRef } from "react";
-import { HandleMapEvents } from "../hooks/HandleMapEvents";
+import { useMapEvents } from "../hooks/useMapEvents";
 import { formatNumber } from "../../../utils/format";
 import { StatusIndicator } from "./StatusIndicator";
 
@@ -32,7 +32,7 @@ export const TravelProgressPanel: React.FC<TravelProgressPanelProps> = (
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
 
-  HandleMapEvents(panelRef);
+  useMapEvents(panelRef);
 
   return (
     <section ref={panelRef} className={styles.panel}>

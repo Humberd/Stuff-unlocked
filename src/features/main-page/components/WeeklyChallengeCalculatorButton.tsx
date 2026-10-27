@@ -3,8 +3,6 @@ import styles from "./WeeklyChallengeCalculatorButton.module.scss";
 import { LinkButton } from "../../../common-components/button/Button";
 import { Analytics } from "../../../analytics/posthog";
 
-interface WeeklyChallengeCalculatorButtonProps {}
-
 export function createWeeklyChallengeCalculatorButtonRootElement() {
   const rootElement = document.createElement("p");
   rootElement.classList.add(styles.RootElement);
@@ -12,9 +10,7 @@ export function createWeeklyChallengeCalculatorButtonRootElement() {
   return rootElement;
 }
 
-export const WeeklyChallengeCalculatorButton: React.FC<
-  WeeklyChallengeCalculatorButtonProps
-> = () => {
+export const WeeklyChallengeCalculatorButton: React.FC = () => {
   const onClick = () => {
     Analytics.postWcCalculatorOpenedEvent();
   };

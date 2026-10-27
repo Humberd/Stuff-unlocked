@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
 import { useForm } from "react-hook-form";
-import { HandleMapEvents } from "../hooks/HandleMapEvents";
+import { useMapEvents } from "../hooks/useMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
 
@@ -49,7 +49,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stringifiedFormValues]);
 
-  HandleMapEvents(panelRef);
+  useMapEvents(panelRef);
 
   const onStart = (data: AutoTravelForm) => {
     props.onStart(data);

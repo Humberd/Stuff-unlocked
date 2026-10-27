@@ -1,6 +1,6 @@
 import styles from "./ErrorPanel.module.scss";
 import { useRef } from "react";
-import { HandleMapEvents } from "../hooks/HandleMapEvents";
+import { useMapEvents } from "../hooks/useMapEvents";
 
 interface ErrorPanelProps {
   errors: Error[];
@@ -9,7 +9,7 @@ interface ErrorPanelProps {
 
 export const ErrorPanel: React.FC<ErrorPanelProps> = (props) => {
   const panelRef = useRef<HTMLDivElement>(null);
-  HandleMapEvents(panelRef);
+  useMapEvents(panelRef);
 
   return (
     <section ref={panelRef} className={styles.panel}>

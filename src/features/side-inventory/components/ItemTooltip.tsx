@@ -71,7 +71,9 @@ export const ItemTooltip: React.FC<ItemTooltipProps> = ({
     }
   };
 
-  const shouldRenderAttribute = (attribute: any): boolean => {
+  const shouldRenderAttribute = (
+    attribute: InventoryJson.PurpleAttribute,
+  ): boolean => {
     return (
       attribute.type !== "currencyId" &&
       attribute.type !== "damage" &&

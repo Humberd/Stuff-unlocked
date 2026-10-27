@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const STORAGE_PREFIX = "STUFF_UNLOCKED.";
 
-export const useLocalStorage = <T extends unknown>(
+export const useLocalStorage = <T>(
   key: string,
   initialValue: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {

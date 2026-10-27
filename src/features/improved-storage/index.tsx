@@ -5,7 +5,7 @@ import {
   getAngularjsControllerScope,
   wrapAngularjsCallback,
 } from "../../angularjs-utils";
-import { log } from "../../utils/utils";
+import { ensure, log } from "../../utils/utils";
 import {
   createTotalLabelRootElement,
   TotalLabel,
@@ -57,6 +57,10 @@ export const ImprovedStorage = createFeature({
   },
 });
 
+interface StorageController {
+  inventory: { items: ItemGroup[] };
+}
+
 interface SellItemsController {
   inputs: {
     countryLicense: unknown;
@@ -66,11 +70,12 @@ interface SellItemsController {
     selectedIndustry: number | string | null;
     selectedQuality: number | string | null;
   };
+  onProductChange(industryId: number, quality: number): void;
 }
 
 async function applyMaxItemsOnSellOffer() {
   const storageController =
-    getAngularjsControllerScope<any>("StorageController");
+    getAngularjsControllerScope<StorageController>("StorageController");
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
     "SellItemsController",
   );
@@ -101,7 +106,6 @@ async function applyMaxItemsOnSellOffer() {
 
   // Autofill Food Q1
   executeInAngularScope(() => {
-    // @ts-ignore
     sellItemsController.onProductChange(1, 1);
   });
 }
@@ -216,23 +220,23 @@ function makeSectionsToggleable() {
 
 async function displayTotalFood() {
   const storageController =
-    getAngularjsControllerScope<any>("StorageController");
+    getAngularjsControllerScope<StorageController>("StorageController");
 
   let totalFoodEnergy = 0;
   await retry(() => {
     totalFoodEnergy = 0;
-    storageController.inventory.items.forEach((group: any) => {
-      group.items.forEach((item: any) => {
+    storageController.inventory.items.forEach((group) => {
+      group.items.forEach((item) => {
         if (item.type === "food") {
           // For some reason the energy string ("+2") has some weird bytes around it
           // bytes: [ 226, 129, 160, 43, 50, 226, 129, 160 ], where 43 is "+" and 50 is "2"
           // the regex below removes these bytes, so that it can be nicely parsed to a number
-          const energyWithoutHiddenSpaces = item.attributes.energy.replace(
-            /[\u2060]/g,
-            "",
-          );
+          const energyWithoutHiddenSpaces = ensure(
+            item.attributes?.energy,
+            "Food item without energy",
+          ).replace(/[\u2060]/g, "");
           totalFoodEnergy +=
-            (item.attributes.storage ?? 0) * energyWithoutHiddenSpaces;
+            (item.attributes?.storage ?? 0) * Number(energyWithoutHiddenSpaces);
         }
       });
     });
