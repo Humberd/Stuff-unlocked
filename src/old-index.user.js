@@ -1109,7 +1109,6 @@ const CONTRIBUTORS_URL =
       // ---- FIX HERE: END ----
       if (SERVER_DATA.sessionValidation) {
       } else {
-        hookUpDailyChallengeAutoCollect();
         hookUpDonatorBadges(data.unlocked);
         load();
         document.body.insertAdjacentHTML(
@@ -3591,74 +3590,6 @@ function hovercardDivision(self, citizenHovercard) {
 Div: 
 ${divisionNumber}
 </div>`;
-}
-
-function hookUpDailyChallengeAutoCollect() {
-  const dcButtonElement = document.getElementById("dailyMissionsPopupTrigger");
-  if (!dcButtonElement) {
-    return;
-  }
-  dcButtonElement.addEventListener("click", function () {
-    setTimeout(() => {
-      try {
-        createButton();
-      } catch (e) {
-        console.warn(e);
-      }
-    }, 300);
-  });
-
-  function createButton() {
-    const BUTTON_ID = "claimAllButton";
-    const titleRootElement = document.querySelector("#dailyMissionsPopup > h2");
-    if (!titleRootElement) {
-      throw Error("No title root element");
-    }
-    if (document.getElementById(BUTTON_ID)) {
-      console.log("Button is already created");
-      return;
-    }
-
-    const claimAllButtonElement = document.createElement("a");
-    claimAllButtonElement.id = BUTTON_ID;
-    claimAllButtonElement.classList.add(
-      "std_global_btn",
-      "greenColor",
-      "smallSize",
-    );
-    claimAllButtonElement.style.float = "right";
-    claimAllButtonElement.style.marginRight = "16px";
-    claimAllButtonElement.textContent = "Claim All & Close";
-    claimAllButtonElement.addEventListener("click", (evt) => {
-      evt.target.classList.add("disabled", "loading");
-      claimAllButtonClickHandler(1000);
-    });
-    titleRootElement.appendChild(claimAllButtonElement);
-
-    function claimAllButtonClickHandler(timeToWaitInMs) {
-      const claimButtonElements = document.querySelectorAll(
-        ".missionWrapper:not(.alreadyClaimed) a:not(.disabled).claimButton, .rewardWrapper:not(.claimed) .claimButton",
-      );
-      if (!claimButtonElements.length) {
-        claimAllButtonElement.classList.remove("disabled", "loading");
-        console.log("No more challenges to claim. Closing challenges window.");
-        const closeButtonElement = document.querySelector(
-          '#dailyMissionsPopup > a.close.closeButton[title="Close"]',
-        );
-        closeButtonElement?.click();
-        return;
-      }
-      console.log(`Challenges to claim: ${claimButtonElements.length}`);
-      claimButtonElements[0]?.click();
-
-      console.log("Going to wait for: " + timeToWaitInMs + " ms.");
-      setTimeout(() => {
-        claimAllButtonClickHandler(
-          Math.floor(300 + Math.random() * (400 - 300 + 1)),
-        );
-      }, timeToWaitInMs);
-    }
-  }
 }
 
 async function hookUpDonatorBadges(stuffUnlockedData) {

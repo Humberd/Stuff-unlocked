@@ -11,6 +11,7 @@ import { formatNumber } from "./utils/format";
 import { TabTitleFeature } from "./features/tab-title";
 import { FeedCommentsScrollFeature } from "./features/feed-comments-scroll";
 import { PowerSpinFeature } from "./features/power-spin";
+import { DailyChallengeFeature } from "./features/daily-challenge";
 
 log("React script has successfully started");
 
@@ -22,6 +23,7 @@ const features = [
   TabTitleFeature,
   FeedCommentsScrollFeature,
   PowerSpinFeature,
+  DailyChallengeFeature,
 ];
 
 async function onUrlChange() {
