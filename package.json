@@ -20,6 +20,7 @@
     "preview": "vite preview",
     "typecheck": "tsc",
     "lint": "eslint .",
+    "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "version-updater": "node scripts/version-updater.cjs"

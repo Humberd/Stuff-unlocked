@@ -99,7 +99,7 @@ async function storageInfo() {
 /**
  * Converts a string like "1,234 / 5,678" to an object with current and total properties
  */
-function parseValues(input: string) {
+export function parseValues(input: string) {
   // Split the input by '/' and trim whitespace from each part
   const [currentStr, totalStr] = input.split("/").map((part) => part.trim());
 
