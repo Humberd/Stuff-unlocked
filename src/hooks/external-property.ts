@@ -1,16 +1,30 @@
-export class ExternalProperty<T> {
-  private value: T = this.initialValue;
-  private callbacks: ((newValue: T) => void)[] = [];
+import { useSyncExternalStore } from "react";
 
-  constructor(private readonly initialValue: T) {}
+/**
+ * A value that lives outside React and can be read by components
+ * with {@link useExternalProperty}.
+ */
+export class ExternalProperty<T> {
+  private value: T;
+  private listeners = new Set<() => void>();
+
+  constructor(initialValue: T) {
+    this.value = initialValue;
+  }
+
+  get = (): T => this.value;
 
   update(newValue: T) {
     this.value = newValue;
-    this.callbacks.forEach((callback) => callback(newValue));
+    this.listeners.forEach((listener) => listener());
   }
 
-  onValueChange(callback: (newValue: T) => void) {
-    this.callbacks.push(callback);
-    callback(this.value);
-  }
+  subscribe = (listener: () => void): (() => void) => {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  };
+}
+
+export function useExternalProperty<T>(property: ExternalProperty<T>): T {
+  return useSyncExternalStore(property.subscribe, property.get);
 }

@@ -645,7 +645,7 @@ const CONTRIBUTORS_URL =
      * @return {undefined}
      */
     function checkCurrentVersion() {
-      if (data.version && data.version != GM_info.script.version) {
+      if (data.version && data.version != __APP_VERSION__) {
         expect(
           ".stuffBtn,#stuffOptions>:nth-child(1) a:nth-child(3)",
           function (e, canCreateDiscussions) {
@@ -1178,7 +1178,7 @@ const CONTRIBUTORS_URL =
                 return content.insertAdjacentHTML(
                   path ? "afterBegin" : "afterEnd",
                   '<div class="stuffBtn">Stuff++ Unlocked<span>' +
-                    GM_info.script.version +
+                    __APP_VERSION__ +
                     "</span></div>",
                 );
               });

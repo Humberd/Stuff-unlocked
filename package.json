@@ -1,68 +1,45 @@
 {
   "name": "stuff-unlocked",
   "version": "5.76",
-  "description": "",
+  "description": "Features extension userscript for eRepublik.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Humberd/Stuff-unlocked.git"
   },
   "engines": {
-    "node": ">=24.11.1 <25.0.0"
+    "node": ">=24.11.1"
   },
   "author": "Humberd",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Humberd/Stuff-unlocked/issues"
   },
-  "main": "dist/index.user.js",
   "scripts": {
-    "start": "cross-env PORT=8124 BROWSER=none FAST_REFRESH=false WDS_SOCKET_HOST=localhost react-app-rewired start ",
-    "build": "react-app-rewired build",
-    "build:compose-output": "npm run build && npm run compose-output",
-    "compose-output": "node scripts/compose-output.js",
-    "version-updater": "node scripts/version-updater.js",
-    "debug-build": "react-app-rewired --inspect-brk=5858 build && npm run compose-output",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "version-updater": "node scripts/version-updater.cjs"
   },
   "dependencies": {
     "classnames": "2.5.1",
     "posthog-js": "1.368.1",
     "react": "19.2.5",
-    "react-app-rewired": "2.2.1",
     "react-dom": "19.2.5",
-    "react-hook-form": "7.72.1",
-    "react-scripts": "5.0.1"
+    "react-hook-form": "7.72.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@types/node": "25.6.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@types/shelljs": "0.10.0",
-    "cross-env": "10.1.0",
+    "@vitejs/plugin-react": "6.1.2",
     "prettier": "3.8.2",
     "sass": "1.99.0",
-    "shelljs": "0.10.0",
-    "shx": "0.4.0",
-    "typescript": "6.0.2"
+    "typescript": "6.0.2",
+    "vite": "8.3.4",
+    "vite-plugin-monkey": "8.1.1"
   },
-  "overrides": {
-    "typescript": "6.0.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "type": "module"
 }

@@ -9,7 +9,7 @@ export const Analytics = {
     if (isInitialized) {
       return;
     }
-    const key = process.env.REACT_APP_PUBLIC_POSTHOG_KEY;
+    const key = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
     if (!key) {
       log("PostHog key not found, skipping analytics initialization");
       return;

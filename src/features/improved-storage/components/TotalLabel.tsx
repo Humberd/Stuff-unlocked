@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
 import styles from "./TotalLabel.module.scss";
-import { ExternalProperty } from "../../../hooks/external-property";
+import {
+  ExternalProperty,
+  useExternalProperty,
+} from "../../../hooks/external-property";
 import { formatNumber } from "../../../utils/format";
 import { getCitizenshipCurrencyName } from "../../../utils/erep-global-info";
 
@@ -16,10 +18,7 @@ export function createTotalLabelRootElement() {
 }
 
 export const TotalLabel = (props: TotalLabelProps) => {
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    props.total.onValueChange(setTotal);
-  }, [props.total]);
+  const total = useExternalProperty(props.total);
 
   return (
     <>

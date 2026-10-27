@@ -65,7 +65,7 @@ Basic feature inherited from Zordacz's old version.
 
 - Claim All button to collect all daily challenges.
 
-![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)![img.png](assets/img.png)
+![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)
 
 ### Feed comments scroll
 
@@ -73,32 +73,45 @@ Basic feature inherited from Zordacz's old version.
 
 # Development
 
+The script is built with [Vite](https://vite.dev) and
+[vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey).
+The userscript header is generated from `vite.config.ts` and the version from `package.json`.
+
 ## Installation
 
 Run `npm ci` to install dependencies.
 
-## Local build
+## Local development
 
-Run `npm start` to start development server.
-
-Copy absolute disk path to `dist/index-dev.user.js` and paste it into URL of your browser.
-It should be similar to `D:\Repositories\Stuff-unlocked\dist\index-dev.user.js`.
-This will install the script in Tampermonkey.
-
-You will have to disable production script, so that only the DEV one is active.
+1. Run `npm start` to start the development server on port 8124.
+2. Open http://127.0.0.1:8124/__vite-plugin-monkey.install.user.js in your browser.
+   Tampermonkey will offer to install `[DEV] eRepublik Stuff++ Unlocked`.
+   You only need to do this once.
+3. Disable the production script, so that only the DEV one is active.
 
 ![tampermankey-dev-enable.png](assets/tampermankey-dev-enable.png)
 
-Now everytime you make a change in the code, the erepublik page should refresh automatically.
+The DEV script loads the code straight from the development server,
+so changes show up after refreshing the eRepublik page.
 
 ## Production build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build`. The userscript is written to `dist/index.user.js`
+and copied to `src/index.user.js`, which is the URL existing installations update from.
+
+## Checks
+
+- `npm run typecheck` - TypeScript
+- `npm run format:check` - Prettier (`npm run format` to fix)
+
+## eRepublik's custom `Map`
+
+eRepublik replaces the global `Map` with its own object, which breaks React and other libraries.
+`vite.config.ts` takes the original `Map` from a hidden iframe and makes all bundled code use it:
+the production bundle is wrapped in a function with a `Map` parameter,
+and in development every module gets a module-scoped `Map` constant.
 
 ## Old stuff
 
 The old (non-React) version of the script is in `src/old-index.user.js`.
-It is appended during a build phase to `index.user.js` file.
-In result the `index.user.js` file contains both old and new version of the script.
-
-`index.user.js` = `src/userscript-header.js` + `src/old-index.user.js` + React build artifacts.
+It is imported by `src/index.tsx` and bundled together with the React code.

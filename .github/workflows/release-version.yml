@@ -16,18 +16,16 @@ jobs:
       - name: Install
         run: |
           npm ci
-      - name: Build
-        env:
-          REACT_APP_PUBLIC_POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
-        run: |
-          npm run build
       - name: Release Version
         id: release-version
         run: |
           npm run version-updater
-      - name: Compose output
+      # The build reads the version from package.json, so it runs after the bump
+      - name: Build
+        env:
+          VITE_PUBLIC_POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
         run: |
-          npm run compose-output
+          npm run build
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         env:
