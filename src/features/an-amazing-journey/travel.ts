@@ -2,11 +2,11 @@ import {
   TravelProgressState,
   TravelProgressStatus,
 } from "./components/TravelProgressPanel";
-import { Travel } from "../../requests/travel-request";
+import * as Travel from "../../requests/travel-request";
 import { findCountryIdFor } from "./regions";
 import { CountriesCache } from "./countries-cache";
 import { getCsrfToken } from "../../utils/erep-global-info";
-import { TravelData } from "../../requests/travel-data-request";
+import * as TravelData from "../../requests/travel-data-request";
 import { AutoTravelForm } from "./components/AutoTravellerPanel";
 import { log } from "../../utils/utils";
 

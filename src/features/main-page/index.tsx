@@ -2,8 +2,8 @@ import { createFeature } from "../../utils/feature";
 import { isOnHomepage } from "../../utils/erep-global-info";
 import { renderElement, renderElementWithRoot } from "../../utils/render";
 import { StorageInfo } from "./components/StorageInfo";
-import { InventoryHtml } from "../../requests/inventory-html-request";
-import { VipShopHtml } from "../../requests/vip-shop-html-request";
+import * as InventoryHtml from "../../requests/inventory-html-request";
+import * as VipShopHtml from "../../requests/vip-shop-html-request";
 import { VipStatus } from "./components/VipStatus";
 import { ensure } from "../../utils/utils";
 import {
@@ -38,7 +38,7 @@ async function weeklyChallengeCalculator() {
 }
 
 async function vipInfo() {
-  const html = await VipShopHtml.sendRequest({});
+  const html = await VipShopHtml.sendRequest();
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const vipLevel = Number(
@@ -70,7 +70,7 @@ async function vipInfo() {
 }
 
 async function storageInfo() {
-  const html = await InventoryHtml.sendRequest({});
+  const html = await InventoryHtml.sendRequest();
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const selectors = ".used_storage_wrapper .used_storage";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./VipStatus.module.scss";
 import { formatNumber } from "../../../utils/format";
 import { Button } from "../../../common-components/button/Button";
-import { VipClaim } from "../../../requests/vip-claim-request";
+import * as VipClaim from "../../../requests/vip-claim-request";
 import { getCsrfToken } from "../../../utils/erep-global-info";
 import { log } from "../../../utils/utils";
 import { Analytics } from "../../../analytics/posthog";

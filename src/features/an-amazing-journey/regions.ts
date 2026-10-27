@@ -1,4 +1,4 @@
-import { TravelData } from "../../requests/travel-data-request";
+import * as TravelData from "../../requests/travel-data-request";
 
 export interface TravelRoute {
   regionIdA: string;

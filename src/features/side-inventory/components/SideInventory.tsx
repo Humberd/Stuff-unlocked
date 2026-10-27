@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useState } from "react";
 import styles from "./SideInventory.module.scss";
-import { InventoryJson } from "../../../requests/inventory-json-data-request";
-import Item = InventoryJson.Item;
+import * as InventoryJson from "../../../requests/inventory-json-data-request";
+type Item = InventoryJson.Item;
 import classNames from "classnames";
 import { ItemTooltip, ItemTooltipPosition } from "./ItemTooltip";
 import { getCookielessHost } from "../../../utils/erep-global-info";

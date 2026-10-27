@@ -1,5 +1,5 @@
 import { createFeature } from "../../utils/feature";
-import { InventoryJson } from "../../requests/inventory-json-data-request";
+import * as InventoryJson from "../../requests/inventory-json-data-request";
 import { renderElementWithRoot } from "../../utils/render";
 import {
   createSideInventoryRootElement,
@@ -20,7 +20,7 @@ export const SideInventoryFeature = createFeature({
   canExecute: (url) => !url.href.includes("/main/inventory"),
   isSettingEnabled: () => LegacyStorageSettings.isSideInventoryEnabled(),
   execute: async () => {
-    const response = await InventoryJson.sendRequest({});
+    const response = await InventoryJson.sendRequest();
     const items = response.flatMap((group) => group.items);
 
     const filteredItems = items

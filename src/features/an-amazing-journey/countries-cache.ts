@@ -1,4 +1,4 @@
-import { TravelData } from "../../requests/travel-data-request";
+import * as TravelData from "../../requests/travel-data-request";
 
 import { getCsrfToken } from "../../utils/erep-global-info";
 
@@ -31,7 +31,7 @@ export class CountriesCache {
   private async fetchCountries() {
     const response = await TravelData.sendRequest({
       battleId: "0",
-      _token: await getCsrfToken(),
+      _token: getCsrfToken(),
       regionId: "0",
       holdingId: "0",
     });

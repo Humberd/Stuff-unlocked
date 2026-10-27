@@ -15,9 +15,9 @@ import { ExternalProperty } from "../../hooks/external-property";
 import { retry, retryNullish, waitFor } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import { TotalFood } from "./components/TotalFood";
-import { InventoryJson } from "../../requests/inventory-json-data-request";
-import ItemGroup = InventoryJson.ItemGroup;
-import Item = InventoryJson.Item;
+import * as InventoryJson from "../../requests/inventory-json-data-request";
+type ItemGroup = InventoryJson.ItemGroup;
+type Item = InventoryJson.Item;
 import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
 
 export const ImprovedStorage = createFeature({

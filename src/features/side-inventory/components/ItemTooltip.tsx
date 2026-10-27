@@ -1,6 +1,6 @@
 import React from "react";
-import { InventoryJson } from "../../../requests/inventory-json-data-request";
-import Item = InventoryJson.Item;
+import * as InventoryJson from "../../../requests/inventory-json-data-request";
+type Item = InventoryJson.Item;
 import styles from "./ItemTooltip.module.scss";
 
 interface ItemTooltipProps {
