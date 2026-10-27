@@ -102,7 +102,20 @@ and copied to `src/index.user.js`, which is the URL existing installations updat
 ## Checks
 
 - `npm run typecheck` - TypeScript
+- `npm run lint` - ESLint
+- `npm test` - Vitest unit tests
 - `npm run format:check` - Prettier (`npm run format` to fix)
+
+All of them run in CI on every pull request.
+
+The commit that reformatted the codebase with Prettier is listed in `.git-blame-ignore-revs`.
+To skip it in `git blame`, run `git config blame.ignoreRevsFile .git-blame-ignore-revs`.
+
+## Releasing
+
+Run the "Release Version" workflow on GitHub. It bumps the minor version,
+adds the commits since the last `Bump X.Y` commit to `CHANGELOG.md`,
+builds the userscript and opens a pull request with the result.
 
 ## eRepublik's custom `Map`
 
