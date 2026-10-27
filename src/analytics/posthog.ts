@@ -1,12 +1,20 @@
-import posthog from "posthog-js";
 import { log } from "../utils/utils";
 import { getCitizenId, getStuffVersion } from "../utils/erep-global-info";
 
-let isInitialized = false;
+/**
+ * Minimal PostHog client: the script only ever captured events,
+ * so it talks to the capture API directly instead of bundling posthog-js.
+ * https://posthog.com/docs/api/capture
+ */
+const CAPTURE_URL = "https://eu.i.posthog.com/i/v0/e/";
+const DISTINCT_ID_KEY = "STUFF_UNLOCKED.analytics.distinctId";
+
+let apiKey: string | undefined;
+let distinctId: string | undefined;
 
 export const Analytics = {
   init: () => {
-    if (isInitialized) {
+    if (apiKey) {
       return;
     }
     const key = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
@@ -14,39 +22,83 @@ export const Analytics = {
       log("PostHog key not found, skipping analytics initialization");
       return;
     }
-
-    posthog.init(key, {
-      api_host: "https://eu.i.posthog.com",
-      person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
-      capture_pageview: false,
-      capture_pageleave: "if_capture_pageview",
-      autocapture: false,
-    });
-    isInitialized = true;
+    apiKey = key;
+    distinctId = getDistinctId(key);
   },
   postFeaturesExecutedEvent: (event: FeaturesExecutedEvent) => {
-    posthog.capture("features_executed", {
-      ...event,
-      ...defaultProperties(),
-    });
+    capture("features_executed", { ...event });
   },
   postVipClaimSuccessEvent: () => {
-    posthog.capture("vip_claim_success", {
-      ...defaultProperties(),
-    });
+    capture("vip_claim_success");
   },
   postVipClaimErrorEvent: (error: string) => {
-    posthog.capture("vip_claim_error", {
-      ...defaultProperties(),
-      error,
-    });
+    capture("vip_claim_error", { error });
   },
   postWcCalculatorOpenedEvent: () => {
-    posthog.capture("wc_calculator_opened", {
-      ...defaultProperties(),
-    });
+    capture("wc_calculator_opened");
   },
 };
+
+function capture(event: string, properties: Record<string, unknown> = {}) {
+  if (!apiKey || !distinctId) {
+    return;
+  }
+  // No content-type header: a text/plain body avoids a CORS preflight,
+  // which is what posthog-js does as well.
+  fetch(CAPTURE_URL, {
+    method: "POST",
+    keepalive: true,
+    body: JSON.stringify({
+      api_key: apiKey,
+      event,
+      distinct_id: distinctId,
+      timestamp: new Date().toISOString(),
+      properties: {
+        ...properties,
+        ...defaultProperties(),
+        $current_url: window.location.href,
+        $lib: "stuff-unlocked",
+        // Same as posthog-js `person_profiles: "identified_only"`
+        // for a user that is never identified.
+        $process_person_profile: false,
+      },
+    }),
+  }).catch((e) => log("Failed to send analytics event", event, e));
+}
+
+/**
+ * Reuses the anonymous id that posthog-js stored, so existing users keep it,
+ * otherwise creates and stores a new one.
+ */
+function getDistinctId(key: string): string {
+  try {
+    const posthogJsState = localStorage.getItem(posthogJsPersistenceName(key));
+    const posthogJsId =
+      posthogJsState && JSON.parse(posthogJsState).distinct_id;
+    if (typeof posthogJsId === "string" && posthogJsId) {
+      return posthogJsId;
+    }
+
+    const storedId = localStorage.getItem(DISTINCT_ID_KEY);
+    if (storedId) {
+      return storedId;
+    }
+    const newId = crypto.randomUUID();
+    localStorage.setItem(DISTINCT_ID_KEY, newId);
+    return newId;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
+/** Mirrors how posthog-js names its persistence entry. */
+function posthogJsPersistenceName(key: string): string {
+  const token = key
+    .replace(/\+/g, "PL")
+    .replace(/\//g, "SL")
+    .replace(/=/g, "EQ");
+  return `ph_${token}_posthog`;
+}
 
 function defaultProperties() {
   return {
