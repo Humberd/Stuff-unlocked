@@ -1109,7 +1109,6 @@ const CONTRIBUTORS_URL =
       // ---- FIX HERE: END ----
       if (SERVER_DATA.sessionValidation) {
       } else {
-        hookUpFeedCommentsScroll();
         hookUpPowerSpin();
         hookUpDailyChallengeAutoCollect();
         hookUpDonatorBadges(data.unlocked);
@@ -3593,19 +3592,6 @@ function hovercardDivision(self, citizenHovercard) {
 Div: 
 ${divisionNumber}
 </div>`;
-}
-
-function hookUpFeedCommentsScroll() {
-  const style = document.createElement("style");
-  // language=CSS
-  style.textContent = `
-      .postContent .commentsWrapper {
-          max-height: 400px;
-          overflow-y: auto;
-          overflow-x: hidden;
-      }
-    `;
-  document.head.appendChild(style);
 }
 
 function hookUpPowerSpin() {

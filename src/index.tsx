@@ -9,6 +9,7 @@ import { MainPageFeature } from "./features/main-page";
 import { countTimeSpent } from "./utils/time";
 import { formatNumber } from "./utils/format";
 import { TabTitleFeature } from "./features/tab-title";
+import { FeedCommentsScrollFeature } from "./features/feed-comments-scroll";
 
 log("React script has successfully started");
 
@@ -18,6 +19,7 @@ const features = [
   SideInventoryFeature,
   MainPageFeature,
   TabTitleFeature,
+  FeedCommentsScrollFeature,
 ];
 
 async function onUrlChange() {
