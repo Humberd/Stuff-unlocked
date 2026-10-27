@@ -53,32 +53,11 @@ const mapping = {
     if (!city) return "City";
     return city;
   },
-  "/country/society": () => {
-    const country = document.querySelector("#profileholder > h1")?.textContent;
-    if (!country) return "Country";
-    return `${country} Society`;
-  },
-  "/country/economy": () => {
-    const country = document.querySelector("#profileholder > h1")?.textContent;
-    if (!country) return "Country";
-    return `${country} Economy`;
-  },
-  // politics, military, administration
-  "/country/politics": () => {
-    const country = document.querySelector("#profileholder > h1")?.textContent;
-    if (!country) return "Country";
-    return `${country} Politics`;
-  },
-  "/country/military": () => {
-    const country = document.querySelector("#profileholder > h1")?.textContent;
-    if (!country) return "Country";
-    return `${country} Military`;
-  },
-  "/country-administration": () => {
-    const country = document.querySelector("#profileholder > h1")?.textContent;
-    if (!country) return "Country";
-    return `${country} Administration`;
-  },
+  "/country/society": () => countryTitle("Society"),
+  "/country/economy": () => countryTitle("Economy"),
+  "/country/politics": () => countryTitle("Politics"),
+  "/country/military": () => countryTitle("Military"),
+  "/country-administration": () => countryTitle("Administration"),
   "/citizen/profile": () => {
     const citizen = document.querySelector(".citizen_name")?.textContent;
     if (!citizen) return "Citizen";
@@ -88,6 +67,12 @@ const mapping = {
   "/main/citizen-invited-friends": "Invited Friends",
   "/main/citizen-edit": "Edit Profile",
 };
+
+function countryTitle(section: string) {
+  const country = document.querySelector("#profileholder > h1")?.textContent;
+  if (!country) return "Country";
+  return `${country} ${section}`;
+}
 
 function setTitleWithPrefix(prefix: string) {
   document.title = `${prefix} • eRepublik`;

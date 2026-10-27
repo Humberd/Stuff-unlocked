@@ -11,11 +11,13 @@ interface AutoTravellerPanelProps {
   state: AutoTravelFormState;
 }
 
-export enum AutoTravelFormState {
-  IDLE,
-  STARTED,
-  STOPPING,
-}
+export const AutoTravelFormState = {
+  IDLE: 0,
+  STARTED: 1,
+  STOPPING: 2,
+} as const;
+export type AutoTravelFormState =
+  (typeof AutoTravelFormState)[keyof typeof AutoTravelFormState];
 
 export interface AutoTravelForm {
   targetDistanceKm: string;

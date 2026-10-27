@@ -29,7 +29,6 @@ const CONTRIBUTORS_URL =
     oldSend.apply(this, arguments);
   };
   // Evaluate the script after the page has loaded.
-  console.log(document.readyState);
   if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", onContentLoaded);
   } else {

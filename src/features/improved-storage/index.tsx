@@ -80,11 +80,6 @@ async function applyMaxItemsOnSellOffer() {
     "SellItemsController",
   );
 
-  console.log({
-    storageController,
-    sellItemsController,
-  });
-
   const itemsCache = await retry(() =>
     buildItemsCache(storageController.inventory.items),
   );
@@ -143,8 +138,6 @@ async function displayTotalPriceOnSellOffer() {
     const total =
       Number(offersQuantityInput?.value ?? 0) *
       Number(pricePerUnitInput?.value ?? 0);
-    console.log(offersQuantityInput?.value, pricePerUnitInput?.value);
-    console.log("Total price", total);
     totalProperty.update(total);
   }
 

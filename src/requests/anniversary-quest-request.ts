@@ -71,15 +71,9 @@ export interface Progress {
   extraStatus: ExtraStatus;
 }
 
-export enum ExtraStatus {
-  EUnavailable = "e_unavailable",
-}
+export type ExtraStatus = "e_unavailable";
 
-export enum NodeStatus {
-  Claimed = "claimed",
-  Unclaimed = "unclaimed",
-  Unlocking = "unlocking",
-}
+export type NodeStatus = "claimed" | "unclaimed" | "unlocking";
 
 export interface Queue {
   nodeId: number;

@@ -90,7 +90,7 @@ function watchForUrlChange() {
     // Greasemonkey doesn't bubble errors up to the onUrlChange console,
     // so we have to catch them manually and log them
     onUrlChange().catch((e) => {
-      log(e);
+      error(e);
     });
   });
 }

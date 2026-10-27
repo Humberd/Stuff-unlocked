@@ -113,22 +113,21 @@ export interface Region {
   isDiscounted: boolean;
 }
 
-export enum ZoneName {
-  A1 = "A1",
-  A2 = "A2",
-  A3 = "A3",
-  A4 = "A4",
-  A5 = "A5",
-  B1 = "B1",
-  B3 = "B3",
-  B4 = "B4",
-  B5 = "B5",
-  C1 = "C1",
-  C2 = "C2",
-  C3 = "C3",
-  C4 = "C4",
-  C5 = "C5",
-  D2 = "D2",
-  D3 = "D3",
-  D5 = "D5",
-}
+export type ZoneName =
+  | "A1"
+  | "A2"
+  | "A3"
+  | "A4"
+  | "A5"
+  | "B1"
+  | "B3"
+  | "B4"
+  | "B5"
+  | "C1"
+  | "C2"
+  | "C3"
+  | "C4"
+  | "C5"
+  | "D2"
+  | "D3"
+  | "D5";

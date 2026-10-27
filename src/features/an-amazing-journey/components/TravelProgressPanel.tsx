@@ -16,11 +16,13 @@ export interface TravelProgressState {
   errorMessage?: string;
 }
 
-export enum TravelProgressStatus {
-  InProgress,
-  Completed,
-  Error,
-}
+export const TravelProgressStatus = {
+  InProgress: 0,
+  Completed: 1,
+  Error: 2,
+} as const;
+export type TravelProgressStatus =
+  (typeof TravelProgressStatus)[keyof typeof TravelProgressStatus];
 
 export interface TravelResource {
   amount: number;
