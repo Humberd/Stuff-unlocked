@@ -27,7 +27,7 @@ export function getCitizenId(): number | undefined {
 }
 
 export function getStuffVersion(): string {
-  return GM_info.script.version
+  return GM_info.script.version;
 }
 
 export function getCookielessHost(): string {

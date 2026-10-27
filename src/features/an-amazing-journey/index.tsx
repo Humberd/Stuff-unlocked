@@ -2,11 +2,23 @@ import { createFeature } from "../../utils/feature";
 import { error, log } from "../../utils/utils";
 import { CountriesCache } from "./countries-cache";
 import React, { useEffect, useRef, useState } from "react";
-import { AutoTravelForm, AutoTravelFormState, AutoTravellerPanel } from "./components/AutoTravellerPanel";
+import {
+  AutoTravelForm,
+  AutoTravelFormState,
+  AutoTravellerPanel,
+} from "./components/AutoTravellerPanel";
 import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
-import { TravelProgressPanel, TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
-import { createNewTravelProgressState, executeTravel, TravelInfo } from "./travel";
+import {
+  TravelProgressPanel,
+  TravelProgressState,
+  TravelProgressStatus,
+} from "./components/TravelProgressPanel";
+import {
+  createNewTravelProgressState,
+  executeTravel,
+  TravelInfo,
+} from "./travel";
 import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteMain } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";
@@ -25,7 +37,7 @@ export const AnAmazingJourneyFeature = createFeature({
   canExecute: (url) => url.href.includes("/main/anniversaryQuest"),
   execute: async () => {
     renderElement(<JourneyFeatureComponent />).before(
-      document.querySelector("#cityInfoTopPopup")
+      document.querySelector("#cityInfoTopPopup"),
     );
   },
 });
@@ -33,13 +45,13 @@ export const AnAmazingJourneyFeature = createFeature({
 const JourneyFeatureComponent = () => {
   const [isCollapsed, setIsCollapsed] = useLocalStorage(
     "AnAmazingJourney.isCollapsed",
-    false
+    false,
   );
   const [travelProgressState, setTravelProgressState] = useState<
     TravelProgressState | undefined
   >();
   const [travelFormState, setTravelFormState] = useState<AutoTravelFormState>(
-    AutoTravelFormState.IDLE
+    AutoTravelFormState.IDLE,
   );
   const [shouldStop, setShouldStop] = useState(false);
   const shouldStopRef = useRef(shouldStop);
@@ -58,7 +70,9 @@ const JourneyFeatureComponent = () => {
     let travelledDistanceKm = 0;
     setTravelProgressState(createNewTravelProgressState(currencyUnit));
 
-    const initialRegionId = await countriesCache.getCurrentRegionId({skipCache: true});
+    const initialRegionId = await countriesCache.getCurrentRegionId({
+      skipCache: true,
+    });
     let nextTargetRegionId =
       initialRegionId === currentTravelRoute.regionIdA
         ? currentTravelRoute.regionIdB
@@ -92,7 +106,7 @@ const JourneyFeatureComponent = () => {
         // to prevent spamming the server
         setTimeout(() => {
           setTravelFormState(AutoTravelFormState.IDLE);
-        }, TIMER_INTERVAL_MS)
+        }, TIMER_INTERVAL_MS);
       };
 
       clearInterval(setIntervalId);
@@ -103,10 +117,14 @@ const JourneyFeatureComponent = () => {
       if (form.travelBackAfterFinish && !isInInitialRegion) {
         log(`Waiting ${TIMER_INTERVAL_MS}ms to travel back...`);
         setTimeout(async () => {
-          const travelInfo = await executeTravel(initialRegionId, form, countriesCache);
+          const travelInfo = await executeTravel(
+            initialRegionId,
+            form,
+            countriesCache,
+          );
           updateTravelProgressState(travelInfo);
           stopInternalHandler();
-        }, TIMER_INTERVAL_MS)
+        }, TIMER_INTERVAL_MS);
       } else {
         log("Stopping immediately...");
         stopInternalHandler();
@@ -129,8 +147,8 @@ const JourneyFeatureComponent = () => {
             resourcesSpent: {
               amount:
                 state.resourcesSpent.amount + resourcesAmountSpentThisTravel,
-              unit: state.resourcesSpent.unit
-            }
+              unit: state.resourcesSpent.unit,
+            },
           };
         }
         return state;
@@ -142,7 +160,11 @@ const JourneyFeatureComponent = () => {
         await handleStop();
         return;
       }
-      let travelInfo = await executeTravel(nextTargetRegionId, form, countriesCache);
+      let travelInfo = await executeTravel(
+        nextTargetRegionId,
+        form,
+        countriesCache,
+      );
       updateTravelProgressState(travelInfo);
 
       nextTargetRegionId =

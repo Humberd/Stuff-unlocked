@@ -27,15 +27,15 @@ export function wrapAngularjsCallback(
   controller: any,
   field: string,
   callback: Function,
-  where: 'before' | 'after' = 'before',
+  where: "before" | "after" = "before",
 ) {
   var originalCallback = controller[field];
   controller[field] = function (this: any) {
-    if (where === 'before') {
+    if (where === "before") {
       callback.apply(this, arguments);
     }
     originalCallback.apply(this, arguments);
-    if (where === 'after') {
+    if (where === "after") {
       callback.apply(this, arguments);
     }
   };

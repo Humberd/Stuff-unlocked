@@ -8,7 +8,7 @@ export const TabTitleFeature = createFeature({
   execute: async () => {
     if (isOnHomepage()) {
       setTitleWithPrefix("Main");
-      return
+      return;
     }
     const pathName = window.location.pathname;
     for (const [path, title] of Object.entries(mapping)) {
@@ -21,8 +21,8 @@ export const TabTitleFeature = createFeature({
         break;
       }
     }
-  }
-})
+  },
+});
 
 const mapping = {
   "/economy/myCompanies": "Companies",
@@ -35,7 +35,9 @@ const mapping = {
   "/economy/buy-company": "Buy Companies",
   "/economy/game-tokens-market": "Game Tokens",
   "/military/battlefield": () => {
-    const city = document.querySelector(".location > .locationCity")?.textContent;
+    const city = document.querySelector(
+      ".location > .locationCity",
+    )?.textContent;
     if (!city) return "Battlefield";
     return `${city} Battle`;
   },
@@ -85,7 +87,7 @@ const mapping = {
   "/main/citizen-friends": "Friends",
   "/main/citizen-invited-friends": "Invited Friends",
   "/main/citizen-edit": "Edit Profile",
-}
+};
 
 function setTitleWithPrefix(prefix: string) {
   document.title = `${prefix} • eRepublik`;

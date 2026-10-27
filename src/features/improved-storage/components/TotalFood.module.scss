@@ -1,20 +1,18 @@
 .Title {
-    
 }
 
 .ValueSection {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    .FoodIcon {
-        width: 30px;
-        height: 30px;
-        margin-right: 5px;
-    }
+  .FoodIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
 
-    .EnergyValue {
-        font-size: 1.1em;
-        font-weight: bold;
-    }
+  .EnergyValue {
+    font-size: 1.1em;
+    font-weight: bold;
+  }
 }
-

@@ -1,4 +1,7 @@
-import { TravelProgressState, TravelProgressStatus } from "./components/TravelProgressPanel";
+import {
+  TravelProgressState,
+  TravelProgressStatus,
+} from "./components/TravelProgressPanel";
 import { Travel } from "../../requests/travel-request";
 import { findCountryIdFor } from "./regions";
 import { CountriesCache } from "./countries-cache";
@@ -8,7 +11,7 @@ import { AutoTravelForm } from "./components/AutoTravellerPanel";
 import { log } from "../../utils/utils";
 
 export function createNewTravelProgressState(
-  unit: string
+  unit: string,
 ): TravelProgressState {
   return {
     status: TravelProgressStatus.InProgress,
@@ -16,24 +19,25 @@ export function createNewTravelProgressState(
     travelsCompleted: 0,
     resourcesSpent: {
       amount: 0,
-      unit: unit
-    }
+      unit: unit,
+    },
   };
 }
 
-export async function executeTravel(nextTargetRegionId: string, form: AutoTravelForm, countriesCache: CountriesCache) {
+export async function executeTravel(
+  nextTargetRegionId: string,
+  form: AutoTravelForm,
+  countriesCache: CountriesCache,
+) {
   let travelInfo: TravelInfo;
   try {
     log(`Getting travel info for region ${nextTargetRegionId}...`);
     travelInfo = await getTravelInfoTo(nextTargetRegionId);
     log(`Got travel info for region ${nextTargetRegionId}`, travelInfo);
   } catch (e: any) {
-    throw Error(
-      `Failed to get travel info for region ${nextTargetRegionId}`,
-      {
-        cause: e
-      }
-    );
+    throw Error(`Failed to get travel info for region ${nextTargetRegionId}`, {
+      cause: e,
+    });
   }
 
   try {
@@ -42,7 +46,7 @@ export async function executeTravel(nextTargetRegionId: string, form: AutoTravel
     log(`Travelled to region ${nextTargetRegionId}`);
   } catch (e: any) {
     throw Error(`Failed to travel to region ${nextTargetRegionId}`, {
-      cause: e
+      cause: e,
     });
   }
   return travelInfo;
@@ -53,19 +57,19 @@ export async function getTravelInfoTo(regionId: string): Promise<TravelInfo> {
     _token: getCsrfToken(),
     battleId: "0",
     regionId: regionId,
-    holdingId: "0"
+    holdingId: "0",
   });
   return {
     distanceKm: response.regions[regionId].distanceInKm,
     currencyCost: response.regions[regionId].cost,
-    ticketCost: response.regions[regionId].ticketAmount
+    ticketCost: response.regions[regionId].ticketAmount,
   };
 }
 
 export async function travelTo(
   regionId: string,
   travelMethod: Travel.Request["travelMethod"],
-  countriesCache: CountriesCache
+  countriesCache: CountriesCache,
 ) {
   const response = await Travel.sendRequest({
     _token: getCsrfToken(),
@@ -74,8 +78,8 @@ export async function travelTo(
     inRegionId: regionId,
     toCountryId: findCountryIdFor(
       regionId,
-      await countriesCache.getCountries()
-    )
+      await countriesCache.getCountries(),
+    ),
   });
   if (response.error === 1) {
     throw Error(`Failed to travel to ${regionId}: ${response.message}`);

@@ -26,7 +26,6 @@ button.button {
 
   transition: all 0.2s ease-in-out;
 
-
   &.isCollapsed {
     // rotate 3d 180deg
     transform: rotate3d(0, 1, 0, 180deg);

@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
       - name: Install
         run: |
           npm ci
@@ -40,7 +40,7 @@ jobs:
           title: Bump ${{ env.NEW_VERSION }}
           body: |
             # New Version ${{ env.NEW_VERSION }}
-            
+
             ## Changes
             ${{ env.CHANGES }}
           labels: |
@@ -48,4 +48,3 @@ jobs:
           branch: "version_bump/${{ env.NEW_VERSION }}"
           branch-suffix: timestamp
           delete-branch: true
-

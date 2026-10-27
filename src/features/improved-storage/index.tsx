@@ -27,7 +27,12 @@ export const ImprovedStorage = createFeature({
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
   execute: async () => {
     // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
-    await retryNullish(() => document.querySelector("#mainStorage"), "Main storage not found",20, 100);
+    await retryNullish(
+      () => document.querySelector("#mainStorage"),
+      "Main storage not found",
+      20,
+      100,
+    );
     /**
      * All the styles are loaded and applied immediately for all the views.
      * Adding this class make these static styles scoped, so that they only apply to this view.
@@ -112,16 +117,18 @@ async function displayTotalPriceOnSellOffer() {
     createTotalLabelRootElement(),
   ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
 
-  const offersQuantityInput = await retryNullish(() =>
-    document.querySelector<HTMLInputElement>(
-      "#sell_offers .offers_quantity input",
-    ),
+  const offersQuantityInput = await retryNullish(
+    () =>
+      document.querySelector<HTMLInputElement>(
+        "#sell_offers .offers_quantity input",
+      ),
     "Offers quantity input not found",
   );
-  const pricePerUnitInput = await retryNullish(() =>
-    document.querySelector<HTMLInputElement>(
-      "#sell_offers .offers_price input",
-    ),
+  const pricePerUnitInput = await retryNullish(
+    () =>
+      document.querySelector<HTMLInputElement>(
+        "#sell_offers .offers_price input",
+      ),
     "Price per unit input not found",
   );
 
@@ -132,10 +139,7 @@ async function displayTotalPriceOnSellOffer() {
     const total =
       Number(offersQuantityInput?.value ?? 0) *
       Number(pricePerUnitInput?.value ?? 0);
-    console.log(
-      offersQuantityInput?.value,
-      pricePerUnitInput?.value,
-    );
+    console.log(offersQuantityInput?.value, pricePerUnitInput?.value);
     console.log("Total price", total);
     totalProperty.update(total);
   }
@@ -148,7 +152,7 @@ async function displayTotalPriceOnSellOffer() {
     },
     "after",
   );
-  
+
   waitFor(1).then(() => {
     updateTotalPrice();
   });

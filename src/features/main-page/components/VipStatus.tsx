@@ -18,7 +18,7 @@ export const VipStatus: React.FC<VipStatusProps> = (props) => {
   const [claimStatus, setClaimStatus] = useState<string | null>(null);
 
   const handleClaim = async () => {
-    setClaimStatus("Claiming...")
+    setClaimStatus("Claiming...");
     const response = await VipClaim.sendRequest({
       _token: getCsrfToken(),
     });

@@ -19,7 +19,7 @@ export namespace AnniversaryQuestData {
           "content-type": "application/json",
           ...getCookieHeaders(),
         },
-      }
+      },
     );
     return response.then((response) => response.json());
   }

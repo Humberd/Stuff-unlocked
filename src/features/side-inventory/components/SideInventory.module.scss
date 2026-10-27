@@ -1,57 +1,57 @@
 .SideInventoryRoot {
-    position: fixed;
-    top: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .SideInventory {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100vh;
+
+  .Item {
+    width: 39px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    height: 100vh;
-    
-    .Item {
-        width: 39px;
-        display: flex;
-        flex-direction: column;
 
-        .Img {
-            height: 39px;
-            width: 100%;
-            background: linear-gradient(#eef1ec, #d5decf)
-        }
-
-        .Text {
-            font: 700 10px/13px arial;
-            color: #fff;
-            width: 100%;
-            background: #83b70b;
-            text-align: center;
-            cursor: default;
-            
-            &.IsActive {
-                background: #c34141;
-            }
-            &.IsTemporary {
-                background: #bf8807;
-            }
-            &.ExpiresSoon {
-                animation: blink 2s infinite;
-                animation-timing-function: steps(1, end);
-            }
-        }
+    .Img {
+      height: 39px;
+      width: 100%;
+      background: linear-gradient(#eef1ec, #d5decf);
     }
+
+    .Text {
+      font: 700 10px/13px arial;
+      color: #fff;
+      width: 100%;
+      background: #83b70b;
+      text-align: center;
+      cursor: default;
+
+      &.IsActive {
+        background: #c34141;
+      }
+      &.IsTemporary {
+        background: #bf8807;
+      }
+      &.ExpiresSoon {
+        animation: blink 2s infinite;
+        animation-timing-function: steps(1, end);
+      }
+    }
+  }
 }
 
 // animation of blinking background
 @keyframes blink {
-    0% {
-        background: #d10000;
-    }
-    50% {
-        background: #bf8807;
-    }
-    100% {
-        background: #d10000;
-    }
+  0% {
+    background: #d10000;
+  }
+  50% {
+    background: #bf8807;
+  }
+  100% {
+    background: #d10000;
+  }
 }

@@ -4,12 +4,12 @@ export namespace VipClaim {
   export interface Request {
     _token: string;
   }
-  
+
   export interface Response {
     error: boolean;
     message: string;
   }
-  
+
   export async function sendRequest(body: Request): Promise<Response> {
     const response = fetch("https://www.erepublik.com/en/main/vip-claim", {
       method: "POST",

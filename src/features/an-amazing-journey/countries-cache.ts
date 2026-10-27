@@ -16,7 +16,7 @@ export class CountriesCache {
   }
 
   public async getCurrentRegionId(
-    flags: { skipCache: boolean } = { skipCache: false }
+    flags: { skipCache: boolean } = { skipCache: false },
   ): Promise<string> {
     if (flags.skipCache || !this.currentRegionId) {
       await this.fetchCountries();

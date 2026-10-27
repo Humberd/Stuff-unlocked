@@ -18,7 +18,9 @@ export const StorageInfo: React.FC<StorageInfoProps> = (props) => {
           alt="Storage"
         />
         <div>
-          <strong className={styles.MainText}>{formatNumber(props.free)} </strong>
+          <strong className={styles.MainText}>
+            {formatNumber(props.free)}{" "}
+          </strong>
           <span className={styles.SecondaryText}>FREE</span>
         </div>
       </div>

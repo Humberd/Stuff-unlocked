@@ -4,18 +4,15 @@ export namespace InventoryJson {
   export interface Request {}
 
   export type Response = ItemGroup[];
-  
+
   export function sendRequest(request: Request): Promise<Response> {
-    const response = fetch(
-      "https://www.erepublik.com/en/main/inventory-json",
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          ...getCookieHeaders(),
-        },
-      }
-    );
+    const response = fetch("https://www.erepublik.com/en/main/inventory-json", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        ...getCookieHeaders(),
+      },
+    });
     return response.then((response) => response.json());
   }
 
@@ -209,5 +206,4 @@ export namespace InventoryJson {
     text: string;
     value: string;
   }
-
 }

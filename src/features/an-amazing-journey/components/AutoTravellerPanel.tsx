@@ -24,7 +24,7 @@ export interface AutoTravelForm {
 }
 
 export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
-  props
+  props,
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [formValuesFromStorage, setFormValues] =

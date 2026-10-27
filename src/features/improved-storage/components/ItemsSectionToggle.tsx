@@ -13,7 +13,7 @@ export const ItemsSectionToggle: React.FC<ItemsSectionToggleProps> = (
 ) => {
   const [isOpened, setIsOpened] = useLocalStorage(
     `inventory-section-${props.sectionId}-opened`,
-    props.initialIsOpened ?? true
+    props.initialIsOpened ?? true,
   );
 
   useEffect(() => {

@@ -5,11 +5,11 @@ const shx = require("shelljs");
 async function main() {
   const header = fs.readFileSync(
     path.resolve(__dirname, "../src/userscript-header.js"),
-    "utf8"
+    "utf8",
   );
   const main = fs.readFileSync(
     path.resolve(__dirname, "../build/static/js/main.js"),
-    "utf8"
+    "utf8",
   );
   // language=JavaScript
   const mainWrappedScript = `
@@ -37,7 +37,6 @@ function execute() {
 }
 
 main();
-
 
 /**
  * The idiots at erep have a custom `Map` object in the global scope.

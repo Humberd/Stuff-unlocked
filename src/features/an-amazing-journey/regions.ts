@@ -19,10 +19,9 @@ export const travelRouteMain: TravelRoute = {
   regionIdB: WellingtonRegionId,
 };
 
-
 export function findCountryIdFor(
   regionId: string,
-  countries: Record<string, TravelData.CountryValue>
+  countries: Record<string, TravelData.CountryValue>,
 ): string {
   const countryId = Object.values(countries).find((country) => {
     const currentRegions = country.currentRegions;

@@ -16,9 +16,9 @@ export const WeeklyChallengeCalculatorButton: React.FC<
   WeeklyChallengeCalculatorButtonProps
 > = () => {
   const onClick = () => {
-    Analytics.postWcCalculatorOpenedEvent()
-  }
-  
+    Analytics.postWcCalculatorOpenedEvent();
+  };
+
   return (
     <LinkButton
       href={"https://humberd.github.io/Weekly-Challenge-Calculator"}

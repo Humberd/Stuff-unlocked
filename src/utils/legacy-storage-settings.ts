@@ -1,5 +1,5 @@
 function getStuffStorage() {
-  return localStorage.getItem('stuff');
+  return localStorage.getItem("stuff");
 }
 
 export const LegacyStorageSettings = {
@@ -9,8 +9,8 @@ export const LegacyStorageSettings = {
       return true;
     }
     const jsonStuff = JSON.parse(stuff);
-    
-    return !jsonStuff.improveInventory
+
+    return !jsonStuff.improveInventory;
   },
   isSideInventoryEnabled: () => {
     const stuff = getStuffStorage();
@@ -18,7 +18,7 @@ export const LegacyStorageSettings = {
       return true;
     }
     const jsonStuff = JSON.parse(stuff);
-    
-    return !jsonStuff.displayStorage
-  }
-}
+
+    return !jsonStuff.displayStorage;
+  },
+};

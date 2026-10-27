@@ -28,7 +28,7 @@ export interface TravelResource {
 }
 
 export const TravelProgressPanel: React.FC<TravelProgressPanelProps> = (
-  props
+  props,
 ) => {
   const panelRef = useRef<HTMLDivElement>(null);
 

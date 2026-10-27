@@ -28,7 +28,7 @@ function updateVersionInPackageJson(newVersion) {
   const packageJson = fs.readFileSync(path, "utf8");
   const updatedPackageJson = packageJson.replace(
     /(\s+"version":\s+")[\d.]+/,
-    `$1${newVersion}`
+    `$1${newVersion}`,
   );
   fs.writeFileSync(path, updatedPackageJson);
 }
@@ -38,7 +38,7 @@ function updateVersionInContributorsJson(newVersion) {
   const contributorsJson = fs.readFileSync(path, "utf8");
   const updatedContributorsJson = contributorsJson.replace(
     /(\s+"version":\s+")[\d.]+/,
-    `$1${newVersion}`
+    `$1${newVersion}`,
   );
   fs.writeFileSync(path, updatedContributorsJson);
 }
@@ -48,7 +48,7 @@ function updateVersionInUserscriptHeaderJs(newVersion) {
   const indexUserJs = fs.readFileSync(path, "utf8");
   const updatedIndexUserJs = indexUserJs.replace(
     /\/\/\s+@version\s+[\d.]+/,
-    `// @version		${newVersion}`
+    `// @version		${newVersion}`,
   );
   fs.writeFileSync(path, updatedIndexUserJs);
 }
@@ -96,7 +96,7 @@ async function installDependencies() {
 
   console.log("Installing npm dependencies");
   const { stdout, stderr } = await jsExec(
-    "npm install @actions/core --no-save"
+    "npm install @actions/core --no-save",
   );
   console.log("npm-install stderr:\n\n" + stderr);
   console.log("npm-install stdout:\n\n" + stdout);
