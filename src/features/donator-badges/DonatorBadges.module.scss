@@ -1,0 +1,79 @@
+img.Border {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform: scale(1.2);
+  z-index: 11;
+  pointer-events: none;
+
+  &.NoZIndex {
+    z-index: unset;
+  }
+}
+
+.ProfileAvatar {
+  position: relative;
+  height: 158px;
+  width: 158px;
+  display: block;
+  margin-left: 10px;
+}
+
+.BattlefieldName {
+  color: #fff !important;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+@mixin rainbow {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #fb0094
+  );
+  background-size: 500%;
+  animation: rainbow 20s linear infinite;
+}
+
+.BattlefieldNameAnimation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  opacity: 0.5;
+
+  &::before {
+    @include rainbow;
+  }
+
+  &::after {
+    @include rainbow;
+    filter: blur(20px);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 500% 0;
+  }
+}

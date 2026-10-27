@@ -40,6 +40,9 @@ interface WheelOfFortuneBuildData {
 
 interface Window {
   global_wof_build_data: WheelOfFortuneBuildData;
+  /** Used by the legacy player hovercard to decorate avatars. */
+  isDonator(playerId: string): boolean;
+  createBorderElementBasedOnDonatorLevel(playerId: string): HTMLElement;
 }
 
 /** GSAP 1.x, used by the Power Spin animation. */
