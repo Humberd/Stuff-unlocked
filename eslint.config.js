@@ -20,10 +20,9 @@ export default defineConfig(
     },
   },
   {
-    files: ["scripts/**/*.cjs"],
+    files: ["*.js", "scripts/**/*.js"],
     extends: [js.configs.recommended],
     languageOptions: {
-      sourceType: "commonjs",
       globals: globals.node,
     },
   },

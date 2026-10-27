@@ -23,7 +23,7 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "version-updater": "node scripts/version-updater.cjs"
+    "version-updater": "node scripts/version-updater.js"
   },
   "dependencies": {
     "classnames": "2.5.1",
