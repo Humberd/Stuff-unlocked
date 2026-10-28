@@ -1,0 +1,19 @@
+.TodayStatsRoot {
+  float: left;
+  width: 145px;
+  margin: 6px 3px 0;
+}
+
+.TodayStats {
+  cursor: pointer;
+  font: 700 11px/14px arial;
+
+  strong {
+    color: #666;
+  }
+
+  span {
+    color: #3c8fa7;
+    float: right;
+  }
+}

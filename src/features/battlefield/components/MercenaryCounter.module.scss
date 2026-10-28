@@ -1,0 +1,24 @@
+.MercenaryCounter {
+  position: absolute;
+  top: 1px;
+  z-index: 5;
+  text-align: center;
+  text-shadow: 0 0 2px #000;
+}
+
+.Mercenary,
+.FreedomFighter {
+  color: #fff;
+  padding: 3px;
+  font: 700 11px Arial;
+  width: 40px;
+  display: inline-block;
+}
+
+.Mercenary {
+  background: #fb7e3d;
+}
+
+.FreedomFighter {
+  background: #83b70b;
+}

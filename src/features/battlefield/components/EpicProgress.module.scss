@@ -1,0 +1,18 @@
+.EpicProgress {
+  color: #fff;
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  font: 700 10px/13px Arial;
+  padding: 2px 5px;
+  border-radius: 0 2px 0 0;
+  cursor: pointer;
+  text-shadow: 0 0 2px #000;
+
+  input {
+    margin: 0 5px 0 2px;
+    top: 2px;
+    position: relative;
+  }
+}

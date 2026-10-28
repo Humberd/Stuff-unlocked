@@ -28,6 +28,13 @@ import { ElectionsLinkFeature } from "./features/elections-link";
 import { PlayerHovercardFeature } from "./features/player-hovercard";
 import { ImprovedProfileFeature } from "./features/improved-profile";
 import { InfluenceCalculatorFeature } from "./features/influence-calculator";
+import {
+  DisableAfkTimerFeature,
+  ImprovedBattlefieldFeature,
+  KillTrackingFeature,
+  MercenaryCounterFeature,
+  TodayStatsSidebarFeature,
+} from "./features/battlefield";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
 import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
 import { HideMedalPostsFeature } from "./features/hide-medal-posts";
@@ -74,6 +81,11 @@ const features = [
   PlayerHovercardFeature,
   ImprovedProfileFeature,
   InfluenceCalculatorFeature,
+  KillTrackingFeature,
+  ImprovedBattlefieldFeature,
+  MercenaryCounterFeature,
+  DisableAfkTimerFeature,
+  TodayStatsSidebarFeature,
   WhatsNewFeature,
 ];
 

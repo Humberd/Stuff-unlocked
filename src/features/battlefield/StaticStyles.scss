@@ -1,0 +1,40 @@
+.su-improved-battlefield {
+  #battleConsole li div,
+  #battleConsole li i,
+  .player_name a,
+  .region_name_background {
+    pointer-events: none;
+  }
+
+  #pvp .left_wall span,
+  #pvp .right_wall span {
+    opacity: 1;
+  }
+
+  #pvp .battle_progression .epic {
+    display: none;
+  }
+
+  #pvp .percent span {
+    opacity: 1;
+    animation: none;
+  }
+
+  #influence_added {
+    visibility: hidden;
+  }
+
+  #total_damage .resistance {
+    display: none;
+  }
+}
+
+// Replaced by the personal stats
+.su-battlefield-personal-stats #total_damage strong {
+  visibility: hidden;
+}
+
+// Replaced by the top lists
+.su-battlefield-top-lists .battle_heroes {
+  display: none;
+}

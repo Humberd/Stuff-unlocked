@@ -1,0 +1,39 @@
+.TopList {
+  position: absolute;
+  top: 25px;
+  z-index: 11;
+  border-radius: 2px;
+}
+
+.Left {
+  left: 0;
+}
+
+.Right {
+  right: 0;
+}
+
+.Fighter {
+  text-shadow: 0 0 2px #000;
+  font: 700 9px Arial;
+  color: #fff;
+  display: flex;
+  width: 121px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px;
+
+  &:hover {
+    color: #83b70b;
+  }
+}
+
+.Name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Damage {
+  color: #ffd479;
+}
