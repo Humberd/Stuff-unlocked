@@ -1,0 +1,12 @@
+.su-player-hovercard {
+  // Makes the whole avatar hoverable, like the legacy script did
+  .citizen_activity a,
+  .pic.tipsyElement a,
+  .user-cmnt-avatar a {
+    display: block;
+  }
+}
+
+.su-player-hovercard-game-off hovercard-details {
+  display: none !important;
+}

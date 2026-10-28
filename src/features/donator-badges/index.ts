@@ -20,8 +20,6 @@ export const DonatorBadgesFeature = createFeature({
     "Decorates the avatars of Stuff++ Unlocked donators with an animated border.",
   canExecute: () => true,
   execute: (context) => {
-    exposeToLegacyHovercard();
-
     const donatorsData = readStuffData().unlocked;
     if (!donatorsData) {
       log("No donators data cached yet");
@@ -151,12 +149,6 @@ function observePageChanges({ onCleanup }: FeatureContext) {
     observer.disconnect();
     window.clearTimeout(scanTimeoutId);
   });
-}
-
-function exposeToLegacyHovercard() {
-  window.isDonator = (playerId) => borderUrls.has(playerId);
-  window.createBorderElementBasedOnDonatorLevel = (playerId) =>
-    createBorderElement(borderUrls.get(playerId) ?? "");
 }
 
 function playerIdFromLink(link: Element | null): string | undefined {

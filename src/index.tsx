@@ -25,6 +25,7 @@ import { CloseTpNotificationsFeature } from "./features/close-tp-notifications";
 import { AutoLoginFeature } from "./features/auto-login";
 import { AutoRefreshFeature } from "./features/auto-refresh";
 import { ElectionsLinkFeature } from "./features/elections-link";
+import { PlayerHovercardFeature } from "./features/player-hovercard";
 import { ImprovedProfileFeature } from "./features/improved-profile";
 import { InfluenceCalculatorFeature } from "./features/influence-calculator";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
@@ -70,6 +71,7 @@ const features = [
   AutoLoginFeature,
   AutoRefreshFeature,
   ElectionsLinkFeature,
+  PlayerHovercardFeature,
   ImprovedProfileFeature,
   InfluenceCalculatorFeature,
   WhatsNewFeature,
