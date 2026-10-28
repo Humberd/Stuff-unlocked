@@ -3,6 +3,8 @@ $orange: #fb7e3d;
 $red: #f95555;
 
 .ButtonRoot {
+  // `.user_finances` before it floats
+  clear: both;
   margin: 5px 0 -5px;
 }
 
