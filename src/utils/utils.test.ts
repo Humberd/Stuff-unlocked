@@ -17,6 +17,11 @@ describe("ensure", () => {
     expect(ensure("a")).toBe("a");
   });
 
+  it("keeps falsy values that are not nullish", () => {
+    expect(ensure(0)).toBe(0);
+    expect(ensure("")).toBe("");
+  });
+
   it("throws for null with the given message", () => {
     expect(() => ensure(null, "missing")).toThrow("missing");
   });

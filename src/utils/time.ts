@@ -33,7 +33,7 @@ export async function retryNullish<T>(
   let retries = 0;
   while (true) {
     const result = callback();
-    if (result) {
+    if (result !== null && result !== undefined) {
       return result;
     }
 

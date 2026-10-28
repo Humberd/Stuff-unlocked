@@ -39,6 +39,10 @@ describe("retryNullish", () => {
     );
   });
 
+  it("returns falsy values that are not nullish", async () => {
+    await expect(retryNullish(() => 0, "msg", 0, 0)).resolves.toBe(0);
+  });
+
   it("throws with the message after the retries run out", async () => {
     await expect(retryNullish(() => null, "Element", 1, 0)).rejects.toThrow(
       "Retries exceeded Element",

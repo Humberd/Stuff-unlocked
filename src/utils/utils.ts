@@ -49,8 +49,8 @@ export function toError(value: unknown): Error {
 }
 
 export function ensure<T>(thing: T | null | undefined, message?: string): T {
-  if (!thing) {
-    const msg = message || `Expected a value, got ${thing}`;
+  if (thing === null || thing === undefined) {
+    const msg = message ?? `Expected a value, got ${String(thing)}`;
     throw new Error(msg);
   }
 
