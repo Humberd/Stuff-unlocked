@@ -1,8 +1,7 @@
 import { createRoot } from "react-dom/client";
 import changelogMarkdown from "../../../CHANGELOG.md?raw";
 import { createFeature } from "../../utils/feature";
-import { markOnce } from "../../utils/dom";
-import { getStuffVersion } from "../../utils/erep-global-info";
+import { getStuffVersion, isTopWindow } from "../../utils/erep-global-info";
 import { error } from "../../utils/utils";
 import {
   compareVersions,
@@ -14,21 +13,22 @@ import {
 import { WhatsNewDialog } from "./components/WhatsNewDialog";
 
 const LAST_SEEN_VERSION_KEY = "STUFF_UNLOCKED.whatsNew.lastSeenVersion";
-/** The CHANGELOG link in the legacy settings panel. */
-const CHANGELOG_LINK_SELECTOR = ".stuffWhatsNew";
+
+let isChecked = false;
 
 export const WhatsNewFeature = createFeature({
   id: "whats_new",
   name: "What's New",
   description:
     "After an update, shows what changed since the last version the player saw.",
-  canExecute: () => true,
+  canExecute: () => isTopWindow(),
   execute: () => {
-    if (!markOnce(document.body, "whats-new")) {
+    // Once per page load, the dialog stays open across navigations
+    if (isChecked) {
       return;
     }
+    isChecked = true;
     const releases = parseChangelog(changelogMarkdown);
-    listenForChangelogLink(releases);
 
     const current = getStuffVersion();
     const lastSeen = readLastSeenVersion(releases);
@@ -79,17 +79,11 @@ function saveLastSeenVersion(version: string) {
   }
 }
 
-function listenForChangelogLink(releases: Release[]) {
-  document.addEventListener("click", (event) => {
-    if (
-      event.target instanceof Element &&
-      event.target.closest(CHANGELOG_LINK_SELECTOR)
-    ) {
-      openDialog({
-        title: "Stuff++ Unlocked changelog",
-        releases,
-      });
-    }
+/** Shows the whole history, opened from the settings panel. */
+export function openChangelog() {
+  openDialog({
+    title: "Stuff++ Unlocked changelog",
+    releases: parseChangelog(changelogMarkdown),
   });
 }
 

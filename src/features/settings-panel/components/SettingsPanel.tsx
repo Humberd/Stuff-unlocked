@@ -13,6 +13,7 @@ import { useExternalProperty } from "../../../hooks/external-property";
 import { getStuffVersion } from "../../../utils/erep-global-info";
 import { isNewerVersion, USERSCRIPT_URL } from "../version";
 import type { MountOptions } from "../../../utils/render";
+import { openChangelog } from "../../whats-new";
 
 const AUTHOR_PROFILE_URL = "/en/citizen/profile/4659830";
 
@@ -81,6 +82,14 @@ const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
             })}
           >
             Update
+          </a>
+          <a
+            onClick={() => {
+              props.onClose();
+              openChangelog();
+            }}
+          >
+            Changelog
           </a>
           <a href={AUTHOR_PROFILE_URL}>Contact / Donate</a>
           <a onClick={props.onClose}>Close</a>

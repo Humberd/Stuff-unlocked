@@ -70,7 +70,7 @@ Basic feature inherited from Zordacz's old version.
 ### What's new after an update
 
 - After the script updates, a popup lists the new features and fixes since the version you last saw.
-- The whole history is under CHANGELOG in the Stuff++ settings panel.
+- The whole history is behind the Changelog link in the Stuff++ settings panel.
 
 ### Feed comments scroll
 
