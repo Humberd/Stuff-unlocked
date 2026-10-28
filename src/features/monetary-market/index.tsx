@@ -20,7 +20,7 @@ export const MonetaryMarketFeature = createFeature({
   execute: (context) => {
     document.querySelectorAll(".e_cash h1").forEach((title) => {
       context.mount(
-        <ErepublikToolsLink path="monetary-market/gold/statistics" />,
+        <ErepublikToolsLink path="marketplace/monetary-market/gold/statistics" />,
         title,
         erepublikToolsLinkMountOptions("narrow"),
       );

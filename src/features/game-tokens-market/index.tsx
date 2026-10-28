@@ -15,7 +15,7 @@ export const GameTokensMarketFeature = createFeature({
   execute: ({ mount, signal }) => {
     document.querySelectorAll("#marketplace h1").forEach((title) => {
       mount(
-        <ErepublikToolsLink path="game-token/statistics/price" />,
+        <ErepublikToolsLink path="marketplace/game-token/statistics/price" />,
         title,
         erepublikToolsLinkMountOptions("narrow"),
       );
