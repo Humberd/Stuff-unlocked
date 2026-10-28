@@ -1,4 +1,4 @@
-import { createFeature } from "../../utils/feature";
+import { createFeature, runIndependently } from "../../utils/feature";
 import "./StaticStyles.scss";
 import {
   executeInAngularScope,
@@ -39,21 +39,23 @@ export const ImprovedStorage = createFeature({
      */
     document.body.classList.add("su-improved-storage");
 
-    makeSectionsToggleable();
-    displayTotalFood();
-
-    await retryNullish(
-      () => document.querySelector("#sell_offers .offers_product"),
-      "Sell offers not found",
-      20,
-      100,
-    );
-    // order matters start
-    displayTotalPriceOnSellOffer();
-    applyMaxItemsOnSellOffer();
-    // order matters end
-
-    autoOpenSellTab();
+    await runIndependently([
+      makeSectionsToggleable,
+      displayTotalFood,
+      async () => {
+        await retryNullish(
+          () => document.querySelector("#sell_offers .offers_product"),
+          "Sell offers not found",
+          20,
+          100,
+        );
+        await runIndependently([
+          displayTotalPriceOnSellOffer,
+          applyMaxItemsOnSellOffer,
+          autoOpenSellTab,
+        ]);
+      },
+    ]);
   },
 });
 
@@ -150,9 +152,8 @@ async function displayTotalPriceOnSellOffer() {
     "after",
   );
 
-  waitFor(1).then(() => {
-    updateTotalPrice();
-  });
+  await waitFor(1);
+  updateTotalPrice();
 }
 
 async function autoOpenSellTab() {
