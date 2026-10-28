@@ -1,5 +1,7 @@
 .XpLeft {
   position: relative;
+  // Starts below the floated profile box instead of covering its icons
+  clear: both;
   margin: 0 0 10px 10px;
   font-size: 10px;
   color: #777;
