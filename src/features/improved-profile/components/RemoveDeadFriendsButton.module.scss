@@ -1,0 +1,27 @@
+.Button {
+  display: block;
+  width: 100%;
+  padding: 3px 0;
+  border: none;
+  border-radius: 1px;
+  background: #83b70b;
+  color: #fff;
+  font: 700 11px Arial;
+  text-align: center;
+  text-shadow: 0 0 2px #000;
+  cursor: pointer;
+
+  &:hover,
+  &.Busy {
+    background: #fb7e3d;
+  }
+
+  &.Busy {
+    cursor: default;
+  }
+
+  &.Confirming,
+  &.Failed {
+    background: #f95555;
+  }
+}

@@ -1,0 +1,38 @@
+// Narrows the rank boxes, to make room for the results next to them
+.su-influence-calculator {
+  .citizen_military_box_wide {
+    width: 293px;
+    margin: 0 1px 2px;
+
+    .rank_box {
+      right: 0;
+    }
+
+    .rank_icon {
+      left: 7px;
+    }
+
+    .regular_rank_img {
+      margin-left: 7px;
+    }
+
+    .rank_name_holder {
+      width: 230px;
+      left: 88px;
+    }
+
+    .top_area {
+      padding: 0 15px 0 77px;
+    }
+  }
+
+  // The legacy script set these inline, so they won over the game's styles
+  .citizen_military_box {
+    width: 85px !important;
+    margin: 0 1px 2px !important;
+
+    .military_box_info {
+      width: 85px;
+    }
+  }
+}

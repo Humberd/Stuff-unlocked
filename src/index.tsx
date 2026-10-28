@@ -25,6 +25,8 @@ import { CloseTpNotificationsFeature } from "./features/close-tp-notifications";
 import { AutoLoginFeature } from "./features/auto-login";
 import { AutoRefreshFeature } from "./features/auto-refresh";
 import { ElectionsLinkFeature } from "./features/elections-link";
+import { ImprovedProfileFeature } from "./features/improved-profile";
+import { InfluenceCalculatorFeature } from "./features/influence-calculator";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
 import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
 import { HideMedalPostsFeature } from "./features/hide-medal-posts";
@@ -68,6 +70,8 @@ const features = [
   AutoLoginFeature,
   AutoRefreshFeature,
   ElectionsLinkFeature,
+  ImprovedProfileFeature,
+  InfluenceCalculatorFeature,
   WhatsNewFeature,
 ];
 

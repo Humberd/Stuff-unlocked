@@ -1,0 +1,54 @@
+.Inputs {
+  width: 577px;
+  margin: 0 0 5px;
+  color: #666;
+  font-size: 11px;
+  text-align: center;
+
+  label {
+    margin: 0 5px;
+  }
+}
+
+.NumberInput {
+  width: 35px;
+  margin: 0 5px;
+  padding: 4px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.Checkbox {
+  position: relative;
+  top: 2px;
+  margin-left: 5px;
+}
+
+.ResultBox {
+  line-height: 0;
+}
+
+.QualitySelect {
+  height: 23px;
+  margin: 2px;
+  padding: 2px 4px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.Label,
+.Value {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.Label {
+  color: #81827f;
+  font: 400 11px/14px Arial;
+}
+
+.Value {
+  color: #595959;
+  font: 700 12px/15px Arial;
+}
