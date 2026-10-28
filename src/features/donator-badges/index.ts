@@ -1,7 +1,7 @@
 import { createFeature, type FeatureContext } from "../../utils/feature";
 import { lastPathSegment } from "../../utils/dom";
 import { log } from "../../utils/utils";
-import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
+import { readStuffData } from "../../settings/stuff-settings";
 import { getDonatorBorderUrls } from "./donators";
 import styles from "./DonatorBadges.module.scss";
 
@@ -22,7 +22,7 @@ export const DonatorBadgesFeature = createFeature({
   execute: (context) => {
     exposeToLegacyHovercard();
 
-    const donatorsData = LegacyStorageSettings.getDonatorsData();
+    const donatorsData = readStuffData().unlocked;
     if (!donatorsData) {
       log("No donators data cached yet");
       return;

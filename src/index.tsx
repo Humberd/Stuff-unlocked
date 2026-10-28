@@ -1,6 +1,5 @@
 import "./index.css";
 import { addLocationChangeCallback, error, log } from "./utils/utils";
-import "./old-index.user.js";
 import { AnAmazingJourneyFeature } from "./features/an-amazing-journey";
 import { Analytics } from "./analytics/posthog";
 import { ImprovedStorage } from "./features/improved-storage";
@@ -13,10 +12,16 @@ import { DailyChallengeFeature } from "./features/daily-challenge";
 import { DonatorBadgesFeature } from "./features/donator-badges";
 import { WhatsNewFeature } from "./features/whats-new";
 import { FeatureRunner } from "./feature-runner";
+import { installXhrHook } from "./utils/xhr";
+import { SettingsPanelFeature } from "./features/settings-panel";
 
 log("React script has successfully started");
 
+// Before the game sends its first request
+installXhrHook();
+
 const features = [
+  SettingsPanelFeature,
   AnAmazingJourneyFeature,
   ImprovedStorage,
   SideInventoryFeature,

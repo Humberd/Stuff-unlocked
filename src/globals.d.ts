@@ -6,10 +6,48 @@
 declare const erepublik: {
   citizen: {
     citizenId: number;
+    name: string;
     citizenshipCurrencyName: string;
-    residence: { regionId: number };
+    /** Citizenship country id. */
+    country: number;
+    /** Country and region the citizen is in right now. */
+    countryLocationId: number;
+    regionLocationId: number;
+    residence: {
+      /** 1 when the citizen has a residence. */
+      hasResidence: number;
+      regionId: number;
+      countryId: number;
+      cityId: number;
+    };
+    division: number;
+    userLevel: number;
+    currentExperiencePoints: number;
+    /** Currency code of the country the citizen is in, e.g. "PLN". */
+    currency: string;
+    currencyAmount: number;
+    gold: number;
+    canSwitchDivisions: boolean;
+    /** Energy when the page loaded. */
+    energy: number;
+    energyPoolLimit: number;
+    energyToRecover: number;
+    recoverableEnergy: number;
   };
-  settings: { cookielessHost: string };
+  settings: {
+    cookielessHost: string;
+    /** Language of the site, e.g. "en". */
+    culture: string;
+    /** Day of the game. */
+    eDay: number;
+    isOnHomepage: boolean;
+  };
+  info: {
+    countries: Record<
+      string,
+      { id: string; name: string; permalink: string; isDictatorship: boolean }
+    >;
+  };
   /** Only present on pages with the Power Spin button. */
   wheel_of_fortune: WheelOfFortune;
 };
@@ -59,13 +97,34 @@ declare const TimelineMax: {
 };
 declare const Expo: { easeOut: unknown };
 
-declare const SERVER_DATA: { csrfToken: string };
+/** Page data. The battlefield fields are only present on a battlefield. */
+declare const SERVER_DATA: {
+  csrfToken: string;
+  isLoggedIn?: boolean;
+  /** Set while the game asks the player to prove they are not a bot. */
+  sessionValidation?: unknown;
+  webDeployEnabled?: boolean;
+  battleId?: number;
+  battleZoneId?: number;
+  zoneId?: number;
+  leftBattleId?: number;
+  rightBattleId?: number;
+  realInvaderId?: number;
+  isResistance?: boolean;
+  isCivilWar?: boolean;
+  spectatorOnly?: boolean;
+  onAirforceBattlefield?: boolean;
+  canSwitchDivisions?: boolean;
+  deployment?: unknown;
+  points?: { attacker: number; defender: number };
+};
 
 declare const Environment: { isOnHomepage: boolean };
 
 declare const angular: {
-  element(element: Element | null): {
+  element(element: Element | string | null): {
     scope(): AngularScope | undefined;
+    injector(): { get(name: string): unknown } | undefined;
   };
 };
 

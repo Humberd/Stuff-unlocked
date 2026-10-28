@@ -4,7 +4,7 @@ import {
   SideInventory,
   sideInventoryMountOptions,
 } from "./components/SideInventory";
-import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
+import { isSettingEnabled } from "../../settings/stuff-settings";
 
 const typesToSkip = new Set([
   "currency",
@@ -17,7 +17,7 @@ export const SideInventoryFeature = createFeature({
   name: "Side Inventory",
   // Everywhere apart from the storage page itself
   canExecute: (url) => !url.href.includes("/main/inventory"),
-  isSettingEnabled: () => LegacyStorageSettings.isSideInventoryEnabled(),
+  isSettingEnabled: () => isSettingEnabled("displayStorage"),
   execute: async ({ mount }) => {
     const response = await InventoryJson.sendRequest();
     const items = response.flatMap((group) => group.items);

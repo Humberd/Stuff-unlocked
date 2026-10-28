@@ -19,13 +19,13 @@ import { TotalFood } from "./components/TotalFood";
 import * as InventoryJson from "../../requests/inventory-json-data-request";
 type ItemGroup = InventoryJson.ItemGroup;
 type Item = InventoryJson.Item;
-import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
+import { isSettingEnabled } from "../../settings/stuff-settings";
 
 export const ImprovedStorage = createFeature({
   id: "improved_storage",
   name: "Improved Storage",
   canExecute: (url) => url.href.includes("/main/inventory"),
-  isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
+  isSettingEnabled: () => isSettingEnabled("improveInventory"),
   execute: async (context) => {
     // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
     await waitForElement("#mainStorage");
