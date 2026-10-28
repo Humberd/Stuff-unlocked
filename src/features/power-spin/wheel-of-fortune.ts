@@ -62,17 +62,27 @@ export function installWheelOverrides() {
 
 function handleSpinResponse(response: WheelOfFortuneSpinResponse) {
   jackpotCount.update(response.jackpot);
+  prizeLog.update([
+    ...prizeLog.get(),
+    ...getPrizeLogEntries(response, window.global_wof_build_data.prizes.prizes),
+  ]);
+}
 
-  const allPrizes = window.global_wof_build_data.prizes.prizes;
-  const newEntries = response.prizes.map((prize, index) => {
+/** One log entry per prize won, with the price paid for the spin that won it. */
+export function getPrizeLogEntries(
+  response: WheelOfFortuneSpinResponse,
+  allPrizes: WheelOfFortuneBuildData["prizes"]["prizes"],
+): PrizeLogEntry[] {
+  // `response.cost` is already the price of the next spin
+  const firstSpinCost = response.cost - SPIN_COST_STEP * response.prizes.length;
+  return response.prizes.map((prize, index) => {
     const { tooltip, icon } = allPrizes[prize.index];
     return {
-      cost: response.cost + SPIN_COST_STEP * index,
+      cost: firstSpinCost + SPIN_COST_STEP * index,
       name: tooltip,
       iconUrl: icon,
     };
   });
-  prizeLog.update([...prizeLog.get(), ...newEntries]);
 }
 
 export type AutoSpinResult = "limit" | "jackpot" | "cancelled";

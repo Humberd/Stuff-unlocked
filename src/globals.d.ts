@@ -64,7 +64,7 @@ interface WheelOfFortune {
 }
 
 interface WheelOfFortuneSpinResponse {
-  /** Cost of the first prize in this response. */
+  /** Cost of the next spin, after the spins in this response were paid for. */
   cost: number;
   /** Number of jackpot symbols collected so far, 3 means the gold jackpot. */
   jackpot: number;

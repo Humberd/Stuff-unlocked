@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { autoSpin, AutoSpinOptions, jackpotCount } from "./wheel-of-fortune";
+import {
+  autoSpin,
+  AutoSpinOptions,
+  getPrizeLogEntries,
+  jackpotCount,
+} from "./wheel-of-fortune";
 
 const SPIN_ANIMATION_SECONDS = 1;
 
@@ -101,5 +106,39 @@ describe("autoSpin", () => {
       runAutoSpin({ maxCost: 5000, isCancelled: () => isCancelled }),
     ).resolves.toBe("cancelled");
     expect(wheel.getSpins()).toBe(3);
+  });
+});
+
+describe("getPrizeLogEntries", () => {
+  const allPrizes = {
+    3: { tooltip: "Small Bomb", icon: "bomb.png" },
+    11: { tooltip: "Damage Booster", icon: "booster.png" },
+  };
+
+  it("logs the price paid for a single spin", () => {
+    // Recorded from the game: a spin that cost 1000 responds with the next price
+    const response = { cost: 1100, jackpot: 0, prizes: [{ index: 11 }] };
+
+    expect(getPrizeLogEntries(response, allPrizes)).toEqual([
+      { cost: 1000, name: "Damage Booster", iconUrl: "booster.png" },
+    ]);
+  });
+
+  it("logs the price paid for each spin of a multi spin", () => {
+    const response = {
+      cost: 1000,
+      jackpot: 0,
+      prizes: [
+        { index: 3 },
+        { index: 11 },
+        { index: 3 },
+        { index: 3 },
+        { index: 11 },
+      ],
+    };
+
+    expect(
+      getPrizeLogEntries(response, allPrizes).map((entry) => entry.cost),
+    ).toEqual([500, 600, 700, 800, 900]);
   });
 });
