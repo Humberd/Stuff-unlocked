@@ -16,12 +16,13 @@ declare const erepublik: {
 
 interface WheelOfFortune {
   showMultiPrize(...args: unknown[]): void;
-  multispin(
+  multispin: (
+    this: WheelOfFortune,
     numPrizes: number,
     always3: boolean,
     response: WheelOfFortuneSpinResponse,
     multiSpin: boolean,
-  ): void;
+  ) => void;
 }
 
 interface WheelOfFortuneSpinResponse {
@@ -48,7 +49,12 @@ interface Window {
 /** GSAP 1.x, used by the Power Spin animation. */
 declare const TimelineMax: {
   prototype: {
-    to(target: unknown, duration: number, vars: { ease?: unknown }): unknown;
+    to: (
+      this: unknown,
+      target: unknown,
+      duration: number,
+      vars: { ease?: unknown },
+    ) => unknown;
   };
 };
 declare const Expo: { easeOut: unknown };

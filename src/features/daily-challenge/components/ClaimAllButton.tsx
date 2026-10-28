@@ -39,7 +39,7 @@ export const ClaimAllButton: React.FC = () => {
         disabled: isClaiming,
         loading: isClaiming,
       })}
-      onClick={onClick}
+      onClick={() => void onClick()}
     >
       Claim All &amp; Close
     </a>

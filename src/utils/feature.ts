@@ -23,7 +23,9 @@ export function createFeature(feature: Feature): Feature {
 export async function runIndependently(
   parts: Array<() => unknown>,
 ): Promise<void> {
-  const results = await Promise.allSettled(parts.map(async (part) => part()));
+  const results = await Promise.allSettled(
+    parts.map((part) => new Promise((resolve) => resolve(part()))),
+  );
   const errors = results
     .filter((result) => result.status === "rejected")
     .map((result) => toError(result.reason));

@@ -2,10 +2,10 @@ import { describe, expect, it, vi } from "vitest";
 import { getHtml, getJson, HttpError, postForm } from "./request";
 
 function mockFetch(body: string, init: ResponseInit = {}) {
-  const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+  const fetchMock = vi.fn((input: string | URL) => {
     const response = new Response(body, init);
     Object.defineProperty(response, "url", { value: String(input) });
-    return response;
+    return Promise.resolve(response);
   });
   vi.stubGlobal("fetch", fetchMock);
   return fetchMock;

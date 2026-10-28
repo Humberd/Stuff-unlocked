@@ -204,11 +204,7 @@ function makeSectionsToggleable() {
 
     renderElement(
       <ItemsSectionToggle sectionId={item.id} initialIsOpened={isOpened} />,
-    ).after(
-      item.querySelector(
-        ".section_separator > .top_left > div",
-      ) as HTMLDivElement,
-    );
+    ).after(item.querySelector(".section_separator > .top_left > div"));
   });
 }
 

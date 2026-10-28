@@ -8,7 +8,9 @@ vi.mock("../utils/erep-global-info", () => ({
 async function loadAnalytics(key: string | undefined) {
   vi.resetModules();
   vi.stubEnv("VITE_PUBLIC_POSTHOG_KEY", key);
-  const fetchMock = vi.fn<typeof fetch>(async () => new Response("{}"));
+  const fetchMock = vi.fn<typeof fetch>(() =>
+    Promise.resolve(new Response("{}")),
+  );
   vi.stubGlobal("fetch", fetchMock);
   const { Analytics } = await import("./posthog");
   return { Analytics, fetchMock };
@@ -16,7 +18,7 @@ async function loadAnalytics(key: string | undefined) {
 
 function sentBody(fetchMock: Mock<typeof fetch>) {
   const [, init] = fetchMock.mock.calls[0];
-  return JSON.parse(init?.body as string);
+  return JSON.parse(init?.body as string) as Record<string, unknown>;
 }
 
 describe("Analytics", () => {

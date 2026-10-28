@@ -44,7 +44,7 @@ export async function postForm<T, B extends FormBody<B>>(
     headers: {
       "content-type": "application/x-www-form-urlencoded",
     },
-    body: toUrlEncoded(body as Record<string, FormValue>),
+    body: toUrlEncoded(body),
   });
   return parseJson(response);
 }
@@ -52,7 +52,7 @@ export async function postForm<T, B extends FormBody<B>>(
 async function parseJson<T>(response: Response): Promise<T> {
   const text = await response.text();
   try {
-    return JSON.parse(text);
+    return JSON.parse(text) as T;
   } catch (e) {
     if (!response.ok) {
       throw new HttpError(response.status, response.url);

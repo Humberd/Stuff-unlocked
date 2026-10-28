@@ -49,7 +49,7 @@ export const VipStatus: React.FC<VipStatusProps> = (props) => {
       return <Button disabled>{claimStatus}</Button>;
     }
 
-    return <Button onClick={handleClaim}>Claim VIP Points</Button>;
+    return <Button onClick={() => void handleClaim()}>Claim VIP Points</Button>;
   }
 
   return (

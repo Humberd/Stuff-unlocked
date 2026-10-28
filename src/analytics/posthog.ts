@@ -74,7 +74,8 @@ function getDistinctId(key: string): string {
   try {
     const posthogJsState = localStorage.getItem(posthogJsPersistenceName(key));
     const posthogJsId =
-      posthogJsState && JSON.parse(posthogJsState).distinct_id;
+      posthogJsState &&
+      (JSON.parse(posthogJsState) as { distinct_id?: unknown }).distinct_id;
     if (typeof posthogJsId === "string" && posthogJsId) {
       return posthogJsId;
     }

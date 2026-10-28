@@ -138,7 +138,7 @@ export const AutoSpinPanel: React.FC = () => {
             Cancel
           </Button>
         ) : (
-          <Button size="small" onClick={onSpin}>
+          <Button size="small" onClick={() => void onSpin()}>
             Spin
           </Button>
         )}

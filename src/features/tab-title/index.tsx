@@ -5,7 +5,7 @@ export const TabTitleFeature = createFeature({
   id: "tab_title",
   name: "Tab Title",
   canExecute: () => true,
-  execute: async () => {
+  execute: () => {
     if (isOnHomepage()) {
       setTitleWithPrefix("Main");
       return;

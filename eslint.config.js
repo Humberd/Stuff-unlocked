@@ -12,11 +12,22 @@ export default defineConfig(
     files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
-      tseslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
       reactHooks.configs.flat["recommended-latest"],
     ],
     languageOptions: {
       globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    files: ["**/*.test.{ts,tsx}"],
+    rules: {
+      // Asymmetric matchers like `expect.any(String)` are typed as `any`
+      "@typescript-eslint/no-unsafe-assignment": "off",
     },
   },
   {

@@ -3,7 +3,7 @@ import { postForm } from "../utils/request";
 export interface Request {
   battleId: "0";
   _token: string;
-  regionId: string | "0";
+  regionId: string;
   holdingId: "0";
 }
 

@@ -12,7 +12,7 @@ export const useLocalStorage = <T>(
     try {
       const item = window.localStorage.getItem(STORAGE_PREFIX + key);
       if (item) {
-        return JSON.parse(item);
+        return JSON.parse(item) as T;
       }
     } catch (e) {
       error(`Failed to read "${key}" from localStorage`, e);
