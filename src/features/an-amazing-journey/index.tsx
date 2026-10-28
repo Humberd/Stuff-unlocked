@@ -1,7 +1,6 @@
 import { createFeature } from "../../utils/feature";
 import { CountriesCache } from "./countries-cache";
 import { AutoTravellerPanel } from "./components/AutoTravellerPanel";
-import { renderElement } from "../../utils/render";
 import { CollapseButtonPanel } from "./components/CollapseButtonPanel";
 import { TravelProgressPanel } from "./components/TravelProgressPanel";
 import { executeTravel } from "./travel";
@@ -19,21 +18,31 @@ export const AnAmazingJourneyFeature = createFeature({
   description:
     "An Amazing Journey is a feature where you auto travel between 2 locations to maximize efficiency of a distance travel.",
   canExecute: (url) => url.href.includes("/main/anniversaryQuest"),
-  execute: () => {
+  execute: ({ mount }) => {
+    mount(
+      <JourneyFeatureComponent autoTraveller={getAutoTraveller()} />,
+      document.querySelector("#cityInfoTopPopup"),
+      { position: "before" },
+    );
+  },
+});
+
+let autoTraveller: AutoTraveller | undefined;
+
+/** Created once, so that a journey survives the panels being mounted again. */
+function getAutoTraveller() {
+  if (!autoTraveller) {
     const countriesCache = new CountriesCache();
-    const autoTraveller = new AutoTraveller(travelRouteMain, {
+    autoTraveller = new AutoTraveller(travelRouteMain, {
       getCurrentRegionId: () =>
         countriesCache.getCurrentRegionId({ skipCache: true }),
       travel: (regionId, form) => executeTravel(regionId, form, countriesCache),
       getCurrencyName: getCitizenshipCurrencyName,
       sleep: waitFor,
     });
-
-    renderElement(
-      <JourneyFeatureComponent autoTraveller={autoTraveller} />,
-    ).before(document.querySelector("#cityInfoTopPopup"));
-  },
-});
+  }
+  return autoTraveller;
+}
 
 interface JourneyFeatureComponentProps {
   autoTraveller: AutoTraveller;

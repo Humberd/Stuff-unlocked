@@ -1,14 +1,17 @@
-import { createFeature, runIndependently } from "../../utils/feature";
+import {
+  createFeature,
+  type FeatureContext,
+  runIndependently,
+} from "../../utils/feature";
 import { isOnHomepage } from "../../utils/erep-global-info";
-import { renderElementWithRoot } from "../../utils/render";
 import { StorageInfo } from "./components/StorageInfo";
 import * as InventoryHtml from "../../requests/inventory-html-request";
 import * as VipShopHtml from "../../requests/vip-shop-html-request";
 import { VipStatus } from "./components/VipStatus";
 import { ensure } from "../../utils/utils";
 import {
-  createWeeklyChallengeCalculatorButtonRootElement,
   WeeklyChallengeCalculatorButton,
+  weeklyChallengeCalculatorButtonMountOptions,
 } from "./components/WeeklyChallengeCalculatorButton";
 import { retryNullish } from "../../utils/time";
 
@@ -16,10 +19,14 @@ export const MainPageFeature = createFeature({
   id: "main_page",
   name: "Main Page",
   canExecute: () => isOnHomepage(),
-  execute: () => runIndependently([weeklyChallengeCalculator, sidebarInfo]),
+  execute: (context) =>
+    runIndependently([
+      () => weeklyChallengeCalculator(context),
+      () => sidebarInfo(context),
+    ]),
 });
 
-async function weeklyChallengeCalculator() {
+async function weeklyChallengeCalculator({ mount }: FeatureContext) {
   await retryNullish(
     () => document.querySelector("#weeklyChallenge"),
     "Can't find weekly challenge section",
@@ -27,36 +34,29 @@ async function weeklyChallengeCalculator() {
     50,
   );
 
-  renderElementWithRoot(
+  mount(
     <WeeklyChallengeCalculatorButton />,
-    createWeeklyChallengeCalculatorButtonRootElement(),
-  ).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));
+    document.querySelector("#weeklyChallenge > .weekly_challenge_title"),
+    weeklyChallengeCalculatorButtonMountOptions,
+  );
 }
 
 /**
  * Both widgets load in parallel, so their slots are inserted up front
  * to keep the order fixed no matter which request finishes first.
  */
-async function sidebarInfo() {
+async function sidebarInfo({ mount }: FeatureContext) {
   const anchor = ensure(
     document.querySelector(".sidebar .currency_amount"),
     "Can't find the sidebar currency amount",
   );
-  const storageInfoRoot = document.createElement("div");
-  const vipInfoRoot = document.createElement("div");
-  anchor.after(storageInfoRoot, vipInfoRoot);
+  const storageInfo = mount(null, anchor);
+  const vipStatus = mount(null, storageInfo.container);
 
   await runIndependently([
     async () =>
-      renderElementWithRoot(
-        <StorageInfo {...await loadStorageInfo()} />,
-        storageInfoRoot,
-      ),
-    async () =>
-      renderElementWithRoot(
-        <VipStatus {...await loadVipStatus()} />,
-        vipInfoRoot,
-      ),
+      storageInfo.render(<StorageInfo {...await loadStorageInfo()} />),
+    async () => vipStatus.render(<VipStatus {...await loadVipStatus()} />),
   ]);
 }
 

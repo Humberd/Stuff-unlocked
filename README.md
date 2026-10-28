@@ -122,6 +122,20 @@ Run the "Release Version" workflow on GitHub. It bumps the minor version,
 adds the commits since the last `Bump X.Y` commit to `CHANGELOG.md`,
 builds the userscript and opens a pull request with the result.
 
+## Writing a feature
+
+Each feature in `src/features` is created with `createFeature()` and listed in `src/index.tsx`.
+Features run on page load and again whenever the URL changes (changes of the hash alone don't count).
+
+Before running a feature again, the runner cleans up everything its previous run registered
+on the `FeatureContext` passed to `execute`:
+
+- `mount(element, anchor, options)` renders React next to or inside an element,
+- `signal` removes listeners added with `addEventListener(type, listener, { signal })`,
+- `onCleanup(callback)` undoes anything else, e.g. a class added to `body`.
+
+State that must outlive a rerun, like a running auto traveller, lives outside the components.
+
 ## eRepublik's custom `Map`
 
 eRepublik replaces the global `Map` with its own object, which breaks React and other libraries.

@@ -1,9 +1,8 @@
 import { createFeature } from "../../utils/feature";
 import * as InventoryJson from "../../requests/inventory-json-data-request";
-import { renderElementWithRoot } from "../../utils/render";
 import {
-  createSideInventoryRootElement,
   SideInventory,
+  sideInventoryMountOptions,
 } from "./components/SideInventory";
 import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
 
@@ -19,7 +18,7 @@ export const SideInventoryFeature = createFeature({
   // Everywhere apart from the storage page itself
   canExecute: (url) => !url.href.includes("/main/inventory"),
   isSettingEnabled: () => LegacyStorageSettings.isSideInventoryEnabled(),
-  execute: async () => {
+  execute: async ({ mount }) => {
     const response = await InventoryJson.sendRequest();
     const items = response.flatMap((group) => group.items);
 
@@ -27,9 +26,10 @@ export const SideInventoryFeature = createFeature({
       .filter((item) => item.type && !typesToSkip.has(item.type))
       .filter((item) => !item.attributes?.inProduction);
 
-    renderElementWithRoot(
+    mount(
       <SideInventory items={filteredItems} />,
-      createSideInventoryRootElement(),
-    ).after(document.querySelector("#container"));
+      document.querySelector("#container"),
+      sideInventoryMountOptions,
+    );
   },
 });

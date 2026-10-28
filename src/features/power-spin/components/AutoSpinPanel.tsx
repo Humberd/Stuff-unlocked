@@ -38,6 +38,13 @@ export const AutoSpinPanel: React.FC = () => {
 
   const [isSpinning, setIsSpinning] = useState(false);
   const isCancelledRef = useRef(false);
+  // Without the panel nobody could cancel the spinning anymore
+  useEffect(
+    () => () => {
+      isCancelledRef.current = true;
+    },
+    [],
+  );
   const [message, setMessage] = useState<Message>();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { createFeature } from "../../utils/feature";
+import { createFeature, type FeatureContext } from "../../utils/feature";
 import { lastPathSegment } from "../../utils/dom";
 import { log } from "../../utils/utils";
 import { LegacyStorageSettings } from "../../utils/legacy-storage-settings";
@@ -19,7 +19,7 @@ export const DonatorBadgesFeature = createFeature({
   description:
     "Decorates the avatars of Stuff++ Unlocked donators with an animated border.",
   canExecute: () => true,
-  execute: () => {
+  execute: (context) => {
     exposeToLegacyHovercard();
 
     const donatorsData = LegacyStorageSettings.getDonatorsData();
@@ -30,7 +30,7 @@ export const DonatorBadgesFeature = createFeature({
     borderUrls = getDonatorBorderUrls(donatorsData);
 
     applyBadges();
-    observePageChanges();
+    observePageChanges(context);
   },
 });
 
@@ -129,17 +129,10 @@ function createBorderElement(url: string, classNames: string[] = []) {
   return image;
 }
 
-let isObserving = false;
-
 /** Decorates avatars that show up later: more posts, comments, battle console entries. */
-function observePageChanges() {
-  if (isObserving) {
-    return;
-  }
-  isObserving = true;
-
+function observePageChanges({ onCleanup }: FeatureContext) {
   let scanTimeoutId: number | undefined;
-  new MutationObserver(() => {
+  const observer = new MutationObserver(() => {
     if (scanTimeoutId !== undefined) {
       return;
     }
@@ -147,11 +140,16 @@ function observePageChanges() {
       scanTimeoutId = undefined;
       applyBadges();
     }, SCAN_DELAY_MS);
-  }).observe(document.body, {
+  });
+  observer.observe(document.body, {
     childList: true,
     subtree: true,
     attributes: true,
     attributeFilter: ["href"],
+  });
+  onCleanup(() => {
+    observer.disconnect();
+    window.clearTimeout(scanTimeoutId);
   });
 }
 

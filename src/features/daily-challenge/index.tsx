@@ -1,11 +1,9 @@
-import { createFeature } from "../../utils/feature";
-import { markOnce } from "../../utils/dom";
-import { renderElementWithRoot } from "../../utils/render";
+import { createFeature, type FeatureContext } from "../../utils/feature";
 import { retryNullish, waitFor } from "../../utils/time";
 import { error } from "../../utils/utils";
 import {
   ClaimAllButton,
-  createClaimAllButtonRootElement,
+  claimAllButtonMountOptions,
   findClaimAllButtonRootElement,
 } from "./components/ClaimAllButton";
 
@@ -15,19 +13,23 @@ export const DailyChallengeFeature = createFeature({
   description:
     "Adds a button to the daily missions popup that claims all rewards and closes it.",
   canExecute: () => true,
-  execute: () => {
+  execute: ({ signal, mount }) => {
     const popupTrigger = document.getElementById("dailyMissionsPopupTrigger");
-    if (!popupTrigger || !markOnce(popupTrigger, "daily-challenge")) {
+    if (!popupTrigger) {
       return;
     }
 
-    popupTrigger.addEventListener("click", () => {
-      addClaimAllButton().catch((e) => error(e));
-    });
+    popupTrigger.addEventListener(
+      "click",
+      () => {
+        addClaimAllButton(mount).catch((e) => error(e));
+      },
+      { signal },
+    );
   },
 });
 
-async function addClaimAllButton() {
+async function addClaimAllButton(mount: FeatureContext["mount"]) {
   // The popup is rendered after the click, give it a moment
   await waitFor(300);
   const title = await retryNullish(
@@ -40,7 +42,5 @@ async function addClaimAllButton() {
     return;
   }
 
-  const rootElement = createClaimAllButtonRootElement();
-  title.appendChild(rootElement);
-  renderElementWithRoot(<ClaimAllButton />, rootElement);
+  mount(<ClaimAllButton />, title, claimAllButtonMountOptions);
 }

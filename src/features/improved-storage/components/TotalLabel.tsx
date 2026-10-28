@@ -1,4 +1,5 @@
 import styles from "./TotalLabel.module.scss";
+import type { MountOptions } from "../../../utils/render";
 import {
   ExternalProperty,
   useExternalProperty,
@@ -10,12 +11,9 @@ export interface TotalLabelProps {
   total: ExternalProperty<number>;
 }
 
-export function createTotalLabelRootElement() {
-  const rootElement = document.createElement("div");
-  rootElement.classList.add(styles.TotalLabelRoot);
-
-  return rootElement;
-}
+export const totalLabelMountOptions: MountOptions = {
+  className: styles.TotalLabelRoot,
+};
 
 export const TotalLabel = (props: TotalLabelProps) => {
   const total = useExternalProperty(props.total);

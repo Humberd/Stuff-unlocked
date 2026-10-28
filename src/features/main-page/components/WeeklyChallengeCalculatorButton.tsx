@@ -1,14 +1,13 @@
 import React from "react";
 import styles from "./WeeklyChallengeCalculatorButton.module.scss";
+import type { MountOptions } from "../../../utils/render";
 import { LinkButton } from "../../../common-components/button/Button";
 import { Analytics } from "../../../analytics/posthog";
 
-export function createWeeklyChallengeCalculatorButtonRootElement() {
-  const rootElement = document.createElement("p");
-  rootElement.classList.add(styles.RootElement);
-
-  return rootElement;
-}
+export const weeklyChallengeCalculatorButtonMountOptions: MountOptions = {
+  tagName: "p",
+  className: styles.RootElement,
+};
 
 export const WeeklyChallengeCalculatorButton: React.FC = () => {
   const onClick = () => {

@@ -1,6 +1,4 @@
-import { createFeature } from "../../utils/feature";
-import { markOnce } from "../../utils/dom";
-import { renderElementWithRoot } from "../../utils/render";
+import { createFeature, type FeatureContext } from "../../utils/feature";
 import { ensure, error } from "../../utils/utils";
 import { installWheelOverrides } from "./wheel-of-fortune";
 import { AutoSpinPanel } from "./components/AutoSpinPanel";
@@ -12,44 +10,46 @@ export const PowerSpinFeature = createFeature({
   description:
     "Adds an auto spinner and a prize log to Power Spin, and speeds up the spin animation.",
   canExecute: () => true,
-  execute: () => {
+  execute: ({ signal, mount }) => {
     const launchButton = document.getElementById("launch_wof");
-    if (!launchButton || !markOnce(launchButton, "power-spin")) {
+    if (!launchButton) {
       return;
     }
 
     // The game sets the wheel up only when it is opened
-    launchButton.addEventListener("click", () => {
-      try {
-        setUpWheel();
-      } catch (e) {
-        error(e);
-      }
-    });
+    let isWheelSetUp = false;
+    launchButton.addEventListener(
+      "click",
+      () => {
+        if (isWheelSetUp) {
+          return;
+        }
+        try {
+          setUpWheel(mount);
+          isWheelSetUp = true;
+        } catch (e) {
+          error(e);
+        }
+      },
+      { signal },
+    );
   },
 });
 
-let isWheelSetUp = false;
-
-function setUpWheel() {
-  if (isWheelSetUp) {
-    return;
-  }
+function setUpWheel(mount: FeatureContext["mount"]) {
   const wheelRoot = ensure(
     document.getElementById("wheelOfFortune"),
     "Wheel of fortune not found",
   );
   installWheelOverrides();
-  isWheelSetUp = true;
 
   // Both panels are positioned relative to the wheel
-  const rootElement = document.createElement("div");
-  wheelRoot.appendChild(rootElement);
-  renderElementWithRoot(
+  mount(
     <>
       <PrizeLog />
       <AutoSpinPanel />
     </>,
-    rootElement,
+    wheelRoot,
+    { position: "append" },
   );
 }

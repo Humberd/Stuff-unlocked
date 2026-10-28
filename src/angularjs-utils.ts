@@ -24,6 +24,7 @@ export function getAngularjsControllerScopeOrNull<T>(
 /**
  * Replaces `controller[field]` with a function that calls the original one
  * and `callback`, either before or after it.
+ * Returns a function that puts the original one back.
  */
 export function wrapAngularjsCallback<
   C extends object,
@@ -45,6 +46,12 @@ export function wrapAngularjsCallback<
     }
   };
   controller[field] = wrapped as C[K];
+
+  return () => {
+    if (controller[field] === wrapped) {
+      controller[field] = originalCallback as C[K];
+    }
+  };
 }
 
 export function executeInAngularScope(callback: () => void) {

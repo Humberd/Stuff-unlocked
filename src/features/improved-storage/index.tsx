@@ -1,4 +1,8 @@
-import { createFeature, runIndependently } from "../../utils/feature";
+import {
+  createFeature,
+  type FeatureContext,
+  runIndependently,
+} from "../../utils/feature";
 import "./StaticStyles.scss";
 import {
   executeInAngularScope,
@@ -6,11 +10,7 @@ import {
   wrapAngularjsCallback,
 } from "../../angularjs-utils";
 import { ensure, log } from "../../utils/utils";
-import {
-  createTotalLabelRootElement,
-  TotalLabel,
-} from "./components/TotalLabel";
-import { renderElement, renderElementWithRoot } from "../../utils/render";
+import { TotalLabel, totalLabelMountOptions } from "./components/TotalLabel";
 import { ExternalProperty } from "../../hooks/external-property";
 import { retry, retryNullish, waitFor } from "../../utils/time";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
@@ -25,7 +25,7 @@ export const ImprovedStorage = createFeature({
   name: "Improved Storage",
   canExecute: (url) => url.href.includes("/main/inventory"),
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
-  execute: async () => {
+  execute: async (context) => {
     // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
     await retryNullish(
       () => document.querySelector("#mainStorage"),
@@ -38,10 +38,13 @@ export const ImprovedStorage = createFeature({
      * Adding this class make these static styles scoped, so that they only apply to this view.
      */
     document.body.classList.add("su-improved-storage");
+    context.onCleanup(() =>
+      document.body.classList.remove("su-improved-storage"),
+    );
 
     await runIndependently([
-      makeSectionsToggleable,
-      displayTotalFood,
+      () => makeSectionsToggleable(context),
+      () => displayTotalFood(context),
       async () => {
         await retryNullish(
           () => document.querySelector("#sell_offers .offers_product"),
@@ -50,8 +53,8 @@ export const ImprovedStorage = createFeature({
           100,
         );
         await runIndependently([
-          displayTotalPriceOnSellOffer,
-          applyMaxItemsOnSellOffer,
+          () => displayTotalPriceOnSellOffer(context),
+          () => applyMaxItemsOnSellOffer(context),
           autoOpenSellTab,
         ]);
       },
@@ -75,7 +78,7 @@ interface SellItemsController {
   onProductChange(industryId: number, quality: number): void;
 }
 
-async function applyMaxItemsOnSellOffer() {
+async function applyMaxItemsOnSellOffer({ onCleanup }: FeatureContext) {
   const storageController =
     getAngularjsControllerScope<StorageController>("StorageController");
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
@@ -86,7 +89,7 @@ async function applyMaxItemsOnSellOffer() {
     buildItemsCache(storageController.inventory.items),
   );
 
-  wrapAngularjsCallback(
+  const unwrap = wrapAngularjsCallback(
     sellItemsController,
     "onProductChange",
     function (this: SellItemsController, industryId: number, quality: number) {
@@ -100,6 +103,7 @@ async function applyMaxItemsOnSellOffer() {
     },
     "before",
   );
+  onCleanup(unwrap);
 
   // Autofill Food Q1
   executeInAngularScope(() => {
@@ -107,16 +111,21 @@ async function applyMaxItemsOnSellOffer() {
   });
 }
 
-async function displayTotalPriceOnSellOffer() {
+async function displayTotalPriceOnSellOffer({
+  signal,
+  mount,
+  onCleanup,
+}: FeatureContext) {
   const sellItemsController = getAngularjsControllerScope<SellItemsController>(
     "SellItemsController",
   );
 
   const totalProperty = new ExternalProperty<number>(0);
-  renderElementWithRoot(
+  mount(
     <TotalLabel total={totalProperty} />,
-    createTotalLabelRootElement(),
-  ).after(document.querySelector("#sell_offers th.offers_quantity>input"));
+    document.querySelector("#sell_offers th.offers_quantity>input"),
+    totalLabelMountOptions,
+  );
 
   const offersQuantityInput = await retryNullish(
     () =>
@@ -133,8 +142,8 @@ async function displayTotalPriceOnSellOffer() {
     "Price per unit input not found",
   );
 
-  offersQuantityInput.addEventListener("input", updateTotalPrice);
-  pricePerUnitInput.addEventListener("input", updateTotalPrice);
+  offersQuantityInput.addEventListener("input", updateTotalPrice, { signal });
+  pricePerUnitInput.addEventListener("input", updateTotalPrice, { signal });
 
   function updateTotalPrice() {
     const total =
@@ -143,13 +152,15 @@ async function displayTotalPriceOnSellOffer() {
     totalProperty.update(total);
   }
 
-  wrapAngularjsCallback(
-    sellItemsController,
-    "onProductChange",
-    function (this: SellItemsController) {
-      updateTotalPrice();
-    },
-    "after",
+  onCleanup(
+    wrapAngularjsCallback(
+      sellItemsController,
+      "onProductChange",
+      function (this: SellItemsController) {
+        updateTotalPrice();
+      },
+      "after",
+    ),
   );
 
   await waitFor(1);
@@ -189,7 +200,7 @@ function buildItemsCache(itemGroups: ItemGroup[]): Map<string, Item> {
   return itemsCache;
 }
 
-function makeSectionsToggleable() {
+function makeSectionsToggleable({ mount }: FeatureContext) {
   const inventoryItems = document.querySelectorAll<HTMLDivElement>(
     "#inventoryItems > div",
   );
@@ -202,13 +213,14 @@ function makeSectionsToggleable() {
 
     const isOpened = item.id !== "assembly";
 
-    renderElement(
+    mount(
       <ItemsSectionToggle sectionId={item.id} initialIsOpened={isOpened} />,
-    ).after(item.querySelector(".section_separator > .top_left > div"));
+      item.querySelector(".section_separator > .top_left > div"),
+    );
   });
 }
 
-async function displayTotalFood() {
+async function displayTotalFood({ mount }: FeatureContext) {
   const storageController =
     getAngularjsControllerScope<StorageController>("StorageController");
 
@@ -232,9 +244,11 @@ async function displayTotalFood() {
     });
   });
 
-  renderElement(<TotalFood totalEnergy={totalFoodEnergy} />).before(
+  mount(
+    <TotalFood totalEnergy={totalFoodEnergy} />,
     document.querySelector(
       "#mainStorage >.section_separator > .top_right > .used_storage_wrapper",
     ),
+    { position: "before" },
   );
 }

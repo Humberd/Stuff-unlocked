@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import styles from "./ClaimAllButton.module.scss";
+import type { MountOptions } from "../../../utils/render";
 import { claimAllAndClose } from "../claim-all";
 import { error } from "../../../utils/utils";
 
-export function createClaimAllButtonRootElement() {
-  const rootElement = document.createElement("span");
-  rootElement.classList.add(styles.RootElement);
-
-  return rootElement;
-}
+export const claimAllButtonMountOptions: MountOptions = {
+  position: "append",
+  tagName: "span",
+  className: styles.RootElement,
+};
 
 export function findClaimAllButtonRootElement(parent: Element) {
   return parent.querySelector(`.${styles.RootElement}`);

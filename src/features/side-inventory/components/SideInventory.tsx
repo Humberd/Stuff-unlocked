@@ -1,5 +1,6 @@
 import React, { MouseEventHandler, useState } from "react";
 import styles from "./SideInventory.module.scss";
+import type { MountOptions } from "../../../utils/render";
 import * as InventoryJson from "../../../requests/inventory-json-data-request";
 type Item = InventoryJson.Item;
 import classNames from "classnames";
@@ -10,12 +11,9 @@ interface SideInventoryProps {
   items: Item[];
 }
 
-export function createSideInventoryRootElement() {
-  const rootElement = document.createElement("div");
-  rootElement.classList.add(styles.SideInventoryRoot);
-
-  return rootElement;
-}
+export const sideInventoryMountOptions: MountOptions = {
+  className: styles.SideInventoryRoot,
+};
 
 export const SideInventory: React.FC<SideInventoryProps> = (props) => {
   const [tooltipPosition, setTooltipPosition] =
