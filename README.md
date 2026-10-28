@@ -136,14 +136,16 @@ on the `FeatureContext` passed to `execute`:
 
 State that must outlive a rerun, like a running auto traveller, lives outside the components.
 
+A feature that players can turn off gets a toggle in `SETTINGS` in `src/settings/stuff-settings.ts`,
+which the settings panel lists. Toggles are kept in `localStorage.stuff`, where `true` means off,
+like the legacy script stored them. A feature that acts without a click, like eating food,
+is marked `isAutomatic`: it stays off until a player turns it on.
+
+To react to the game's own requests, use `onXhrLoad(urlPattern, listener, { signal })`.
+
 ## eRepublik's custom `Map`
 
 eRepublik replaces the global `Map` with its own object, which breaks React and other libraries.
 `vite.config.ts` takes the original `Map` from a hidden iframe and makes all bundled code use it:
 the production bundle is wrapped in a function with a `Map` parameter,
 and in development every module gets a module-scoped `Map` constant.
-
-## Old stuff
-
-The old (non-React) version of the script is in `src/old-index.user.js`.
-It is imported by `src/index.tsx` and bundled together with the React code.
