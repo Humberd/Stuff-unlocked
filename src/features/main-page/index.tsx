@@ -13,7 +13,7 @@ import {
   WeeklyChallengeCalculatorButton,
   weeklyChallengeCalculatorButtonMountOptions,
 } from "./components/WeeklyChallengeCalculatorButton";
-import { retryNullish } from "../../utils/time";
+import { waitForElement } from "../../utils/dom";
 
 export const MainPageFeature = createFeature({
   id: "main_page",
@@ -27,12 +27,7 @@ export const MainPageFeature = createFeature({
 });
 
 async function weeklyChallengeCalculator({ mount }: FeatureContext) {
-  await retryNullish(
-    () => document.querySelector("#weeklyChallenge"),
-    "Can't find weekly challenge section",
-    40,
-    50,
-  );
+  await waitForElement("#weeklyChallenge");
 
   mount(
     <WeeklyChallengeCalculatorButton />,

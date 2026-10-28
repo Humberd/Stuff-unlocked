@@ -12,7 +12,8 @@ import {
 import { ensure, log } from "../../utils/utils";
 import { TotalLabel, totalLabelMountOptions } from "./components/TotalLabel";
 import { ExternalProperty } from "../../hooks/external-property";
-import { retry, retryNullish, waitFor } from "../../utils/time";
+import { retry, waitFor } from "../../utils/time";
+import { waitForElement } from "../../utils/dom";
 import { ItemsSectionToggle } from "./components/ItemsSectionToggle";
 import { TotalFood } from "./components/TotalFood";
 import * as InventoryJson from "../../requests/inventory-json-data-request";
@@ -27,12 +28,7 @@ export const ImprovedStorage = createFeature({
   isSettingEnabled: () => LegacyStorageSettings.isImproveInventoryEnabled(),
   execute: async (context) => {
     // when the extension is being loaded on the inventory page, the main storage may not be loaded yet
-    await retryNullish(
-      () => document.querySelector("#mainStorage"),
-      "Main storage not found",
-      20,
-      100,
-    );
+    await waitForElement("#mainStorage");
     /**
      * All the styles are loaded and applied immediately for all the views.
      * Adding this class make these static styles scoped, so that they only apply to this view.
@@ -46,12 +42,7 @@ export const ImprovedStorage = createFeature({
       () => makeSectionsToggleable(context),
       () => displayTotalFood(context),
       async () => {
-        await retryNullish(
-          () => document.querySelector("#sell_offers .offers_product"),
-          "Sell offers not found",
-          20,
-          100,
-        );
+        await waitForElement("#sell_offers .offers_product");
         await runIndependently([
           () => displayTotalPriceOnSellOffer(context),
           () => applyMaxItemsOnSellOffer(context),
@@ -127,19 +118,11 @@ async function displayTotalPriceOnSellOffer({
     totalLabelMountOptions,
   );
 
-  const offersQuantityInput = await retryNullish(
-    () =>
-      document.querySelector<HTMLInputElement>(
-        "#sell_offers .offers_quantity input",
-      ),
-    "Offers quantity input not found",
+  const offersQuantityInput = await waitForElement<HTMLInputElement>(
+    "#sell_offers .offers_quantity input",
   );
-  const pricePerUnitInput = await retryNullish(
-    () =>
-      document.querySelector<HTMLInputElement>(
-        "#sell_offers .offers_price input",
-      ),
-    "Price per unit input not found",
+  const pricePerUnitInput = await waitForElement<HTMLInputElement>(
+    "#sell_offers .offers_price input",
   );
 
   offersQuantityInput.addEventListener("input", updateTotalPrice, { signal });

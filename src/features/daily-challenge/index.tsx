@@ -1,5 +1,6 @@
 import { createFeature, type FeatureContext } from "../../utils/feature";
-import { retryNullish, waitFor } from "../../utils/time";
+import { waitFor } from "../../utils/time";
+import { waitForElement } from "../../utils/dom";
 import { error } from "../../utils/utils";
 import {
   ClaimAllButton,
@@ -32,12 +33,7 @@ export const DailyChallengeFeature = createFeature({
 async function addClaimAllButton(mount: FeatureContext["mount"]) {
   // The popup is rendered after the click, give it a moment
   await waitFor(300);
-  const title = await retryNullish(
-    () => document.querySelector("#dailyMissionsPopup > h2"),
-    "Daily missions popup title not found",
-    10,
-    100,
-  );
+  const title = await waitForElement("#dailyMissionsPopup > h2", 1_000);
   if (findClaimAllButtonRootElement(title)) {
     return;
   }

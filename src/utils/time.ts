@@ -24,28 +24,6 @@ export async function retry<T>(
   }
 }
 
-export async function retryNullish<T>(
-  callback: () => T | null | undefined,
-  message: string = "Nullish value",
-  maxRetries: number = 3,
-  retryDelayMs: number = 300,
-): Promise<T> {
-  let retries = 0;
-  while (true) {
-    const result = callback();
-    if (result !== null && result !== undefined) {
-      return result;
-    }
-
-    if (retries >= maxRetries) {
-      throw new Error(`Retries exceeded ${message}`);
-    }
-    retries++;
-    log(`${retries}/${maxRetries} Retrying... ${message}`);
-    await waitFor(retryDelayMs);
-  }
-}
-
 export async function countTimeSpent<T>(
   callback: () => T,
 ): Promise<{ result: T; timeSpent: number }> {

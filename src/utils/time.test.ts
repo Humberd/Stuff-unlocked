@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { retry, retryNullish } from "./time";
+import { retry } from "./time";
 
 vi.mock("./utils", () => ({ log: vi.fn() }));
 
@@ -27,25 +27,5 @@ describe("retry", () => {
 
     await expect(retry(callback, 2, 0)).rejects.toThrow("always");
     expect(callback).toHaveBeenCalledTimes(3);
-  });
-});
-
-describe("retryNullish", () => {
-  it("returns the first non-nullish value", async () => {
-    const values = [null, undefined, "found"];
-
-    await expect(retryNullish(() => values.shift(), "msg", 3, 0)).resolves.toBe(
-      "found",
-    );
-  });
-
-  it("returns falsy values that are not nullish", async () => {
-    await expect(retryNullish(() => 0, "msg", 0, 0)).resolves.toBe(0);
-  });
-
-  it("throws with the message after the retries run out", async () => {
-    await expect(retryNullish(() => null, "Element", 1, 0)).rejects.toThrow(
-      "Retries exceeded Element",
-    );
   });
 });
