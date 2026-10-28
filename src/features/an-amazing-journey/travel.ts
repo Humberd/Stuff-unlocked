@@ -1,28 +1,10 @@
-import {
-  TravelProgressState,
-  TravelProgressStatus,
-} from "./components/TravelProgressPanel";
 import * as Travel from "../../requests/travel-request";
 import { findCountryIdFor } from "./regions";
 import { CountriesCache } from "./countries-cache";
 import { getCsrfToken } from "../../utils/erep-global-info";
 import * as TravelData from "../../requests/travel-data-request";
-import { AutoTravelForm } from "./components/AutoTravellerPanel";
+import type { AutoTravelForm } from "./auto-traveller";
 import { log } from "../../utils/utils";
-
-export function createNewTravelProgressState(
-  unit: string,
-): TravelProgressState {
-  return {
-    status: TravelProgressStatus.InProgress,
-    travelledDistanceKm: 0,
-    travelsCompleted: 0,
-    resourcesSpent: {
-      amount: 0,
-      unit: unit,
-    },
-  };
-}
 
 export async function executeTravel(
   nextTargetRegionId: string,

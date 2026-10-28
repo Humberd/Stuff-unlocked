@@ -3,30 +3,10 @@ import { useRef } from "react";
 import { useMapEvents } from "../hooks/useMapEvents";
 import { formatNumber } from "../../../utils/format";
 import { StatusIndicator } from "./StatusIndicator";
+import type { TravelProgressState } from "../auto-traveller";
 
 interface TravelProgressPanelProps {
   state: TravelProgressState;
-}
-
-export interface TravelProgressState {
-  status: TravelProgressStatus;
-  travelsCompleted: number;
-  travelledDistanceKm: number;
-  resourcesSpent: TravelResource;
-  errorMessage?: string;
-}
-
-export const TravelProgressStatus = {
-  InProgress: 0,
-  Completed: 1,
-  Error: 2,
-} as const;
-export type TravelProgressStatus =
-  (typeof TravelProgressStatus)[keyof typeof TravelProgressStatus];
-
-export interface TravelResource {
-  amount: number;
-  unit: string;
 }
 
 export const TravelProgressPanel: React.FC<TravelProgressPanelProps> = (

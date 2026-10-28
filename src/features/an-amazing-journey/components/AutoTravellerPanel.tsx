@@ -4,25 +4,12 @@ import { useForm } from "react-hook-form";
 import { useMapEvents } from "../hooks/useMapEvents";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
+import type { AutoTravelForm, AutoTravellerState } from "../auto-traveller";
 
 interface AutoTravellerPanelProps {
   onStart: (data: AutoTravelForm) => void;
   onStop: () => void;
-  state: AutoTravelFormState;
-}
-
-export const AutoTravelFormState = {
-  IDLE: 0,
-  STARTED: 1,
-  STOPPING: 2,
-} as const;
-export type AutoTravelFormState =
-  (typeof AutoTravelFormState)[keyof typeof AutoTravelFormState];
-
-export interface AutoTravelForm {
-  targetDistanceKm: string;
-  resourceUsed: "preferCurrency" | "preferTicket";
-  travelBackAfterFinish: boolean;
+  state: AutoTravellerState;
 }
 
 export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
@@ -39,17 +26,19 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    subscribe,
   } = useForm<AutoTravelForm>({
     defaultValues: formValuesFromStorage,
   });
-  const formValues = watch();
 
-  const stringifiedFormValues = JSON.stringify(formValues);
-  useEffect(() => {
-    setFormValues(formValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stringifiedFormValues]);
+  useEffect(
+    () =>
+      subscribe({
+        formState: { values: true },
+        callback: ({ values }) => setFormValues(values),
+      }),
+    [subscribe, setFormValues],
+  );
 
   useMapEvents(panelRef);
 
@@ -68,7 +57,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
       </header>
       <form
         className={styles.form}
-        onSubmit={handleSubmit(onStart)}
+        onSubmit={(event) => void handleSubmit(onStart)(event)}
         autoComplete="off"
       >
         <fieldset>
@@ -120,12 +109,12 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
           </label>
         </fieldset>
         <section className={styles.actionBar}>
-          {props.state !== AutoTravelFormState.IDLE && (
+          {props.state !== "idle" && (
             <button
               className={styles.start}
               type="button"
               onClick={onStop}
-              disabled={props.state === AutoTravelFormState.STOPPING}
+              disabled={props.state === "stopping"}
             >
               Stop
             </button>
@@ -133,7 +122,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
           <button
             className={styles.start}
             type="submit"
-            disabled={props.state !== AutoTravelFormState.IDLE}
+            disabled={props.state !== "idle"}
           >
             Start
           </button>

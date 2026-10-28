@@ -1,4 +1,4 @@
-import { TravelProgressStatus } from "./TravelProgressPanel";
+import { TravelProgressStatus } from "../auto-traveller";
 import styles from "./StatusIndicator.module.scss";
 
 export interface StatusIndicatorProps {
