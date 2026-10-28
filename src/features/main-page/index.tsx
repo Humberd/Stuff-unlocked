@@ -54,62 +54,19 @@ async function sidebarInfo({ mount }: FeatureContext) {
   const vipStatus = mount(null, storageInfo.container);
 
   await runIndependently([
-    async () =>
-      storageInfo.render(<StorageInfo {...await loadStorageInfo()} />),
-    async () => vipStatus.render(<VipStatus {...await loadVipStatus()} />),
+    async () => {
+      const { current, total } = InventoryHtml.parseUsedStorage(
+        await InventoryHtml.sendRequest(),
+      );
+      storageInfo.render(
+        <StorageInfo current={current} total={total} free={total - current} />,
+      );
+    },
+    async () => {
+      const status = VipShopHtml.parseVipStatus(
+        await VipShopHtml.sendRequest(),
+      );
+      vipStatus.render(<VipStatus {...status} />);
+    },
   ]);
-}
-
-async function loadVipStatus() {
-  const html = await VipShopHtml.sendRequest();
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  const readNumber = (selector: string) =>
-    Number(
-      ensure(doc.querySelector(selector), `Can't find ${selector}`)
-        .textContent.trim()
-        .replace(",", ""),
-    );
-
-  return {
-    level: readNumber("#vip_level"),
-    currentPoints: readNumber("#vip_points"),
-    totalPoints: readNumber("#next_threshold"),
-    isClaimed:
-      doc.querySelector("#claimDailyVIPPoints[style='display:none']") !== null,
-  };
-}
-
-async function loadStorageInfo() {
-  const html = await InventoryHtml.sendRequest();
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  const selector = ".used_storage_wrapper .used_storage";
-  const usedStorage = ensure(
-    doc.querySelector(selector),
-    `Can't find ${selector}`,
-  );
-  const rawValues = ensure(
-    usedStorage.getAttribute("title"),
-    `${selector} has no title attribute`,
-  );
-
-  const { current, total } = parseValues(rawValues);
-  return { current, total, free: total - current };
-}
-
-/**
- * Converts a string like "1,234 / 5,678" to an object with current and total properties
- */
-export function parseValues(input: string) {
-  // Split the input by '/' and trim whitespace from each part
-  const [currentStr, totalStr] = input.split("/").map((part) => part.trim());
-
-  // Helper function to remove commas and convert to a number
-  const toNumber = (str: string): number => {
-    return Number(str.replace(/,/g, "")); // Remove commas and convert to number
-  };
-
-  return {
-    current: toNumber(currentStr),
-    total: toNumber(totalStr),
-  };
 }
