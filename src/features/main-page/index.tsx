@@ -1,6 +1,6 @@
-import { createFeature } from "../../utils/feature";
+import { createFeature, runIndependently } from "../../utils/feature";
 import { isOnHomepage } from "../../utils/erep-global-info";
-import { renderElement, renderElementWithRoot } from "../../utils/render";
+import { renderElementWithRoot } from "../../utils/render";
 import { StorageInfo } from "./components/StorageInfo";
 import * as InventoryHtml from "../../requests/inventory-html-request";
 import * as VipShopHtml from "../../requests/vip-shop-html-request";
@@ -16,11 +16,7 @@ export const MainPageFeature = createFeature({
   id: "main_page",
   name: "Main Page",
   canExecute: () => isOnHomepage(),
-  execute: async () => {
-    await weeklyChallengeCalculator();
-    await vipInfo();
-    await storageInfo();
-  },
+  execute: () => runIndependently([weeklyChallengeCalculator, sidebarInfo]),
 });
 
 async function weeklyChallengeCalculator() {
@@ -37,63 +33,67 @@ async function weeklyChallengeCalculator() {
   ).after(document.querySelector("#weeklyChallenge > .weekly_challenge_title"));
 }
 
-async function vipInfo() {
-  const html = await VipShopHtml.sendRequest();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const vipLevel = Number(
-    ensure(doc.querySelector("#vip_level"))
-      .textContent?.trim()
-      ?.replace(",", ""),
+/**
+ * Both widgets load in parallel, so their slots are inserted up front
+ * to keep the order fixed no matter which request finishes first.
+ */
+async function sidebarInfo() {
+  const anchor = ensure(
+    document.querySelector(".sidebar .currency_amount"),
+    "Can't find the sidebar currency amount",
   );
-  const vipPoints = Number(
-    ensure(doc.querySelector("#vip_points"))
-      .textContent?.trim()
-      ?.replace(",", ""),
-  );
-  const nextVipPoints = Number(
-    ensure(doc.querySelector("#next_threshold"))
-      .textContent?.trim()
-      ?.replace(",", ""),
-  );
-  const isClaimed =
-    doc.querySelector("#claimDailyVIPPoints[style='display:none']") !== null;
+  const storageInfoRoot = document.createElement("div");
+  const vipInfoRoot = document.createElement("div");
+  anchor.after(storageInfoRoot, vipInfoRoot);
 
-  renderElement(
-    <VipStatus
-      level={vipLevel}
-      currentPoints={vipPoints}
-      totalPoints={nextVipPoints}
-      isClaimed={isClaimed}
-    />,
-  ).after(document.querySelector(".sidebar .currency_amount"));
+  await runIndependently([
+    async () =>
+      renderElementWithRoot(
+        <StorageInfo {...await loadStorageInfo()} />,
+        storageInfoRoot,
+      ),
+    async () =>
+      renderElementWithRoot(
+        <VipStatus {...await loadVipStatus()} />,
+        vipInfoRoot,
+      ),
+  ]);
 }
 
-async function storageInfo() {
-  const html = await InventoryHtml.sendRequest();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const selectors = ".used_storage_wrapper .used_storage";
-  const currencyAmount = doc.querySelector(selectors);
-  if (!currencyAmount) {
-    console.error(`Element with selector '${selectors}' not found`);
-    return;
-  }
-  const originalTitle = "title";
-  const rawValues = currencyAmount.getAttribute(originalTitle);
-  if (!rawValues) {
-    console.error(
-      `Element with selector '${selectors}' has no ${originalTitle} attribute`,
+async function loadVipStatus() {
+  const html = await VipShopHtml.sendRequest();
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const readNumber = (selector: string) =>
+    Number(
+      ensure(doc.querySelector(selector), `Can't find ${selector}`)
+        .textContent.trim()
+        .replace(",", ""),
     );
-    return;
-  }
+
+  return {
+    level: readNumber("#vip_level"),
+    currentPoints: readNumber("#vip_points"),
+    totalPoints: readNumber("#next_threshold"),
+    isClaimed:
+      doc.querySelector("#claimDailyVIPPoints[style='display:none']") !== null,
+  };
+}
+
+async function loadStorageInfo() {
+  const html = await InventoryHtml.sendRequest();
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const selector = ".used_storage_wrapper .used_storage";
+  const usedStorage = ensure(
+    doc.querySelector(selector),
+    `Can't find ${selector}`,
+  );
+  const rawValues = ensure(
+    usedStorage.getAttribute("title"),
+    `${selector} has no title attribute`,
+  );
 
   const { current, total } = parseValues(rawValues);
-  const free = total - current;
-
-  renderElement(
-    <StorageInfo current={current} total={total} free={free} />,
-  ).after(document.querySelector(".sidebar .currency_amount"));
+  return { current, total, free: total - current };
 }
 
 /**
