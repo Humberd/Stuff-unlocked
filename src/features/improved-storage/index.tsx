@@ -152,8 +152,10 @@ async function displayTotalPriceOnSellOffer({
 
 async function autoOpenSellTab() {
   await retry(() => {
-    const sellTab =
-      document.querySelector<HTMLAnchorElement>("#inventory_sell");
+    // The id became a class when the storage page was redesigned
+    const sellTab = document.querySelector<HTMLAnchorElement>(
+      "#inventory_sell, a.inventory_sell",
+    );
     if (!sellTab) {
       throw new Error("Sell tab not found");
     }
