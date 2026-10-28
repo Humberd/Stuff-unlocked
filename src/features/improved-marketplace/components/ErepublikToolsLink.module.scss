@@ -1,0 +1,25 @@
+@mixin root {
+  float: right;
+}
+
+.RootWide {
+  @include root;
+  margin: 0 70px 0 10px;
+}
+
+.RootNarrow {
+  @include root;
+  margin: 0 20px;
+}
+
+.Link {
+  color: #83b70b;
+
+  &:hover {
+    color: #fb7e3d;
+  }
+}
+
+.Domain {
+  color: #42a5f5;
+}

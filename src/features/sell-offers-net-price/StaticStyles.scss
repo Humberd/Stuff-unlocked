@@ -1,0 +1,38 @@
+.su-sell-offers-net-price {
+  #sell_offers {
+    // Room for the total net column
+    th:nth-child(1) {
+      width: 70px;
+    }
+    th:nth-child(2) {
+      width: 80px;
+    }
+    th:nth-child(3) {
+      width: 140px;
+    }
+    th:nth-last-child(2) {
+      width: 60px;
+    }
+    th:last-child {
+      width: 132px;
+
+      a {
+        left: 10px;
+        margin-right: 20px;
+        padding: 0 10px;
+      }
+    }
+
+    .offer_price {
+      text-align: right;
+    }
+
+    table td:last-child {
+      padding-left: 0;
+    }
+
+    table .delete_offer {
+      opacity: 1;
+    }
+  }
+}

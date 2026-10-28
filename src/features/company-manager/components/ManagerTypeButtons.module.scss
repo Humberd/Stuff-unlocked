@@ -1,0 +1,23 @@
+.Root {
+  float: right;
+}
+
+.Label {
+  position: relative;
+  bottom: 8px;
+  right: 5px;
+  font-size: 12px;
+}
+
+.Type {
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.Image {
+  height: 30px;
+}

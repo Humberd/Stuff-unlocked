@@ -35,6 +35,15 @@ import {
   MercenaryCounterFeature,
   TodayStatsSidebarFeature,
 } from "./features/battlefield";
+import { ImprovedMarketplaceFeature } from "./features/improved-marketplace";
+import { MarketAutofillFeature } from "./features/market-autofill";
+import { MonetaryMarketFeature } from "./features/monetary-market";
+import { CompanyManagerFeature } from "./features/company-manager";
+import { BestJobOfferFeature } from "./features/best-job-offer";
+import { JobMarketFeature } from "./features/job-market";
+import { GameTokensMarketFeature } from "./features/game-tokens-market";
+import { SellOffersNetPriceFeature } from "./features/sell-offers-net-price";
+import { ArticleCommentLinkFeature } from "./features/article-comment-link";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
 import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
 import { HideMedalPostsFeature } from "./features/hide-medal-posts";
@@ -86,6 +95,15 @@ const features = [
   MercenaryCounterFeature,
   DisableAfkTimerFeature,
   TodayStatsSidebarFeature,
+  ImprovedMarketplaceFeature,
+  MarketAutofillFeature,
+  MonetaryMarketFeature,
+  CompanyManagerFeature,
+  BestJobOfferFeature,
+  JobMarketFeature,
+  GameTokensMarketFeature,
+  SellOffersNetPriceFeature,
+  ArticleCommentLinkFeature,
   WhatsNewFeature,
 ];
 

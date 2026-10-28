@@ -1,0 +1,15 @@
+.su-company-manager {
+  .list_group {
+    box-shadow: none;
+  }
+
+  #companies_bottom {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
+// The buttons explain Work as Manager well enough
+.su-company-manager-types #help_manage {
+  display: none;
+}

@@ -1,0 +1,23 @@
+.Root {
+  float: right;
+}
+
+.OtherMarket {
+  padding: 0 4px;
+  border-radius: 2px;
+  background: #83b70b;
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 0 0 2px #000;
+
+  &:hover {
+    background: #fb7e3d;
+  }
+}
+
+.Price {
+  padding: 0 4px;
+  margin: 0 -4px 0 4px;
+  border-radius: 2px;
+  background: #fb7e3d;
+}
