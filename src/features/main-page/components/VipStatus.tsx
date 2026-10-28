@@ -4,7 +4,7 @@ import { formatNumber } from "../../../utils/format";
 import { Button } from "../../../common-components/button/Button";
 import * as VipClaim from "../../../requests/vip-claim-request";
 import { getCsrfToken } from "../../../utils/erep-global-info";
-import { log } from "../../../utils/utils";
+import { error, log, toError } from "../../../utils/utils";
 import { Analytics } from "../../../analytics/posthog";
 
 interface VipStatusProps {
@@ -19,9 +19,18 @@ export const VipStatus: React.FC<VipStatusProps> = (props) => {
 
   const handleClaim = async () => {
     setClaimStatus("Claiming...");
-    const response = await VipClaim.sendRequest({
-      _token: getCsrfToken(),
-    });
+    let response: VipClaim.Response;
+    try {
+      response = await VipClaim.sendRequest({
+        _token: getCsrfToken(),
+      });
+    } catch (e) {
+      const message = toError(e).message;
+      error("Failed to claim VIP points", e);
+      Analytics.postVipClaimErrorEvent(message);
+      setClaimStatus(message);
+      return;
+    }
     if (response.error) {
       log("Failed to claim VIP points", response.message);
       Analytics.postVipClaimErrorEvent(response.message);
