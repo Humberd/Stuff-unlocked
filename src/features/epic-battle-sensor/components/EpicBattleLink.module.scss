@@ -1,0 +1,12 @@
+// The menu styles its links with an id selector, which beats a class
+.Link {
+  position: absolute !important;
+  top: 8px !important;
+  left: 225px !important;
+  width: 30px !important;
+  background: none !important;
+
+  img {
+    width: 30px;
+  }
+}

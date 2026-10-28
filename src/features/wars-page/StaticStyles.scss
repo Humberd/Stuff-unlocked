@@ -1,0 +1,56 @@
+.su-compact-wars-page {
+  #header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background: #fff;
+  }
+
+  .war_card {
+    width: 236px !important;
+    height: 214px !important;
+    margin: 0 !important;
+  }
+
+  .black_bar {
+    width: 100% !important;
+  }
+
+  #ListCampaignsController br {
+    display: none;
+  }
+
+  .timer {
+    bottom: 17px !important;
+    color: #fff !important;
+    pointer-events: none;
+  }
+
+  .card_bottom {
+    height: 16px !important;
+  }
+
+  .fight_btn {
+    bottom: 0 !important;
+
+    img {
+      display: none !important;
+    }
+  }
+
+  .country_name {
+    max-width: 120px !important;
+  }
+
+  .fight {
+    bottom: 23px;
+  }
+
+  .hexagons {
+    height: 115px !important;
+  }
+
+  .campaign {
+    visibility: hidden;
+  }
+}

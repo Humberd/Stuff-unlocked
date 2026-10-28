@@ -14,6 +14,14 @@ import { WhatsNewFeature } from "./features/whats-new";
 import { FeatureRunner } from "./feature-runner";
 import { installXhrHook } from "./utils/xhr";
 import { SettingsPanelFeature } from "./features/settings-panel";
+import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
+import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
+import { HideMedalPostsFeature } from "./features/hide-medal-posts";
+import {
+  WarsPageCompactLayoutFeature,
+  WarsPageCountdownFeature,
+  WarsPageMercenaryProgressFeature,
+} from "./features/wars-page";
 
 log("React script has successfully started");
 
@@ -31,6 +39,12 @@ const features = [
   PowerSpinFeature,
   DailyChallengeFeature,
   DonatorBadgesFeature,
+  EpicBattleSensorFeature,
+  WeeklyChallengeCollectAllFeature,
+  HideMedalPostsFeature,
+  WarsPageCompactLayoutFeature,
+  WarsPageCountdownFeature,
+  WarsPageMercenaryProgressFeature,
   WhatsNewFeature,
 ];
 
