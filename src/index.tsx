@@ -13,6 +13,7 @@ import { FeedCommentsScrollFeature } from "./features/feed-comments-scroll";
 import { PowerSpinFeature } from "./features/power-spin";
 import { DailyChallengeFeature } from "./features/daily-challenge";
 import { DonatorBadgesFeature } from "./features/donator-badges";
+import { WhatsNewFeature } from "./features/whats-new";
 
 log("React script has successfully started");
 
@@ -26,6 +27,7 @@ const features = [
   PowerSpinFeature,
   DailyChallengeFeature,
   DonatorBadgesFeature,
+  WhatsNewFeature,
 ];
 
 async function onUrlChange() {

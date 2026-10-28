@@ -67,6 +67,11 @@ Basic feature inherited from Zordacz's old version.
 
 ![daily-challenge-collector-feature.png](assets%2Fdaily-challenge-collector-feature.png)
 
+### What's new after an update
+
+- After the script updates, a popup lists the new features and fixes since the version you last saw.
+- The whole history is under CHANGELOG in the Stuff++ settings panel.
+
 ### Feed comments scroll
 
 ![feed-comments-scroll-feature.png](assets%2Ffeed-comments-scroll-feature.png)
