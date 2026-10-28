@@ -18,10 +18,12 @@ import { waitForElement } from "../../utils/dom";
 export const MainPageFeature = createFeature({
   id: "main_page",
   name: "Main Page",
-  canExecute: () => isOnHomepage(),
+  // The sidebar storage and VIP info also helps when managing companies
+  canExecute: (url) =>
+    isOnHomepage() || url.pathname.includes("/economy/myCompanies"),
   execute: (context) =>
     runIndependently([
-      () => weeklyChallengeCalculator(context),
+      () => isOnHomepage() && weeklyChallengeCalculator(context),
       () => sidebarInfo(context),
     ]),
 });
