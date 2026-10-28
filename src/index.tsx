@@ -14,6 +14,17 @@ import { WhatsNewFeature } from "./features/whats-new";
 import { FeatureRunner } from "./feature-runner";
 import { installXhrHook } from "./utils/xhr";
 import { SettingsPanelFeature } from "./features/settings-panel";
+import { TravelBackHomeFeature } from "./features/travel-back-home";
+import { SidebarFoodTooltipFeature } from "./features/sidebar-food-tooltip";
+import { XpLeftFeature } from "./features/xp-left";
+import { AutoEatFeature } from "./features/auto-eat";
+import { ExternalLinksFeature } from "./features/external-links";
+import { MarketMenuLinksFeature } from "./features/market-menu-links";
+import { PopupBlockerFeature } from "./features/popup-blocker";
+import { CloseTpNotificationsFeature } from "./features/close-tp-notifications";
+import { AutoLoginFeature } from "./features/auto-login";
+import { AutoRefreshFeature } from "./features/auto-refresh";
+import { ElectionsLinkFeature } from "./features/elections-link";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
 import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
 import { HideMedalPostsFeature } from "./features/hide-medal-posts";
@@ -45,6 +56,18 @@ const features = [
   WarsPageCompactLayoutFeature,
   WarsPageCountdownFeature,
   WarsPageMercenaryProgressFeature,
+  // These three are inserted right after the same element, in this order
+  TravelBackHomeFeature,
+  SidebarFoodTooltipFeature,
+  XpLeftFeature,
+  AutoEatFeature,
+  ExternalLinksFeature,
+  MarketMenuLinksFeature,
+  PopupBlockerFeature,
+  CloseTpNotificationsFeature,
+  AutoLoginFeature,
+  AutoRefreshFeature,
+  ElectionsLinkFeature,
   WhatsNewFeature,
 ];
 

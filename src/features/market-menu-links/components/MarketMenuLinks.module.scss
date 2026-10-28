@@ -1,0 +1,33 @@
+$size: 27px;
+
+.MarketMenu {
+  position: absolute;
+  top: 30px;
+  right: 2px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.Group {
+  display: flex;
+  flex-direction: column;
+  width: $size;
+  line-height: 0;
+}
+
+.Link {
+  width: $size;
+  height: $size;
+  background: rgba(131, 183, 11, 0.8);
+  border-radius: 5px;
+
+  &:hover {
+    background: #fb7e3d;
+  }
+}
+
+.Icon {
+  width: $size;
+  height: $size;
+  margin-bottom: -5px;
+}
