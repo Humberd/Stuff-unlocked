@@ -159,7 +159,10 @@ async function autoOpenSellTab() {
     if (!sellTab) {
       throw new Error("Sell tab not found");
     }
-    if (sellTab.classList.contains("down")) {
+    // Until a citizen may sell, the tab is a `javascript:alert(…)` link,
+    // and clicking it blocks the page with the alert
+    const isLocked = sellTab.getAttribute("href")?.startsWith("javascript:");
+    if (sellTab.classList.contains("down") || isLocked) {
       return;
     }
     sellTab.click();
