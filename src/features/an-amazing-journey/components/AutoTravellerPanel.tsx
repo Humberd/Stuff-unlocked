@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import styles from "./AutoTravellerPanel.module.scss";
 import { useForm } from "react-hook-form";
-import { useMapEvents } from "../hooks/useMapEvents";
+import { mapGuardHandlers } from "../map-guard";
 import { useLocalStorage } from "../../../hooks/storage";
 import classNames from "classnames";
 import type { AutoTravelForm, AutoTravellerState } from "../auto-traveller";
@@ -15,7 +15,6 @@ interface AutoTravellerPanelProps {
 export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   props,
 ) => {
-  const panelRef = useRef<HTMLDivElement>(null);
   const [formValuesFromStorage, setFormValues] =
     useLocalStorage<AutoTravelForm>("AnAmazingJourney.autoTravellerForm", {
       targetDistanceKm: "100000",
@@ -40,8 +39,6 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
     [subscribe, setFormValues],
   );
 
-  useMapEvents(panelRef);
-
   const onStart = (data: AutoTravelForm) => {
     props.onStart(data);
   };
@@ -51,7 +48,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   };
 
   return (
-    <section ref={panelRef} className={styles.panel}>
+    <section className={styles.panel} {...mapGuardHandlers}>
       <header className={styles.header}>
         <h2 className={styles.title}>Auto Traveller</h2>
       </header>

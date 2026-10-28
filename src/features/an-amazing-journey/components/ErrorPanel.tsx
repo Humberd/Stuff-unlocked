@@ -1,6 +1,5 @@
 import styles from "./ErrorPanel.module.scss";
-import { useRef } from "react";
-import { useMapEvents } from "../hooks/useMapEvents";
+import { mapGuardHandlers } from "../map-guard";
 
 interface ErrorPanelProps {
   errors: Error[];
@@ -8,11 +7,8 @@ interface ErrorPanelProps {
 }
 
 export const ErrorPanel: React.FC<ErrorPanelProps> = (props) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-  useMapEvents(panelRef);
-
   return (
-    <section ref={panelRef} className={styles.panel}>
+    <section className={styles.panel} {...mapGuardHandlers}>
       <div className={styles.errors}>
         {props.errors.map((error, index) => (
           <p key={index} className={styles.error}>

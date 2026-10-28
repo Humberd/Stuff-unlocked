@@ -1,6 +1,5 @@
 import styles from "./TravelProgressPanel.module.scss";
-import { useRef } from "react";
-import { useMapEvents } from "../hooks/useMapEvents";
+import { mapGuardHandlers } from "../map-guard";
 import { formatNumber } from "../../../utils/format";
 import { StatusIndicator } from "./StatusIndicator";
 import type { TravelProgressState } from "../auto-traveller";
@@ -12,12 +11,8 @@ interface TravelProgressPanelProps {
 export const TravelProgressPanel: React.FC<TravelProgressPanelProps> = (
   props,
 ) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useMapEvents(panelRef);
-
   return (
-    <section ref={panelRef} className={styles.panel}>
+    <section className={styles.panel} {...mapGuardHandlers}>
       <header className={styles.header}>
         <h2 className={styles.title}>Travel Progress</h2>
         <StatusIndicator status={props.state.status} />

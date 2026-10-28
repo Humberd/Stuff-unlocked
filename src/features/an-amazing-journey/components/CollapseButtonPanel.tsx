@@ -1,7 +1,6 @@
 import styles from "./CollapseButtonPanel.module.scss";
 import classNames from "classnames";
-import { useMapEvents } from "../hooks/useMapEvents";
-import { useRef } from "react";
+import { mapGuardHandlers } from "../map-guard";
 
 interface CollapseButtonPanelProps {
   isCollapsed: boolean;
@@ -11,13 +10,9 @@ interface CollapseButtonPanelProps {
 export const CollapseButtonPanel: React.FC<CollapseButtonPanelProps> = (
   props,
 ) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useMapEvents(panelRef);
-
   return (
     <section
-      ref={panelRef}
+      {...mapGuardHandlers}
       className={classNames(styles.panel, {
         [styles.isCollapsed]: props.isCollapsed,
       })}
