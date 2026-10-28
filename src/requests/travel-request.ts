@@ -5,7 +5,8 @@ export interface Request {
   _token: string;
   travelMethod?: TravelMethod;
   inRegionId: string;
-  toCountryId: string;
+  /** The legacy script left it out when travelling to a market region. */
+  toCountryId?: string;
 }
 
 export type Response = GenericResponseType;
