@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ensure, toError } from "./utils";
+import { ensure, toError, urlWithoutHash } from "./utils";
 
 describe("toError", () => {
   it("keeps Error instances", () => {
@@ -24,5 +24,16 @@ describe("ensure", () => {
 
   it("throws for null with the given message", () => {
     expect(() => ensure(null, "missing")).toThrow("missing");
+  });
+});
+
+describe("urlWithoutHash", () => {
+  it("drops the hash, which a click on a href='#' link adds", () => {
+    expect(urlWithoutHash("https://www.erepublik.com/en#")).toBe(
+      "https://www.erepublik.com/en",
+    );
+    expect(urlWithoutHash("https://www.erepublik.com/en?a=1#tab")).toBe(
+      "https://www.erepublik.com/en?a=1",
+    );
   });
 });

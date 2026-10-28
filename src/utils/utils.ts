@@ -19,28 +19,29 @@ export function error(...args: unknown[]) {
 }
 
 /**
- * Ensure `callback` is called every time window.location changes
+ * Calls `callback` right away and every time the page URL changes.
+ * Changes of the hash alone are ignored: every click on a `href="#"` link
+ * makes one, and the page stays the same.
  * Code derived from https://stackoverflow.com/questions/3522090/event-when-window-location-href-changes
- *
- * @export
- * @param {function} callback - function to be called when URL changes
- * @returns {MutationObserver} - MutationObserver that watches the URL
  */
 export function addLocationChangeCallback(callback: () => void) {
-  // Run the callback once right at the start
   window.setTimeout(callback, 0);
 
-  // Set up a `MutationObserver` to watch for changes in the URL
-  let oldHref = window.location.href;
-  const observer = new MutationObserver((mutations) => {
-    if (mutations.some(() => oldHref !== document.location.href)) {
-      oldHref = document.location.href;
+  let oldUrl = urlWithoutHash(document.location.href);
+  const observer = new MutationObserver(() => {
+    const url = urlWithoutHash(document.location.href);
+    if (url !== oldUrl) {
+      oldUrl = url;
       callback();
     }
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
   return observer;
+}
+
+export function urlWithoutHash(url: string): string {
+  return url.split("#")[0];
 }
 
 /** Normalizes a caught value, which can be anything, to an Error. */
