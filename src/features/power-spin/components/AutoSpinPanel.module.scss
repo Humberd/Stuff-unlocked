@@ -2,7 +2,8 @@
   position: absolute;
   top: 280px;
   right: -130px;
-  width: 130px;
+  // Fits the labels on one line, like the legacy panel
+  width: max-content;
   box-sizing: border-box;
   background-color: #fff;
   padding: 8px;
@@ -32,6 +33,9 @@
 }
 
 .Message {
+  // Long messages wrap instead of widening the panel
+  max-width: 114px;
+  margin-left: auto;
   margin-top: 6px;
   text-align: right;
   font-size: 11px;
