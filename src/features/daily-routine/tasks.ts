@@ -9,6 +9,7 @@ import * as Train from "../../requests/train-request";
 import * as GoldOffers from "../../requests/gold-exchange-offers-request";
 import * as GoldPurchase from "../../requests/gold-exchange-purchase-request";
 import * as DailyMissions from "../../requests/daily-missions-request";
+import * as WeeklyChallenge from "../../requests/weekly-challenge-request";
 import { getManagerWorkLimit } from "../company-manager/manager-work";
 import { formatNumber } from "../../utils/format";
 import type { DailyRoutineSettings, DailyTaskId } from "./settings";
@@ -356,7 +357,35 @@ export const challengeTask: DailyTask = {
   },
 };
 
-/** In the order they run, so that the challenge gets claimed after the rest is done. */
+export const weeklyChallengeTask: DailyTask = {
+  id: "weeklyChallenge",
+  label: "Claim weekly challenge",
+  isRepeatable: true,
+  run: async ({ csrfToken }) => {
+    const { enabled, maxRewardId, rewards } =
+      await WeeklyChallenge.sendDataRequest();
+    if (!enabled) {
+      return skipped("No weekly challenge right now");
+    }
+    const waiting = [...rewards.normal, ...rewards.extra].filter(
+      (reward) => reward.status === "completed",
+    ).length;
+    if (!waiting) {
+      return skipped("Nothing to claim");
+    }
+
+    const response = await WeeklyChallenge.sendCollectAllRequest({
+      _token: csrfToken,
+      maxRewardId,
+    });
+    if (response.error) {
+      throw new Error(response.message);
+    }
+    return done(`Claimed ${waiting} reward${waiting > 1 ? "s" : ""}`);
+  },
+};
+
+/** In the order they run, so that the challenges get claimed after the rest is done. */
 export const DAILY_TASKS: DailyTask[] = [
   vipTask,
   workTask,
@@ -365,4 +394,5 @@ export const DAILY_TASKS: DailyTask[] = [
   overtimeTask,
   goldTask,
   challengeTask,
+  weeklyChallengeTask,
 ];

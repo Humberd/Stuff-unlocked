@@ -19,7 +19,7 @@ export const DailyRoutineFeature = createFeature({
   id: "daily_routine",
   name: "Daily Routine",
   description:
-    "Adds a sidebar panel that claims VIP points, works, works as manager, trains, works overtime, buys gold and claims the daily challenge, on a click or by itself every day.",
+    "Adds a sidebar panel that claims VIP points, works, works as manager, trains, works overtime, buys gold and claims the daily and weekly challenges, on a click or by itself every day.",
   canExecute: () => isTopWindow(),
   isSettingEnabled: () => isSettingEnabled("dailyRoutine"),
   execute: ({ mount, onCleanup }) => {

@@ -8,6 +8,7 @@ import * as Train from "../../requests/train-request";
 import * as GoldOffers from "../../requests/gold-exchange-offers-request";
 import * as GoldPurchase from "../../requests/gold-exchange-purchase-request";
 import * as DailyMissions from "../../requests/daily-missions-request";
+import * as WeeklyChallenge from "../../requests/weekly-challenge-request";
 import { DEFAULT_SETTINGS } from "./settings";
 import {
   challengeTask,
@@ -16,6 +17,7 @@ import {
   productionTask,
   type TaskContext,
   trainTask,
+  weeklyChallengeTask,
   workTask,
 } from "./tasks";
 
@@ -35,6 +37,7 @@ vi.mock(
 );
 vi.mock("../../requests/gold-exchange-purchase-request");
 vi.mock("../../requests/daily-missions-request");
+vi.mock("../../requests/weekly-challenge-request");
 
 const NOW = Date.parse("2026-11-03T01:00:00Z");
 
@@ -347,6 +350,77 @@ describe("challengeTask", () => {
 
     expect((await challengeTask.run(createContext())).message).toBe(
       "Claimed the 20 chest",
+    );
+  });
+});
+
+describe("weeklyChallengeTask", () => {
+  function weeklyData(
+    changes: Partial<WeeklyChallenge.DataResponse> = {},
+  ): WeeklyChallenge.DataResponse {
+    return {
+      enabled: true,
+      maxRewardId: 2,
+      rewards: {
+        normal: [
+          { id: 1, status: "completed" },
+          { id: 2, status: "completed" },
+          { id: 3, status: "" },
+        ],
+        extra: [],
+      },
+      ...changes,
+    };
+  }
+
+  it("collects the rewards reached so far", async () => {
+    vi.mocked(WeeklyChallenge.sendDataRequest).mockResolvedValue(weeklyData());
+    vi.mocked(WeeklyChallenge.sendCollectAllRequest).mockResolvedValue({
+      error: false,
+      message: "",
+    });
+
+    expect(await weeklyChallengeTask.run(createContext())).toEqual({
+      status: "done",
+      message: "Claimed 2 rewards",
+    });
+    expect(WeeklyChallenge.sendCollectAllRequest).toHaveBeenCalledWith({
+      _token: "token",
+      maxRewardId: 2,
+    });
+  });
+
+  it("collects nothing when no reward waits", async () => {
+    vi.mocked(WeeklyChallenge.sendDataRequest).mockResolvedValue(
+      weeklyData({ rewards: { normal: [{ id: 1, status: "" }], extra: [] } }),
+    );
+
+    expect((await weeklyChallengeTask.run(createContext())).status).toBe(
+      "skipped",
+    );
+    expect(WeeklyChallenge.sendCollectAllRequest).not.toHaveBeenCalled();
+  });
+
+  it("collects nothing when there is no challenge", async () => {
+    vi.mocked(WeeklyChallenge.sendDataRequest).mockResolvedValue(
+      weeklyData({ enabled: false }),
+    );
+
+    expect((await weeklyChallengeTask.run(createContext())).status).toBe(
+      "skipped",
+    );
+    expect(WeeklyChallenge.sendCollectAllRequest).not.toHaveBeenCalled();
+  });
+
+  it("fails with the game's message", async () => {
+    vi.mocked(WeeklyChallenge.sendDataRequest).mockResolvedValue(weeklyData());
+    vi.mocked(WeeklyChallenge.sendCollectAllRequest).mockResolvedValue({
+      error: true,
+      message: "Try again later",
+    });
+
+    await expect(weeklyChallengeTask.run(createContext())).rejects.toThrow(
+      "Try again later",
     );
   });
 });

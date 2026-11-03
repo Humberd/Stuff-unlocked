@@ -5,8 +5,9 @@ import { Button } from "../../../common-components/button/Button";
 import { useLocalStorage } from "../../../hooks/storage";
 import { useExternalProperty } from "../../../hooks/external-property";
 import {
-  readSettings,
+  DEFAULT_SETTINGS,
   SETTINGS_KEY,
+  withDefaults,
   type DailyRoutineSettings,
   type DailyTaskId,
 } from "../settings";
@@ -22,10 +23,11 @@ export const DailyRoutinePanel: React.FC<DailyRoutinePanelProps> = ({
   routine,
   getEDay,
 }) => {
-  const [settings, setSettings] = useLocalStorage<DailyRoutineSettings>(
+  const [savedSettings, setSettings] = useLocalStorage<DailyRoutineSettings>(
     SETTINGS_KEY,
-    readSettings(),
+    DEFAULT_SETTINGS,
   );
+  const settings = withDefaults(savedSettings);
   const [isExpanded, setIsExpanded] = useLocalStorage(
     "DailyRoutine.isExpanded",
     true,

@@ -8,6 +8,7 @@ export const DAILY_TASK_IDS = [
   "overtime",
   "gold",
   "challenge",
+  "weeklyChallenge",
 ] as const;
 
 export type DailyTaskId = (typeof DAILY_TASK_IDS)[number];
@@ -33,6 +34,7 @@ export const DEFAULT_SETTINGS: DailyRoutineSettings = {
     overtime: true,
     gold: true,
     challenge: true,
+    weeklyChallenge: true,
   },
   isAutomatic: false,
   trainOnPaidGrounds: true,
@@ -40,15 +42,19 @@ export const DEFAULT_SETTINGS: DailyRoutineSettings = {
   maxGoldPrice: "",
 };
 
-/** The saved settings, with defaults for anything added since they were saved. */
-export function readSettings(): DailyRoutineSettings {
-  const saved = readLocalStorage<Partial<DailyRoutineSettings>>(
-    SETTINGS_KEY,
-    {},
-  );
+/** Fills in the defaults for anything added since the settings were saved. */
+export function withDefaults(
+  saved: Partial<DailyRoutineSettings>,
+): DailyRoutineSettings {
   return {
     ...DEFAULT_SETTINGS,
     ...saved,
     tasks: { ...DEFAULT_SETTINGS.tasks, ...saved.tasks },
   };
+}
+
+export function readSettings(): DailyRoutineSettings {
+  return withDefaults(
+    readLocalStorage<Partial<DailyRoutineSettings>>(SETTINGS_KEY, {}),
+  );
 }
