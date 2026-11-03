@@ -1,0 +1,85 @@
+.Panel {
+  clear: both;
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #d0d4da;
+  border-radius: 4px;
+  font: 11px/1.4 Arial;
+  color: #333;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  cursor: pointer;
+
+  strong {
+    color: #1a3c6e;
+  }
+
+  span {
+    color: #666;
+  }
+}
+
+.Tasks {
+  margin: 0;
+  padding: 0 8px;
+  list-style: none;
+  border-top: 1px solid #eef0f3;
+
+  li {
+    padding: 3px 0;
+  }
+}
+
+.Task,
+.Option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    margin: 0;
+  }
+}
+
+.Result {
+  margin-left: 18px;
+  font-size: 10px;
+  color: #666;
+
+  &.done {
+    color: #2e9e41;
+  }
+
+  &.failed {
+    color: #c0392b;
+  }
+}
+
+.Options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  border-top: 1px solid #eef0f3;
+}
+
+.Option:has(.Input) {
+  justify-content: space-between;
+}
+
+.Input {
+  width: 60px;
+  text-align: right;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 8px 6px;
+}

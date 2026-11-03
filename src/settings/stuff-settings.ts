@@ -40,6 +40,11 @@ export const SETTINGS = [
     label: "Best local job offer",
   },
   {
+    section: "Daily routine",
+    key: "dailyRoutine",
+    label: "Daily routine in the sidebar",
+  },
+  {
     section: "Energy",
     key: "energyRecovery",
     label: "Eat food automatically",

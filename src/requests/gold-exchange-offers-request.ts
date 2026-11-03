@@ -25,3 +25,33 @@ export function parseCheapestPrice(response: Response): number | undefined {
   const price = match ? Number(match[1]) : NaN;
   return price > 0 ? price : undefined;
 }
+
+export interface Offer {
+  id: number;
+  price: number;
+  /** Gold the offer still has. */
+  amount: number;
+}
+
+/** The offers on the page, cheapest first, read from their buy buttons. */
+export function parseOffers(response: Response): Offer[] {
+  const offers: Offer[] = [];
+  for (const value of Object.values(response)) {
+    if (typeof value !== "string") {
+      continue;
+    }
+    const doc = new DOMParser().parseFromString(value, "text/html");
+    doc
+      .querySelectorAll<HTMLElement>("button[id^='purchase_']")
+      .forEach((button) => {
+        offers.push({
+          id: Number(button.id.replace("purchase_", "")),
+          price: Number(button.dataset.price),
+          amount: Number(button.dataset.max),
+        });
+      });
+  }
+  return offers
+    .filter((offer) => offer.id > 0 && offer.price > 0 && offer.amount > 0)
+    .sort((a, b) => a.price - b.price);
+}

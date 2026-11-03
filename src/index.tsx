@@ -47,6 +47,7 @@ import { ArticleCommentLinkFeature } from "./features/article-comment-link";
 import { EpicBattleSensorFeature } from "./features/epic-battle-sensor";
 import { WeeklyChallengeCollectAllFeature } from "./features/weekly-challenge-collect-all";
 import { HideMedalPostsFeature } from "./features/hide-medal-posts";
+import { DailyRoutineFeature } from "./features/daily-routine";
 import {
   WarsPageCompactLayoutFeature,
   WarsPageCountdownFeature,
@@ -68,6 +69,7 @@ const features = [
   FeedCommentsScrollFeature,
   PowerSpinFeature,
   DailyChallengeFeature,
+  DailyRoutineFeature,
   DonatorBadgesFeature,
   EpicBattleSensorFeature,
   WeeklyChallengeCollectAllFeature,
