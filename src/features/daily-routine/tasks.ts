@@ -272,7 +272,8 @@ export const goldTask: DailyTask = {
     if (remaining <= 0) {
       return done(`Bought ${formatNumber(target)} gold`);
     }
-    const maxPrice = Number(settings.maxGoldPrice) || Infinity;
+    const maxPrice =
+      settings.maxGoldPrice === "" ? Infinity : Number(settings.maxGoldPrice);
 
     const offers = GoldOffers.parseOffers(
       await GoldOffers.sendRequest({
@@ -284,7 +285,8 @@ export const goldTask: DailyTask = {
     let bought = 0;
     let spent = 0;
     for (const offer of offers) {
-      if (remaining <= 0 || offer.price > maxPrice) {
+      // Written so that a limit that isn't a number buys nothing
+      if (remaining <= 0 || !(offer.price <= maxPrice)) {
         break;
       }
       const amount = Math.min(remaining, Math.floor(offer.amount * 100) / 100);

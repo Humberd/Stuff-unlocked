@@ -328,6 +328,21 @@ describe("goldTask", () => {
     expect(GoldPurchase.sendRequest).not.toHaveBeenCalled();
   });
 
+  it.each(["0", "abc"])("buys nothing with a limit of %s", async (limit) => {
+    vi.mocked(GoldOffers.parseOffers).mockReturnValue([
+      { id: 1, price: 1800, amount: 100 },
+    ]);
+
+    const outcome = await goldTask.run(
+      createContext({
+        settings: { ...DEFAULT_SETTINGS, maxGoldPrice: limit },
+      }),
+    );
+
+    expect(outcome.status).toBe("skipped");
+    expect(GoldPurchase.sendRequest).not.toHaveBeenCalled();
+  });
+
   it("does nothing once today's gold is bought", async () => {
     expect(
       (await goldTask.run(createContext({ goldBoughtToday: 10 }))).status,
