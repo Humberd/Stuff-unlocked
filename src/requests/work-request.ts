@@ -28,7 +28,11 @@ export interface Production {
 export interface Response {
   status: boolean;
   message: unknown;
-  result?: { production?: Production };
+  result?: {
+    /** The salary after tax. */
+    netSalary?: number;
+    production?: Production;
+  };
 }
 
 export function sendRequest(

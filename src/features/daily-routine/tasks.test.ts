@@ -90,6 +90,19 @@ describe("workTask", () => {
     });
   });
 
+  it("reports the salary after tax", async () => {
+    vi.mocked(JobData.sendRequest).mockResolvedValue(jobData());
+    vi.mocked(Work.sendRequest).mockResolvedValue({
+      status: true,
+      message: true,
+      result: { netSalary: 7672.5 },
+    });
+
+    expect((await workTask.run(createContext())).message).toBe(
+      "Earned 7,672.5 PLN",
+    );
+  });
+
   it("does nothing when already worked", async () => {
     vi.mocked(JobData.sendRequest).mockResolvedValue(
       jobData({ alreadyWorked: true }),
@@ -203,13 +216,43 @@ describe("trainTask", () => {
 
 describe("overtimeTask", () => {
   it("works overtime when it has the points and no cooldown", async () => {
-    vi.mocked(JobData.sendRequest).mockResolvedValue(jobData());
+    const nextOverTime = NOW / 1000 + 1800;
+    vi.mocked(JobData.sendRequest)
+      .mockResolvedValueOnce(jobData())
+      .mockResolvedValueOnce(
+        jobData({ overTime: { points: 93, nextOverTime } }),
+      );
 
     expect(await overtimeTask.run(createContext())).toEqual({
       status: "done",
-      message: "Worked, 91 points left",
+      message: "Worked, 93 points left",
+      retryAt: nextOverTime * 1000,
+    });
+  });
+
+  it("still counts as worked when the new state can't be read", async () => {
+    vi.mocked(JobData.sendRequest)
+      .mockResolvedValueOnce(jobData())
+      .mockRejectedValueOnce(new Error("Network"));
+
+    expect(await overtimeTask.run(createContext())).toEqual({
+      status: "done",
+      message: "Worked",
       retryAt: NOW + 60 * 60 * 1000,
     });
+  });
+
+  it("waits for the day's work, before which the game has no overtime data", async () => {
+    vi.mocked(JobData.sendRequest).mockResolvedValue(
+      jobData({ overTime: null }),
+    );
+
+    expect(await overtimeTask.run(createContext())).toEqual({
+      status: "skipped",
+      message: "Not until today's work is done",
+      retryAt: NOW + 60 * 60 * 1000,
+    });
+    expect(WorkOvertime.sendRequest).not.toHaveBeenCalled();
   });
 
   it("waits for the cooldown", async () => {

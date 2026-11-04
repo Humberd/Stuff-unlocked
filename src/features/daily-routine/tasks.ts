@@ -95,10 +95,13 @@ export const workTask: DailyTask = {
     if (job.alreadyWorked) {
       return done("Already worked");
     }
-    ensureAccepted(
-      await Work.sendRequest({ _token: csrfToken, action_type: "work" }),
-    );
-    return done(`Earned ${formatNumber(job.salary)} ${job.currency}`);
+    const response = await Work.sendRequest({
+      _token: csrfToken,
+      action_type: "work",
+    });
+    ensureAccepted(response);
+    const earned = response.result?.netSalary ?? job.salary;
+    return done(`Earned ${formatNumber(earned)} ${job.currency}`);
   },
 };
 
@@ -200,10 +203,15 @@ export const overtimeTask: DailyTask = {
     if (!job.isEmployee) {
       return skipped("You have no job");
     }
+    if (!job.overTime) {
+      return {
+        status: "skipped",
+        message: "Not until today's work is done",
+        retryAt: now() + HOUR_MS,
+      };
+    }
     const { points, nextOverTime } = job.overTime;
-    // A small number would be seconds left rather than a timestamp
-    const nextAt =
-      nextOverTime > 1e9 ? nextOverTime * 1000 : now() + nextOverTime * 1000;
+    const nextAt = getOvertimeAt(nextOverTime, now());
     if (nextAt > now()) {
       return {
         status: "skipped",
@@ -225,13 +233,24 @@ export const overtimeTask: DailyTask = {
         action_type: "workOvertime",
       }),
     );
+    // It already worked, so failing to read the new state isn't a failure
+    const after = await JobData.sendRequest().then(
+      (response) => response.overTime,
+      () => null,
+    );
+    const nextRetryAt = after ? getOvertimeAt(after.nextOverTime, now()) : 0;
     return {
       status: "done",
-      message: `Worked, ${points - OVERTIME_POINTS} points left`,
-      retryAt: now() + HOUR_MS,
+      message: after ? `Worked, ${after.points} points left` : "Worked",
+      retryAt: nextRetryAt > now() ? nextRetryAt : now() + HOUR_MS,
     };
   },
 };
+
+function getOvertimeAt(nextOverTime: number, now: number): number {
+  // A small number would be seconds left rather than a timestamp
+  return nextOverTime > 1e9 ? nextOverTime * 1000 : now + nextOverTime * 1000;
+}
 
 function formatTime(time: number): string {
   return new Date(time).toLocaleTimeString("en-GB", {
