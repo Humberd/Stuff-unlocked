@@ -2,7 +2,12 @@ import { ExternalProperty } from "../../hooks/external-property";
 import { readLocalStorage, writeLocalStorage } from "../../hooks/storage";
 import { log, toError } from "../../utils/utils";
 import { readSettings, type DailyTaskId } from "./settings";
-import { DAILY_TASKS, type DailyTask, type TaskOutcome } from "./tasks";
+import {
+  BotCheckError,
+  DAILY_TASKS,
+  type DailyTask,
+  type TaskOutcome,
+} from "./tasks";
 
 const STATE_KEY = "DailyRoutine.state";
 /** Keeps two tabs from running the routine at the same time. */
@@ -71,9 +76,12 @@ export class DailyRoutine {
           break;
         }
 
-        const outcome = await this.runTask(task, eDay);
+        const { outcome, isBotCheck } = await this.runTask(task, eDay);
         log(`Daily routine: ${task.label}: ${outcome.message}`);
         this.saveResult(task.id, eDay, outcome);
+        if (isBotCheck) {
+          break;
+        }
         await this.deps.sleep(TASK_DELAY_MS);
       }
     } finally {
@@ -107,10 +115,13 @@ export class DailyRoutine {
     }
   }
 
-  private async runTask(task: DailyTask, eDay: number): Promise<TaskOutcome> {
+  private async runTask(
+    task: DailyTask,
+    eDay: number,
+  ): Promise<{ outcome: TaskOutcome; isBotCheck?: boolean }> {
     const goldBought = readState().goldBought;
     try {
-      return await task.run({
+      const outcome = await task.run({
         csrfToken: this.deps.getCsrfToken(),
         settings: readSettings(),
         currency: this.deps.getCurrency(),
@@ -126,8 +137,12 @@ export class DailyRoutine {
         now: this.deps.now,
         sleep: this.deps.sleep,
       });
+      return { outcome };
     } catch (e) {
-      return { status: "failed", message: toError(e).message };
+      return {
+        outcome: { status: "failed", message: toError(e).message },
+        isBotCheck: e instanceof BotCheckError,
+      };
     }
   }
 

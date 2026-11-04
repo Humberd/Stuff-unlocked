@@ -51,14 +51,24 @@ const skipped = (message: string): TaskOutcome => ({
   message,
 });
 
-/** The game answers `status: false` both for errors and when it wants a captcha. */
+/** The game wants a captcha, so nothing else should be sent to it for now. */
+export class BotCheckError extends Error {
+  constructor() {
+    super("The game refused, it may want a captcha. Try it by hand.");
+    this.name = "BotCheckError";
+  }
+}
+
+/** The game refuses with a message for errors, and without one or with "captcha" for a bot check. */
+function refusalOf(message: unknown): Error {
+  return typeof message === "string" && message && !/captcha/i.test(message)
+    ? new Error(message)
+    : new BotCheckError();
+}
+
 function ensureAccepted(response: { status: boolean; message: unknown }) {
   if (response.status === false) {
-    throw new Error(
-      typeof response.message === "string" && response.message
-        ? response.message
-        : "The game refused, it may want a captcha. Try it by hand.",
-    );
+    throw refusalOf(response.message);
   }
 }
 
@@ -74,7 +84,7 @@ export const vipTask: DailyTask = {
     }
     const response = await VipClaim.sendRequest({ _token: csrfToken });
     if (response.error) {
-      throw new Error(response.message);
+      throw refusalOf(response.message);
     }
     return done(
       response.today_points
@@ -298,11 +308,11 @@ export const goldTask: DailyTask = {
         currencyId: GoldOffers.GOLD_CURRENCY_ID,
       });
       if (response.error) {
-        throw new Error(
-          bought
-            ? `Bought ${formatNumber(bought)} gold, then: ${response.message}`
-            : response.message,
-        );
+        const refusal = refusalOf(response.message);
+        if (bought && !(refusal instanceof BotCheckError)) {
+          refusal.message = `Bought ${formatNumber(bought)} gold, then: ${refusal.message}`;
+        }
+        throw refusal;
       }
       context.onGoldBought(amount);
       bought = roundGold(bought + amount);
@@ -400,7 +410,7 @@ export const weeklyChallengeTask: DailyTask = {
       maxRewardId,
     });
     if (response.error) {
-      throw new Error(response.message);
+      throw refusalOf(response.message);
     }
     return done(`Claimed ${waiting} reward${waiting > 1 ? "s" : ""}`);
   },

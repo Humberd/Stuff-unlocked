@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DailyRoutine, type DailyRoutineDeps } from "./daily-routine";
 import { DEFAULT_SETTINGS, SETTINGS_KEY } from "./settings";
-import { DAILY_TASKS, type TaskOutcome } from "./tasks";
+import { BotCheckError, DAILY_TASKS, type TaskOutcome } from "./tasks";
 
 vi.mock("../../utils/utils", async (importOriginal) => ({
   ...(await importOriginal()),
@@ -101,16 +101,29 @@ describe("DailyRoutine", () => {
 
   it("turns a thrown error into a failed result and goes on", async () => {
     const runs = stubTasks(() => ({ status: "done", message: "ok" }));
-    runs.work.mockRejectedValue(new Error("captcha"));
+    runs.work.mockRejectedValue(new Error("Not enough energy"));
     const routine = new DailyRoutine(createDeps());
 
     await routine.run();
 
     expect(routine.results.get().work).toMatchObject({
       status: "failed",
-      message: "captcha",
+      message: "Not enough energy",
     });
     expect(runs.train).toHaveBeenCalled();
+  });
+
+  it("stops when the game refuses with a bot check", async () => {
+    const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+    runs.work.mockRejectedValue(new BotCheckError());
+    const routine = new DailyRoutine(createDeps());
+
+    await routine.run();
+
+    expect(routine.results.get().work?.status).toBe("failed");
+    expect(runs.train).not.toHaveBeenCalled();
+    expect(runs.gold).not.toHaveBeenCalled();
+    expect(routine.isRunning.get()).toBe(false);
   });
 
   it("stops while the game wants a bot check", async () => {

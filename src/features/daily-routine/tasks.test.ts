@@ -11,6 +11,7 @@ import * as DailyMissions from "../../requests/daily-missions-request";
 import * as WeeklyChallenge from "../../requests/weekly-challenge-request";
 import { DEFAULT_SETTINGS } from "./settings";
 import {
+  BotCheckError,
   challengeTask,
   goldTask,
   overtimeTask,
@@ -122,6 +123,20 @@ describe("workTask", () => {
     });
 
     await expect(workTask.run(createContext())).rejects.toThrow("captcha");
+  });
+
+  it.each([
+    ["captcha", BotCheckError],
+    [false, BotCheckError],
+    ["", BotCheckError],
+    ["Not enough energy", Error],
+  ])("reads a refusal with the message %j", async (message, expected) => {
+    vi.mocked(JobData.sendRequest).mockResolvedValue(jobData());
+    vi.mocked(Work.sendRequest).mockResolvedValue({ status: false, message });
+
+    const error = await workTask.run(createContext()).catch((e: unknown) => e);
+
+    expect((error as Error).constructor).toBe(expected);
   });
 });
 
