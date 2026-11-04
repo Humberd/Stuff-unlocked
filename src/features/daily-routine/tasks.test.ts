@@ -231,28 +231,11 @@ describe("trainTask", () => {
 
 describe("overtimeTask", () => {
   it("works overtime when it has the points and no cooldown", async () => {
-    const nextOverTime = NOW / 1000 + 1800;
-    vi.mocked(JobData.sendRequest)
-      .mockResolvedValueOnce(jobData())
-      .mockResolvedValueOnce(
-        jobData({ overTime: { points: 93, nextOverTime } }),
-      );
+    vi.mocked(JobData.sendRequest).mockResolvedValue(jobData());
 
     expect(await overtimeTask.run(createContext())).toEqual({
       status: "done",
-      message: "Worked, 93 points left",
-      retryAt: nextOverTime * 1000,
-    });
-  });
-
-  it("still counts as worked when the new state can't be read", async () => {
-    vi.mocked(JobData.sendRequest)
-      .mockResolvedValueOnce(jobData())
-      .mockRejectedValueOnce(new Error("Network"));
-
-    expect(await overtimeTask.run(createContext())).toEqual({
-      status: "done",
-      message: "Worked",
+      message: "Worked, 91 points left",
       retryAt: NOW + 60 * 60 * 1000,
     });
   });

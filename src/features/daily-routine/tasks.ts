@@ -221,7 +221,9 @@ export const overtimeTask: DailyTask = {
       };
     }
     const { points, nextOverTime } = job.overTime;
-    const nextAt = getOvertimeAt(nextOverTime, now());
+    // A small number would be seconds left rather than a timestamp
+    const nextAt =
+      nextOverTime > 1e9 ? nextOverTime * 1000 : now() + nextOverTime * 1000;
     if (nextAt > now()) {
       return {
         status: "skipped",
@@ -243,24 +245,13 @@ export const overtimeTask: DailyTask = {
         action_type: "workOvertime",
       }),
     );
-    // It already worked, so failing to read the new state isn't a failure
-    const after = await JobData.sendRequest().then(
-      (response) => response.overTime,
-      () => null,
-    );
-    const nextRetryAt = after ? getOvertimeAt(after.nextOverTime, now()) : 0;
     return {
       status: "done",
-      message: after ? `Worked, ${after.points} points left` : "Worked",
-      retryAt: nextRetryAt > now() ? nextRetryAt : now() + HOUR_MS,
+      message: `Worked, ${points - OVERTIME_POINTS} points left`,
+      retryAt: now() + HOUR_MS,
     };
   },
 };
-
-function getOvertimeAt(nextOverTime: number, now: number): number {
-  // A small number would be seconds left rather than a timestamp
-  return nextOverTime > 1e9 ? nextOverTime * 1000 : now + nextOverTime * 1000;
-}
 
 function formatTime(time: number): string {
   return new Date(time).toLocaleTimeString("en-GB", {
