@@ -59,6 +59,7 @@ let dailyRoutine: DailyRoutine | undefined;
 function getDailyRoutine() {
   dailyRoutine ??= new DailyRoutine({
     getEDay: getTodaysEDay,
+    getCitizenId: () => getCitizen().citizenId,
     getCsrfToken,
     getCurrency: () => getCitizen().currency,
     isSessionValidationPending: () => Boolean(SERVER_DATA.sessionValidation),

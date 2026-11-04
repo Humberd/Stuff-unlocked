@@ -15,6 +15,7 @@ function createDeps(changes: Partial<DailyRoutineDeps> = {}) {
   let now = Date.parse("2026-11-03T01:00:00Z");
   return {
     getEDay: () => 6922,
+    getCitizenId: () => 123,
     getCsrfToken: () => "token",
     getCurrency: () => "PLN",
     isSessionValidationPending: () => false,
@@ -199,6 +200,23 @@ describe("DailyRoutine", () => {
     expect(runs.gold.mock.calls[1][0].goldBoughtToday).toBe(4);
   });
 
+  it("keeps the results and the gold bought for each citizen", async () => {
+    const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+    runs.gold.mockImplementation((context) => {
+      context.onGoldBought(10);
+      return Promise.resolve({ status: "done", message: "ok" });
+    });
+
+    await new DailyRoutine(createDeps()).run();
+    const other = new DailyRoutine(createDeps({ getCitizenId: () => 456 }));
+    expect(other.results.get()).toEqual({});
+    await other.run();
+
+    expect(runs.work).toHaveBeenCalledTimes(2);
+    expect(runs.gold).toHaveBeenCalledTimes(2);
+    expect(runs.gold.mock.calls[1][0].goldBoughtToday).toBe(0);
+  });
+
   describe("runIfDue", () => {
     it("runs everything once a day, then only overtime when it is due", async () => {
       const runs = stubTasks((id) =>
@@ -266,7 +284,7 @@ describe("DailyRoutine", () => {
       const runs = stubTasks(() => ({ status: "done", message: "ok" }));
       const routine = new DailyRoutine(createDeps());
       localStorage.setItem(
-        "STUFF_UNLOCKED.DailyRoutine.state",
+        "STUFF_UNLOCKED.DailyRoutine.state.123",
         JSON.stringify({
           lastAutomaticRunEDay: 6922,
           results: { vip: { status: "done", message: "ok", eDay: 6922 } },

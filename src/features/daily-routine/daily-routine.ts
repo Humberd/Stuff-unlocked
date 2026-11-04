@@ -32,6 +32,7 @@ interface RoutineState {
 
 export interface DailyRoutineDeps {
   getEDay: () => number;
+  getCitizenId: () => number;
   getCsrfToken: () => string;
   getCurrency: () => string;
   /** The game wants the player to prove they are not a bot. */
@@ -42,11 +43,12 @@ export interface DailyRoutineDeps {
 
 export class DailyRoutine {
   readonly isRunning = new ExternalProperty(false);
-  readonly results = new ExternalProperty<TaskResults>(readState().results);
+  readonly results: ExternalProperty<TaskResults>;
   private readonly deps: DailyRoutineDeps;
 
   constructor(deps: DailyRoutineDeps) {
     this.deps = deps;
+    this.results = new ExternalProperty<TaskResults>(this.readState().results);
   }
 
   /** Runs the tasks turned on in the settings, skipping the ones already done today. */
@@ -65,7 +67,7 @@ export class DailyRoutine {
         if (!taskIds.includes(task.id) || !settings.tasks[task.id]) {
           continue;
         }
-        const previous = readState().results[task.id];
+        const previous = this.readState().results[task.id];
         if (
           !task.isRepeatable &&
           previous?.status === "done" &&
@@ -104,9 +106,9 @@ export class DailyRoutine {
    */
   async runIfDue() {
     const eDay = this.deps.getEDay();
-    const state = readState();
+    const state = this.readState();
     if (state.lastAutomaticRunEDay !== eDay) {
-      writeState({ ...state, lastAutomaticRunEDay: eDay });
+      this.writeState({ ...state, lastAutomaticRunEDay: eDay });
       await this.run();
       return;
     }
@@ -138,7 +140,7 @@ export class DailyRoutine {
     task: DailyTask,
     eDay: number,
   ): Promise<{ outcome: TaskOutcome; isBotCheck?: boolean }> {
-    const goldBought = readState().goldBought;
+    const goldBought = this.readState().goldBought;
     try {
       const outcome = await task.run({
         csrfToken: this.deps.getCsrfToken(),
@@ -146,10 +148,10 @@ export class DailyRoutine {
         currency: this.deps.getCurrency(),
         goldBoughtToday: goldBought?.eDay === eDay ? goldBought.amount : 0,
         onGoldBought: (amount) => {
-          const current = readState().goldBought;
+          const current = this.readState().goldBought;
           const previous = current?.eDay === eDay ? current.amount : 0;
-          writeState({
-            ...readState(),
+          this.writeState({
+            ...this.readState(),
             goldBought: { eDay, amount: previous + amount },
           });
         },
@@ -170,7 +172,7 @@ export class DailyRoutine {
   }
 
   private saveResult(taskId: DailyTaskId, eDay: number, outcome: TaskOutcome) {
-    const state = readState();
+    const state = this.readState();
     const previous = state.results[taskId];
     // A repeatable task with nothing more to do today is still done
     const status =
@@ -183,7 +185,7 @@ export class DailyRoutine {
       ...state.results,
       [taskId]: { ...outcome, status, eDay },
     };
-    writeState({ ...state, results });
+    this.writeState({ ...state, results });
     this.results.update(results);
   }
 
@@ -199,12 +201,17 @@ export class DailyRoutine {
   private releaseLock() {
     writeLocalStorage(LOCK_KEY, 0);
   }
-}
 
-function readState(): RoutineState {
-  return readLocalStorage<RoutineState>(STATE_KEY, { results: {} });
-}
+  /** Kept for each citizen, as a browser can log in to more than one. */
+  private get stateKey() {
+    return `${STATE_KEY}.${this.deps.getCitizenId()}`;
+  }
 
-function writeState(state: RoutineState) {
-  writeLocalStorage(STATE_KEY, state);
+  private readState(): RoutineState {
+    return readLocalStorage<RoutineState>(this.stateKey, { results: {} });
+  }
+
+  private writeState(state: RoutineState) {
+    writeLocalStorage(this.stateKey, state);
+  }
 }
