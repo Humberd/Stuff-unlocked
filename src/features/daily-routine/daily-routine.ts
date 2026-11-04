@@ -15,6 +15,8 @@ const LOCK_KEY = "DailyRoutine.lock";
 /** A lock older than this was left by a tab closed mid-run. */
 const LOCK_TTL_MS = 3 * 60 * 1000;
 const TASK_DELAY_MS = 800;
+/** Keeps the automatic run from asking the game over and over when a task fails. */
+const FAILED_RETRY_MS = 30 * 60 * 1000;
 
 export interface TaskResult extends TaskOutcome {
   eDay: number;
@@ -48,9 +50,12 @@ export class DailyRoutine {
   }
 
   /** Runs the tasks turned on in the settings, skipping the ones already done today. */
-  async run(taskIds: readonly DailyTaskId[] = DAILY_TASKS.map((t) => t.id)) {
+  async run(
+    taskIds: readonly DailyTaskId[] = DAILY_TASKS.map((t) => t.id),
+  ): Promise<Partial<Record<DailyTaskId, TaskOutcome>>> {
+    const outcomes: Partial<Record<DailyTaskId, TaskOutcome>> = {};
     if (this.isRunning.get() || !this.acquireLock()) {
-      return;
+      return outcomes;
     }
     this.isRunning.update(true);
     try {
@@ -79,6 +84,7 @@ export class DailyRoutine {
         const { outcome, isBotCheck } = await this.runTask(task, eDay);
         log(`Daily routine: ${task.label}: ${outcome.message}`);
         this.saveResult(task.id, eDay, outcome);
+        outcomes[task.id] = outcome;
         if (isBotCheck) {
           break;
         }
@@ -88,11 +94,13 @@ export class DailyRoutine {
       this.releaseLock();
       this.isRunning.update(false);
     }
+    return outcomes;
   }
 
   /**
-   * The whole routine once a game day, and overtime whenever it can be
-   * worked again, followed by the challenge it completes.
+   * The whole routine once a game day, then whatever it didn't finish and
+   * overtime whenever it can be worked again, followed by the challenge
+   * overtime completes.
    */
   async runIfDue() {
     const eDay = this.deps.getEDay();
@@ -103,16 +111,27 @@ export class DailyRoutine {
       return;
     }
 
-    const overtime = state.results.overtime;
-    const isOvertimeWaiting =
-      overtime?.eDay === eDay && (overtime.retryAt ?? 0) > this.deps.now();
-    if (!readSettings().tasks.overtime || isOvertimeWaiting) {
+    const { tasks } = readSettings();
+    const dueIds = DAILY_TASKS.filter(
+      (task) => tasks[task.id] && this.isDue(state.results[task.id], eDay),
+    ).map((task) => task.id);
+    if (!dueIds.length) {
       return;
     }
-    await this.run(["overtime"]);
-    if (readState().results.overtime?.status === "done") {
+    const outcomes = await this.run(dueIds);
+    if (outcomes.overtime?.status === "done") {
       await this.run(["challenge"]);
     }
+  }
+
+  /** Not reached today, as when a bot check or a closed tab ended the run early, or failed, or asked to be tried again. */
+  private isDue(result: TaskResult | undefined, eDay: number): boolean {
+    if (result?.eDay !== eDay) {
+      return true;
+    }
+    return result.retryAt !== undefined
+      ? result.retryAt <= this.deps.now()
+      : result.status === "failed";
   }
 
   private async runTask(
@@ -140,7 +159,11 @@ export class DailyRoutine {
       return { outcome };
     } catch (e) {
       return {
-        outcome: { status: "failed", message: toError(e).message },
+        outcome: {
+          status: "failed",
+          message: toError(e).message,
+          retryAt: this.deps.now() + FAILED_RETRY_MS,
+        },
         isBotCheck: e instanceof BotCheckError,
       };
     }
@@ -148,7 +171,18 @@ export class DailyRoutine {
 
   private saveResult(taskId: DailyTaskId, eDay: number, outcome: TaskOutcome) {
     const state = readState();
-    const results = { ...state.results, [taskId]: { ...outcome, eDay } };
+    const previous = state.results[taskId];
+    // A repeatable task with nothing more to do today is still done
+    const status =
+      outcome.status === "skipped" &&
+      previous?.status === "done" &&
+      previous.eDay === eDay
+        ? "done"
+        : outcome.status;
+    const results = {
+      ...state.results,
+      [taskId]: { ...outcome, status, eDay },
+    };
     writeState({ ...state, results });
     this.results.update(results);
   }

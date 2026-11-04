@@ -80,6 +80,39 @@ describe("DailyRoutine", () => {
     expect(runs.challenge).toHaveBeenCalledTimes(2);
   });
 
+  it("keeps a repeatable task done when it has nothing more to do", async () => {
+    const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+    const routine = new DailyRoutine(createDeps());
+
+    await routine.run();
+    runs.challenge.mockResolvedValue({
+      status: "skipped",
+      message: "Nothing to claim",
+    });
+    await routine.run();
+
+    expect(routine.results.get().challenge).toMatchObject({
+      status: "done",
+      message: "Nothing to claim",
+    });
+  });
+
+  it("doesn't count yesterday's work towards a skipped task", async () => {
+    let eDay = 6922;
+    const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+    const routine = new DailyRoutine(createDeps({ getEDay: () => eDay }));
+
+    await routine.run();
+    eDay++;
+    runs.challenge.mockResolvedValue({
+      status: "skipped",
+      message: "Nothing to claim",
+    });
+    await routine.run();
+
+    expect(routine.results.get().challenge?.status).toBe("skipped");
+  });
+
   it("retries a failed task and runs a done one again the next day", async () => {
     let eDay = 6922;
     const runs = stubTasks((id) =>
@@ -188,6 +221,106 @@ describe("DailyRoutine", () => {
       expect(runs.overtime).toHaveBeenCalledTimes(2);
       expect(runs.challenge).toHaveBeenCalledTimes(2);
       expect(runs.work).toHaveBeenCalledTimes(1);
+    });
+
+    it("doesn't claim the challenge when overtime had nothing to do", async () => {
+      const deps = createDeps();
+      const runs = stubTasks((id) =>
+        id === "overtime"
+          ? { status: "done", message: "ok", retryAt: deps.now() + HOUR_MS }
+          : { status: "done", message: "ok" },
+      );
+      const routine = new DailyRoutine(deps);
+      await routine.runIfDue();
+
+      deps.advance(HOUR_MS);
+      runs.overtime.mockResolvedValue({
+        status: "skipped",
+        message: "Next one later",
+        retryAt: deps.now() + 2 * HOUR_MS,
+      });
+      await routine.runIfDue();
+
+      expect(runs.overtime).toHaveBeenCalledTimes(2);
+      expect(runs.challenge).toHaveBeenCalledTimes(1);
+    });
+
+    it("runs the rest once a bot check that ended the first run passes", async () => {
+      let isPending = true;
+      const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+      const routine = new DailyRoutine(
+        createDeps({ isSessionValidationPending: () => isPending }),
+      );
+
+      await routine.runIfDue();
+      expect(runs.vip).not.toHaveBeenCalled();
+
+      isPending = false;
+      await routine.runIfDue();
+      expect(runs.vip).toHaveBeenCalledTimes(1);
+      expect(runs.gold).toHaveBeenCalledTimes(1);
+      expect(routine.results.get().vip?.status).toBe("done");
+    });
+
+    it("runs the tasks a closed tab didn't get to", async () => {
+      const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+      const routine = new DailyRoutine(createDeps());
+      localStorage.setItem(
+        "STUFF_UNLOCKED.DailyRoutine.state",
+        JSON.stringify({
+          lastAutomaticRunEDay: 6922,
+          results: { vip: { status: "done", message: "ok", eDay: 6922 } },
+        }),
+      );
+
+      await routine.runIfDue();
+
+      expect(runs.vip).not.toHaveBeenCalled();
+      expect(runs.work).toHaveBeenCalledTimes(1);
+    });
+
+    it("tries a failed task again, but not right away", async () => {
+      const deps = createDeps();
+      const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+      runs.work.mockRejectedValueOnce(new Error("Network"));
+      const routine = new DailyRoutine(deps);
+
+      await routine.runIfDue();
+      await routine.runIfDue();
+      expect(runs.work).toHaveBeenCalledTimes(1);
+
+      deps.advance(HOUR_MS);
+      await routine.runIfDue();
+      expect(runs.work).toHaveBeenCalledTimes(2);
+      expect(routine.results.get().work?.status).toBe("done");
+    });
+
+    it("leaves alone what is done or skipped for good", async () => {
+      const deps = createDeps();
+      const runs = stubTasks((id) =>
+        id === "train"
+          ? { status: "skipped", message: "You have no training grounds" }
+          : { status: "done", message: "ok" },
+      );
+      const routine = new DailyRoutine(deps);
+
+      await routine.runIfDue();
+      deps.advance(HOUR_MS);
+      await routine.runIfDue();
+
+      expect(runs.train).toHaveBeenCalledTimes(1);
+      expect(runs.work).toHaveBeenCalledTimes(1);
+    });
+
+    it("leaves alone a task that was turned off", async () => {
+      const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+      saveSettings({ tasks: { ...DEFAULT_SETTINGS.tasks, gold: false } });
+      const routine = new DailyRoutine(createDeps());
+
+      await routine.runIfDue();
+      await routine.runIfDue();
+
+      expect(runs.gold).not.toHaveBeenCalled();
     });
   });
 });
