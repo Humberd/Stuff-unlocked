@@ -1,6 +1,6 @@
 import { ExternalProperty } from "../../hooks/external-property";
 import { readLocalStorage, writeLocalStorage } from "../../hooks/storage";
-import { log, toError } from "../../utils/utils";
+import { error, log, toError } from "../../utils/utils";
 import { readSettings, type DailyTaskId } from "./settings";
 import {
   BotCheckError,
@@ -37,6 +37,8 @@ export interface DailyRoutineDeps {
   getCurrency: () => string;
   /** The game wants the player to prove they are not a bot. */
   isSessionValidationPending: () => boolean;
+  /** Shows what a run changed, as the page doesn't know about it. */
+  refreshPage: () => Promise<void>;
   now: () => number;
   sleep: (ms: number) => Promise<unknown>;
 }
@@ -91,6 +93,11 @@ export class DailyRoutine {
           break;
         }
         await this.deps.sleep(TASK_DELAY_MS);
+      }
+      if (Object.values(outcomes).some((o) => o.status === "done")) {
+        await this.deps
+          .refreshPage()
+          .catch((e) => error("Daily routine failed to refresh the page", e));
       }
     } finally {
       this.releaseLock();

@@ -10,6 +10,7 @@ import { waitFor } from "../../utils/time";
 import { error } from "../../utils/utils";
 import { DailyRoutine } from "./daily-routine";
 import { getCurrentEDay } from "./game-day";
+import { refreshPage } from "./refresh-page";
 import { readSettings } from "./settings";
 import { DailyRoutinePanel } from "./components/DailyRoutinePanel";
 
@@ -63,6 +64,7 @@ function getDailyRoutine() {
     getCsrfToken,
     getCurrency: () => getCitizen().currency,
     isSessionValidationPending: () => Boolean(SERVER_DATA.sessionValidation),
+    refreshPage,
     now: Date.now,
     sleep: waitFor,
   });

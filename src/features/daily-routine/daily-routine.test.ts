@@ -19,6 +19,7 @@ function createDeps(changes: Partial<DailyRoutineDeps> = {}) {
     getCsrfToken: () => "token",
     getCurrency: () => "PLN",
     isSessionValidationPending: () => false,
+    refreshPage: vi.fn(() => Promise.resolve()),
     now: () => now,
     advance: (ms: number) => {
       now += ms;
@@ -198,6 +199,37 @@ describe("DailyRoutine", () => {
     await routine.run();
 
     expect(runs.gold.mock.calls[1][0].goldBoughtToday).toBe(4);
+  });
+
+  it("refreshes the page once after a run that did something", async () => {
+    stubTasks(() => ({ status: "done", message: "ok" }));
+    const deps = createDeps();
+
+    await new DailyRoutine(deps).run();
+
+    expect(deps.refreshPage).toHaveBeenCalledTimes(1);
+  });
+
+  it("doesn't refresh the page after a run that did nothing", async () => {
+    stubTasks(() => ({ status: "skipped", message: "nothing" }));
+    const deps = createDeps();
+
+    await new DailyRoutine(deps).run();
+
+    expect(deps.refreshPage).not.toHaveBeenCalled();
+  });
+
+  it("finishes the run when the page can't be refreshed", async () => {
+    stubTasks(() => ({ status: "done", message: "ok" }));
+    const deps = createDeps({
+      refreshPage: () => Promise.reject(new Error("Network")),
+    });
+    const routine = new DailyRoutine(deps);
+
+    await routine.run();
+
+    expect(routine.isRunning.get()).toBe(false);
+    expect(routine.results.get().work?.status).toBe("done");
   });
 
   it("keeps the results and the gold bought for each citizen", async () => {
