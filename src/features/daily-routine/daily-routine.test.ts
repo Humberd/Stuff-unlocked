@@ -51,6 +51,18 @@ function saveSettings(changes: Partial<typeof DEFAULT_SETTINGS>) {
 describe("DailyRoutine", () => {
   beforeEach(() => {
     localStorage.clear();
+    saveSettings({ tasks: { ...DEFAULT_SETTINGS.tasks, gold: true } });
+  });
+
+  it("doesn't buy gold until it's turned on", async () => {
+    const runs = stubTasks(() => ({ status: "done", message: "ok" }));
+    localStorage.clear();
+    const routine = new DailyRoutine(createDeps());
+
+    await routine.run();
+
+    expect(runs.gold).not.toHaveBeenCalled();
+    expect(runs.work).toHaveBeenCalledTimes(1);
   });
 
   it("runs every task turned on and keeps the results", async () => {

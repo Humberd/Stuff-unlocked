@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: DailyRoutineSettings = {
     production: true,
     train: true,
     overtime: true,
-    gold: true,
+    gold: false,
     challenge: true,
     weeklyChallenge: true,
   },
