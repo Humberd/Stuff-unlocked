@@ -7,7 +7,7 @@
   border-radius: 8px;
   height: 187px;
   width: 293px;
-  right: 1%;
+  right: calc(1% + var(--unlocks-shift, 0px));
   top: 24%;
   pointer-events: auto !important;
   cursor: auto !important;

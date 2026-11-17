@@ -48,7 +48,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   };
 
   return (
-    <section className={styles.panel} {...mapGuardHandlers}>
+    <section className={styles.panel} data-clears-unlocks {...mapGuardHandlers}>
       <header className={styles.header}>
         <h2 className={styles.title}>Auto Traveller</h2>
       </header>

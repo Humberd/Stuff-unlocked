@@ -12,6 +12,7 @@ export const CollapseButtonPanel: React.FC<CollapseButtonPanelProps> = (
 ) => {
   return (
     <section
+      data-clears-unlocks
       {...mapGuardHandlers}
       className={classNames(styles.panel, {
         [styles.isCollapsed]: props.isCollapsed,
