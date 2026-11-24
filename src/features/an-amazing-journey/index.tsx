@@ -11,8 +11,6 @@ import { useLocalStorage } from "../../hooks/storage";
 import { useExternalProperty } from "../../hooks/external-property";
 import { waitFor } from "../../utils/time";
 import { AutoTraveller } from "./auto-traveller";
-import { useRef } from "react";
-import { useUnlocksClearance } from "./unlocks-clearance";
 
 export const AnAmazingJourneyFeature = createFeature({
   id: "amazing_journey",
@@ -61,11 +59,8 @@ const JourneyFeatureComponent = ({
   const progress = useExternalProperty(autoTraveller.progress);
   const errors = useExternalProperty(autoTraveller.errors);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  useUnlocksClearance(containerRef, isCollapsed);
-
   return (
-    <div ref={containerRef}>
+    <>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
       {!isCollapsed && (
         <AutoTravellerPanel
@@ -81,6 +76,6 @@ const JourneyFeatureComponent = ({
           errors={errors}
         />
       )}
-    </div>
+    </>
   );
 };

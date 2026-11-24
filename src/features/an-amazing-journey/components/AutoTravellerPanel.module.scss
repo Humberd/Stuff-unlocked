@@ -1,13 +1,13 @@
 .panel {
   box-sizing: border-box;
   position: absolute;
-  z-index: 999;
+  z-index: 100000;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);
   background-color: #fff;
   border-radius: 8px;
   height: 187px;
   width: 293px;
-  right: calc(1% + var(--unlocks-shift, 0px));
+  right: 1%;
   top: 24%;
   pointer-events: auto !important;
   cursor: auto !important;

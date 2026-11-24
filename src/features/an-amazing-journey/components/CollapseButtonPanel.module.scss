@@ -2,11 +2,11 @@ section.panel {
   border-radius: 8px;
   background-color: #fff;
   position: absolute;
-  z-index: 1000;
+  z-index: 100001;
   top: 25.1%;
-  right: calc(2% + var(--unlocks-shift, 0px));
+  right: 2%;
 
-  transition: box-shadow 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &.isCollapsed {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);
