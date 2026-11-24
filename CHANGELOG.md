@@ -1,3 +1,7 @@
+# 5.77 (24.11.2026)
+* Fix: Auto Traveller shows over the Unlocks panel instead of moving aside
+* Fix: Auto Traveller was covered by the Unlocks panel after buying a pack
+
 # 5.76 (14.04.2026)
 * Misc: fix actions runner
 * Misc: Add type definitions for SCSS and CSS modules
