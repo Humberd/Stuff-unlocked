@@ -60,7 +60,7 @@ export const AutoTravellerPanel: React.FC<AutoTravellerPanelProps> = (
   };
 
   return (
-    <section ref={panelRef} className={styles.panel} data-clears-unlocks>
+    <section ref={panelRef} className={styles.panel}>
       <header className={styles.header}>
         <h2 className={styles.title}>Auto Traveller</h2>
       </header>
