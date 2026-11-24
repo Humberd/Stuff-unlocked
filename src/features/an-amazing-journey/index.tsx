@@ -11,6 +11,7 @@ import { getCitizenshipCurrencyName } from "../../utils/erep-global-info";
 import { travelRouteMain } from "./regions";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { useLocalStorage } from "../../hooks/storage";
+import { useUnlocksClearance } from "./unlocks-clearance";
 
 const countriesCache = new CountriesCache();
 
@@ -180,12 +181,15 @@ const JourneyFeatureComponent = () => {
     setShouldStop(true);
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  useUnlocksClearance(containerRef, isCollapsed);
+
   const onErrorClose = () => {
     setErrors([]);
   };
 
   return (
-    <>
+    <div ref={containerRef}>
       <CollapseButtonPanel isCollapsed={isCollapsed} onClick={setIsCollapsed} />
       {!isCollapsed && (
         <AutoTravellerPanel
@@ -200,6 +204,6 @@ const JourneyFeatureComponent = () => {
       {errors.length > 0 && (
         <ErrorPanel onClose={onErrorClose} errors={errors} />
       )}
-    </>
+    </div>
   );
 };

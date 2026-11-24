@@ -4,9 +4,9 @@ section.panel {
   position: absolute;
   z-index: 1000;
   top: 25.1%;
-  right: 2%;
+  right: calc(2% + var(--unlocks-shift, 0px));
 
-  transition: all 0.2s ease-in-out;
+  transition: box-shadow 0.2s ease-in-out;
 
   &.isCollapsed {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.18);
